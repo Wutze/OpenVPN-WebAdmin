@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#
+# config.conf for OpenVPN-Admin
+#
+# (c) by Wutze 2020 Version 1.0
+#
+# This file is copyright under the latest version of the EUPL.
+# Please see LICENSE file for your rights under this license.
+# Version 1.x
+#
+# Twitter -> @HuWutze
+#
+
+## save with "strg + o"
+## close with: "strg + x"
+
+EASYRSA_KEY_SIZE="2048"
+EASYRSA_CA_EXPIRE="1825"
+EASYRSA_CERT_EXPIRE="1825"
+EASYRSA_REQ_COUNTRY="DE"
+EASYRSA_REQ_PROVINCE="NRW"
+EASYRSA_REQ_CITY="Dortmund"
+EASYRSA_REQ_ORG="OpenVPN Group"
+EASYRSA_REQ_OU="OpenVPN Home"
+EASYRSA_REQ_EMAIL="your@email.com"
+EASYRSA_REQ_CN="domain.name"

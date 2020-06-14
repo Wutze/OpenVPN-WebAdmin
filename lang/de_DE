@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+#
+# language de_DE for OpenVPN-Admin
+#
+# (c) by Wutze 2020 Version 1.0
+#
+# This file is copyright under the latest version of the EUPL.
+# Please see LICENSE file for your rights under this license.
+# Version 1.x
+#
+# Twitter -> @HuWutze
+#
+
+ATTENTION="ACHTUNG!
+Dein VPN-Server sollte keinesfalls direkt mit dem Internet verbunden sein, da der Server sonst angreifbar ist und im schlimmsten Fall einen direkten Zugriff in Dein Netzwerk bietet.
+
+Außerdem musst Du Deine Firewall unter /usr/sbin/firewall.sh entsprechend anpassen, damit das System ausreichend geschützt wird.
+
+Um immer über Fehler im System informiert zu sein, empfehle ich die Installation von \"logwatch\" und \"fail2ban\". Entsprechende dazu Informationen findest Du im Internet."
+
+CONFIG01="Keine Konfigurationsdatei"
+CONFIG02="Kopiere zuerst die config.conf.example nach config.conf und editiere die Datei"
+CONFIG03="Beispiel: cp config.conf.example config.conf"
+CONFIG04="zum editieren: nano config.conf"
+
+PLSWAIT1="Bitte warten, Update/Installation des Systems ..."
+
+USER01="Rechteproblem!"
+USER02="Die Installation kann nur als root durchgeführt werden"
+USER03="Installation abgebrochen"
+
+BREAK="Script abgebrochen"
+BEFOR="Drücke ENTER um die Installation zu beginnen oder strg+c um abzubrechen"
+
+SELECT00="Auswahl Installationsoptionen"
+SELECT01="Installation mit"
+
+SELECT01="config.conf.sample nach config.conf kopieren?"
+SELECT02="Automatische Installation fehlender Pakete"
+SELECT03="MySQL-Server lokal"
+SELECT04="MySQL-Server remote"
+SELECT05="Apache"
+SELECT06="Nginx"
+SELECT07="Webverzeichnis /srv/www/openvpn-admin"
+SELECT08="eigenes Webverzeichnis eingeben"
+SELECT09="Eigentümer des Verzeichnisses www-data"
+SELECT10="einen anderer Eigentümer"
+
+MISSING="Ich vermisse:"
+INSTALL="Nutze doch einfach die Automatische Installation von fehlenden Paketen."
+ONEONLY="Nur eine Auswahl möglich!"
+FEHLER01="Du versuchst gleichzeitig zu installieren:"
+FEHLER03="und"
+INSTMESS="Du denkst Du brauchst mysql nicht? Falsch! Noch mal von vorn! Eine MySQL Auswahl musst Du treffen!"
+
+MYSQL01="Vergebe bitte ein Root-Passwort für den MySQL-Server ein"
+MYSQL02="Create DB-PW"
+
+SETVPN01="Server Hostname/IP\nVerwende den Namen so, wie der Server aus dem Internet erreicht werden soll!"
+SETVPN02="OpenVPN protocol (tcp or udp)\nWenn die Installation in einer VM stattfindet, nutze bitte udp:"
+SETVPN03="OpenVPN Server Port\nDefault Port tcp or udp 1194:"
+SETVPN04="MySQL Host\n(localhost, IP or FQDN)\n\nWenn Du einen externen Datenbankserver nutzen möchtest,\nkonfiguriere da zuerst Benutzername und Passwort."
+SETVPN05="MySQL Root Password\n(The password must not be empty. Please configure this before!"
+SETVPN06="MySQL Benutzername für die OpenVPN Datenbank"
+SETVPN07="MySQL Benutzerpasswort für die OpenVPN Datenbank"
+SETVPN08="Admin Benutzername für das Webfrontend des OpenVPN-Admin"
+SETVPN09="Admin Benutzerpasswort für das Webfrontend des OpenVPN-Admin"
+SETVPN10="Datenbankname für die Datenbank"
+
+SETFIN01="Grundinstallation OpenVPN-Admin abgeschlossen."
+SETFIN02="Um die Installation zu beenden, konfiguriere bitte Deinen Webserver (Apache, NGinx...)"
+SETFIN03="Du musst den Server neu starten, da OpenVPN sonst nicht korrekt funktioniert!"
+SETFIN04="Fragen, Antworten, Wünsche, Fehler bitte da mitteilen: https://github.com/Wutze/OpenVPN-WebAdmin/issues"
+
+
+
+
+
+
+
+
+
+
+
+
+"
