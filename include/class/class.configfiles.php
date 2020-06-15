@@ -39,6 +39,10 @@ class config_files{
                   'osx' => 'osx',
                   'win' => 'win',
                   'lin' => 'lin');
+  var $conf_array = array(
+                  'win'=>'windows',
+                  'lin'=>'gnu-linux',
+                  'osx'=>'osx');
   
   var $config_full_path = "../vpn/conf/server/";
 
@@ -55,21 +59,20 @@ class config_files{
     ($this->isuser) ? '' : $this->gotox = 'ERROR';
     switch($this->gotox){
       case "save";
-
+        #debug($this);
 
       break;
 
       case "loadzip";
-
+        $this->load_zipfile();
       break;
 
       case "print";
-
+        $this->configfiles();
       break;
 
       case "ERROR";
         echo "error";
-    #debug($_SESSION,$this->isuser);
       break;
     }
   }
@@ -171,7 +174,7 @@ class config_files{
         
       </form>
     </fieldset>
-    <?php echo getHistory($cfg_file) ?>
+    <?php echo self::getHistory($cfg_file) ?>
   </div>
   <?php 
   }
@@ -184,6 +187,46 @@ class config_files{
       $this->$key = $val;
   }
 
+
+  function load_zipfile(){
+    $this->rootpath = realpath("./../vpn/conf/".$this->conf_array[$this->file]);
+    $this->testroot = "./../vpn/conf/".$this->conf_array[$this->file];
+    $this->archive_base_name = "openvpn-".$this->conf_array[$this->file];
+    $this->archive_name = $this->archive_base_name.'.'.Session::GetVar('uname').".zip";
+    $this->archive_path = "./data/temp/$this->archive_name";
+
+    $zip = new ZipArchive();
+    $zip->open($this->archive_path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+  
+    $files = new RecursiveIteratorIterator(
+      new RecursiveDirectoryIterator($this->rootpath),
+      RecursiveIteratorIterator::LEAVES_ONLY
+    );
+  
+    foreach ($files as $name => $file) {
+      // Skip directories (they would be added automatically)
+      if (!$file->isDir()) {
+        // Get real and relative path for current file
+        $filePath = $file->getRealPath();
+        $relativePath = substr($filePath, strlen($this->rootpath) + 1);
+  
+        // Add current file to archive
+        $zip->addFile($filePath, "$this->archive_base_name/$relativePath");
+      }
+    }
+  
+    // Zip archive will be created only after closing object
+    $zip->close();
+
+    //then send the headers to foce download the zip file
+    header("Content-type: application/zip");
+    header("Content-Disposition: attachment; filename=".$this->archive_name);
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    readfile($this->archive_path);
+  
+    unlink($this->archive_path);
+  }
 }
 
 

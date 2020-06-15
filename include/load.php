@@ -51,8 +51,8 @@ define('_DB_DEBUG',TRUE);
 define('_SESSION_DEBUG',false);
 
 # Backward compatibility
-$options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-$bdd = new PDO("mysql:host="._DB_SERVER.";port="._DB_PORT.";dbname="._DB_DB."", _DB_UNAME, _DB_PW, $options);
+#$options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
+#$bdd = new PDO("mysql:host="._DB_SERVER.";port="._DB_PORT.";dbname="._DB_DB."", _DB_UNAME, _DB_PW, $options);
 
 
 define('_ADODB',REAL_BASE_DIR."/include/ADOdb/");

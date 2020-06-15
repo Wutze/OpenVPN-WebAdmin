@@ -82,7 +82,6 @@ class set_request{
 			break;
 
 			/** 
-			 * noch nicht benötigt
 			 * @return Live System Data
 			 */
 			case "live";

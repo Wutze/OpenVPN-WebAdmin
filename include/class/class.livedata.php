@@ -107,7 +107,12 @@ class golivedata{
         $memory = array($memory_used,$memory_total,$memory_usage);
         $disktotal = round(disk_total_space("/") / 1000000000);
         $diskfree = round(disk_free_space("/") / 1000000000);
-        $disk = array($disktotal,$diskfree);
+
+        $disktotal = round(disk_total_space("/") / 1000000000);
+        $diskfree = round(disk_free_space("/") / 1000000000);
+        $diskused = $disktotal - $diskfree;
+
+        $disk = array($disktotal,$diskfree,$diskused);
 
         $data = newAdoConnection(_DB_TYPE);
 		    $data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);

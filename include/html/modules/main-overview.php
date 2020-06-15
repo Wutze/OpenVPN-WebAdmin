@@ -27,14 +27,12 @@ if(Session::GetVar('isadmin')){
             <div class="small-box bg-info">
               <div class="inner">
                 <h3>System</h3>
-                <span id="load" class=""></span>
+                <span id="load" class="">load data ...</span>
               </div>
               <div class="icon">
                 <i class="fa fa-cogs"></i>
               </div>
-              <a href="#" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
+
             </div>
           </div>
 
@@ -42,14 +40,12 @@ if(Session::GetVar('isadmin')){
             <div class="small-box bg-success">
               <div class="inner">
                 <h3>Disk</h3>
-                <span id="disk" class=""></span>
+                <span id="disk" class="">load data ...</span>
               </div>
               <div class="icon">
-                <i class="fa fa-balance-scale"></i>
+                <i class="fa fa-hdd"></i>
               </div>
-              <a href="#" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
+
             </div>
           </div>
 
@@ -57,14 +53,12 @@ if(Session::GetVar('isadmin')){
             <div class="small-box bg-warning">
               <div class="inner">
                 <h3>Users</h3>
-                <span id="users" class=""></span>
+                <span id="users" class="">load data ...</span>
               </div>
               <div class="icon">
                 <i class="fas fa-user-plus"></i>
               </div>
-              <a href="#" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
+
             </div>
           </div>
 
@@ -72,14 +66,12 @@ if(Session::GetVar('isadmin')){
             <div class="small-box bg-danger">
               <div class="inner">
                 <h3>Errors</h3>
-                <span id="error" class=""></span>
+                <span id="error" class="">load data ...</span>
               </div>
               <div class="icon">
                 <i class="fa fa-exclamation-triangle"></i>
               </div>
-              <a href="#" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
+
             </div>
           </div>
         </div>

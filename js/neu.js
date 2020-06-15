@@ -91,7 +91,7 @@ setInterval(function(){
     if (this.readyState == 4 && this.status == 200) {
       var myArr = JSON.parse(this.responseText);
       document.getElementById("load").innerHTML = myArr['load'];
-      document.getElementById("disk").innerHTML = "total: " + myArr['disk'][0] + " | used: " + myArr['disk'][1];
+      document.getElementById("disk").innerHTML = "total: " + myArr['disk'][0] + " | free: " + myArr['disk'][1] + " | used: " + myArr['disk'][2];
       document.getElementById("users").innerHTML = "Users: " + myArr['user']['user'] + " | Online: " + myArr['user']['online'];
       document.getElementById("error").innerHTML = myArr['error'];
     }
