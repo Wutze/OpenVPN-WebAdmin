@@ -1,14 +1,21 @@
 #!/bin/bash
+# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
 #
-# this File is part of OpenVPN-Admin
+# NOTICE OF LICENSE
 #
 # GNU AFFERO GENERAL PUBLIC LICENSE V3
-# Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
-# Parts of the programming from pi-hole were used as templates.
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
 #
-# changes (c) by Wutze 2020 Version 0.7
-#
-# Twitter -> @HuWutze
+# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+# 
+# @author    Wutze
+# @copyright 2020 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		1.0.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
 #set -x
@@ -414,7 +421,7 @@ mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpna
 control_script "Insert Userupdate #Fix 102"
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/adodb.sql
 control_script "Insert AdoDB Session Table"
-mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO admin (admin_id, admin_pass) VALUES ('${admin_user}', encrypt('${admin_user_pass}'));"
+mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
 control_script "Insert Webadmin User"
 
 print_out 1 "setting up MySQL OK"
@@ -562,11 +569,12 @@ ln -s /etc/openvpn/server.conf $www/vpn/conf/server/server.conf
 cd "$openvpn_admin"
 
 # Replace config.sample.php variables
-sed -i "s/\$host = '';/\$host = '$db_host';/" "./include/config.sample.php"
-sed -i "s/\$user = '';/\$user = '$mysql_user';/" "./include/config.sample.php"
-sed -i "s/\$db   = '';/\$db   = '$db_name';/" "./include/config.sample.php"
-sed -i "s/\$pass = '';/\$pass = '${escaped}';/" "./include/config.sample.php"
 cp ./include/config.sample.php ./include/config.php
+sed -i "s/\$host = '';/\$host = '$db_host';/" "./include/config.php"
+sed -i "s/\$user = '';/\$user = '$mysql_user';/" "./include/config.php"
+sed -i "s/\$db   = '';/\$db   = '$db_name';/" "./include/config.php"
+sed -i "s/\$pass = '';/\$pass = '${escaped}';/" "./include/config.php"
+
 
 # Replace in the client configurations with the ip of the server and openvpn protocol
 for file in $(find ../ -name client.ovpn); do
@@ -596,7 +604,7 @@ yarn install
 #ln -s node_modules vendor
 
 print_out i "Install third party module ADOdb"
-git clone https://github.com/ADOdb/ADOdb ./include/adodb
+git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
 
 chown -R "$user:$group" "$openvpn_admin"
 chown -R "$user:$group" $www/vpn

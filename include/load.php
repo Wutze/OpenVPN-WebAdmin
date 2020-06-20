@@ -1,6 +1,6 @@
 <?php
 /**
- * this File is part of OpenVPN-Admin - (c) 2020 OpenVPN-Admin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
  *
  * NOTICE OF LICENSE
  *
@@ -9,25 +9,20 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @fork      https://github.com/Wutze/OpenVPN-Admin
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ * ! If possible, do not change the file, otherwise the update process will be interrupted !
  */
 
 /* Direktaufruf verhindern */
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 define('MainFileLoaded', true);
-
-/* Site-Name */
-define('_SITE_NAME',"OVPN-WebAdmin");
-define('HOME_URL',"vpn.home");
-define('_DEFAULT_LANGUAGE','de_DE');
-
-/** Login Site */
-define('_LOGINSITE','login1');
 
 /* Cookie-Lebenszeit für anonyme User */
 define('SESSION_LIFETIME_NOUSER',"1440");
@@ -45,19 +40,16 @@ define('_DB_UNAME',$user);
 define('_DB_PW',$pass);
 define('_DB_DB',$db);
 define('_DB_SERVER',$host);
-define('_DB_TYPE',"mysqli");
+define('_DB_TYPE',$dbtype);
 define('_DB_PORT',$port);
-define('_DB_DEBUG',TRUE);
-define('_SESSION_DEBUG',false);
+define('_DB_DEBUG',$dbdebug);
+define('_SESSION_DEBUG',$sessdebug);
 
-# Backward compatibility
-#$options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-#$bdd = new PDO("mysql:host="._DB_SERVER.";port="._DB_PORT.";dbname="._DB_DB."", _DB_UNAME, _DB_PW, $options);
-
-
+/** define and load adodb */
 define('_ADODB',REAL_BASE_DIR."/include/ADOdb/");
+include_once(_ADODB.'/adodb.inc.php');
 
-/* Dateien laden */
+/* load classes and functions */
 include_once(REAL_BASE_DIR."/include/class/class.session.php");
 include_once(REAL_BASE_DIR."/include/class/class.language.php");
 include_once(REAL_BASE_DIR."/include/class/class.request.php");
@@ -68,20 +60,12 @@ require_once(REAL_BASE_DIR.'/include/class/class.livedata.php');
 require_once(REAL_BASE_DIR.'/include/class/class.jsonObject.php');
 require_once(REAL_BASE_DIR.'/include/class/class.configfiles.php');
 
-include_once(_ADODB.'/adodb.inc.php');
-#$data = newAdoConnection(_DB_TYPE);
-#$data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
-
-## Sprachfiles fest eingebaut
-#include_once(REAL_BASE_DIR."/include/lang/de_DE/lang.php");
-
-
 ob_start();
-/* Session starten */
+/* start session */
 $se = new websessions;
 $se->define_session();
 $se->start_session();
-/* setze default Language */
+/* set default Language */
 (!session::GetVar('lang')) ? session::SetVar('lang',_DEFAULT_LANGUAGE) : "";
 (!session::GetVar('session_id')) ? session::SetVar('session_id',SESSION_NAME) : "";
 (!session::GetVar('isuser')) ? session::SetVar('isuser',session::GetVar('isuser')) : "";

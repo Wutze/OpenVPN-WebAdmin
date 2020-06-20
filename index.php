@@ -9,15 +9,14 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
- *
- * $Revision: 2 $
- * $Author: Wutze $
- * $Date: 2020-05-28 11:05:39 +0100 (Do, 28. Mai 2020) $
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * this File is part of OpenVPN-Admin - (c) 2020 OpenVPN-Admin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
  *
  * NOTICE OF LICENSE
  *
@@ -9,12 +9,14 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @fork      https://github.com/Wutze/OpenVPN-Admin
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
@@ -36,9 +38,14 @@
  */
 
 class godata{
-  var $go = array('log'=>'log','user'=>'user','admin'=>'admin');
+  var $go = array(
+                  'log'=>'log',
+                  'user'=>'user',
+                  'admin'=>'admin'
+                );
   var $offset = '/[0-9]*/m';
   var $limit = '/[0-9]*/m';
+  var $allowedchars = '/^[a-z0-9\_\-]*$/';
   var $allowed_query_filters = ['user_id', 'log_trusted_ip','log_trusted_port','log_remote_ip','log_remote_port'];
 
   function main(){
@@ -78,7 +85,7 @@ class godata{
     /** set dynamic filters and create query */
     $page = "LIMIT ".$this->req['offset'].",".$this->req['limit']."";
     $filter = isset($this->req['filter']) ? json_decode($this->req['filter'],true) : [];
-    $where = !empty($filter)?'WHERE TRUE':'';
+    ($this->req['search']) ? $where = " WHERE user_id like '%".$this->req['search']."%'" : $where = "";
     /** create sort */
     foreach(array_keys($filter) as $key){
       (array_key_exists($key,$filter)) ? $where .= " AND ".$key." = '".$filter[$key]."'" : "";
@@ -94,9 +101,11 @@ class godata{
     $sql = "SELECT log.*, (SELECT COUNT(*) FROM log AS counter $where) AS nb FROM log $where ORDER BY log_id DESC $page";
     /** execute query */
     $result = $data->execute($sql);
-    /** create json from database data for bootstrap table */
-    while ($r = $result->fetchRow())
-    {
+
+
+      /** create json from database data for bootstrap table */
+      while ($r = $result->fetchRow())
+      {
         $o = new jsonObject;
         $o->id   = "0";
         $o->text = $sql;
@@ -112,7 +121,8 @@ class godata{
         $o->log_send = ($r[9] < 1000000)? round($r[9]/1000,2,PHP_ROUND_HALF_UP) ." KB" : round($r[9]/1000000,2,PHP_ROUND_HALF_UP) ." MB" ;
         $o->nb = $r[10];
         $rows['rows'][]  = $o;
-    }
+      }
+
     /**
      * fügt dem übergebenen Array eine Zeile oben an mit dem Inhalt der Summe der Zeilen
      * und verschiebt die relevanten Inhalte eine Ebene höher
@@ -123,6 +133,7 @@ class godata{
     $js = array('total' => intval($o->nb), 'rows' => $rows );
     $ergebnis = array_merge($js, $rows);
     print json_encode($ergebnis);
+
   }
 
   /**
@@ -131,8 +142,10 @@ class godata{
    */
   function read_user(){
     $data = newAdoConnection(_DB_TYPE);
+    $page = "LIMIT ".$this->req['offset'].",".$this->req['limit']."";
+    ($this->req['search']) ? $where = " WHERE user_id like '%".$this->req['search']."%'" : $where = "";
     $data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
-    $sql = "SELECT COUNT( uid ) AS nb FROM tester.user AS user";
+    $sql = "SELECT COUNT( uid ) AS nb FROM user AS user $where";
     $nbv = $data->execute($sql);
     $nb = $nbv->fetchRow();
     $sql = "SELECT user.uid AS uid,
@@ -141,25 +154,28 @@ class godata{
             user.user_online,
             user.user_enable,
             user.user_start_date,
-            user.user_end_date
-            FROM { oj tester.groupnames AS groupnames
-            LEFT OUTER JOIN tester.user AS user
-            ON groupnames.gname = user.gid }" ;
+            user.user_end_date,
+            user.user_mail
+            FROM { oj groupnames AS groupnames
+            LEFT OUTER JOIN user AS user
+            ON groupnames.gname = user.gid } $where $page" ;
     $result = $data->execute($sql);
 
     while ($r = $result->fetchRow()){
         $o = new jsonObject;
         $o->id   = "0";
-        $o->text = "";
-        $o->uid   = $r[0];
+        $o->text = $sql;
+        $o->uid   = '<a class="" id="'. $r[0] .'" href="#"><i class="fas fa-edit"></i></a>';
+        $o->uuid = $r[0];
         $o->uname = $r[1];
         $o->gname = $r[2];
         #$o->user_online = $r[3];
         ($r[3]) ? $o->user_online='<div class="mini-led-green-blink"></div>' : $o->user_online='<div class="mini-led-gray"></div>';
-        #$o->user_online = 'image';
-        $o->user_enable = $r[4];
+        ($r[4]) ? $o->user_enable='<div class="mini-led-green"></div>' : $o->user_enable='<div class="mini-led-red"></div>';
+        $o->enable = $r[4];
         $o->user_start_date = $r[5];
         $o->user_end_date = $r[6];
+        $o->mail = $r[7];
         $rows['rows'][]  = $o;
     }
 
@@ -180,10 +196,8 @@ class godata{
       $this->$key = $val;
   }
 
+
 }
-
-
-
 
 
 
@@ -327,8 +341,8 @@ class godata{
     $phone = "";
     $online = 0;
     $enable = 1;
-    $start = null;
-    $end = null;
+    $start = "null";
+    $end = "null";
 
     $req = $bdd->prepare('INSERT INTO user (user_id, user_pass, user_mail, user_phone, user_online, user_enable, user_start_date, user_end_date)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
@@ -363,7 +377,7 @@ class godata{
       $value = hashPass($value);
     }
     else if (($field === 'user_start_date' || $field === 'user_end_date') && $value === '') {
-      $value = null;
+      $value = "null";
     }
 
     // /!\ SQL injection: field was checked with in_array function

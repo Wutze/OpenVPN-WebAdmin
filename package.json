@@ -15,8 +15,9 @@
   "keywords": [
     "openvpn",
     "admin",
+    "webadmin",
     "setup",
-    "web-admin"
+    "web"
   ],
   "authors": [
     "Wutze <huhuwutze@gmx.net"

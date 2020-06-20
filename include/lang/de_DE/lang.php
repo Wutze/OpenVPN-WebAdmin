@@ -1,6 +1,6 @@
 <?php
 /**
- * this File is part of OpenVPN-Admin - (c) 2020 OpenVPN-Admin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
  *
  * NOTICE OF LICENSE
  *
@@ -9,12 +9,14 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @fork      https://github.com/Wutze/OpenVPN-Admin
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
@@ -69,7 +71,27 @@ $message['_VPN_DATA_WIN']           = "WIN-Config";
 $message['_VPN_DATA_LIN']           = "Android/Linux-Config";
 
 
+$message['_USERDATA_EMAIL']         = "eMail";
+$message['_USERDATA_PASSWORD']      = "Password";
+$message['_USERDATA_SAVE']          = "Benutzer anlegen";
+$message['_USERDATA_ISADMIN']       = "Benutzer erhält Admin-Rechte";
+$message['_USERDATA_FROM_DATE']     = "Zugriff ab:";
+$message['_USERDATA_TO_DATE']       = "Zugriff bis:";
 
+/** 
+ * error messages
+ * @uses class::Get_Lang
+ * @param $var + array-id
+ * @return Message in modal dialog
+ */
+$errormessage[1]                    = $message['_USERDATA_SAVE']." fehlgeschlagen. ".$message['_LOGIN_NAME']." existiert schon.";
+$errormessage[2]                    = "Funktion noch nicht verfügbar. Sorry.";
+$errormessage[3]                    = "Neu vergebenes Passwort war nicht identisch oder leer!";
+$errormessage[4]                    = "Passwort geändert! Bitte neu einloggen!";
+
+/**
+ * footer gimmick from the Slogan kitchen (Sprücheküche) 
+ */
 $freedom = array(
                 'Wer Sicherheit der Freiheit vorzieht, ist zu Recht ein Sklave. (Aristoteles)',
                 'Die Freiheit geht zugrunde, wenn wir nicht alles verachten, was uns unter ein Joch beugen will. (Seneca)',

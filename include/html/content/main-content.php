@@ -1,6 +1,6 @@
 <?php
 /**
- * this File is part of OpenVPN-Admin - (c) 2020 OpenVPN-Admin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
  *
  * NOTICE OF LICENSE
  *
@@ -9,12 +9,14 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @fork      https://github.com/Wutze/OpenVPN-Admin
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
@@ -39,25 +41,32 @@
               data-toggle="table"
               data-side-pagination="server"
               data-pagination="true"
-              data-filter-control="true"
-              data-url="?op=data&amp;order=asc&amp;offset=0&amp;limit=10&amp;select=log">
+              
 <?php
 if(Session::GetVar('isadmin')){
-  $userfilter = 'data-filter-control="select"';
-  $portfilter = 'data-filter-control="select"';
+  $userfilter = '';
+  $portfilter = '';
+  ?>
+  data-search="true"
+  data-detail-formatter="logdetails"
+  data-search-time-out="1000"
+  data-filter-control="false"
+  <?php
+
 }else{
   $userfilter = '';
   $portfilter = '';
 }
 ?>
+              data-url="?op=data&amp;select=log">
               <thead class="thead-dark">
                 <tr>
                    <th data-field="log_id" >ID</th>
                    <th data-field="user_id" <?php echo $userfilter; ?>>User</th>
-                   <th data-field="log_trusted_ip">IP</th>
-                   <th data-field="log_trusted_port" <?php echo $portfilter; ?>>Port</th>
-                   <th data-field="log_remote_ip">Remote IP</th>
-                   <th data-field="log_remote_port">Remote Port</th>
+                   <th data-field="log_trusted_ip">From IP</th>
+                   <th data-field="log_trusted_port" <?php echo $portfilter; ?>>From Port</th>
+                   <th data-field="log_remote_ip">Int IP</th>
+                   <th data-field="log_remote_port">Int Port</th>
                    <th data-field="log_start_time">Start Time</th>
                    <th data-field="log_end_time">End Time</th>
                    <th data-field="log_received">rec</th>
@@ -69,7 +78,7 @@ if(Session::GetVar('isadmin')){
 <?php
 if(Session::GetVar('isadmin')){
 ?>
-          <div class="tab-pane fade position-relative p-3 bg-white" id="user" role="tabpanel" aria-labelledby="user-tab">
+          <div class="tab-pane fade position-relative p-3 bg-white <?php echo ((@$_REQUEST['code']=='1')? "active show" : ""); ?>" id="user" role="tabpanel" aria-labelledby="user-tab">
             <div class="ribbon-wrapper ribbon-lg">
               <div class="ribbon bg-success">
                 User
@@ -80,20 +89,29 @@ if(Session::GetVar('isadmin')){
               data-toggle="table"
               data-side-pagination="server"
               data-pagination="true"
-              data-filter-control="true"
-              data-url="?op=data&amp;oder=asc&amp;select=user">
+              data-search="true"
+              data-detail-view="true"
+              data-detail-formatter="userdetails"
+              data-search-time-out="1000"
+              data-filter-control="false"
+              data-url="?op=data&amp;select=user">
               <thead class="thead-dark">
                 <tr>
-                  <th data-field="uid" >UID</th>
                   <th data-field="uname" >Name</th>
+
                   <th data-field="gname">Gruppe</th>
-                  <th data-field="user_online">Online</th>
-                  <th data-field="user_enable">On</th>
+                  <th data-field="user_enable">Enable</th>
                   <th data-field="user_start_date">von</th>
                   <th data-field="user_end_date">bis</th>
+                  <th data-field="user_online">Online</th>
                 </tr>
               </thead>
             </table>
+<?php
+if(Session::GetVar('isadmin')){
+  include(REAL_BASE_DIR."/include/html/modules/admin-adduser.php");
+}
+?>
           </div>
 
           <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
@@ -143,7 +161,6 @@ $out->set_value('isadmin',Session::GetVar('isadmin'));
 $out->main();
 
 ?>
-       
           <div class="tab-pane fade position-relative p-3 bg-white" id="ssl" role="tabpanel" aria-labelledby="ssl-tab">
             <div class="ribbon-wrapper ribbon-lg">
               <div class="ribbon bg-success">

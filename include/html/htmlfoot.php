@@ -1,6 +1,6 @@
 <?php
 /**
- * this File is part of OpenVPN-Admin - (c) 2020 OpenVPN-Admin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
  *
  * NOTICE OF LICENSE
  *
@@ -9,12 +9,14 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @fork      https://github.com/Wutze/OpenVPN-Admin
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
  (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
@@ -42,23 +44,20 @@ if (Session::GetVar('isuser')){
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
+      <form action="/" method="post">
       <h5><?php echo GET_Lang::nachricht("_CHANGE_PASS") ?></h5>
       <h5><?php echo GET_Lang::nachricht("_INPUT_NEW_PASS") ?></h5>
       <p><input type="password" id="passwd1" name="passwd1" class="form-control" placeholder="<?php echo GET_Lang::nachricht("_LOGIN_PASS") ?>"></p>
       <h5><?php echo GET_Lang::nachricht("_RETYPE_NEW_PASS") ?></h5>
       <p><input type="password" id="passwd2" name="passwd2" class="form-control" placeholder="<?php echo GET_Lang::nachricht("_LOGIN_PASS_CONTROL") ?>"></p>
+      <input type="hidden" name="uid" value="<?php echo Session::GetVar('uid') ?>">
+      <input type="hidden" name="make" value="selfupdate">
       <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-block" name="op" value="checkpw"><?php echo GET_Lang::nachricht("_SAVE_PW") ?></button>
+        <button type="submit" class="btn btn-primary btn-block" name="op" value="saveuserchanges"><?php echo GET_Lang::nachricht("_SAVE_PW") ?></button>
       </div>
+      </form>
     </div>
-    <div class="p-3">
-      <h5><?php echo GET_Lang::nachricht("_USER_DATA") ?></h5>
-      <p><input type="email" id="email" name="email" class="form-control" placeholder="<?php echo GET_Lang::nachricht("_USER_EMAIL") ?>"></p>
-      <p><input type="input" id="uname" name="uname" class="form-control" placeholder="<?php echo GET_Lang::nachricht("_USER_NAME") ?>"></p>
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-block" name="op" value="checkpw"><?php echo GET_Lang::nachricht("_SAVE_USER_DATA") ?></button>
-      </div>
-    </div>
+<!-- users self change internal data current not enable, see the next versions -->
   </aside>
   <!-- /.control-sidebar -->
 
@@ -74,7 +73,12 @@ if (Session::GetVar('isuser')){
 <script src="node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js"></script>
 <script src="node_modules/bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 <script src="node_modules/x-editable/dist/bootstrap-editable/js/bootstrap-editable.js"></script>
-<script src="js/neu.js"></script>
+<script src="js/user.js"></script>
+<?php
+if(Session::GetVar('isadmin')){
+  ?><script src="js/admin.js"></script><?php
+}
+?>
 
 
 <!-- jQuery -->

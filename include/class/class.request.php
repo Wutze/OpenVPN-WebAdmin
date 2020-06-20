@@ -1,6 +1,6 @@
 <?php
 /**
- * this File is part of OpenVPN-Admin - (c) 2020 OpenVPN-Admin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
  *
  * NOTICE OF LICENSE
  *
@@ -9,12 +9,14 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @fork      https://github.com/Wutze/OpenVPN-Admin
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
@@ -30,11 +32,20 @@
 class set_request{
 	public $isuser = FALSE;
 	public $isadmin = FALSE;
+	/**
+	 * @param op array()
+	 * array is checked for allowed values over $_REQUEST['op'], otherwise an error message is generated if wrong or incorrect data is passed
+	 * You can also make functions independent of the passed function call
+	 * @see Documentation
+	 */
 	var $op = array('admin'=>'admin',
-					'user'=>'user',
+					'adduser'=>'adduser',
+					'saveuserchanges'=>'saveuserchanges',
+					'whythis'=>'whythis',
 					'logout'=>'logout',
 					'login'=>'login',
 					'checklogin'=>'checklogin',
+					'checkdata'=>'checkdata',
 					'main'=>'main',
 					'ssl'=>'ssl',
 					'data'=>'data',
@@ -72,7 +83,7 @@ class set_request{
 				require_once(REAL_BASE_DIR.'/include/html/login/'._LOGINSITE.'/login.php');
 			break;
 
-			/** for load log-data */
+			/** load dynamic data */
 			case "data";
 				$getdata = new godata;
 				$getdata->set_value('data',$this);
@@ -105,9 +116,10 @@ class set_request{
 
 			/** 
 			 * @param mixed inputs from $op
-			 * @return main site with login
+			 * @return main site
 			 */
 			case "main";
+				($this->isuser) ? "" : header("Location: ?op=error");
 				html::head();
 				require_once(REAL_BASE_DIR.'/include/html/main-html.php');
 				html::foot();
@@ -128,12 +140,25 @@ class set_request{
 				}
 			break;
 
-			/** wird im Moment noch nicht benötigt */
-			case "user";
-				if($this->level != 2){
-					echo "User-Dreck";
-					#header("Location: ?op=login");
-				}
+			/** im Umbau befindlich */
+			case "adduser";
+			case "saveuserchanges";
+				$manipulate_user = new createchangeuser;
+				$manipulate_user->set_value('uname',@$this->request['uname']);
+				$manipulate_user->set_value('mail',@$this->request['mail']);
+				$manipulate_user->set_value('pass',@$this->request['pass']);
+				$manipulate_user->set_value('fromdate',@$this->request['fromdate']);
+				$manipulate_user->set_value('todate',@$this->request['todate']);
+				(@$this->request['makeadmin']) ? $manipulate_user->set_value('makeadmin',$this->request['makeadmin']) : $manipulate_user->set_value('makeadmin',FALSE);
+				$manipulate_user->set_value('isadmin',$this->isadmin);
+				$manipulate_user->set_value('isuser',$this->isuser);
+				$manipulate_user->set_value('req',$this->request);
+				#$manipulate_user->makenewuser();
+				$manipulate_user->toggle_action();
+
+				html::head();
+				require_once(REAL_BASE_DIR.'/include/html/main-html.php');
+				html::foot();
 			break;
 
 			/** load and save config files */
@@ -163,9 +188,16 @@ class set_request{
 				header("Location: .");
 			break;
 
+			/** Fehlerausgabe nach diversen Aktionen - noch nicht ganz durchdacht */
+			case "whythis";
+				html::head();
+				require_once(REAL_BASE_DIR.'/include/html/main-html.php');
+				#debug($this);
+				html::foot();
+			break;
 			/** 
 			 * For invalid or incorrect entries
-			 * @return force logout and log
+			 * @return force logout and session destroy
 			 */
 			case "error";
 				html::head();

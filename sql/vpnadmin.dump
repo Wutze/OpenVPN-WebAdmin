@@ -1,75 +1,53 @@
--- MySQL dump 10.17  Distrib 10.3.22-MariaDB, for debian-linux-gnu (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: openvpnadmin
--- ------------------------------------------------------
--- Server version	10.3.22-MariaDB-0+deb10u1
+-- Host: localhost
+-- Generation Time: Jun 20, 2020 at 02:46 PM
+-- Server version: 10.3.22-MariaDB-0+deb10u1
+-- PHP Version: 7.3.14-1~deb10u1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `admin`
+-- Database: `vpnadmin`
 --
 
-DROP TABLE IF EXISTS `admin`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `admin` (
-  `admin_id` varchar(255) NOT NULL,
-  `admin_pass` varchar(255) NOT NULL,
-  PRIMARY KEY (`admin_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `admin`
+-- Table structure for table `groupnames`
 --
 
-LOCK TABLES `admin` WRITE;
-/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `application`
---
-
-DROP TABLE IF EXISTS `application`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `application` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sql_schema` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `groupnames` (
+  `gname` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `application`
+-- Dumping data for table `groupnames`
 --
 
-LOCK TABLES `application` WRITE;
-/*!40000 ALTER TABLE `application` DISABLE KEYS */;
-/*!40000 ALTER TABLE `application` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `groupnames` (`gname`, `name`) VALUES
+(1, 'admin'),
+(2, 'user');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `log`
 --
 
-DROP TABLE IF EXISTS `log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `log` (
-  `log_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `log_id` int(10) UNSIGNED NOT NULL,
   `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `log_trusted_ip` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `log_trusted_port` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -78,58 +56,117 @@ CREATE TABLE `log` (
   `log_start_time` timestamp NOT NULL DEFAULT current_timestamp(),
   `log_end_time` timestamp NULL DEFAULT NULL,
   `log_received` float NOT NULL DEFAULT 0,
-  `log_send` float NOT NULL DEFAULT 0,
-  PRIMARY KEY (`log_id`),
-  KEY `user_id` (`user_id`)
+  `log_send` float NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `log`
+-- Table structure for table `sessions2`
 --
 
-LOCK TABLES `log` WRITE;
-/*!40000 ALTER TABLE `log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `log` ENABLE KEYS */;
-UNLOCK TABLES;
+CREATE TABLE `sessions2` (
+  `sesskey` varchar(64) NOT NULL DEFAULT '',
+  `expiry` datetime NOT NULL,
+  `expireref` varchar(250) DEFAULT '',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `sessdata` longtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
+  `uid` int(10) NOT NULL,
   `user_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `gid` int(10) NOT NULL,
   `user_pass` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `user_mail` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_phone` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_online` tinyint(1) NOT NULL DEFAULT 0,
   `user_enable` tinyint(1) NOT NULL DEFAULT 1,
   `user_start_date` date DEFAULT NULL,
-  `user_end_date` date DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `user_pass` (`user_pass`)
+  `user_end_date` date DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Table structure for table `usergroups`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+CREATE TABLE `usergroups` (
+  `gid` int(10) NOT NULL,
+  `uid` int(10) NOT NULL,
+  `gname` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Dumping data for table `usergroups`
+--
+
+INSERT INTO `usergroups` (`gid`, `uid`, `gname`) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `groupnames`
+--
+ALTER TABLE `groupnames`
+  ADD PRIMARY KEY (`gname`);
+
+--
+-- Indexes for table `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`log_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`uid`),
+  ADD KEY `user_pass` (`user_pass`);
+
+--
+-- Indexes for table `usergroups`
+--
+ALTER TABLE `usergroups`
+  ADD PRIMARY KEY (`gid`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `groupnames`
+--
+ALTER TABLE `groupnames`
+  MODIFY `gname` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `log`
+--
+ALTER TABLE `log`
+  MODIFY `log_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `uid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `usergroups`
+--
+ALTER TABLE `usergroups`
+  MODIFY `gid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2020-03-16 11:40:36

@@ -21,29 +21,32 @@
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
-?>
-<!-- Start HTML-Code -->
-<body class="hold-transition sidebar-mini layout-boxed">
-<div class="wrapper">
-  <!-- Navbar top -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-<?php
-/** Navbar Top left */
 
-include(REAL_BASE_DIR."/include/html/content/main-navbar-left.php");
-/** Navbar Top right */
-include(REAL_BASE_DIR."/include/html/content/main-navbar-right.php");
-?>
-  </nav>
-  <!-- /.navbar top -->
-<?php
-/** Sidebar left */
-include(REAL_BASE_DIR."/include/html/content/main-sidebar.php");
-/** Maincontent all */
-include(REAL_BASE_DIR."/include/html/content/main-content.php");
-/** for error messages */
-if(isset($_REQUEST['code'])){
-  include(REAL_BASE_DIR."/include/html/popup.php");
-}
+
+
+$out = GET_Lang::nachricht($_REQUEST['code'],'errormessage'); ;
+
 ?>
 
+<div class="modal" tabindex="-1" role="dialog" id="error-message">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Hinweis</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><?php echo $out; ?></p>
+      </div>
+      <div class="modal-footer">
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<?php
+
+?>

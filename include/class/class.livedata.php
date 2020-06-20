@@ -1,6 +1,6 @@
 <?php
 /**
- * this File is part of OpenVPN-Admin - (c) 2020 OpenVPN-Admin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
  *
  * NOTICE OF LICENSE
  *
@@ -9,12 +9,14 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @fork      https://github.com/Wutze/OpenVPN-Admin
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
  (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
@@ -37,7 +39,6 @@ class golivedata{
   var $go = array('load'=>'load','cpu'=>'cpu','user'=>'user');
   var $offset = '/[0-9]*/m';
   var $limit = '/[0-9]*/m';
-#  var $allowed_query_filters = ['user_id', 'log_trusted_ip','log_trusted_port','log_remote_ip','log_remote_port'];
 
   function main(){
     (array_key_exists($this->action['go'],$this->go)) ? $this->gotox = $this->action['go'] : $this->gotox = 'ERROR';
@@ -50,6 +51,8 @@ class golivedata{
 
       break;
       case "user";
+      (session::GetVar('isadmin')) ? '' : $this->gotox = 'ERROR';
+        self::gouser();
 
       break;
       case "ERROR";
@@ -130,6 +133,25 @@ class golivedata{
         $o->disk = $disk;
         $o->user = $users;
         $o->make_json();
+  }
+
+  function gouser(){
+    $data = newAdoConnection(_DB_TYPE);
+    $data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
+    $searchuser = $this->action['uname'];
+    $this->sql="SELECT `user_id` FROM `user` WHERE `user_id` = '$searchuser'  ";
+    $result = $data->execute($this->sql);
+    $user = $result->fetchRow();
+
+#debug($user);
+#exit;
+ #   return (isset($user) ? TRUE : FALSE);
+    $o = new jsonObject;
+    $o->id   = "0";
+    $o->text = "isuser or not";
+    $o->isuser = ($user) ? TRUE : FALSE;
+    $o->make_json();
+
   }
 
 }

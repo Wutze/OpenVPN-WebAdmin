@@ -1,6 +1,6 @@
 <?php
 /**
- * this File is part of OpenVPN-Admin - (c) 2020 OpenVPN-Admin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
  *
  * NOTICE OF LICENSE
  *
@@ -9,24 +9,26 @@
  * It is also available through the world-wide-web at this URL:
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @fork      https://github.com/Wutze/OpenVPN-Admin
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
  * @author    Wutze
- * @copyright 2020 OpenVPN-Admin
- * @license   https://www.gnu.org/licenses/agpl-3.0.en.html
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.0.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
 ?>
 
-              <?php
+<?php
 /** view only for Admins */
 if((int)Session::GetVar('gid') === 1){
 ?>
               <li class="nav-item">
-                <a class="nav-link" id="user-tab" data-toggle="pill" href="#user" role="tab" aria-controls="user" aria-selected="false">
+                <a class="nav-link <?php echo ((@$_REQUEST['code']=='1')? "active" : ""); ?>" id="user-tab" data-toggle="pill" href="#user" role="tab" aria-controls="user" aria-selected="false">
                   <i class="fas fa-chalkboard-teacher"></i>
                   <p>User</p>
                 </a>
@@ -44,9 +46,3 @@ if((int)Session::GetVar('gid') === 1){
                 </a>
               </li>
 <?php }; ?>
-
-
-
-
-
-
