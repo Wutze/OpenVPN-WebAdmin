@@ -192,6 +192,8 @@ class config_files{
 
 
   function load_zipfile(){
+    (array_key_exists($this->file,$this->conf_array)) ? $this->fileok = TRUE : $this->fileok = FALSE;
+    ($this->fileok) ? "" : header("Location: ?op=error");
     $this->rootpath = realpath("./../vpn/conf/".$this->conf_array[$this->file]);
     $this->testroot = "./../vpn/conf/".$this->conf_array[$this->file];
     $this->archive_base_name = "openvpn-".$this->conf_array[$this->file];
