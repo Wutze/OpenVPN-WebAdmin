@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
+# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
 #
-# language en_EN for OpenVPN-Admin
+# NOTICE OF LICENSE
 #
-# (c) by Wutze 2020 Version 1.0
+# GNU AFFERO GENERAL PUBLIC LICENSE V3
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
 #
-# This file is copyright under the latest version of the EUPL.
-# Please see LICENSE file for your rights under this license.
-# Version 1.x
-#
-# Twitter -> @HuWutze
-#
+# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+# 
+# @author    Wutze
+# @copyright 2020 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		1.0.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 ATTENTION="ATTENTION!
 Your VPN server should never be directly connected to the Internet, otherwise the server is vulnerable and in the worst case offers direct access to your network.

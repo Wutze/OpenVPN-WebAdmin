@@ -415,12 +415,13 @@ if [ "$db_host" == localhost ]; then
   set_mysql $db_name $mysql_user $mysql_user_pass
 fi
 
+# current only new install
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpnadmin.dump
 control_script "Insert Database Dump"
-mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpnadmin.sql
-control_script "Insert Userupdate #Fix 102"
-mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/adodb.sql
-control_script "Insert AdoDB Session Table"
+#mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpnadmin.sql
+#control_script "Insert Userupdate #Fix 102"
+#mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/adodb.sql
+#control_script "Insert AdoDB Session Table"
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
 control_script "Insert Webadmin User"
 

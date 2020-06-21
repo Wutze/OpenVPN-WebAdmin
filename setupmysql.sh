@@ -1,14 +1,21 @@
 #!/bin/bash
+# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
 #
-# this File is part of OpenVPN-Admin
+# NOTICE OF LICENSE
 #
 # GNU AFFERO GENERAL PUBLIC LICENSE V3
-# Original Script from: https://github.com/Chocobozzz/OpenVPN-Admin
-# Parts of the programming from pi-hole were used as templates.
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
 #
-# changes (c) by Wutze 2020 Version 0.6
-#
-# Twitter -> @HuWutze
+# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+# 
+# @author    Wutze
+# @copyright 2020 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		1.0.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 #  
 #  name: set_mysql_rootpw

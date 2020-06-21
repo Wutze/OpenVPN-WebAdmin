@@ -34,15 +34,15 @@ If you already have a database server, you can also use this one and do not need
 
 ## Manual Install with MySQL-Server
 ````
-# apt-get install openvpn apache2 php-mysql mariadb-server php-zip php unzip git wget sed curl git net-tools -y
-# apt install npm nodejs -y
+# apt-get install openvpn apache2 php-mysql mariadb-server php-zip php unzip git wget sed curl net-tools -y
+# apt-get install npm nodejs -y
 # npm install -g yarn
 ````
 
 ## Manual Install without MySQL-Server
 ````
-# apt-get install openvpn default-mysql-client apache2 php-mysql php-zip php unzip git wget sed curl git net-tools -y
-# apt install npm nodejs -y
+# apt-get install openvpn default-mysql-client apache2 php-mysql php-zip php unzip git wget sed curl net-tools -y
+# apt-get install npm nodejs -y
 # npm install -g yarn
 ````
 
@@ -64,7 +64,7 @@ Feel free to open issues.
   * Setup OpenVPN and the web application:
 
         $ cd /opt/
-        $ git clone https://github.com/wutze/OpenVPN-Admin openvpn-admin
+        $ git clone https://github.com/Wutze/OpenVPN-WebAdmin openvpn-admin
         $ cd openvpn-admin
         $ cp config.conf.sample config.conf
 
