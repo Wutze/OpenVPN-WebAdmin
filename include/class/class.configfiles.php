@@ -30,7 +30,7 @@
  */
 
 class config_files{
-  var $go = array('save'=>'save',
+  var $go = array('savefile'=>'save',
                   'print'=>'print',
                   'loadzip'=>'loadzip');
   var $files = array('server'=>'server',
@@ -61,8 +61,7 @@ class config_files{
     ($this->isuser) ? '' : $this->gotox = 'ERROR';
     switch($this->gotox){
       case "save";
-        #debug($this);
-
+        $this->save_config();
       break;
 
       case "loadzip";
@@ -124,30 +123,22 @@ class config_files{
 
 
   /**
-   *  [update_config] => true
-      [config_file] => ../vpn/conf/server/server.conf
-      [config_content]
-    * auf _POST reagieren?! Alter, der tickt nicht richtig!
-  */
-
+   * save config server
+   */
   function save_config(){
-  #debug($_POST);
-    $pathinfo = pathinfo($this->file);
-  
-    $config_full_uri = $this->file; // the complete path to the file, including the file (name) its self and the fully qualified path
-    #$config_full_path = "../vpn/conf/server/"; // path to file (without filename its self)
-    $config_name = basename($_POST['config_file']); // config file name only (without path)
-    $config_parent_dir = basename($this->config_full_path); // name of the dir that contains the config file (without path)
-  
+    /** is not admin - logout user, destroy sessions */
+    ($this->isadmin) ? "" : header("Location: ?op=error");
+    $this->config_name = basename($_POST['config_file']); // config file name only (without path)
+    $this->config_parent_dir = basename($this->config_full_path); // name of the dir that contains the config file (without path)
+
     /*
      * create backup for history
      *
      */
-    if (!file_exists($dir="$this->config_full_path/history"))
-       mkdir($dir, 0777, true);
+    if (!file_exists($dir=$this->config_full_path."/history"))
+       mkdir($dir, 0700, true);
     $ts = time();
-    copy("$config_full_uri", "$this->config_full_path/history/${ts}_${config_name}");
-  
+    copy($this->config_full_path."/".$this->config_name, $this->config_full_path."/history/".$ts."_".$this->config_name);
     /*
      *  write config
      */
