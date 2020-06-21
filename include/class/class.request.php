@@ -168,7 +168,7 @@ class set_request{
 				$conffile->set_value('isadmin',$this->isadmin);
 				$conffile->set_value('isuser',$this->isuser);
 				$conffile->set_value('action',$this->gotox);
-				$conffile->set_value('file',(!$this->request['file']) ? false : $this->request['file']);
+				$conffile->set_value('file',(!@$this->request['file']) ? false : $this->request['file']);
 				$conffile->main();
 			break;
 

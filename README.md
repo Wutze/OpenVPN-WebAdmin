@@ -176,6 +176,7 @@ AccessFileName .htaccess
         SSLCertificateKeyFile /etc/openvpn/server.key
 
 </VirtualHost>
+````
 
 ### Changes from the original (fixes from original issues)
 
