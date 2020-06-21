@@ -552,12 +552,12 @@ cp -r "$base_path/installation/scripts" "/etc/openvpn/"
 chmod +x "/etc/openvpn/scripts/"*
 
 # Configure MySQL in openvpn scripts
-sed -i "s/HOST=''/HOST='$db_host'/" "/etc/openvpn/scripts/config.sample.sh"
-sed -i "s/USER=''/USER='$mysql_user'/" "/etc/openvpn/scripts/config.sample.sh"
-escaped=$(echo -n "$mysql_user_pass" | sed 's#\\#\\\\#g;s#&#\\&#g')
-sed -i "s/PASS=''/PASS='${escaped}'/" "/etc/openvpn/scripts/config.sample.sh"
-sed -i "s/DB=''/DB='$db_name'/" "/etc/openvpn/scripts/config.sample.sh"
 cp /etc/openvpn/scripts/config.sample.sh /etc/openvpn/scripts/config.sh
+sed -i "s/HOST=''/HOST='$db_host'/" "/etc/openvpn/scripts/config.sh"
+sed -i "s/USER=''/USER='$mysql_user'/" "/etc/openvpn/scripts/config.sh"
+escaped=$(echo -n "$mysql_user_pass" | sed 's#\\#\\\\#g;s#&#\\&#g')
+sed -i "s/PASS=''/PASS='${escaped}'/" "/etc/openvpn/scripts/config.sh"
+sed -i "s/DB=''/DB='$db_name'/" "/etc/openvpn/scripts/config.sh"
 
 # Create the directory of the web application
 mkdir $www
