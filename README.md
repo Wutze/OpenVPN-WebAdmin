@@ -143,6 +143,40 @@ AccessFileName .htaccess
 
 ````
 
+## You can use SSL with your Apache (Example)
+
+You can also use the server keys for the OpenVPN server to secure your website via HTTPS. The configuration for the web server will look like this.
+
+You can see with https:// [ website ] /
+
+````conf
+<VirtualHost *:443>
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/www/openvpn-admin
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+AccessFileName .htaccess
+<FilesMatch "^\.ht">
+        Require all denied
+</FilesMatch>
+
+<Directory /srv/www/openvpn-admin/>
+        Options Indexes FollowSymLinks
+        AllowOverride all
+        Require all granted
+</Directory>
+
+        SSLEngine On
+        SSLProtocol all -SSLv2 -SSLv3
+        SSLCipherSuite ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+        SSLCertificateFile /etc/openvpn/server.crt
+        SSLCertificateKeyFile /etc/openvpn/server.key
+
+</VirtualHost>
+
 ### Changes from the original (fixes from original issues)
 
 * Support use of Mysql on different server #49
