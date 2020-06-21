@@ -75,4 +75,12 @@ ALTER TABLE `user`
 
 ALTER TABLE `usergroups`
   MODIFY `gid` int(10) NOT NULL AUTO_INCREMENT;
+
+INSERT INTO `groupnames` (`gname`, `name`) VALUES
+(1, 'admin'),
+(2, 'user');
+
+INSERT INTO `usergroups` (`gid`, `uid`, `gname`) VALUES
+(1, 1, 1),
+(2, 2, 2);
 COMMIT;
