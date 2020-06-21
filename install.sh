@@ -562,7 +562,7 @@ cp /etc/openvpn/scripts/config.sample.sh /etc/openvpn/scripts/config.sh
 # Create the directory of the web application
 mkdir $www
 mkdir "$openvpn_admin"
-cp -r "$base_path/"{index.php,package.json,js,include,css} "$openvpn_admin"
+cp -r "$base_path/"{index.php,package.json,js,include,css,images,data} "$openvpn_admin"
 mkdir $www/vpn
 #mkdir $www/vpn/conf
 cp -r "$base_path/"installation/conf $www/vpn/
