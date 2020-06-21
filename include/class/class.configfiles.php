@@ -44,7 +44,7 @@ class config_files{
   var $conf_array = array(
                   'win'=>'windows',
                   'lin'=>'gnu-linux',
-                  'osx'=>'osx');
+                  'osx'=>'osx-viscosity');
   
   var $config_full_path = "../vpn/conf/server/";
 
