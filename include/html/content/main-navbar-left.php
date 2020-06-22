@@ -30,9 +30,11 @@
         <a href="/" class="nav-link"><?php echo GET_Lang::nachricht('_HOME'); ?></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <p class="nav-link"><?php echo GET_Lang::nachricht('_TODAY'); ?></p>
+        <a class="nav-link"><?php echo GET_Lang::nachricht('_TODAY'); ?></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <div class="nav-link" id="message-stage"></div>
+        <div class="nav-message-stage nav-link" id="message-stage"></div>
       </li>
     </ul>
+  
+
