@@ -29,13 +29,18 @@
           <i class="fas fa-user-astronaut"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header">Account</span>
-          <div class="dropdown-divider"></div>
           <a href="?op=logout" class="dropdown-item">
-            <i class="fas fa-sign-out-alt"></i> Logout
-            <span class="float-right text-muted text-sm"></span>
+            <!-- Message Start -->
+            <div class="media">
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  logout
+                  <span class="float-right text-sm text-danger"><i class="fas fa-sign-out-alt"></i></span>
+                </h3>
+              </div>
+            </div>
+            <!-- Message End -->
           </a>
-          <div class="dropdown-divider"></div>
         </div>
       </li>
       <li class="nav-item">

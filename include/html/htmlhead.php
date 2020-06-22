@@ -33,17 +33,16 @@
     <link rel="stylesheet" href="node_modules/bootstrap-table/dist/bootstrap-table.min.css" type="text/css" />
     <link rel="stylesheet" href="node_modules/jquery-ui-dist/jquery-ui.min.css" type="text/css" />
     <link rel="stylesheet" href="node_modules/bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.css" type="text/css" />
-    <link rel="stylesheet" href="css/index.css" type="text/css" />
     <link rel="stylesheet" href="node_modules/admin-lte/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
 
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="node_modules/admin-lte/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="node_modules/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <script src="node_modules/ionicons/dist/ionicons.js"></script>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="node_modules/jquery-ui-dist/jquery-ui.js"></script>
+    <link rel="stylesheet" href="css/index.css" type="text/css" />
   </head>

@@ -23,15 +23,15 @@
 
 ?>
 <!-- Start HTML-Code -->
-<body class="hold-transition sidebar-mini layout-boxed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
   <!-- Navbar top -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 <?php
-/** Navbar Top left */
+  /** Navbar Top left */
 
 include(REAL_BASE_DIR."/include/html/content/main-navbar-left.php");
-/** Navbar Top right */
+  /** Navbar Top right */
 include(REAL_BASE_DIR."/include/html/content/main-navbar-right.php");
 ?>
   </nav>
