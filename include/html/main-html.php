@@ -23,7 +23,7 @@
 
 ?>
 <!-- Start HTML-Code -->
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
 <div class="wrapper">
   <!-- Navbar top -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
