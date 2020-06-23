@@ -78,6 +78,8 @@ if(Session::GetVar('isadmin')){
           </div>
         </div>
 <?php
+}else{
+  echo "Welcome";
 };
 
 

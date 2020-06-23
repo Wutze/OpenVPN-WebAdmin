@@ -51,6 +51,7 @@ class set_request{
 					'data'=>'data',
 					'live'=>'live',
 					'savefile' => 'savefile',
+					'delfile' => 'delfile',
 					'loadzip' => 'loadzip',
 					'error'=>'error');
 	var $uid = FALSE;
@@ -164,11 +165,12 @@ class set_request{
 			/** load and save config files */
 			case "savefile";
 			case "loadzip";
+			case "delfile";
 				$conffile = new config_files;
 				$conffile->set_value('isadmin',$this->isadmin);
 				$conffile->set_value('isuser',$this->isuser);
 				$conffile->set_value('action',$this->gotox);
-				$conffile->set_value('file',(!@$this->request['file']) ? false : $this->request['file']);
+				$conffile->set_value('file',(!@$this->request['file']) ? $this->request['config_file'] : $this->request['file']);
 				$conffile->main();
 			break;
 

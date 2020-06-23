@@ -36,13 +36,7 @@ if((int)Session::GetVar('gid') === 1){
               <li class="nav-item">
                 <a class="nav-link" id="admin-tab" data-toggle="pill" href="#admin" role="tab" aria-controls="admin" aria-selected="false">
                   <i class="fas fa-atom"></i>
-                  <p>Admin</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" id="config-tab" data-toggle="pill" href="#config" role="tab" aria-controls="config" aria-selected="false">
-                  <i class="fas fa-server"></i>
-                  <p><?php echo GET_Lang::nachricht('_SERVER_CONFIG'); ?></p>
+                  <p><?php echo GET_Lang::nachricht('_VPN_CONFIGS'); ?></p>
                 </a>
               </li>
 <?php }; ?>
