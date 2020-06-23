@@ -53,7 +53,7 @@ $message['_USER_NAME']              = "Your Name";
 $message['_USER_DATA']              = "change your data";
 $message['_SAVE_USER_DATA']         = "save changes";
 
-$message['_SERVER_CONFIG']          = "Server Configuration";
+$message['_VPN_CONFIGS']            = "Configurations";
 $message['_OSX_CONFIG']             = "OSX Configuration";
 $message['_WIN_CONFIG']             = "WIN Configuration";
 $message['_LIN_CONFIG']             = "Android Configuration";

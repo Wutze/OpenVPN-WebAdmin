@@ -41,16 +41,15 @@
               data-toggle="table"
               data-side-pagination="server"
               data-pagination="true"
-              
 <?php
 if(Session::GetVar('isadmin')){
   $userfilter = '';
   $portfilter = '';
   ?>
-  data-search="true"
-  data-detail-formatter="logdetails"
-  data-search-time-out="1000"
-  data-filter-control="false"
+              data-search="true"
+              data-detail-formatter="logdetails"
+              data-search-time-out="1000"
+              data-filter-control="false"
   <?php
 
 }else{
@@ -98,7 +97,6 @@ if(Session::GetVar('isadmin')){
               <thead class="thead-dark">
                 <tr>
                   <th data-field="uname" >Name</th>
-
                   <th data-field="gname">Gruppe</th>
                   <th data-field="user_enable">Enable</th>
                   <th data-field="user_start_date">von</th>
@@ -113,54 +111,15 @@ if(Session::GetVar('isadmin')){
 }
 ?>
           </div>
-
           <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="position-relative p-3 bg-gray" style="height: 180px">
-                  <div class="ribbon-wrapper ribbon-lg">
-                    <div class="ribbon bg-info">
-                      Info
-                    </div>
-                  </div>
-                  Info <br>
-                  <small>Alles was da nun rein soll.</small>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="position-relative p-3 bg-gray" style="height: 180px">
-                  <div class="ribbon-wrapper ribbon-lg">
-                    <div class="ribbon bg-success">
-                      Attention
-                    </div>
-                  </div>
-                  Ein Achtung <br>
-                  <small>Weils hat ein Achtung sein muss. Weil ich will das so, weils kein was anderes gibt und so muss.</small>
-                </div>
-              </div>
-              <div class="col-sm-4">
-                <div class="position-relative p-3 bg-gray" style="height: 180px">
-                  <div class="ribbon-wrapper ribbon-lg">
-                    <div class="ribbon bg-danger">
-                      Error
-                    </div>
-                  </div>
-                  Fehlermeldungen <br>
-                  <small>Fehler und Warnungen</small>
-                </div>
-              </div>
-            </div>
-          </div>
 <?php
-
-$out = new config_files;
-$out->set_value('action','print');
-$out->set_value('file','server');
-$out->set_value('isuser',Session::GetVar('isuser'));
-$out->set_value('isadmin',Session::GetVar('isadmin'));
-$out->main();
-
+if (file_exists(REAL_BASE_DIR."/include/html/modules/admin.overview.php")){
+  include(REAL_BASE_DIR."/include/html/modules/admin.overview.php");
+}else{
+  include(REAL_BASE_DIR."/include/html/modules/admin-mainsite.php");
+}
 ?>
+          </div>
           <div class="tab-pane fade position-relative p-3 bg-white" id="ssl" role="tabpanel" aria-labelledby="ssl-tab">
             <div class="ribbon-wrapper ribbon-lg">
               <div class="ribbon bg-success">

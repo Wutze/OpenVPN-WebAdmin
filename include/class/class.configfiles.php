@@ -32,7 +32,8 @@
 class config_files{
   var $go = array('savefile'=>'save',
                   'print'=>'print',
-                  'loadzip'=>'loadzip');
+                  'loadzip'=>'loadzip',
+                  'delfile' => 'delfile');
   var $files = array('server'=>'server',
                   'win'=>'win',
                   'lin'=>'lin',
@@ -44,9 +45,21 @@ class config_files{
   var $conf_array = array(
                   'win'=>'windows',
                   'lin'=>'gnu-linux',
-                  'osx'=>'osx-viscosity');
-  
-  var $config_full_path = "../vpn/conf/server/";
+                  'osx'=>'osx-viscosity',
+                  'server' => 'server');
+  var $conf_filepathname = array(
+                  'win' => 'windows/client.ovpn',
+                  'lin' => 'gnu-linux/client.ovpn',
+                  'osx' => 'osx-viscosity/client.ovpn',
+                  'server' => 'server/server.conf');
+  var $conf_filename = array(
+                  'win' => 'client.ovpn',
+                  'lin' => 'client.ovpn',
+                  'osx' => 'client.ovpn',
+                  'server' => 'server.conf');
+  var $config_full_path = "../vpn/conf/";
+  var $history_full_path = "../vpn/history/";
+  var $data_temp_dir = "./data/temp/";
 
   /**
    * main function
@@ -69,11 +82,15 @@ class config_files{
       break;
 
       case "print";
-        $this->configfiles();
+        $this->print_configfiles();
+      break;
+
+      case "delfile";
+        $this->delfile();
       break;
 
       case "ERROR";
-        echo "error";
+        header("Location: ?op=error");
       break;
     }
   }
@@ -84,13 +101,19 @@ class config_files{
    */
   function getHistory($cfg_file) {
     require_once(REAL_BASE_DIR.'/include/class/class.Diff.php');
+    $random = rand(0,getrandmax()) ;
+    $scanned_directory = @array_slice(scandir($this->history_full_path.$this->conf_array[$cfg_file]."/history/"), 2);
+    $scanned_directory = @array_reverse($scanned_directory);
+    $i = 0;
     ?>
     <div class="alert alert-info" role="alert"><b>History</b>
-      <div class="panel-group" id="accordion<?php echo Session::GetVar('session_id'); ?>">
-        <?php foreach (array_reverse(glob('../vpn/conf/'.basename(pathinfo($cfg_file, PATHINFO_DIRNAME)).'/history/*'),true) as $i => $file): ?>
+      <div class="panel-group" id="accordion<?php echo $random; ?>">
+        <?php foreach ($scanned_directory as &$file){
+        $i = $i+1;
+        ?>
         <div class="panel panel-primary">
           <div class="panel-primary">
-            <a data-toggle="collapse" data-parent="#accordion<?php echo Session::GetVar('session_id'); ?>" href="#collapse<?php echo Session::GetVar('session_id'); ?>-<?php echo $i ?>">
+            <a data-toggle="collapse" data-parent="#accordion<?php echo $random; ?>" href="#collapse<?php echo $random; ?>-<?php echo $i ?>">
             <?php
               $history_file_name = basename($file);
               $chunks = explode('_', $history_file_name);
@@ -98,23 +121,22 @@ class config_files{
             ?>
             </a>
           </div>
-          <div id="collapse<?php echo Session::GetVar('session_id'); ?>-<?php echo $i ?>" class="panel-collapse collapse">
+          <div id="collapse<?php echo $random; ?>-<?php echo $i ?>" class="panel-collapse collapse">
             <div class="position-relative p-3 bg-gray">
               <div class="ribbon-wrapper ribbon-lg">
                 <div class="ribbon bg-danger">
-                  <?php echo date("d.m.y",$chunks[0]); ?>
+                  <a href="?op=delfile&amp;file=<?php echo $chunks[0]; ?>"><?php echo date("d.m.y",$chunks[0]); ?></a>
                 </div>
               </div>
               <div class="well">
                 <pre>
-                  <?php echo Diff::toHTML(Diff::compareFiles($file, '../vpn/conf/server/server.conf')); ?>
+                  <?php echo Diff::toHTML(Diff::compareFiles($this->history_full_path.$this->conf_array[$cfg_file]."/history/".$file, $this->config_full_path.$this->conf_filepathname[$cfg_file])); ?>
                 </pre>
               </div>
             </div>
           </div>
-          
         </div>
-        <?php endforeach; ?>
+        <?php }; ?>
       </div>
     </div>
   <?php
@@ -123,53 +145,49 @@ class config_files{
 
 
   /**
-   * save config server
+   * save configs
    */
   function save_config(){
     /** is not admin - logout user, destroy sessions */
     ($this->isadmin) ? "" : header("Location: ?op=error");
-    $this->config_name = basename($_POST['config_file']); // config file name only (without path)
-    $this->config_parent_dir = basename($this->config_full_path); // name of the dir that contains the config file (without path)
+    $timecode = time();
+    $this->fullpath_with_file = $this->config_full_path.$this->conf_filepathname[$this->file];
+    $this->file_category = basename($this->file);
+    $this->backup_dir = $this->history_full_path."".$this->conf_array[$this->file]."/history";
+    $this->backupfilename = $timecode."_".$this->conf_filename[$this->file];
 
-    /*
-     * create backup for history
-     *
-     */
-    if (!file_exists($dir=$this->config_full_path."/history"))
-       mkdir($dir, 0700, true);
-    $ts = time();
-    copy($this->config_full_path."/".$this->config_name, $this->config_full_path."/history/".$ts."_".$this->config_name);
-    /*
-     *  write config
-     */
-    $conf_success = file_put_contents($_POST['config_file'], $_POST['config_content']);
-  
+    if (!file_exists($this->backup_dir)){
+      mkdir($this->history_full_path.$this->conf_array[$this->file],0700,true);
+      mkdir($this->backup_dir, 0700, true);
+    }
+    copy($this->fullpath_with_file, $this->backup_dir."/".$this->backupfilename);
+
+    $conf_success = file_put_contents($this->fullpath_with_file, $_POST['config_content']);
+
     echo json_encode([
       'debug' => [
-          'config_file' => $_POST['config_file'],
+          'config_file' => $this->fullpath_with_file,
           'config_content' => $_POST['config_content']
       ],
       'config_success' => $conf_success !== false,
     ]);
   }
 
-  function configfiles(){
+  function print_configfiles(){
+    $cfg_file=$this->config_full_path.$this->conf_filepathname[$this->file];
     ?>
-    <div class="tab-pane fade position-relative p-3 bg-light" id="config" role="tabpanel" aria-labelledby="config-tab">
     <div class="ribbon-wrapper ribbon-lg">
-      <div class="ribbon bg-primary">
-        <?php echo GET_Lang::nachricht('_SERVER_CONFIG'); ?>
+      <div class="ribbon bg-warning text-lg">
+        <?php echo $this->file; ?>
       </div>
     </div>
     <fieldset>
       <form class="save-form" method="post">
-        <p>Attention! Restart server after changes!<p/>
-        <textarea class="alert-danger form-control" data-config-file="<?= $cfg_file='../vpn/conf/server/server.conf' ?>" name="" id="" cols="30" rows="20"><?= file_get_contents($cfg_file) ?></textarea>
-        
+        <p>Attention! Restart server or clients after changes!<p/>
+        <textarea class="alert-danger form-control" data-config-file="<?= $this->file ?>" name="" id="" cols="30" rows="20"><?= file_get_contents($cfg_file) ?></textarea>
       </form>
     </fieldset>
-    <?php echo self::getHistory($cfg_file) ?>
-  </div>
+    <?php echo self::getHistory($this->file) ?>
   <?php 
   }
 
@@ -183,13 +201,16 @@ class config_files{
 
 
   function load_zipfile(){
-    (array_key_exists($this->file,$this->conf_array)) ? $this->fileok = TRUE : $this->fileok = FALSE;
-    ($this->fileok) ? "" : header("Location: ?op=error");
-    $this->rootpath = realpath("./../vpn/conf/".$this->conf_array[$this->file]);
-    $this->testroot = "./../vpn/conf/".$this->conf_array[$this->file];
-    $this->archive_base_name = "openvpn-".$this->conf_array[$this->file];
+    (array_key_exists($this->file,$this->zipfile)) ? $this->fileok = 1 : $this->fileok = 0;
+    if (!$this->fileok or !$this->isuser or $this->file == "server"){
+      header("Location: ?op=error");
+      return;
+    };
+    $this->rootpath = realpath($this->config_full_path.$this->conf_array[$this->file]);
+    $this->testroot = $this->config_full_path.$this->conf_array[$this->file];
+    $this->archive_base_name = "openvpn-".$this->zipfile[$this->file];
     $this->archive_name = $this->archive_base_name.'.'.Session::GetVar('uname').".zip";
-    $this->archive_path = "./data/temp/$this->archive_name";
+    $this->archive_path = $this->data_temp_dir.$this->archive_name;
 
     $zip = new ZipArchive();
     $zip->open($this->archive_path, ZipArchive::CREATE | ZipArchive::OVERWRITE);
@@ -210,7 +231,6 @@ class config_files{
         $zip->addFile($filePath, "$this->archive_base_name/$relativePath");
       }
     }
-  
     // Zip archive will be created only after closing object
     $zip->close();
 
@@ -223,6 +243,12 @@ class config_files{
   
     unlink($this->archive_path);
   }
+
+  /** not implemented yet */
+  function delfile(){
+    header("Location: .");
+  }
+
 }
 
 
