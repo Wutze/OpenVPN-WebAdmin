@@ -1,16 +1,20 @@
 # OpenVPN WebAdmin
 
-Maintainer
+Create and manage your virtual private network via web browser and OpenVPN. This system is a simple and easy method for your private user manager. The system is suitable for families, shared flats or companies that value free software. If you want to become independent from big cloud providers, if you really care about the security of your data without having to reveal the communication to secret services or data collectors, you will find your way with this system.
 
-![Twitter Follow](https://img.shields.io/twitter/follow/huwutze?color=blue&label=HuWutze&logo=Twitter&style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/Wutze/OpenVPN-WebAdmin?style=plastic)
+![GitHub repo size](https://img.shields.io/github/repo-size/Wutze/OpenVPN-WebAdmin?style=plastic)
+![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/Wutze/OpenVPN-WebAdmin/1.0.0?style=plastic)
+
+[![Twitter Follow](https://img.shields.io/twitter/follow/huwutze?color=blue&label=HuWutze&logo=Twitter&style=plastic)](https://twitter.de/HuWutze)
+[![Liberapay patrons](https://img.shields.io/liberapay/patrons/Wutze?style=plastic)](https://liberapay.com/Wutze/)
 
 ## Extended documentation
 
-read please first:
-![Doku Deutsch/German](doc/doc.de_DE.md)
-![Doku English](doc/doc.en_EN.md)
+[![Doku Deutsch/German](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
+[![Doku Deutsch/German](https://img.shields.io/badge/Dokumentation-DE-%230034F0?style=plastic)](doc/doc.de_DE.md)
 
-## Summary
+## Screenshots
 
 Administrate its OpenVPN with a web interface (logs visualisations, users managing...) with MariaDB.
 
@@ -26,23 +30,18 @@ Administrate its OpenVPN with a web interface (logs visualisations, users managi
 * MariaDB (see note MySQL)
 * PHP >= 7.x with modules:
   * zip
+  * mysql
 * yarn
 * unzip
 * wget
 * sed
 * curl
 * git
-* net-tools (route)
+* net-tools (for the includes simple firewall)
 
 ## Note MySQL
 
 If you already have a database server, you can also use this one and do not need to install one locally. You only need a database and a username and password
-
-### Debian 10 Buster
-
-### Raspberry Pi with Debian 10 Buster
-
-### Ubuntu 20.04 Server
 
 ## Manual Install with MySQL-Server
 
@@ -73,22 +72,22 @@ Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 * Setup OpenVPN and the web application:
 
 ````code
-        cd /opt/
-        git clone https://github.com/Wutze/OpenVPN-WebAdmin openvpn-admin
-        cd openvpn-admin
-        cp config.conf.sample config.conf
+  cd /opt/
+  git clone https://github.com/Wutze/OpenVPN-WebAdmin openvpn-admin
+  cd openvpn-admin
+  cp config.conf.sample config.conf
 
-        Edit your config.conf e.g. with nano
-        nano config.conf
+# Edit your config.conf e.g. with nano
+  nano config.conf
 
-        Beginn main installation
-        ./install.sh
+# Beginn main installation
+  ./install.sh
 ````
 
 * Setup the web server (Apache, NGinx...) to serve the web application. Using the example below.
 
 ````code
-        nano /etc/apache2/sites-enabled/[ apache config ]
+  nano /etc/apache2/sites-enabled/[ apache config ]
 ````
   
 * You must reboot the server after installation, otherwise the vpn server will not start correctly and no connection will be established!
