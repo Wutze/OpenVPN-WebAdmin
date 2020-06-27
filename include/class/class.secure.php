@@ -118,8 +118,6 @@ class createchangeuser extends passwd{
 													);
 	function toggle_action(){
 		(array_key_exists($this->req['op'],$this->legal_actions)) ? $this->gotox = $this->legal_actions[$this->req['op']] : $this->gotox = 'error';
-#		debug($this);
-#		exit;
 		switch($this->gotox){
 			case "adduser";
 				self::makenewuser();

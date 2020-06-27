@@ -38,7 +38,7 @@ class set_request{
 	 * You can also make functions independent of the passed function call
 	 * @see Documentation
 	 */
-	var $op = array('admin'=>'admin',
+	var $op = array(
 					'adduser'=>'adduser',
 					'saveuserchanges'=>'saveuserchanges',
 					'whythis'=>'whythis',
@@ -76,8 +76,8 @@ class set_request{
 		$this->uid = (int)Session::GetVar('uid');
 		$this->level = (int)Session::GetVar('level');
 		$this->uname = Session::GetVar('uname');
-#debug($this);
-#exit;
+
+		/** broker */
 		switch($this->gotox){
 			/** print main site as login */
 			case "login";
@@ -126,22 +126,14 @@ class set_request{
 				html::foot();
 			break;
 
-			/** wird im Moment noch nicht benötigt */
+			/** wird im Moment noch nicht benötigt -  will be available from version 2.0.0*/
 			case "ssl";
 				html::head();
 				require_once(REAL_BASE_DIR.'/include/html/main-html.php');
 				html::foot();
 			break;
 
-			/** wird im Moment noch nicht benötigt */
-			case "admin";
-				if($this->level != 1){
-					echo "Dreck";
-					#header("Location: ?op=login");
-				}
-			break;
-
-			/** im Umbau befindlich */
+			/** Userverwaltung */
 			case "adduser";
 			case "saveuserchanges";
 				$manipulate_user = new createchangeuser;
@@ -154,7 +146,6 @@ class set_request{
 				$manipulate_user->set_value('isadmin',$this->isadmin);
 				$manipulate_user->set_value('isuser',$this->isuser);
 				$manipulate_user->set_value('req',$this->request);
-				#$manipulate_user->makenewuser();
 				$manipulate_user->toggle_action();
 
 				html::head();
@@ -174,16 +165,6 @@ class set_request{
 				$conffile->main();
 			break;
 
-			/** 
-			 * create and load zipfile
-			 * @return zipfile
-			*/
-			case "loadzip_old";
-				(array_key_exists($this->request['file'],$this->zipfile)) ? $file = $this->request['file'] : header("Location: .");
-				(Session::GetVar('isuser')) ? '' : header("Location: ?op=error") ;
-				load_zipfile($file);
-			break;
-
 			/** logout from webfrontend */
 			case "logout";
 				Session::Destroy();
@@ -194,7 +175,6 @@ class set_request{
 			case "whythis";
 				html::head();
 				require_once(REAL_BASE_DIR.'/include/html/main-html.php');
-				#debug($this);
 				html::foot();
 			break;
 			/** 
@@ -204,13 +184,10 @@ class set_request{
 			case "error";
 				html::head();
 				require_once(REAL_BASE_DIR.'/include/html/error.php');
-				#debug($this);
 				html::foot();
 				Session::Destroy();
 			break;
 		}
-
-
 	}
 
 
