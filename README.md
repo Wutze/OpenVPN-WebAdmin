@@ -11,7 +11,7 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 ## Extended documentation
 
-[![Doku Deutsch/German](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
+[![Doku English](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
 [![Doku Deutsch/German](https://img.shields.io/badge/Dokumentation-DE-%230034F0?style=plastic)](doc/doc.de_DE.md)
 
 ## Screenshots
