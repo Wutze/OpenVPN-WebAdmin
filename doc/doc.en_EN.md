@@ -1,6 +1,8 @@
-# Documentation German
+# Documentation English
 
 ## Intro
+
+You lock your front door. But why do you leave the back entrances open? This is the same with almost all Internet accesses to your IoT, webcams and other devices.
 
 Hello, friends.
 
@@ -8,7 +10,7 @@ This is the first step for a completely rewritten version for access management 
 
 ## Upgrade
 
-An upgrade from the original, Release 0.8, will be available with Version 1.1.0.
+An upgrade from the original, Release 0.8 and 1.0.x, will be available with Version 1.1.0.
 
 ## Installation
 
@@ -16,14 +18,14 @@ The installation has been tested, but errors may still occur.
 
 ## Configuration file config.php
 
-Actually, the defined constants should be self-explanatory by name.
+Actually, the defined constants should be self-explanatory by name. (Example valid from 1.1.0 and differs from the previous versions)
 
-```php
-$host = 'db.home';
-$port = '3306';
-$db = 'tester';
-$user = 'tester';
-$pass = 'tester';
+````php
+$dbhost = 'db.home';
+$dbport = '3306';
+$dbname = 'tester';
+$dbuser = 'tester';
+$dbpass = 'tester';
 $dbtype = 'mysqli';
 $dbdebug = FALSE;
 $sessdebug = FALSE;
@@ -43,7 +45,7 @@ The entry ___LOGINSITE__ defines the content to be loaded for the login page, wh
 
 There are already some examples under __login1, login2 and login3__. You can realize every own idea. Condition for a correct functioning are 5 things:
 
-```php
+````php
 include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
 ````
 
@@ -53,37 +55,37 @@ With this entry you load the template functions which are needed for the transmi
 
 ##### Loginfield: Username
 
-```php
+````php
 echo username();
 ````
 
 ##### Loginfield: Password
 
-```php
+````php
 echo password();
 ````
 
 ##### Loginfield: hidden Fields
 
-```php
+````php
 echo hiddenfields();
 ````
 
 ##### Loginfield: button
 
-```php
+````php
 echo button();
 ````
 
 It often happens that bootstrap or other styles to be loaded require further information about the classes. You can easily pass the appropriate information in the following way:
 
-```php
+````php
 echo button('btn-primary btn-block');
 ````
 
 The system issues further specifications, which are briefly described below:
 
-```php
+````php
 # The name of the website, entered in the config.php
 echo _SITE_NAME;
 
@@ -93,7 +95,7 @@ echo _SITE_NAME;
 
 By default, the content from the __$message__ array is always displayed. The best way to call it is via:
 
-```php
+````php
 echo GET_Lang::message("_LOGIN_DATA");
 
 ````
@@ -102,7 +104,7 @@ Since the class __class.language.php__ is always loaded as well, the call can be
 
 If you want to load other arrays from the language file, just pass the name of the array, the class will find the value and display it.
 
-```php
+````php
 echo GET_Lang::message("4", "errormessage");
 
 ````

@@ -2,13 +2,15 @@
 
 ## Intro
 
+Deine Haustür schließt Du ab. Weswegen lässt Du die Hintereingänge aber offen? So und nicht anders verhält es sich mit fast allen Internetzugängen zu Deinem IoT, den Webcams und anderen Geräten.
+
 Hallo Freunde.
 
 Das ist der erste Schritt für eine vollständig neu geschriebene Version für eine Zugriffsverwaltung per Webbrowser, um den Zugriff auf interne Netzwerke per OpenVPN zu gewährleisten. Hierbei handelt es sich im Moment um _KEINE_ sichere Version. Diese wird erst mit Version 1.1.0 erreicht sein. Ich möchte Euch aber heute schon die Möglichkeit geben selbst zu testen, um Ideen oder sogar eigenen Code einbringen zu können.
 
 ## Upgrade
 
-Ein Upgrade vom Original, Release 0.8, wird es mit Version 1.1.0 geben.
+Ein Upgrade vom Original, Release 0.8 und 1.0.x, wird es mit Version 1.1.0 geben.
 
 ## Installation
 
@@ -16,14 +18,14 @@ Die Installation ist zwar getestet, es kann aber noch Fehler geben.
 
 ## Konfigurationsdatei config.php
 
-Eigentlich sollten die definierten Konstanten vom Namen her selbsterklärend sein.
+Eigentlich sollten die definierten Konstanten vom Namen her selbsterklärend sein. (Beispiel ab 1.1.0 gültig und unterscheidet sich zu den vorherigen Versionen)
 
 ````php
-$host = 'db.home';
-$port = '3306';
-$db   = 'tester';
-$user = 'tester';
-$pass = 'tester';
+$dbhost = 'db.home';
+$dbport = '3306';
+$dbname = 'tester';
+$dbuser = 'tester';
+$dbpass = 'tester';
 $dbtype = 'mysqli';
 $dbdebug = FALSE;
 $sessdebug = FALSE;
