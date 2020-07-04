@@ -1,8 +1,16 @@
 # Update OpenVPN-WebAdmin
 
-## Update von Version 0.8 + 1.0.x zu 1.1.0
+## Update from Version 0.8 and 1.0.x to 1.1.0
 
 ### German
+
+````bash
+cd /opt/
+git clone https://github.com/Wutze/OpenVPN-WebAdmin ovpn-webadmin
+cd ovpn-webadmin
+# Start update with
+bash ./update.sh
+````
 
 Wenn das Update-Script keine passende Konfiguration findet, Du aber dennoch eine Installation auf Deinem VPN-Server besitzt, dann musst Du eine eigene Konfigurationsdatei erstellen.
 
@@ -19,7 +27,17 @@ WWWOWNER="www-data"
 
 Während des Updates wirst Du nach einem neuen administrativen Benutzer gefragt. Bitte trage einen nicht vergebenen Benutzernamen ein, der für das nächste Login Admin-Rechte erhalten wird. Alle anderen User werden durch das Update nur noch normale Zugriffsrechte besitzen.
 
+Vor dem Update wird ein Backup des alten Systems durchgeführt. Du findest es unter _/opt/backup/datum-xxx_ 
+
 ### English
+
+````bash
+cd /opt/
+git clone https://github.com/Wutze/OpenVPN-WebAdmin ovpn-webadmin
+cd ovpn-webadmin
+# Start update with
+bash ./update.sh
+````
 
 If the update script does not find a suitable configuration, but you still have an installation on your VPN server, then you must create your own configuration file.
 
@@ -36,7 +54,17 @@ WWWOWNER="www-data"
 
 During the update you will be asked for a new administrative user. Please enter an unassigned username that will be given admin rights for the next login. All other users will only have normal access rights after the update.
 
+A backup of the old system is performed before the update. You can find it under _/opt/backup/date-xxx_ 
+
 ### Russian
+
+````bash
+cd /opt/
+git clone https://github.com/Wutze/OpenVPN-WebAdmin ovpn-webadmin
+cd ovpn-webadmin
+# Start update with
+bash ./update.sh
+````
 
 Если сценарий обновления не находит подходящей конфигурации, но у вас все еще есть инсталляция на вашем VPN сервере, то вы должны создать свой собственный файл конфигурации.
 
@@ -53,7 +81,17 @@ WWWOWNER="www-data"
 
 Во время обновления у вас будет запрошен новый административный пользователь. Пожалуйста, введите неназначенное имя пользователя, которому будут даны права администратора при следующем входе в систему. Все остальные пользователи будут иметь обычные права доступа только после обновления.
 
+Перед обновлением выполняется резервное копирование старой системы. Вы можете найти его в разделе _/opt/backup/date-xxx_. 
+
 ### France
+
+````bash
+cd /opt/
+git clone https://github.com/Wutze/OpenVPN-WebAdmin ovpn-webadmin
+cd ovpn-webadmin
+# Start update with
+bash ./update.sh
+````
 
 Si le script de mise à jour ne trouve pas de configuration appropriée, mais que vous avez quand même une installation sur votre serveur VPN, vous devez alors créer votre propre fichier de configuration.
 
@@ -69,3 +107,5 @@ WWWOWNER="www-data"
 ````
 
 Au cours de la mise à jour, il vous sera demandé un nouvel utilisateur administratif. Veuillez entrer un nom d'utilisateur non attribué qui recevra les droits d'administration pour la prochaine connexion. Tous les autres utilisateurs n'auront des droits d'accès normaux qu'après la mise à jour.
+
+Une sauvegarde de l'ancien système est effectuée avant la mise à jour. Vous pouvez le trouver sous _/opt/backup/date-xxx_ 
