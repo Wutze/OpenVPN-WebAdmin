@@ -9,12 +9,12 @@
 # https://www.gnu.org/licenses/agpl-3.0.en.html
 #
 # @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
-# 
+#
 # @author    Wutze
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.0.0
+# @version		1.1.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
@@ -69,10 +69,11 @@ else
   COL_LIGHT_GREEN='\e[1;32m'
   COL_LIGHT_RED='\e[1;31m'
   COL_BLUE='\e[94m'
+  COL_YELLOW='\e[1;33m'
+  INF0="[${COL_YELLOW}▸"
+  INF1="◂${COL_NC}]"
   TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
   CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
-  INFO="[i]"
-  # shellcheck disable=SC2034
   DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
 	OVER="\\r\\033[K"
 fi
@@ -120,13 +121,13 @@ print_out(){
     echo -e " ${CROSS} ${2}"
     ;;
     i)
-    echo -e " ${INFO} ${2}"
+    echo -e " ${INF0} ${2} ${INF1}"
     ;;
     d)
     echo -e " ${DONE} ${2}"
     ;;
     r)	read -rsp " ${2}"
-	    echo "\n"
+	    echo ""
     ;;
   esac
 }
@@ -252,8 +253,6 @@ make_mysql(){
     installsql=""
     echo -e " ${TICK} ${1}" $mysqlserver
   fi
-  #apt-get install mariadb-server -y
-  #echo -e " ${TICK} ${1}"
 }
 
 make_webserver(){
@@ -416,12 +415,8 @@ if [ "$db_host" == localhost ]; then
 fi
 
 # current only new install
-mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpnadmin.dump
+mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpnadmin-1.1.0.dump
 control_script "Insert Database Dump"
-#mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpnadmin.sql
-#control_script "Insert Userupdate #Fix 102"
-#mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/adodb.sql
-#control_script "Insert AdoDB Session Table"
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
 control_script "Insert Webadmin User"
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${admin_user}-user', encrypt('${admin_user_pass}'),'2','1');"
@@ -441,38 +436,6 @@ mv "EasyRSA-v3.0.6" /etc/openvpn/easy-rsa
 rm "EasyRSA-unix-v3.0.6.tgz"
 
 cd /etc/openvpn/easy-rsa
-## This vars read from config.conf, see above in this script
-if [[ ! -z $key_size ]]; then
-  export EASYRSA_KEY_SIZE=$key_size
-fi
-if [[ ! -z $ca_expire ]]; then
-  export EASYRSA_CA_EXPIRE=$ca_expire
-fi
-if [[ ! -z $cert_expire ]]; then
-  export EASYRSA_CERT_EXPIRE=$cert_expire
-fi
-if [[ ! -z $cert_country ]]; then
-  export EASYRSA_REQ_COUNTRY=$cert_country
-fi
-if [[ ! -z $cert_province ]]; then
-  export EASYRSA_REQ_PROVINCE=$cert_province
-fi
-if [[ ! -z $cert_city ]]; then
-  export EASYRSA_REQ_CITY=$cert_city
-fi
-if [[ ! -z $cert_org ]]; then
-  export EASYRSA_REQ_ORG=$cert_org
-fi
-if [[ ! -z $cert_ou ]]; then
-  export EASYRSA_REQ_OU=$cert_ou
-fi
-if [[ ! -z $cert_email ]]; then
-  export EASYRSA_REQ_EMAIL=$cert_email
-fi
-if [[ ! -z $key_cn ]]; then
-  export EASYRSA_REQ_CN=$key_cn
-fi
-
 
 print_out i "Setup OpenVPN"
 print_out i "Init PKI dirs and build CA certs"
@@ -523,22 +486,34 @@ echo "#/bin/sh
 export PATH=$PATH:/usr/sbin:/sbin
 
 echo 1 > "/proc/sys/net/ipv4/ip_forward"
+FW=\"iptables\"
+
+## reset iptables
+\$FW -F
+\$FW -X
+\$FW -t nat -F
+\$FW -t nat -X
+\$FW -t mangle -F
+\$FW -t mangle -X
+\$FW -P INPUT ACCEPT
+\$FW -P FORWARD ACCEPT
+\$FW -P OUTPUT ACCEPT
 
 # Get primary NIC device name
 primary_nic=`route | grep '^default' | grep -o '[^ ]*$'`
 
 # Iptable rules
-iptables -I FORWARD -i tun0 -j ACCEPT
-iptables -I FORWARD -o tun0 -j ACCEPT
-iptables -I OUTPUT -o tun0 -j ACCEPT
+\$FW -I FORWARD -i tun0 -j ACCEPT
+\$FW -I FORWARD -o tun0 -j ACCEPT
+\$FW -I OUTPUT -o tun0 -j ACCEPT
 
-iptables -A FORWARD -i tun0 -o \$primary_nic -j ACCEPT
-iptables -t nat -A POSTROUTING -o \$primary_nic -j MASQUERADE
-iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o \$primary_nic -j MASQUERADE
-iptables -t nat -A POSTROUTING -s 10.8.0.2/24 -o \$primary_nic -j MASQUERADE
+\$FW -A FORWARD -i tun0 -o \$primary_nic -j ACCEPT
+\$FW -t nat -A POSTROUTING -o \$primary_nic -j MASQUERADE
+\$FW -t nat -A POSTROUTING -s 10.8.0.0/24 -o \$primary_nic -j MASQUERADE
+\$FW -t nat -A POSTROUTING -s 10.8.0.2/24 -o \$primary_nic -j MASQUERADE
 
 # fixes problems with the persistent transmissions e.g. netflix
-iptables -t mangle -o \$primary_nic --insert FORWARD 1 -p tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:65495 -j TCPMSS --clamp-mss-to-pmtu
+\$FW -t mangle -o \$primary_nic --insert FORWARD 1 -p tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:65495 -j TCPMSS --clamp-mss-to-pmtu
 " > /usr/sbin/firewall.sh
 
 chmod +x /usr/sbin/firewall.sh
@@ -553,16 +528,16 @@ chmod +x "/etc/openvpn/scripts/"*
 
 # Configure MySQL in openvpn scripts
 cp /etc/openvpn/scripts/config.sample.sh /etc/openvpn/scripts/config.sh
-sed -i "s/HOST=''/HOST='$db_host'/" "/etc/openvpn/scripts/config.sh"
-sed -i "s/USER=''/USER='$mysql_user'/" "/etc/openvpn/scripts/config.sh"
+sed -i "s/DBHOST=''/DBHOST='$db_host'/" "/etc/openvpn/scripts/config.sh"
+sed -i "s/DBUSER=''/DBUSER='$mysql_user'/" "/etc/openvpn/scripts/config.sh"
 escaped=$(echo -n "$mysql_user_pass" | sed 's#\\#\\\\#g;s#&#\\&#g')
-sed -i "s/PASS=''/PASS='${escaped}'/" "/etc/openvpn/scripts/config.sh"
-sed -i "s/DB=''/DB='$db_name'/" "/etc/openvpn/scripts/config.sh"
+sed -i "s/DBPASS=''/DBPASS='${escaped}'/" "/etc/openvpn/scripts/config.sh"
+sed -i "s/DBNAME=''/DBNAME='$db_name'/" "/etc/openvpn/scripts/config.sh"
 
 # Create the directory of the web application
 mkdir $www
 mkdir "$openvpn_admin"
-cp -r "$base_path/"{index.php,package.json,js,include,css,images,data} "$openvpn_admin"
+cp -r "$base_path/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
 mkdir $www/vpn
 #mkdir $www/vpn/conf
 cp -r "$base_path/"installation/conf $www/vpn/
@@ -573,10 +548,10 @@ cd "$openvpn_admin"
 
 # Replace config.sample.php variables
 cp ./include/config.sample.php ./include/config.php
-sed -i "s/\$host = '';/\$host = '$db_host';/" "./include/config.php"
-sed -i "s/\$user = '';/\$user = '$mysql_user';/" "./include/config.php"
-sed -i "s/\$db   = '';/\$db   = '$db_name';/" "./include/config.php"
-sed -i "s/\$pass = '';/\$pass = '${escaped}';/" "./include/config.php"
+sed -i "s/\$dbhost = '';/\$dbhost = '$db_host';/" "./include/config.php"
+sed -i "s/\$dbuser = '';/\$dbuser = '$mysql_user';/" "./include/config.php"
+sed -i "s/\$dbname = '';/\$dbname = '$db_name';/" "./include/config.php"
+sed -i "s/\$dbpass = '';/\$dbpass = '${escaped}';/" "./include/config.php"
 
 
 # Replace in the client configurations with the ip of the server and openvpn protocol
@@ -602,9 +577,6 @@ print_out 1 "Setup Web Application done"
 
 print_out i "Install third party module yarn"
 yarn install
-# backward compatibility to bower in php scripts
-# changed with Version 0.8
-#ln -s node_modules vendor
 
 print_out i "Install third party module ADOdb"
 git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
@@ -612,6 +584,28 @@ git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
 chown -R "$user:$group" "$openvpn_admin"
 chown -R "$user:$group" $www/vpn
 chown "$user:$group" $www/vpn/conf/server/server.conf
+
+print_out i "write file for future updates"
+updpath="/var/lib/ovpn-admin/"
+mkdir $updpath
+updfile="config.ovpn-admin.upd"
+
+SERVERID=$( cat /etc/machine-id )
+
+echo "VERSION=\"1.1.0\"" >> $updpath$updfile
+echo "DBHOST=\"$db_host\"" >> $updpath$updfile
+echo "DBUSER=\"$mysql_user\"" >> $updpath$updfile
+echo "DBNAME=\"$db_name\"" >> $updpath$updfile
+echo "BASEPATH=\"$base_path\"" >> $updpath$updfile
+echo "WEBROOT=\"$www\"" >> $updpath$updfile
+echo "WWWOWNER=\"www-data\"" >> $updpath$updfile
+echo "### Is it still the original installed system?" >> $updpath$updfile
+echo "MACHINEID"="$SERVERID" >> $updpath$updfile
+
+chown -R root $updpath
+chmod 0600 $updpath
+print_out 1 "update informations written (${updpath})"
+print_out d "Setup ready - please read informations!" 
 
 print_out 1 "${SETFIN01}"
 print_out i "${SETFIN02}"
