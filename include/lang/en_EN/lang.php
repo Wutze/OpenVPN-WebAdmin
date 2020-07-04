@@ -63,7 +63,7 @@ $message['_SSL_CERTS_NEW']          = "new Certificate";
 $message['_SSL_CERTS_EDIT']         = "edit certificate";
 $message['_SSL_CERTS_LIST']         = "List certificates";
 
-$message['_TODAY']                  = date('m.d.Y');
+$message['_TODAY']                  = date('Y.m.d');
 
 $message['_VPN_DATA_SAV']           = "Save your ...";
 $message['_VPN_DATA_OSX']           = "OSX-Config";
