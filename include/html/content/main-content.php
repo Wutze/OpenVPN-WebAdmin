@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.1.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -107,7 +107,7 @@ if(Session::GetVar('isadmin')){
             </table>
 <?php
 if(Session::GetVar('isadmin')){
-  include(REAL_BASE_DIR."/include/html/modules/admin-adduser.php");
+  include(REAL_BASE_DIR."/include/html/modules/user/admin-add.user.php");
 }
 ?>
           </div>
@@ -116,36 +116,23 @@ if(Session::GetVar('isadmin')){
 if (file_exists(REAL_BASE_DIR."/include/html/modules/admin.overview.php")){
   include(REAL_BASE_DIR."/include/html/modules/admin.overview.php");
 }else{
-  include(REAL_BASE_DIR."/include/html/modules/admin-mainsite.php");
+  include(REAL_BASE_DIR."/include/html/modules/config/admin-clients.config.php");
 }
 ?>
           </div>
-          <div class="tab-pane fade position-relative p-3 bg-white" id="ssl" role="tabpanel" aria-labelledby="ssl-tab">
-            <div class="ribbon-wrapper ribbon-lg">
-              <div class="ribbon bg-success">
-                <?php echo Get_Lang::nachricht('_SSL_CERTS_NEW'); ?>
-              </div>
-            </div>
-            <?php echo Get_Lang::nachricht('_SSL_CERTS_NEW'); ?>
-          </div>
           
-          <div class="tab-pane fade position-relative p-3 bg-white" id="ssl2" role="tabpanel" aria-labelledby="ssl2-tab">
-            <div class="ribbon-wrapper ribbon-lg">
-              <div class="ribbon bg-success">
-              <?php echo Get_Lang::nachricht('_SSL_CERTS_EDIT'); ?>
-              </div>
-            </div>
-            <?php echo Get_Lang::nachricht('_SSL_CERTS_EDIT'); ?>
-          </div>
+          <?php
+if(Session::GetVar('isadmin') and defined('dev')){
+  include(dev);
+}
+?>
           
-          <div class="tab-pane fade position-relative p-3 bg-white" id="ssl3" role="tabpanel" aria-labelledby="ssl3-tab">
-            <div class="ribbon-wrapper ribbon-lg">
-              <div class="ribbon bg-success">
-                <?php echo Get_Lang::nachricht('_SSL_CERTS_LIST'); ?>
-              </div>
-            </div>
-            <?php echo Get_Lang::nachricht('_SSL_CERTS_LIST'); ?>
-          </div>
+<?php
+if(Session::GetVar('isadmin')){
+  include(REAL_BASE_DIR."/include/html/modules/ssl/main-content.ssl.php");
+}
+?>
+
 <?php
 };
 ?>

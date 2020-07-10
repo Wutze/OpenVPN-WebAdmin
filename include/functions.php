@@ -21,6 +21,20 @@
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
+function debugsss(){
+    echo "<div style='background: #ff8e00;
+    height: 350px;
+    overflow: scroll;
+    width: 90%;
+    border: 1px solid #000;
+    padding: 10px;'><pre style='font-size: 11px; text-align: left; background: #FCFCFC; color: Black;'>\n";
+    $args = func_get_args();
+    foreach ($args as $i => $value) {
+        echo 'Argument <b>', ($i + 1) , '</b>: ', trim(wordwrap(htmlspecialchars(print_r($value, true)), 200)), PHP_EOL;
+    }
+    echo "</pre></div>";
+}
+
 /**
  * Print simple Slogan, defined in lang.php on your Language Folder
  * @return Slogan

@@ -27,6 +27,10 @@
 define('REAL_BASE_DIR', dirname(__FILE__));
 require_once(REAL_BASE_DIR."/include/load.php");
 
+if (defined('dev')){
+	#devel::collect('main',$_REQUEST);
+	$loaddev->collect('main',$_REQUEST);
+};
 
 /**
  * Define first $_REQUEST and check plausibility
