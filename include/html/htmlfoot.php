@@ -33,7 +33,7 @@ if (Session::GetVar('isuser')){
       <!--Anything you want-->
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; <?php echo "10.000BC to ".date('Y'); ?> <a href="https://xvpn.ddnss.org">OVPN-Admin</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; <?php echo "10.000BC to ".date('Y'); ?> <a href="https://github.com/Wutze/OpenVPN-WebAdmin/">OVPN-Admin</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
