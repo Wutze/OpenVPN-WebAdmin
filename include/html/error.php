@@ -19,24 +19,45 @@
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
- ?>
-<body class="hold-transition login-page">
+(stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
-<div class="login-box">
-  <div class="login-box-body">
-    <div class="position-relative p-2 bg-gray" style="height: 180px">
-      <div class="ribbon-wrapper ribbon-lg">
-        <div class="ribbon bg-danger">
-          ERROR
-        </div>
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title><?php echo _SITE_NAME; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="css/index.css" type="text/css" />
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/admin-lte/dist/css/adminlte.min.css">
+    <script src="node_modules/ionicons/dist/ionicons.js"></script>
+  </head>
+  <body class="hold-transition login-page">
+    <div class="login-box">
+      <div class="login-logo">
+          <a href="/"><img src="./images/logo.png" />&nbsp;<?php echo _SITE_NAME; ?></a>
       </div>
-      Fehler <br>
-      <small>Ein Fehler wurde stattgefunden.</small>
+      <div class="">
+        <p class="error-msg"><?php echo GET_Lang::nachricht("_ERROR") ?></p>
+      </div>
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-12">
+        <p class="login-box-msg">
+          <a href="/"><?php echo GET_Lang::nachricht("_LOGIN") ?></a>
+        </p>
+        </div>
+      <!-- /.col -->
+      </div>
     </div>
-    <a href="/" class="btn btn-info col-12" role="button"><?php echo GET_Lang::nachricht('_HOME'); ?></a>
-  </div>
-  <div class="col-12">
-    <?php echo get_slogan(); ?>
-  </div>
-</div>
-
+    <!-- jQuery -->
+<script src="node_modules/admin-lte/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="node_modules/admin-lte/dist/js/adminlte.min.js"></script>
+  </body>
+</html>
