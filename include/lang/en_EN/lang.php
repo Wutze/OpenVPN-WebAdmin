@@ -78,6 +78,8 @@ $message['_USERDATA_ISADMIN']       = "User gets admin rights";
 $message['_USERDATA_FROM_DATE']     = "Access from:";
 $message['_USERDATA_TO_DATE']       = "Access to:";
 
+$message['_ERROR']                  = "Error";
+
 /** 
  * error messages
  * @uses class::Get_Lang

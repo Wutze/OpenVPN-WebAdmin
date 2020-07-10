@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.1.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -53,6 +53,7 @@ class set_request{
 					'savefile' => 'savefile',
 					'delfile' => 'delfile',
 					'loadzip' => 'loadzip',
+					'language'=>'language',
 					'error'=>'error');
 	var $uid = FALSE;
 	var $uname = "none";
@@ -171,6 +172,12 @@ class set_request{
 				header("Location: .");
 			break;
 
+			/** logout from webfrontend */
+			case "language";
+				Session::SetVar('lang',$this->request['lang']);
+				header("Location: .");
+			break;
+
 			/** Fehlerausgabe nach diversen Aktionen - noch nicht ganz durchdacht */
 			case "whythis";
 				html::head();
@@ -182,9 +189,9 @@ class set_request{
 			 * @return force logout and session destroy
 			 */
 			case "error";
-				html::head();
+			#	html::head();
 				require_once(REAL_BASE_DIR.'/include/html/error.php');
-				html::foot();
+			#	html::foot();
 				Session::Destroy();
 			break;
 		}

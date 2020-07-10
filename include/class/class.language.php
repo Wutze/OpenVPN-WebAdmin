@@ -13,10 +13,10 @@
  * 
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
- * @link			https://github.com/Wutze/OpenVPN-WebAdmin
- * @see				Internal Documentation ~/doc/
- * @version		1.0.0
- * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ * @link	  https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see		  Internal Documentation ~/doc/
+ * @version	  1.1.1
+ * @todo	  new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 
@@ -43,7 +43,7 @@ class GET_Lang{
     /**
      * Die eigentliche Funktion, die die Variablen bezieht und zurück gibt
      * Auswahl anhand der im Cookie definierten Sprache
-     * Definiert in der constants.php
+     * Definiert in der config.php
      */
     public static function load_lang($go,$var){
         include(REAL_BASE_DIR."/include/lang/".session::GetVar('lang')."/lang.php");

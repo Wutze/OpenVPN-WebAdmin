@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.1.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -43,6 +43,11 @@
           </a>
         </div>
       </li>
+<?php
+if (REAL_BASE_DIR."/include/html/modules/languages/main-navbar.right-lang.php"){
+  include (REAL_BASE_DIR."/include/html/modules/languages/main-navbar.right-lang.php");
+}
+?>
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
           <i class="fas fa-th-large"></i></a>
