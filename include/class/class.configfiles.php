@@ -50,7 +50,7 @@ class config_files{
   var $conf_filepathname = array(
                   'win' => 'windows/client.ovpn',
                   'lin' => 'gnu-linux/client.ovpn',
-                  'osx' => 'osx-viscosity/client.ovpn',
+                  'osx' => 'osx/client.ovpn',
                   'server' => 'server/server.conf');
   var $conf_filename = array(
                   'win' => 'client.ovpn',
@@ -108,7 +108,7 @@ class config_files{
     ?>
     <div class="alert alert-info" role="alert"><b>History</b>
       <div class="panel-group" id="accordion<?php echo $random; ?>">
-        <?php foreach ($scanned_directory as &$file){
+        <?php foreach ($scanned_directory as $file){
         $i = $i+1;
         ?>
         <div class="panel panel-primary">
@@ -184,7 +184,7 @@ class config_files{
     <fieldset>
       <form class="save-form" method="post">
         <p>Attention! Restart server or clients after changes!<p/>
-        <textarea class="alert-danger form-control" data-config-file="<?= $this->file ?>" name="" id="" cols="30" rows="20"><?= file_get_contents($cfg_file) ?></textarea>
+        <textarea class="alert-danger form-control" data-config-file="<?= $this->file ?>" name="" id="" cols="30" rows="20"><?= @file_get_contents($cfg_file) ?></textarea>
       </form>
     </fieldset>
     <?php echo self::getHistory($this->file) ?>
