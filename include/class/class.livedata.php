@@ -56,8 +56,8 @@ class golivedata{
 
       break;
       case "ERROR";
-        require_once(REAL_BASE_DIR.'/include/html/error.php');
         Session::Destroy();
+        header("Location: /?op=error");
       break;
     }
 

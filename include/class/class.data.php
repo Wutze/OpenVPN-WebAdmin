@@ -67,8 +67,8 @@ class godata{
         print json_encode($rows);
       break;
       case "ERROR";
-        require_once(REAL_BASE_DIR.'/include/html/error.php');
-				Session::Destroy();
+        Session::Destroy();
+        header("Location: /?op=error");
       break;
     }
   }
