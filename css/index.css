@@ -140,3 +140,9 @@ ins{
 del{
   color: #ff0000;
 }
+
+.error-msg{
+  text-align: center;
+  padding: 2em;
+  background-color: #f8121d7e;
+}
