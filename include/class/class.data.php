@@ -158,7 +158,7 @@ class godata{
             user.user_mail
             FROM { oj groupnames AS groupnames
             LEFT OUTER JOIN user AS user
-            ON groupnames.gname = user.gid } $where $page" ;
+            ON groupnames.gname = user.gid } $where ORDER BY uid asc $page" ;
     $result = $data->execute($sql);
 
     while ($r = $result->fetchRow()){
