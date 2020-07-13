@@ -56,7 +56,8 @@ class golivedata{
 
       break;
       case "ERROR";
-        header("Location: ?op=error");
+        require_once(REAL_BASE_DIR.'/include/html/error.php');
+        Session::Destroy();
       break;
     }
 
@@ -143,9 +144,6 @@ class golivedata{
     $result = $data->execute($this->sql);
     $user = $result->fetchRow();
 
-#debug($user);
-#exit;
- #   return (isset($user) ? TRUE : FALSE);
     $o = new jsonObject;
     $o->id   = "0";
     $o->text = "isuser or not";
