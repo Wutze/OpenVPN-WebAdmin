@@ -41,7 +41,6 @@ class set_request{
 	var $op = array(
 					'adduser'=>'adduser',
 					'saveuserchanges'=>'saveuserchanges',
-					'whythis'=>'whythis',
 					'logout'=>'logout',
 					'login'=>'login',
 					'checklogin'=>'checklogin',
@@ -71,15 +70,28 @@ class set_request{
 	 * @return html code
 	 */
 	function main(){
+		$this->modload = new get_modules;
+		$this->modload->search_mod_dir();
+		$keys = array_keys($this->modload->loaddir);
+  	for($a=0;$a<count($keys);$a++){
+			if(file_exists(REAL_BASE_DIR."/include/html/modules/".$keys[$a]."/class.".$keys[$a].".php")){
+				include(REAL_BASE_DIR."/include/html/modules/".$keys[$a]."/class.".$keys[$a].".php");
+				#$this->op = array_merge($this->op,($keys[$a]::getvars));
+			}
+		}
+
+		#$this->op = array_merge($this->op,($keys[$a]::getvars));
+
+
+
+
 		(array_key_exists($this->action,$this->op)) ? $this->gotox = $this->op[$this->action] : $this->gotox = 'error';
 		$this->isuser = (int)Session::GetVar('isuser');
 		$this->isadmin = (int)Session::GetVar('isadmin');
 		$this->uid = (int)Session::GetVar('uid');
 		$this->level = (int)Session::GetVar('level');
 		$this->uname = Session::GetVar('uname');
-		if (defined('dev')){
-			$GLOBALS['devint']->collect('broker',$this);
-		};
+		(defined('dev'))? $GLOBALS['devint']->collect('broker',$this) : "";
 		/** broker */
 		switch($this->gotox){
 			/** print main site as login */
@@ -140,12 +152,12 @@ class set_request{
 			case "adduser";
 			case "saveuserchanges";
 				$manipulate_user = new createchangeuser;
-				$manipulate_user->set_value('uname',@$this->request['uname']);
-				$manipulate_user->set_value('mail',@$this->request['mail']);
-				$manipulate_user->set_value('pass',@$this->request['pass']);
-				$manipulate_user->set_value('fromdate',@$this->request['fromdate']);
-				$manipulate_user->set_value('todate',@$this->request['todate']);
-				(@$this->request['makeadmin']) ? $manipulate_user->set_value('makeadmin',$this->request['makeadmin']) : $manipulate_user->set_value('makeadmin',FALSE);
+				$manipulate_user->set_value('uname',$this->request['uname']);
+				(isset($this->request['mail'])) ? $manipulate_user->set_value('mail',$this->request['mail']) : "";
+				(isset($this->request['pass'])) ? $manipulate_user->set_value('pass',$this->request['pass']) : "";
+				(isset($this->request['fromdate'])) ? $manipulate_user->set_value('fromdate',$this->request['fromdate']) : "";
+				(isset($this->request['todate'])) ? $manipulate_user->set_value('todate',$this->request['todate']) : "";
+				(isset($this->request['makeadmin'])) ? $manipulate_user->set_value('makeadmin',$this->request['makeadmin']) : $manipulate_user->set_value('makeadmin',FALSE);
 				$manipulate_user->set_value('isadmin',$this->isadmin);
 				$manipulate_user->set_value('isuser',$this->isuser);
 				$manipulate_user->set_value('req',$this->request);
@@ -180,12 +192,6 @@ class set_request{
 				header("Location: .");
 			break;
 
-			/** Fehlerausgabe nach diversen Aktionen - noch nicht ganz durchdacht */
-			case "whythis";
-				html::head();
-				require_once(REAL_BASE_DIR.'/include/html/main-html.php');
-				html::foot();
-			break;
 			/** 
 			 * For invalid or incorrect entries
 			 * @return force logout and session destroy
