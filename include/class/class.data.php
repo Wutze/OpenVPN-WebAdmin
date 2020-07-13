@@ -67,8 +67,8 @@ class godata{
         print json_encode($rows);
       break;
       case "ERROR";
-        echo session::getvar('isuser');
-    #debug($_SESSION,$this->isuser);
+        require_once(REAL_BASE_DIR.'/include/html/error.php');
+				Session::Destroy();
       break;
     }
   }
