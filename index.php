@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.1.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -27,16 +27,20 @@
 define('REAL_BASE_DIR', dirname(__FILE__));
 require_once(REAL_BASE_DIR."/include/load.php");
 
+/** 
+ * only for development and debugging mode
+ * this loads the development class
+*/
 if (defined('dev')){
-	#devel::collect('main',$_REQUEST);
-	$loaddev->collect('main',$_REQUEST);
+	$GLOBALS['devint']->collect('index.php',$_REQUEST);
+	#$GLOBALS['devint']->ends();
 };
 
 /**
  * Define first $_REQUEST and check plausibility
  * @return load loginpage | load all other pages
  */
-if (!@$_REQUEST["op"]){
+if (!isset($_REQUEST["op"])){
 	if (Session::GetVar('isuser')){
 		$op="main";
 	 }else{

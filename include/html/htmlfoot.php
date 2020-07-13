@@ -22,7 +22,7 @@
  (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 ?>
 <?php
-if (Session::GetVar('isuser')){
+if (Session::GetVar('isuser') || defined('dev')){
 ?>
 
     <!-- Main Footer -->

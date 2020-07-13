@@ -50,15 +50,17 @@ define('_ADODB',REAL_BASE_DIR."/include/ADOdb/");
 include_once(_ADODB.'/adodb.inc.php');
 
 /* load classes and functions */
+include_once(REAL_BASE_DIR."/include/functions.php");
 include_once(REAL_BASE_DIR."/include/class/class.session.php");
 include_once(REAL_BASE_DIR."/include/class/class.language.php");
 include_once(REAL_BASE_DIR."/include/class/class.request.php");
 include_once(REAL_BASE_DIR."/include/class/class.secure.php");
-include_once(REAL_BASE_DIR."/include/functions.php");
 require_once(REAL_BASE_DIR.'/include/class/class.data.php');
 require_once(REAL_BASE_DIR.'/include/class/class.livedata.php');
 require_once(REAL_BASE_DIR.'/include/class/class.jsonObject.php');
-require_once(REAL_BASE_DIR.'/include/class/class.configfiles.php');
+
+### separated for future modularization
+require_once(REAL_BASE_DIR.'/include/html/modules/config/class/class.configfiles.php');
 require_once(REAL_BASE_DIR.'/include/class/class.modules.php');
 
 ob_start();

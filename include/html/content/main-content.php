@@ -77,7 +77,7 @@ if(Session::GetVar('isadmin')){
 <?php
 if(Session::GetVar('isadmin')){
 ?>
-          <div class="tab-pane fade position-relative p-3 bg-white <?php echo ((@$_REQUEST['code']=='1')? "active show" : ""); ?>" id="user" role="tabpanel" aria-labelledby="user-tab">
+          <div class="tab-pane fade position-relative p-3 bg-white <?php echo ((Session::GetVar('code')=='1')? "active show" : ""); ?>" id="user" role="tabpanel" aria-labelledby="user-tab">
             <div class="ribbon-wrapper ribbon-lg">
               <div class="ribbon bg-success">
                 User
@@ -113,9 +113,7 @@ if(Session::GetVar('isadmin')){
           </div>
           <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
 <?php
-if (file_exists(REAL_BASE_DIR."/include/html/modules/admin.overview.php")){
-  include(REAL_BASE_DIR."/include/html/modules/admin.overview.php");
-}else{
+if(Session::GetVar('isadmin')){
   include(REAL_BASE_DIR."/include/html/modules/config/admin-clients.config.php");
 }
 ?>
@@ -123,14 +121,11 @@ if (file_exists(REAL_BASE_DIR."/include/html/modules/admin.overview.php")){
           
           <?php
 if(Session::GetVar('isadmin') and defined('dev')){
-  include(dev);
+  include_once(dev);
 }
-?>
-          
-<?php
-if(Session::GetVar('isadmin')){
-  include(REAL_BASE_DIR."/include/html/modules/ssl/main-content.ssl.php");
-}
+if(Session::GetVar('isadmin') and defined('modssl')){
+  echo modssl::content();
+};
 ?>
 
 <?php

@@ -77,7 +77,9 @@ class set_request{
 		$this->uid = (int)Session::GetVar('uid');
 		$this->level = (int)Session::GetVar('level');
 		$this->uname = Session::GetVar('uname');
-
+		if (defined('dev')){
+			$GLOBALS['devint']->collect('broker',$this);
+		};
 		/** broker */
 		switch($this->gotox){
 			/** print main site as login */

@@ -66,12 +66,17 @@ class config_files{
    */
   function main(){
 
-
-#debug($this);
-
-
     (array_key_exists($this->action,$this->go)) ? $this->gotox = $this->go[$this->action] : $this->gotox = 'ERROR';
     ($this->isuser) ? '' : $this->gotox = 'ERROR';
+
+		/** 
+		 * only for development and debugging mode
+		 * this loads the development class
+		*/
+		if (defined('dev')){
+			$GLOBALS['devint']->collect('class.configfiles',$this);
+		};
+
     switch($this->gotox){
       case "save";
         $this->save_config();

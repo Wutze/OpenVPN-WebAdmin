@@ -25,7 +25,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-      <img src="images/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <img src="images/logo.png" alt="<?php echo _SITE_NAME; ?>" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light"><?php echo _SITE_NAME; ?></span>
     </a>
@@ -64,7 +64,7 @@
                     </li>
                     <?php
                     /** view only for Admins */
-                    if((int)Session::GetVar('gid') === 1){
+                    if(Session::GetVar('isadmin')){
                       @include(REAL_BASE_DIR."/include/html/modules/main-sidebar.admin.php");
                     }; ?>
                   </ul>
@@ -80,8 +80,8 @@
                 </li>
                 <?php
                 /** view only for Admins */
-                if((int)Session::GetVar('gid') === 1){
-                  @include(REAL_BASE_DIR."/include/html/modules/ssl/main-sidebar.ssl.php");
+                if(Session::GetVar('isadmin') and defined('modssl')){
+                  echo modssl::navcode();
                 }; ?>
                 <!-- load configs -->
                 <li class="nav-item has-treeview">
