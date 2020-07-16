@@ -39,6 +39,9 @@ class get_modules{
         }
       }
     }
+		if (defined('dev')){
+			$GLOBALS['devint']->collect('load modules',$this);
+		};
     return;
   }
 
@@ -53,6 +56,9 @@ class get_modules{
         }
       }
     }
+		if (defined('dev')){
+			$GLOBALS['devint']->collect('load lang',$this);
+		};
     return;
   }
 

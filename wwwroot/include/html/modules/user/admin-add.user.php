@@ -29,7 +29,7 @@
                 <li class="active"><a href="#adduser" data-toggle="tab" class="btn btn-info" role="button">Add User</a></li>
               </ul>
               <div class="tab-content">
-                <div id="adduser" class="tab-pane fade in <?php echo ((@$_REQUEST['code']=='1')? "active show" : ""); ?>">
+                <div id="adduser" class="tab-pane fade in <?php echo ((session::GetVar('code')=='1')? "active show" : ""); ?>">
                   <div class="row">
                     <!-- left column -->
                     <div class="col-md-6">

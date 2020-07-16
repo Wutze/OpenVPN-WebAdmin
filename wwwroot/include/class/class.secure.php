@@ -55,6 +55,14 @@ class passwd{
 	}
 
 	function control_user(){
+		/** 
+		 * only for development and debugging mode
+		 * this loads the development class
+		*/
+		if (defined('dev')){
+			$GLOBALS['devint']->collect('control user',$this);
+			#$GLOBALS['devint']->ends();
+		};
 		if (Session::GetVar('isuser')){
 			return;
 		}
@@ -117,6 +125,14 @@ class createchangeuser extends passwd{
 														'selfupdate'=>'selfupdate'
 													);
 	function toggle_action(){
+		/** 
+		 * only for development and debugging mode
+		 * this loads the development class
+		*/
+		if (defined('dev')){
+			$GLOBALS['devint']->collect('class passwd',$this);
+			#$GLOBALS['devint']->ends();
+		};
 		(array_key_exists($this->req['op'],$this->legal_actions)) ? $this->gotox = $this->legal_actions[$this->req['op']] : $this->gotox = 'error';
 		switch($this->gotox){
 			case "adduser";
@@ -137,14 +153,17 @@ class createchangeuser extends passwd{
 					case "selfupdate";
 						if ($this->req['passwd1'] === $this->req['passwd2'] and !empty($this->req['passwd1']) and !empty($this->req['passwd2'])){
 							self::self_update_user($this->req['uid']);
-							header("Location: ?op=whythis&code=4");
+							Session::SetVar('code','4');
+							header("Location: /");
 						}else{
-							header("Location: ?op=whythis&code=3");
+							Session::SetVar('code','3');
+							header("Location: /");
 						}
 					break;
 
 					case "sendmail";
-						header("Location: ?op=whythis&code=2");
+						Session::SetVar('code','2');
+						header("Location: /");
 					break;
 
 					case "error";
@@ -179,7 +198,10 @@ class createchangeuser extends passwd{
 			$data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
 			$this->result = $data->getone($sql);
 			/** if the user is present, back to the input page with the question "what is this?" */
-			($this->result) ? header("Location: ?op=whythis&code=1") : "";
+			if ($this->result){
+				Session::SetVar('code','1');
+				header("Location: /");
+			}
 
 			/** no further errors, then create the new user */
 			/** create insert new user */
@@ -198,7 +220,8 @@ class createchangeuser extends passwd{
 			/** execute db-query */
 			$data->autoExecute($this->table,$this->record,'INSERT');
 		}else{
-			header("Location: ?op=whythis&code=1");
+			Session::SetVar('code','1');
+			header("Location: /");
 		};
 	}
 

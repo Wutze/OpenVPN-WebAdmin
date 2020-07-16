@@ -38,11 +38,6 @@ class websessions{
         $db->filter(new ADODB_Encrypt_MD5());
         $db->debug(_SESSION_DEBUG);
         $db->read(session_id());
-
-#$test = new ADODB_Session;
-#echo $test->_conn();
-
-#debug($db);
         return $db;
     }
 

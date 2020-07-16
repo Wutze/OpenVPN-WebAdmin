@@ -28,7 +28,7 @@
 if((int)Session::GetVar('gid') === 1){
 ?>
               <li class="nav-item">
-                <a class="nav-link <?php echo ((@$_REQUEST['code']=='1')? "active" : ""); ?>" id="user-tab" data-toggle="pill" href="#user" role="tab" aria-controls="user" aria-selected="false">
+                <a class="nav-link <?php echo ((Session::GetVar('code')=='1')? "active" : ""); ?>" id="user-tab" data-toggle="pill" href="#user" role="tab" aria-controls="user" aria-selected="false">
                   <i class="fas fa-chalkboard-teacher"></i>
                   <p>User</p>
                 </a>

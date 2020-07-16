@@ -45,7 +45,7 @@ class config_files{
   var $conf_array = array(
                   'win'=>'windows',
                   'lin'=>'gnu-linux',
-                  'osx'=>'osx-viscosity',
+                  'osx'=>'osx',
                   'server' => 'server');
   var $conf_filepathname = array(
                   'win' => 'windows/client.ovpn',

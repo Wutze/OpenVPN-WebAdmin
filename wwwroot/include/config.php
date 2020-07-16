@@ -10,25 +10,25 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.1.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
-	$host = '';
-	$port = '3306';
-	$db   = '';
-	$user = '';
-	$pass = '';
+	$dbhost = 'db.home';
+	$dbport = '3306';
+	$dbname = 'tester';
+	$dbuser = 'tester';
+	$dbpass = 'tester';
 	$dbtype = 'mysqli';
-	$dbdebug = FALSE;
-	$sessdebug = FALSE;
+	$dbdebug = false;
+	$sessdebug = false;
 
 	/* Site-Name */
 	define('_SITE_NAME',"OVPN-WebAdmin");
@@ -37,4 +37,21 @@
 
 	/** Login Site */
 	define('_LOGINSITE','login1');
+
+	/**
+	 * enable modssl
+	 */
+	define('modssl',TRUE);
+	if (defined('modssl')){
+		include(REAL_BASE_DIR.'/include/html/modules/ssl/class/class.modssl.php');
+	}
+
+	/** 
+	 * only for development!
+	 * please comment out if no longer needed!
+	 */
+	define('dev','dev/dev.php');
+	if (defined('dev')){
+		include_once('dev/class.dev.php');
+	}
 ?>
