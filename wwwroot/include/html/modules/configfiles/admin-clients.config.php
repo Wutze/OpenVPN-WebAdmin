@@ -21,7 +21,7 @@
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
-$out = new config_files;
+$out = new configfiles;
 $out->set_value('action','print');
 $out->set_value('isuser',Session::GetVar('isuser'));
 $out->set_value('isadmin',Session::GetVar('isadmin'));

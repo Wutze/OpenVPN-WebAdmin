@@ -29,7 +29,10 @@
  * @return 
  */
 
-class config_files{
+class configfiles{
+  public $op = array( 'savefile' => 'savefile',
+                      'delfile' => 'delfile',
+                      'loadzip' => 'loadzip');
   var $go = array('savefile'=>'save',
                   'print'=>'print',
                   'loadzip'=>'loadzip',
@@ -59,7 +62,7 @@ class config_files{
                   'server' => 'server.conf');
   var $config_full_path = "../vpn/conf/";
   var $history_full_path = "../vpn/history/";
-  var $data_temp_dir = "./data/temp/";
+  var $data_temp_dir = "data/temp/";
 
   /**
    * main function
@@ -74,7 +77,7 @@ class config_files{
 		 * this loads the development class
 		*/
 		if (defined('dev')){
-			$GLOBALS['devint']->collect('class.configfiles',$this);
+			$GLOBALS['devint']->collect('class.configfiles-'.$this->file,$this);
 		};
 
     switch($this->gotox){
@@ -106,9 +109,9 @@ class config_files{
    */
   function getHistory($cfg_file) {
     require_once(REAL_BASE_DIR.'/include/class/class.Diff.php');
-    $random = rand(0,getrandmax()) ;
-    $scanned_directory = @array_slice(scandir($this->history_full_path.$this->conf_array[$cfg_file]."/history/"), 2);
-    $scanned_directory = @array_reverse($scanned_directory);
+    $random = rand(0,getrandmax());
+    $scan_directory = array_slice(scandir($this->history_full_path.$this->conf_array[$cfg_file]."/"), 2);
+    $scanned_directory = array_reverse($scan_directory);
     $i = 0;
     ?>
     <div class="alert alert-info" role="alert"><b>History</b>
@@ -135,7 +138,7 @@ class config_files{
               </div>
               <div class="well">
                 <pre>
-                  <?php echo Diff::toHTML(Diff::compareFiles($this->history_full_path.$this->conf_array[$cfg_file]."/history/".$file, $this->config_full_path.$this->conf_filepathname[$cfg_file])); ?>
+                  <?php echo Diff::toHTML(Diff::compareFiles($this->history_full_path.$this->conf_array[$cfg_file]."/".$file, $this->config_full_path.$this->conf_filepathname[$cfg_file])); ?>
                 </pre>
               </div>
             </div>
@@ -188,7 +191,7 @@ class config_files{
     </div>
     <fieldset>
       <form class="save-form" method="post">
-        <p>Attention! Restart server or clients after changes!<p/>
+        <p>Attention! Restart server or clients after changes!</p>
         <textarea class="alert-danger form-control" data-config-file="<?= $this->file ?>" name="" id="" cols="30" rows="20"><?= @file_get_contents($cfg_file) ?></textarea>
       </form>
     </fieldset>
@@ -252,6 +255,14 @@ class config_files{
   /** not implemented yet */
   function delfile(){
     header("Location: .");
+  }
+
+  public static function navcode(){
+    include(REAL_BASE_DIR."/include/html/modules/configfiles/admin-sidebar.configfiles.php");
+  }
+  
+  public static function content(){
+    include(REAL_BASE_DIR."/include/html/modules/configfiles/admin-clients.config.php");
   }
 
 }
