@@ -36,12 +36,12 @@ define('USER_AGENT', $_SERVER['HTTP_USER_AGENT']);
 
 require_once(REAL_BASE_DIR."/include/config.php");
 ## User and Database Data
-define('_DB_UNAME',$user);
-define('_DB_PW',$pass);
-define('_DB_DB',$db);
-define('_DB_SERVER',$host);
+define('_DB_UNAME',$dbuser);
+define('_DB_PW',$dbpass);
+define('_DB_DB',$dbname);
+define('_DB_SERVER',$dbhost);
 define('_DB_TYPE',$dbtype);
-define('_DB_PORT',$port);
+define('_DB_PORT',$dbport);
 define('_DB_DEBUG',$dbdebug);
 define('_SESSION_DEBUG',$sessdebug);
 
