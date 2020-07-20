@@ -21,11 +21,11 @@
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
-	$host = '';
-	$port = '3306';
-	$db   = '';
-	$user = '';
-	$pass = '';
+	$dbhost = '';
+	$dbport = '3306';
+	$dbname = '';
+	$dbuser = '';
+	$dbpass = '';
 	$dbtype = 'mysqli';
 	$dbdebug = FALSE;
 	$sessdebug = FALSE;

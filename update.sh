@@ -471,7 +471,7 @@ write_config(){
 main(){
 
   # select language german or english
-  sel_lang  
+  sel_lang
   # main logo
   intro
   if_updatefile_exist
