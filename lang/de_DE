@@ -78,15 +78,32 @@ SETFIN02="Um die Installation zu beenden, konfiguriere bitte Deinen Webserver (A
 SETFIN03="Du musst den Server neu starten, da OpenVPN sonst nicht korrekt funktioniert!"
 SETFIN04="Fragen, Antworten, Wünsche, Fehler bitte da mitteilen: https://github.com/Wutze/OpenVPN-WebAdmin/issues"
 
+### Update Variablen
+UPSEL00="Update Informationen"
+UPSEL01="Update von Version 0.8 zu 1.1.0"
+UPSEL02="Generelles Update System 1.1.x"
+UPSEL03=""
+UPSEL04="Fragen zur Installation"
 
+UPVERSIO="Installierte Version       "
+UPDBHOST="Datenbankhost *            "
+UPDBUSER="Datenbank Benutzer *       "
+UPDBPASS="Datenbankpasswort *        "
+UPDBNAME="Datenbank Name *           "
+UPWEBDIR="Webverzeichnis *           "
+UPWEBROO="Webroot *                  "
+UPPATHOW="Eigentümer                 "
+UPMASHID="Installiert auf Machine-ID "
+INSTALLD="Installiert am             "
+UPDATAOK="* Angaben erforderlich!
 
+Alle Angaben korrekt?"
 
+UPDATEINF01="Bitte mache VOR Beginn dieses Updates von Deinem Server ein Backup. Trotz aller Tests die ich durchführen kann, 
+kann ich keine Fehler auf Deinem Server sehen um darauf entsprechend reagieren.
 
+Mit diesem Update werden jedoch einige Funktionalitäten eingeführt, die ein späteres Backup möglich machen.
 
-
-
-
-
-
-
+Weiter machen?
 "
+UPDATEINF02="Kontolle der Variablen"
