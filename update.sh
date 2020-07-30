@@ -14,7 +14,7 @@
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.1.0
+# @version		1.2.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
@@ -26,13 +26,14 @@
 export PATH=$PATH:/usr/sbin:/sbin
 
 ## set static vars
-THIS_VERSION="1.1.0"
+THIS_NEW_VERSION="1.2.0"
 config="config.conf"
 coltable=/opt/install/COL_TABLE
 BACKTITLE="OVPN-Admin [UPDATE]"
 updpath="/var/lib/ovpn-admin/"
 updfile="config.ovpn-admin.upd"
 base_path=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+V2=0
 ## init screen
 # Find the rows and columns will default to 80x24 if it can not be detected
 screen_size=$(stty size 2>/dev/null || echo 24 80)
@@ -209,7 +210,6 @@ if_updatefile_exist(){
       print_out i "Please read the update.info.md in doc folder!"
       exit;
     fi
-    #setup_questions
   fi
 }
 
@@ -234,7 +234,7 @@ verify_setup(){
   UPDATEINFSUM="
 ${UPDATEINF02} ↠ ${LOCALMACHINEID}
 
-${UPVERSIO}: ${VERSION}
+${UPVERSIO}: ${INSTALLEDVERSION}
 ${UPDBHOST}: ${DBHOST}
 ${UPDBUSER}: ${DBUSER}
 ${UPDBNAME}: ${DBNAME}
@@ -342,8 +342,8 @@ start_update_new_version(){
   chown -R www-data $openvpn_admin
   control_script "Set access rights webfolder"
   print_out 1 "Set access rights webfolder"
-  if [[ -f "$base_path/sql/$THIS_VERSION-ovpnadmin.update.sql" ]]; then
-    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_VERSION-ovpnadmin.update.sql
+  if [[ -f "$base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
+    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
     control_script "execute Database Updates"
     mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/adodb.sql
     print_out 1 "Update Database ok"
@@ -370,7 +370,7 @@ start_update_new_version(){
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.1.0
+ * @version		1.1.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -415,8 +415,8 @@ start_update_normal(){
   control_script "Update ADOdb files"
 
   print_out i "Update SQL"
-  if [[ -f "$base_path/sql/$THIS_VERSION-ovpnadmin.update.sql" ]]; then
-    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_VERSION-ovpnadmin.update.sql
+  if [[ -f "$base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
+    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
     control_script "execute Database Updates" 
   else
     print_out i "no changes to the database necessary"
@@ -424,17 +424,19 @@ start_update_normal(){
 }
 
 check_version(){
-  if [ "$(printf '%s\n' "$THIS_VERSION" "$VERSION" | sort -V | head -n1)" = "$THIS_VERSION" ]; then 
-    print_out i "Installed Version greater than or equal to $THIS_VERSION"
+
+  if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$INSTALLEDVERSION" | sort -V | head -n1)" = "$THIS_NEW_VERSION" ]; then 
+    print_out i "Installed Version $INSTALLEDVERSION greater than or equal to $THIS_NEW_VERSION"
     print_out d "Update is not required"
-    exit;
+    exit
   else
-    print_out i "Installed Version less than $THIS_VERSION"
-    print_out i "Update required"
-    check_user
-    print_out 1 "The script wants to start now ..."
-    print_out i "Press any key"
-    print_out r
+    ## Special version due to renaming of several variables
+    if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$INSTALLEDVERSION" | sort -V | head -n1)" = "1.1.0"  ]; then
+      print_out i "Installed Version $INSTALLEDVERSION, this should be installed: $THIS_NEW_VERSION"
+      print_out i "Update is required"
+      V2=2
+    fi
+    print_out i "hat nüscht - muss installieren"
   fi
 }
 
@@ -449,7 +451,7 @@ write_config(){
   fi
 
   {
-  echo "VERSION=\"1.1.0\""
+  echo "INSTALLEDVERSION=\"$THIS_NEW_VERSION\""
   echo "DBHOST=\"$DBHOST\""
   echo "DBUSER=\"$DBUSER\""
   echo "DBNAME=\"$DBNAME\""
@@ -463,6 +465,24 @@ write_config(){
 
   control_box $? "write config"
   chmod -R 600 $updpath
+}
+
+## Since version 1.1.1 new naming convention
+function rename_vars(){
+  sed -i "s/\$host/\$dbhost/" "./include/config.php"
+  sed -i "s/\$port/\$dbport/" "./include/config.php"
+  sed -i "s/\$db/\$dbname/" "./include/config.php"
+  sed -i "s/\$user/\$dbuser/" "./include/config.php"
+  sed -i "s/\$pass/\$dbpass/" "./include/config.php"
+
+
+  mv vpn/history/osx-viscosity/ vpn/history/osx
+
+}
+
+install_version_2(){
+  V2="YES"
+
 }
 
 ## first information to update
@@ -491,7 +511,7 @@ main(){
   make_backup
 
   ## make update files and database
-  if [ -n "$VERSION" ]; then
+  if [ -n "$INSTALLEDVERSION" ]; then
     start_update_normal
   else
     start_update_new_version
@@ -510,3 +530,8 @@ print_out i "${SETFIN04}"
 
 
 exit
+
+
+### Hinweise
+## umbenennen vpn conf ordner in osx --- selbiges mit history
+## umschreiben variablen config.php - ok
