@@ -14,7 +14,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -142,7 +142,7 @@ del{
 }
 
 .error-msg{
-  text-align: center;
-  padding: 2em;
-  background-color: #f8121d7e;
+  background-color: #fa8b8b7e;
+  box-shadow: 0 0 20px #ff0000;
+  color: #ffffff;
 }
