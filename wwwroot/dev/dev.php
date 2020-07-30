@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.1.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -37,33 +37,58 @@
 <?php
 /**
  * ! ab hier kannst Du die Seite aufbauen
- * 
- * 
- * 
+ * ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
  */
 
-DEFINE ('ADODB_OUTP','myLogger');
- 
-function myLogger($msg,$discard)
-{
-    print "\nThis is my messsage: $msg";
-} 
 
 
 
-$rr = new get_modules;
-$rr->search_mod_dir();
-$re = '/([a-z]{2})/';
-foreach($rr->loaddir as $value) {
-  #preg_match($re, $value, $matches);
-  #echo $matches[0];
-  echo $value;
-  echo "<br>";
-}
-$GLOBALS['devint']->collect('dev.php languages',$_REQUEST);
-$GLOBALS['devint']->collect('dev.php globals',$GLOBALS);
-#$GLOBALS['devint']->ends();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
+ * ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
  * ! bis hier her wird die Seite gebraucht
  * 
  */
@@ -72,7 +97,7 @@ $GLOBALS['devint']->collect('dev.php globals',$GLOBALS);
  <!-- nicht anfassen, wird benötigt -->
             </div>
           </div>
-<!-- Modal -->
+<!-- load development modal dialog -->
 <div class="modal fade" id="debug" tabindex="-1" role="dialog" aria-labelledby="debugTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable" role="document">
     <div class="modal-content">
