@@ -1,0 +1,148 @@
+/**
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+ *
+ * NOTICE OF LICENSE
+ *
+ * GNU AFFERO GENERAL PUBLIC LICENSE V3
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ * 
+ * @author    Wutze
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.2.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ */
+
+body {
+  padding-top: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+https://bootsnipp.com/snippets/jvP6z
+*/
+.mini-led-green, .mini-led-green-blink {
+    background-color: #80FF00;
+    box-shadow: #7D7B80 0 -1px 6px 1px, inset #460 0 -1px 8px, #80FF00 0 3px 11px;
+}
+.mini-led-red, .mini-led-red-blink {
+    background-color: #F00;
+    box-shadow: #7D7B80 0 -1px 6px 1px, inset #600 0 -1px 8px, #F00 0 3px 11px;
+}
+.mini-led-gray, .mini-led-gray-blink {
+  background-color: #aab2bd;
+  box-shadow: #aab2bd 0 -1px 6px 1px, inset #656d78 0 -1px 8px, #656d78 0 1px 6px;
+}
+.mini-led-gray,
+.mini-led-red,
+.mini-led-red-blink,
+.mini-led-green,
+.mini-led-green-blink {
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.mini-led-green-blink {
+  -webkit-animation: blinkGreen 0.7s infinite;
+  -moz-animation: blinkGreen 0.7s infinite;
+  -ms-animation: blinkGreen 0.7s infinite;
+  -o-animation: blinkGreen 0.7s infinite;
+  animation: blinkGreen 0.7s infinite;
+}
+
+.mini-led-red-blink {
+  -webkit-animation: blinkRed 0.7s infinite;
+  -moz-animation: blinkRed 0.7s infinite;
+  -ms-animation: blinkRed 0.7s infinite;
+  -o-animation: blinkRed 0.7s infinite;
+  animation: blinkRed 0.7s infinite;
+}
+
+@-webkit-keyframes blinkGreen {
+  0% {
+    background-color: #80FF00;
+  }
+  50% {
+    background-color: #6cff82;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #80FF00 0 1px 0;
+  }
+  100% {
+    background-color: #80FF00;
+  }
+}
+@keyframes blinkGreen {
+  0% {
+    background-color: #80FF00;
+  }
+  50% {
+    background-color: #6cff82;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #80FF00 0 1px 0;
+  }
+  100% {
+    background-color: #80FF00;
+  }
+}
+
+@-moz-keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+@-webkit-keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+@keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+
+ins, del{
+  vertical-align : top;
+  white-space    : pre;
+  white-space    : pre-wrap;
+  font-family    : monospace;
+}
+ins{
+  color: #ccff00;
+}
+del{
+  color: #ff0000;
+}
+
+.error-msg{
+  background-color: #fa8b8b7e;
+  box-shadow: 0 0 20px #ff0000;
+  color: #ffffff;
+}

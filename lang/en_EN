@@ -14,7 +14,7 @@
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.0.0
+# @version		1.2.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 ATTENTION="ATTENTION!
@@ -51,6 +51,7 @@ SELECT07="webpath /srv/www/openvpn-admin"
 SELECT08="or enter your own directory"
 SELECT09="Set owner webpath to www-data"
 SELECT10="or other self defined owner"
+SELECT20="Install all extensions?"
 
 MISSING="missing:"
 INSTALL="Just use the automatic installation of missing packages."
@@ -78,7 +79,13 @@ SETFIN02="To finish the installation, please configure your web server (Apache, 
 SETFIN03="You must restart the server, otherwise OpenVPN will not work correctly!"
 SETFIN04="Questions, answers, wishes, mistakes please communicate there: https://github.com/Wutze/OpenVPN-WebAdmin/issues"
 
+UPSEL00="Update Information"
 
+UPDATEINF01="Please make a backup of your server BEFORE starting this update. Despite all the tests I can do, 
+I can't see any errors on your server to react accordingly.
 
+However, this update introduces some functionality that allows you to restore the old installation from a backup later.
+
+Continue?"
 
 
