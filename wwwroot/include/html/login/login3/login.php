@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -73,10 +73,7 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
 			
 					<div class="mt-4">
 						<div class="d-flex justify-content-center links">
-							Don't have an account? <a href="#" class="ml-2">Sign Up</a>
-						</div>
-						<div class="d-flex justify-content-center links">
-							<a href="#">Forgot your password?</a>
+							<?php echo _SITE_NAME; ?>
 						</div>
 					</div>
 				</div>

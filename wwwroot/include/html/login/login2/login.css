@@ -88,3 +88,10 @@ color: white;
 .links a{
 margin-left: 4px;
 }
+
+.error-msg{
+  height: auto !important;
+  background-color: rgba(250, 198, 198, 0.63) !important;
+  box-shadow: 0 0 20px #ff0000;
+  color: #ffffff;
+}
