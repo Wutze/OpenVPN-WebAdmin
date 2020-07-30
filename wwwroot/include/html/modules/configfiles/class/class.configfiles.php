@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -71,14 +71,6 @@ class configfiles{
 
     (array_key_exists($this->action,$this->go)) ? $this->gotox = $this->go[$this->action] : $this->gotox = 'ERROR';
     ($this->isuser) ? '' : $this->gotox = 'ERROR';
-
-		/** 
-		 * only for development and debugging mode
-		 * this loads the development class
-		*/
-		if (defined('dev')){
-			$GLOBALS['devint']->collect('class.configfiles-'.$this->file,$this);
-		};
 
     switch($this->gotox){
       case "save";
@@ -161,7 +153,7 @@ class configfiles{
     $timecode = time();
     $this->fullpath_with_file = $this->config_full_path.$this->conf_filepathname[$this->file];
     $this->file_category = basename($this->file);
-    $this->backup_dir = $this->history_full_path."".$this->conf_array[$this->file]."/history";
+    $this->backup_dir = $this->history_full_path."".$this->conf_array[$this->file]."/";
     $this->backupfilename = $timecode."_".$this->conf_filename[$this->file];
 
     if (!file_exists($this->backup_dir)){

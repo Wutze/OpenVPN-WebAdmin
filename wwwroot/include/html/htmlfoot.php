@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -70,9 +70,7 @@ if (Session::GetVar('isuser') || defined('dev')){
 <script src="node_modules/bootstrap/js/dist/popover.js"></script>
 <script src="node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
 <script src="node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
-<script src="node_modules/bootstrap-table/dist/extensions/editable/bootstrap-table-editable.min.js"></script>
 <script src="node_modules/bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
-<script src="node_modules/x-editable/dist/bootstrap-editable/js/bootstrap-editable.js"></script>
 <script src="js/user.js"></script>
 <?php
 if(Session::GetVar('isadmin')){

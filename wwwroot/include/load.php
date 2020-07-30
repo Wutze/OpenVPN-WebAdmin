@@ -59,9 +59,22 @@ require_once(REAL_BASE_DIR.'/include/class/class.data.php');
 require_once(REAL_BASE_DIR.'/include/class/class.livedata.php');
 require_once(REAL_BASE_DIR.'/include/class/class.jsonObject.php');
 
+
 ### separated for future modularization
-require_once(REAL_BASE_DIR.'/include/html/modules/config/class/class.configfiles.php');
 require_once(REAL_BASE_DIR.'/include/class/class.modules.php');
+## autoload modules
+$modload = new get_modules;
+$modload->search_mod_dir();
+$keys = array_keys($modload->loaddir);
+for($a=0;$a<count($keys);$a++){
+  if(file_exists($modload->path_modules."/".$keys[$a]."/class/class.".$keys[$a].".php")){
+    include_once($modload->path_modules."/".$keys[$a]."/class/class.".$keys[$a].".php");
+  }
+}
+(defined('dev'))? $GLOBALS['devint']->collect('load',$modload) : "";
+#(defined('dev'))? $GLOBALS['devint']->ends() : "";
+
+
 
 ob_start();
 /* start session */
@@ -72,5 +85,10 @@ $se->start_session();
 (!session::GetVar('lang')) ? session::SetVar('lang',_DEFAULT_LANGUAGE) : "";
 (!session::GetVar('session_id')) ? session::SetVar('session_id',SESSION_NAME) : "";
 (!session::GetVar('isuser')) ? session::SetVar('isuser',session::GetVar('isuser')) : "";
+
+
+
+
+
 
  ?>

@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -29,7 +29,6 @@
 
     <title><?php echo _SITE_NAME; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css" type="text/css" />
     <link rel="stylesheet" href="node_modules/bootstrap-table/dist/bootstrap-table.min.css" type="text/css" />
     <link rel="stylesheet" href="node_modules/jquery-ui-dist/jquery-ui.min.css" type="text/css" />
     <link rel="stylesheet" href="node_modules/bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.css" type="text/css" />

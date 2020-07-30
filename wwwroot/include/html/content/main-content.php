@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.1.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -49,7 +49,6 @@ if(Session::GetVar('isadmin')){
               data-search="true"
               data-detail-formatter="logdetails"
               data-search-time-out="1000"
-              data-filter-control="false"
   <?php
 
 }else{
@@ -66,10 +65,10 @@ if(Session::GetVar('isadmin')){
                    <th data-field="log_trusted_port" <?php echo $portfilter; ?>>From Port</th>
                    <th data-field="log_remote_ip">Int IP</th>
                    <th data-field="log_remote_port">Int Port</th>
+                   <th data-field="log_received" data-sortable="true">rec</th>
+                   <th data-field="log_send" data-sortable="true">sent</th>
                    <th data-field="log_start_time">Start Time</th>
                    <th data-field="log_end_time">End Time</th>
-                   <th data-field="log_received">rec</th>
-                   <th data-field="log_send">sent</th>
                 </tr>
               </thead>
             </table>
@@ -114,7 +113,7 @@ if(Session::GetVar('isadmin')){
           <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
 <?php
 if(Session::GetVar('isadmin')){
-  include(REAL_BASE_DIR."/include/html/modules/config/admin-clients.config.php");
+  configfiles::content();
 }
 ?>
           </div>

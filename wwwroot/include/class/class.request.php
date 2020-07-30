@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.1.1
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -70,15 +70,16 @@ class set_request{
 	 * @return html code
 	 */
 	function main(){
-		$this->modload = new get_modules;
-		$this->modload->search_mod_dir();
-		$keys = array_keys($this->modload->loaddir);
-  	for($a=0;$a<count($keys);$a++){
-			if(file_exists(REAL_BASE_DIR."/include/html/modules/".$keys[$a]."/class.".$keys[$a].".php")){
-				include(REAL_BASE_DIR."/include/html/modules/".$keys[$a]."/class.".$keys[$a].".php");
-				#$this->op = array_merge($this->op,($keys[$a]::getvars));
-			}
-		}
+#		$this->modload = new get_modules;
+#		$this->modload->search_mod_dir();
+#		$keys = array_keys($this->modload->loaddir);
+ # 	for($a=0;$a<count($keys);$a++){
+#			if(file_exists(REAL_BASE_DIR."/include/html/modules/".$keys[$a]."/class.".$keys[$a].".php")){
+#				include_once(REAL_BASE_DIR."/include/html/modules/".$keys[$a]."/class.".$keys[$a].".php");
+#				#$newmod = new $keys[$a];
+#				#$this->op = array_merge($this->op,($keys[$a]::getvars));
+#			}
+#		}
 
 		#$this->op = array_merge($this->op,($keys[$a]::getvars));
 
@@ -172,7 +173,7 @@ class set_request{
 			case "savefile";
 			case "loadzip";
 			case "delfile";
-				$conffile = new config_files;
+				$conffile = new configfiles;
 				$conffile->set_value('isadmin',$this->isadmin);
 				$conffile->set_value('isuser',$this->isuser);
 				$conffile->set_value('action',$this->gotox);
@@ -197,9 +198,7 @@ class set_request{
 			 * @return force logout and session destroy
 			 */
 			case "error";
-			#	html::head();
-				require_once(REAL_BASE_DIR.'/include/html/error.php');
-			#	html::foot();
+				require_once(REAL_BASE_DIR.'/include/html/login/'._LOGINSITE.'/error.php');
 				Session::Destroy();
 			break;
 		}
