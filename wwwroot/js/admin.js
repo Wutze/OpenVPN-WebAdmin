@@ -9,19 +9,17 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 $(function () {
   "use strict";
-
-  //var gridsUrl = '/';
 
   window.printStatus = function(msg, alert_type='warning', bootstrap_icon='') {
      $('#message-stage').empty()
@@ -44,30 +42,6 @@ $(function () {
     $table.bootstrapTable('refresh');
   }
 
-
-/* was cooles zum testen
-var timeoutId;
-$('#save-form').on('input propertychange change', function() {
-    console.log('Textarea Change');
-
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(function() {
-        // Runs 1 second (1000 ms) after the last change
-        saveToDB();
-    }, 1000);
-});
-
-function saveToDB()
-{
-    console.log('Saving to the db');
-
-    // Now show them we saved and when we did
-    var d = new Date();
-    $('.form-status-holder').html('Saved! Last: ' + d.toLocaleTimeString());
-}
-*/
-
-
   // watch the config textareas for changes an persist them if a change was made
   $('textarea').keyup(function(){
      $('#save-config-btn').removeClass('saved-success hidden').addClass('get-attention');
@@ -76,9 +50,7 @@ function saveToDB()
       $('#save-config-btn').removeClass('get-attention').addClass('saved-success');
   });
 
-
-
-
+  /** save the config file and post success flying-message */
   function updateConfig(config_file, config_content) {
     $.ajax({
       url: '?op=savefile',
@@ -88,18 +60,28 @@ function saveToDB()
         config_content: config_content
       },
       success : function(res){
-         console.log('Files saved?: ' + res.config_success);
-         document.getElementById("message-stage").innerHTML = "<p class=\"bg-success text-white\">File Saved</p>";
+        console.log('Files saved?: ' + res.config_success);
+        filesaveok();
       },
       dataType : 'json',
       method: 'POST',
       error: function(res){
-        document.getElementById("message-stage").innerHTML = "<p class=\"bg-danger text-white\">Error</p>";
+        filesaveer();
       },
     });
   }
 
-
+  /** flying messages */
+  function filesaveok() {
+    var x = document.getElementById("messagestage");
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+  function filesaveer() {
+    var x = document.getElementById("messagestageer");
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
 } );
 
 
@@ -116,6 +98,12 @@ setInterval(function(){
       document.getElementById("disk").innerHTML = "total: " + myArr['disk'][0] + " | free: " + myArr['disk'][1] + " | used: " + myArr['disk'][2];
       document.getElementById("users").innerHTML = "Users: " + myArr['user']['user'] + " | Online: " + myArr['user']['online'];
       document.getElementById("error").innerHTML = myArr['error'];
+      document.getElementById("cpu2").innerHTML = "CPU: " + myArr['cpu'] + "%";
+      cpu.style.width = myArr['cpu'] + "%";
+      document.getElementById("ram_free2").innerHTML = "free: " + myArr['ram_free'] + "%";
+      ram_free.style.width = myArr['ram_free'] + "%";
+      document.getElementById("ram_used2").innerHTML = "used: " + myArr['ram_used'] + "%";
+      ram_used.style.width = myArr['ram_used'] + "%";
     }
   };
   xmlhttp.open("GET", "/?op=live&go=load", true);

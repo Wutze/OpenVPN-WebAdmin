@@ -118,6 +118,31 @@ class golivedata{
 
         $disk = array($disktotal,$diskfree,$diskused);
 
+        $prevVal = shell_exec("cat /proc/stat");
+$prevArr = explode(' ',trim($prevVal));
+$prevTotal = $prevArr[2] + $prevArr[3] + $prevArr[4] + $prevArr[5];
+$prevIdle = $prevArr[5];
+usleep(0.15 * 1000000);
+$val = shell_exec("cat /proc/stat");
+$arr = explode(' ', trim($val));
+$total = $arr[2] + $arr[3] + $arr[4] + $arr[5];
+$idle = $arr[5];
+$intervalTotal = intval($total - $prevTotal);
+$stat['cpu'] =  intval(100 * (($intervalTotal - ($idle - $prevIdle)) / $intervalTotal));
+
+$stat['mem_percent'] = round(shell_exec("free | grep Mem | awk '{print $3/$2 * 100.0}'"), 2);
+$mem_result = shell_exec("cat /proc/meminfo | grep MemTotal");
+$stat['mem_total'] = round(preg_replace("#[^0-9]+(?:\.[0-9]*)?#", "", $mem_result) / 1024 / 1024, 3);
+$mem_result = shell_exec("cat /proc/meminfo | grep MemFree");
+$stat['mem_free'] = round(preg_replace("#[^0-9]+(?:\.[0-9]*)?#", "", $mem_result) / 1024 / 1024, 3);
+$stat['mem_used'] = $stat['mem_total'] - $stat['mem_free'];
+
+$prozent = $stat['mem_total']/100;
+$frei = round($stat['mem_free']/$prozent,2);
+$belegt = round($stat['mem_used']/$prozent,2);
+
+
+
         $data = newAdoConnection(_DB_TYPE);
 		    $data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
         $sql = "select count(*) from user ";
@@ -133,6 +158,10 @@ class golivedata{
         $o->cpus = $cpuinfo;
         $o->disk = $disk;
         $o->user = $users;
+        $o->cpu = $stat['cpu'];
+        $o->ram_total = $stat['mem_total'];
+        $o->ram_free = $frei;
+        $o->ram_used = $belegt;
         $o->make_json();
   }
 
