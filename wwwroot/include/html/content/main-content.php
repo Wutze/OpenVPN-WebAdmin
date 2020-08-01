@@ -26,10 +26,10 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
+        <div class="tab-content" id="v-pills-tabContent col-sm-12 block-grid">
         <?php
           @include(REAL_BASE_DIR."/include/html/modules/main-overview.php");
         ?>
-        <div class="tab-content" id="v-pills-tabContent col-sm-12 block-grid">
           <div class="tab-pane fade position-relative p-3 bg-white" id="log" role="tabpanel" aria-labelledby="log-tab">
             <div class="ribbon-wrapper ribbon-lg">
               <div class="ribbon bg-primary">
