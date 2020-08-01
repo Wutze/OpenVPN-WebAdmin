@@ -62,7 +62,7 @@ class configfiles{
                   'server' => 'server.conf');
   var $config_full_path = "../vpn/conf/";
   var $history_full_path = "../vpn/history/";
-  var $data_temp_dir = "data/temp/";
+  var $data_temp_dir = "./data/temp/";
 
   /**
    * main function
@@ -128,9 +128,9 @@ class configfiles{
                   <a href="?op=delfile&amp;file=<?php echo $chunks[0]; ?>"><?php echo date("d.m.y",$chunks[0]); ?></a>
                 </div>
               </div>
-              <div class="well">
-                <pre>
-                  <?php echo Diff::toHTML(Diff::compareFiles($this->history_full_path.$this->conf_array[$cfg_file]."/".$file, $this->config_full_path.$this->conf_filepathname[$cfg_file])); ?>
+              <div class="history">
+                <pre id="diff">
+                  <?php echo "\n".Diff::toHTML(Diff::compareFiles($this->history_full_path.$this->conf_array[$cfg_file]."/".$file, $this->config_full_path.$this->conf_filepathname[$cfg_file])); ?>
                 </pre>
               </div>
             </div>
@@ -233,7 +233,8 @@ class configfiles{
     }
     // Zip archive will be created only after closing object
     $zip->close();
-
+    #$GLOBALS['devint']->collect('give a name',$this);
+    #$GLOBALS['devint']->ends();
     //then send the headers to foce download the zip file
     header("Content-type: application/zip");
     header("Content-Disposition: attachment; filename=".$this->archive_name);
@@ -241,6 +242,7 @@ class configfiles{
     header("Expires: 0");
     readfile($this->archive_path);
   
+
     unlink($this->archive_path);
   }
 
