@@ -53,6 +53,7 @@ SELECT07="Répertoire web /srv/www/openvpn-admin"
 SELECT08="entrez dans votre propre répertoire web"
 SELECT09="Propriétaire du répertoire www-data"
 SELECT10="un autre propriétaire"
+SELECT11="Installer les fonctions de débogage ?"
 SELECT20="Installer toutes les extensions ?"
 
 MISSING="I Miss :"

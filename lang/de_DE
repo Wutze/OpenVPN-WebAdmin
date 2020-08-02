@@ -51,6 +51,7 @@ SELECT07="Webverzeichnis /srv/www/openvpn-admin"
 SELECT08="eigenes Webverzeichnis eingeben"
 SELECT09="Eigentümer des Verzeichnisses www-data"
 SELECT10="einen anderer Eigentümer"
+SELECT11="Debug Funkionen installieren?"
 SELECT20="Alle Erweiterungen installieren?"
 
 MISSING="Ich vermisse:"

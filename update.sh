@@ -34,6 +34,7 @@ updpath="/var/lib/ovpn-admin/"
 updfile="config.ovpn-admin.upd"
 base_path=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 V2=0
+modules_dev=""
 ## init screen
 # Find the rows and columns will default to 80x24 if it can not be detected
 screen_size=$(stty size 2>/dev/null || echo 24 80)
@@ -196,8 +197,6 @@ if_updatefile_exist(){
       source /etc/openvpn/scripts/config.sh
     fi
     print_out 1 "Setup config loaded"
-    #check_version
-    #verify_setup
   else
     # when the update file not exist, you have a older version
     print_out i "Version older than 1.1.0"
@@ -402,8 +401,13 @@ define('_LOGINSITE','login1');"
 
 start_update_normal(){
   openvpn_admin=$WEBROOT$BASEPATH
-
-  cp -r "$base_path/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+  # simply delete the web directory to keep it clean
+  rm -r $openvpn_admin
+  print_out 1 "delete old Webfolder"
+  mkdir $openvpn_admin
+  control_script "create new Webfolder"
+  
+  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data $modules_dev} "$openvpn_admin"
   control_script "renew Files"
   print_out i "Update third party module yarn"
   cd $openvpn_admin
@@ -435,8 +439,10 @@ check_version(){
       print_out i "Installed Version $INSTALLEDVERSION, this should be installed: $THIS_NEW_VERSION"
       print_out i "Update is required"
       V2=2
+      do_select
+      control_box "Set Development"
     fi
-    print_out i "hat nüscht - muss installieren"
+    print_out i "Has nothing, must be reinstalled"
   fi
 }
 
@@ -484,6 +490,31 @@ install_version_2(){
   V2="YES"
 
 }
+
+## set debug install
+## Write with comma (separated call to copy)
+debug_func(){
+  modules_dev=",dev"
+}
+
+do_select(){
+	sel=$(whiptail --title "${SELECT0}" --checklist --separate-output "${SELECT1}:" ${r} ${c} ${h} \
+    "11" "${SELECT11} " off \
+    3>&1 1>&2 2>&3)
+#  RET=$?
+  control_box $? "select"
+
+  while read -r line;
+  do #echo "${line}";
+      case $line in
+          11) debug_func $line
+          ;;
+          *)
+          ;;
+      esac
+  done < <(echo "$sel")
+}
+
 
 ## first information to update
 # you must say yes to continue!
