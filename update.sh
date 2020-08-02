@@ -18,7 +18,7 @@
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
-set -x
+#set -x
 
 
 
