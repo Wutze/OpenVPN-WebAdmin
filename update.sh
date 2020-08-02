@@ -425,17 +425,17 @@ start_update_normal(){
   fi
 
   ## move all history folders and osx folder
-  if [[ ! -d  "${base_path}/vpn/history/osx-viscosity/" ]]; then
-    mv ${base_path}"/vpn/history/osx-viscosity/ vpn/history/osx"
-    mv ${base_path}"/vpn/conf/osx-viscosity/ vpn/conf/osx"
-    cp ${base_path}"/vpn/history/osx/history/* vpn/history/osx/"
-    rm -r ${base_path}"/vpn/history/osx/history/"
-    cp ${base_path}"/vpn/history/osx/history/* vpn/history/osx/"
-    rm -r ${base_path}"/vpn/history/gnu-linux/history/"
-    cp ${base_path}"/vpn/history/gnu-linux/history/* vpn/history/gnu-linux/"
-    rm -r ${base_path}"/vpn/history/gnu-linux/history/"
-    cp ${base_path}"/vpn/history/server/history/* vpn/history/server/"
-    rm -r ${base_path}"/vpn/history/server/history/"
+  if [[ ! -d  "${BASEPATH}/vpn/history/osx-viscosity/" ]]; then
+    mv ${BASEPATH}"/vpn/history/osx-viscosity/ ${BASEPATH}/vpn/history/osx"
+    mv ${BASEPATH}"/vpn/conf/osx-viscosity/ ${BASEPATH}/vpn/conf/osx"
+    cp ${BASEPATH}"/vpn/history/osx/history/* ${BASEPATH}/vpn/history/osx/"
+    rm -r ${BASEPATH}"/vpn/history/osx/history/"
+    cp ${BASEPATH}"/vpn/history/osx/history/* ${BASEPATH}/vpn/history/osx/"
+    rm -r ${BASEPATH}"/vpn/history/gnu-linux/history/"
+    cp ${BASEPATH}"/vpn/history/gnu-linux/history/* ${BASEPATH}/vpn/history/gnu-linux/"
+    rm -r ${BASEPATH}"/vpn/history/gnu-linux/history/"
+    cp ${BASEPATH}"/vpn/history/server/history/* ${BASEPATH}/vpn/history/server/"
+    rm -r ${BASEPATH}"/vpn/history/server/history/"
   fi
 
   control_script "renew Files"
