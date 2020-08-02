@@ -424,6 +424,20 @@ start_update_normal(){
     cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
   fi
 
+  ## move all history folders and osx folder
+  if [[ ! -d  "${base_path}/vpn/history/osx-viscosity/" ]]; then
+    mv ${base_path}"/vpn/history/osx-viscosity/ vpn/history/osx"
+    mv ${base_path}"/vpn/conf/osx-viscosity/ vpn/conf/osx"
+    cp ${base_path}"/vpn/history/osx/history/* vpn/history/osx/"
+    rm -r ${base_path}"/vpn/history/osx/history/"
+    cp ${base_path}"/vpn/history/osx/history/* vpn/history/osx/"
+    rm -r ${base_path}"/vpn/history/gnu-linux/history/"
+    cp ${base_path}"/vpn/history/gnu-linux/history/* vpn/history/gnu-linux/"
+    rm -r ${base_path}"/vpn/history/gnu-linux/history/"
+    cp ${base_path}"/vpn/history/server/history/* vpn/history/server/"
+    rm -r ${base_path}"/vpn/history/server/history/"
+  fi
+
   control_script "renew Files"
   print_out i "Update third party module yarn"
   cd $openvpn_admin
