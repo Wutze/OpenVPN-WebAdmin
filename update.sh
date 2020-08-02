@@ -303,10 +303,10 @@ make_backup(){
   
 }
 
-
+## Fixed a bug in the installation script that saved the wrong BASEPATH of the Webroot (up to version 1.1.1)
 fix_error_1(){
   BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} ${BASEPATH} --title "${SETVPN12}" 3>&1 1>&2 2>&3)
-  control_box $? "fix error Web-Basepath"
+  control_box $? "fix error Web-Basepath to $BASEPATH"
 }
 
 setup_questions(){
