@@ -424,10 +424,9 @@ start_update_normal(){
   cd $openvpn_admin
   yarn install
   control_script "yarn install"
-  print_out i "Update third party module ADOdb"
-  cd install/ADOdb
-  git pull
-  control_script "Update ADOdb files"
+  print_out i "Install third party module ADOdb"
+  git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
+  control_script "ADODb install"
 
   print_out i "Update SQL"
   if [[ -f "$base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
@@ -554,7 +553,7 @@ main(){
   make_backup
 
   ## make update files and database
-  if [ -n "$INSTALLEDVERSION" ]; then
+  if [ -n "$VERSION" ]; then
     start_update_normal
   else
     start_update_new_version
