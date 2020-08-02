@@ -417,8 +417,13 @@ start_update_normal(){
   print_out 1 "delete old Webfolder"
   mkdir $openvpn_admin
   control_script "create new Webfolder"
-  
-  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data $modules_dev} "$openvpn_admin"
+
+  if [ -n "$modules_dev" ]; then
+    cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
+  elif
+    cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+  fi
+
   control_script "renew Files"
   print_out i "Update third party module yarn"
   cd $openvpn_admin
@@ -504,7 +509,7 @@ install_version_2(){
 ## set debug install
 ## Write with comma (separated call to copy)
 debug_func(){
-  modules_dev=",dev"
+  modules_dev="dev"
 }
 
 do_select(){
