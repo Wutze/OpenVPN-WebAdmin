@@ -340,7 +340,7 @@ start_update_new_version(){
   mkdir $openvpn_admin
   control_script "create new Webfolder"
 
-  cp -r "$base_path/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
   control_script "install new files"
   print_out i "Install third party module yarn"
   cd $openvpn_admin
