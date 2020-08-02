@@ -74,6 +74,8 @@ SETVPN07="MySQL Benutzerpasswort für die OpenVPN Datenbank"
 SETVPN08="Admin Benutzername für das Webfrontend des OpenVPN-Admin"
 SETVPN09="Admin Benutzerpasswort für das Webfrontend des OpenVPN-Admin"
 SETVPN10="Datenbankname für die Datenbank"
+SETVPN11="Rootverzeichnis des Webservers"
+SETVPN12="Webverzeichnis des OpenVPN-WebAdmin"
 
 SETFIN01="Grundinstallation OpenVPN-Admin abgeschlossen."
 SETFIN02="Um die Installation zu beenden, konfiguriere bitte Deinen Webserver (Apache, NGinx...)"
