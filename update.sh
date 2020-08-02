@@ -305,8 +305,8 @@ make_backup(){
 
 ## Fixed a bug in the installation script that saved the wrong BASEPATH of the Webroot (up to version 1.1.1)
 fix_error_1(){
-  UPWEBDIR=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} ${UPWEBDIR} --title "${SETVPN12}" 3>&1 1>&2 2>&3)
-  control_box $? "fix error Web-Basepath to $UPWEBDIR"
+  BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} ${BASEPATH} --title "${SETVPN12}" 3>&1 1>&2 2>&3)
+  control_box $? "fix error Web-Basepath to $BASEPATH"
 }
 
 setup_questions(){
@@ -440,14 +440,14 @@ start_update_normal(){
 
 check_version(){
 
-  if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$INSTALLEDVERSION" | sort -V | head -n1)" = "$THIS_NEW_VERSION" ]; then 
-    print_out i "Installed Version $INSTALLEDVERSION greater than or equal to $THIS_NEW_VERSION"
+  if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$VERSION" | sort -V | head -n1)" = "$THIS_NEW_VERSION" ]; then 
+    print_out i "Installed Version $VERSION greater than or equal to $THIS_NEW_VERSION"
     print_out d "Update is not required"
     exit
   else
     ## Special version due to renaming of several variables
-    if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$INSTALLEDVERSION" | sort -V | head -n1)" = "1.1.0"  ]; then
-      print_out i "Installed Version $INSTALLEDVERSION, this should be installed: $THIS_NEW_VERSION"
+    if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$VERSION" | sort -V | head -n1)" = "1.1.0"  ]; then
+      print_out i "Installed Version $VERSION, this should be installed: $THIS_NEW_VERSION"
       print_out i "Update is required"
       V2=2
       do_select
