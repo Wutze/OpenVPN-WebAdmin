@@ -420,7 +420,7 @@ start_update_normal(){
 
   if [ -n "$modules_dev" ]; then
     cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
-  elif
+  else
     cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
   fi
 
