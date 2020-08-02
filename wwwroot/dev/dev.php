@@ -71,7 +71,7 @@ $stat['mem_used'] = $stat['mem_total'] - $stat['mem_free'];
 
 preg_match_all('/^(MemTotal|MemFree|MemAvailable)(:[\W]*)([0-9]*)/m', shell_exec("cat /proc/meminfo"), $matches, PREG_SET_ORDER, 0);
 
-preg_match_all('/^(NAME=|VERSION=)"([0-9a-zA-Z\.\s\(\)]*)"/m', shell_exec("cat /etc/os-release"), $matches, PREG_SET_ORDER, 0);
+preg_match_all('/^(NAME=|VERSION=)"([0-9a-zA-Z\/\.\s\(\)]*)"/m', shell_exec("cat /etc/os-release"), $matches, PREG_SET_ORDER, 0);
 
 $stat['osversion'] = $matches[1][2];
 $stat['osname'] = $matches[0][2];

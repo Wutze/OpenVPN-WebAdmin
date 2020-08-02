@@ -31,7 +31,7 @@ $stat['mem_total'] = round(preg_replace("#[^0-9]+(?:\.[0-9]*)?#", "", $mem_resul
 $mem_result = shell_exec("cat /proc/meminfo | grep MemFree");
 $stat['mem_free'] = round(preg_replace("#[^0-9]+(?:\.[0-9]*)?#", "", $mem_result) / 1024 / 1024, 3);
 $stat['mem_used'] = $stat['mem_total'] - $stat['mem_free'];
-preg_match_all('/^(NAME=|VERSION=)"([0-9a-zA-Z\.\s\(\)]*)"/m', shell_exec("cat /etc/os-release"), $matches, PREG_SET_ORDER, 0);
+preg_match_all('/^(NAME=|VERSION=)"([0-9a-zA-Z\/\.\s\(\)]*)"/m', shell_exec("cat /etc/os-release"), $matches, PREG_SET_ORDER, 0);
 $stat['osversion'] = $matches[1][2];
 $stat['osname'] = $matches[0][2];
 
