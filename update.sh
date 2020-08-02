@@ -242,7 +242,7 @@ ${UPDBHOST}: ${DBHOST}
 ${UPDBUSER}: ${DBUSER}
 ${UPDBNAME}: ${DBNAME}
 ${UPDBPASS}: ${DBPASS}
-${UPWEBDIR}: /${BASEPATH}
+${UPWEBDIR}: ${BASEPATH}
 ${UPWEBROO}: ${WEBROOT}
 ${UPPATHOW}: ${WWWOWNER}
 ${UPMASHID}: ${MACHINEID}
@@ -256,6 +256,7 @@ ${UPDATAOK}
   
   if [ $? = 0 ]; then
       print_out 1 "Update: ${2}"
+      fix_error_1
   else
       print_out 0 "Update: ${2}"
       setup_questions
@@ -302,6 +303,12 @@ make_backup(){
   
 }
 
+
+fix_error_1(){
+  BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} ${BASEPATH} --title "${SETVPN12}" 3>&1 1>&2 2>&3)
+  control_box $? "fix error Web-Basepath"
+}
+
 setup_questions(){
 
   DBHOST=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN04}" ${r} ${c} ${DBHOST} --title "DB Host" 3>&1 1>&2 2>&3)
@@ -315,7 +322,7 @@ setup_questions(){
   WEBROOT=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN11}" ${r} ${c} ${WEBROOT} --title "${SETVPN11}" 3>&1 1>&2 2>&3)
   control_box $? "Web-Root"
   BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} ${BASEPATH} --title "${SETVPN12}" 3>&1 1>&2 2>&3)
-  control_box $? "Basepath"
+  control_box $? "Web-Basepath"
 
   verify_setup
   
