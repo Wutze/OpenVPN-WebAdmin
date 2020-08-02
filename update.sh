@@ -425,17 +425,17 @@ start_update_normal(){
   fi
 
   ## move all history folders and osx folder
-  if [[ ! -d  "${BASEPATH}/vpn/history/osx-viscosity/" ]]; then
-    mv ${BASEPATH}"/vpn/history/osx-viscosity/ ${BASEPATH}/vpn/history/osx"
-    mv ${BASEPATH}"/vpn/conf/osx-viscosity/ ${BASEPATH}/vpn/conf/osx"
-    cp ${BASEPATH}"/vpn/history/osx/history/* ${BASEPATH}/vpn/history/osx/"
-    rm -r ${BASEPATH}"/vpn/history/osx/history/"
-    cp ${BASEPATH}"/vpn/history/osx/history/* ${BASEPATH}/vpn/history/osx/"
-    rm -r ${BASEPATH}"/vpn/history/gnu-linux/history/"
-    cp ${BASEPATH}"/vpn/history/gnu-linux/history/* ${BASEPATH}/vpn/history/gnu-linux/"
-    rm -r ${BASEPATH}"/vpn/history/gnu-linux/history/"
-    cp ${BASEPATH}"/vpn/history/server/history/* ${BASEPATH}/vpn/history/server/"
-    rm -r ${BASEPATH}"/vpn/history/server/history/"
+  if [[ ! -d  "${WEBROOT}/vpn/history/osx-viscosity/" ]]; then
+    mv ${WEBROOT}"/vpn/history/osx-viscosity/ ${WEBROOT}/vpn/history/osx"
+    mv ${WEBROOT}"/vpn/conf/osx-viscosity/ ${WEBROOT}/vpn/conf/osx"
+    cp ${WEBROOT}"/vpn/history/osx/history/* ${WEBROOT}/vpn/history/osx/"
+    rm -r ${WEBROOT}"/vpn/history/osx/history/"
+    cp ${WEBROOT}"/vpn/history/osx/history/* ${WEBROOT}/vpn/history/osx/"
+    rm -r ${WEBROOT}"/vpn/history/gnu-linux/history/"
+    cp ${WEBROOT}"/vpn/history/gnu-linux/history/* ${WEBROOT}/vpn/history/gnu-linux/"
+    rm -r ${WEBROOT}"/vpn/history/gnu-linux/history/"
+    cp ${WEBROOT}"/vpn/history/server/history/* ${WEBROOT}/vpn/history/server/"
+    rm -r ${WEBROOT}"/vpn/history/server/history/"
   fi
 
   control_script "renew Files"
