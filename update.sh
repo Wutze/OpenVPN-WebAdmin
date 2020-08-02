@@ -231,7 +231,7 @@ verify_setup(){
   fi
   if [ -n "$HOST" ]; then DBHOST=$HOST; fi
   if [ -n "$DB" ]; then DBNAME=$DB; fi
-  if [ -n "$USER" ]; then DBUSER=$USER; fi
+  #if [ -n "$USER" ]; then DBUSER=$USER; fi
 
   UPDATEINFSUM="
 ${UPDATEINF02} ↠ ${LOCALMACHINEID}
@@ -550,6 +550,7 @@ main(){
   #verify_setup
 
   ## create backup files and database
+  print_out i "Backup - this may take a little moment"
   make_backup
 
   ## make update files and database
