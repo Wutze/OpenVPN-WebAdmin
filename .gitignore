@@ -4,3 +4,4 @@
 /vpn/
 /.vscode/launch.json
 /wwwroot/include/ADOdb
+/wwwroot/include/config.php
