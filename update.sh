@@ -132,6 +132,7 @@ sel_lang(){
     "AUTO" " Automatic" \
     "de_DE" " Deutsch" \
     "en_EN" " Englisch" \
+    "fr_FR" " Français" \
     3>&1 1>&2 2>&3)
   RET=$?
   if [ $RET -eq 1 ]; then
@@ -144,6 +145,8 @@ sel_lang(){
       de_DE) source "lang/$var2"
       ;;
       en_EN) source "lang/$var2"
+      ;;
+      fr_FR) source "lang/$var2"
       ;;
       *) source "lang/de_DE"
       ;;
@@ -234,6 +237,7 @@ verify_setup(){
 ${UPDATEINF02} ↠ ${LOCALMACHINEID}
 
 ${UPVERSIO}: ${VERSION}
+${NEVERSIO}: ${THIS_NEW_VERSION}
 ${UPDBHOST}: ${DBHOST}
 ${UPDBUSER}: ${DBUSER}
 ${UPDBNAME}: ${DBNAME}
