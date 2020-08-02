@@ -541,11 +541,11 @@ main(){
 
   # first dialog for informations
   startDialog
-  verify_setup
+
 
   ## search backup file - this was introduced with next/actual version
   if_updatefile_exist
-
+  verify_setup
   ## check vars
   #verify_setup
 
