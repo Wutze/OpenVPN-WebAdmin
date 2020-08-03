@@ -704,7 +704,6 @@ print_out i "Install third party module ADOdb"
 git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
 
 write_webconfig
-write_config
 
 chown -R "$user:$group" "$openvpn_admin"
 chown -R "$user:$group" $www/vpn
@@ -716,6 +715,8 @@ mkdir $updpath
 updfile="config.ovpn-admin.upd"
 
 SERVERID=$( cat /etc/machine-id )
+
+write_config
 
 chown -R root $updpath
 chmod 700 $updpath
