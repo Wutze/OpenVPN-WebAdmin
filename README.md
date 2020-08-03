@@ -22,9 +22,9 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 Administrate its OpenVPN with a web interface (logs visualisations, users managing...) with MariaDB.
 
-![Previsualisation Login](doc/login.png)
-![Previsualisation Administration](doc/overview.png)
-![Previsualisation Useradministration](doc/useradmin.png)
+![Previsualisation Login](doc/img/login.png)
+![Previsualisation Administration](doc/img/overview.png)
+![Previsualisation Useradministration](doc/img/useradmin.png)
 
 ## Prerequisite
 
@@ -94,7 +94,7 @@ Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
 ## Installation
 
-![Previsualisation Setup](doc/setup.png)
+![Previsualisation Setup](doc/img/setup.png)
 
 * Currently you can choose from the languages German, English and French
 * Setup OpenVPN and the web application:
@@ -227,12 +227,6 @@ AccessFileName .htaccess
 </VirtualHost>
 ````
 
-### Changes from the original (fixes from original issues)
-
-* Support use of Mysql on different server #49
-* Can it change bower to Yarn #155
-* All other entries are not very helpful for the functions. However, some have been changed in this way, as you can now modify the server.conf within the system.
-
 ### Hardware-Preview
 
-![Previsualisation Preview OpenVPN-WebAdmin-Server](doc/19zoll.png)
+![Previsualisation Preview OpenVPN-WebAdmin-Server](doc/img/19zoll.png)
