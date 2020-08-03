@@ -110,3 +110,7 @@ echo GET_Lang::nachricht("4","errormessage");
 ````
 
 Dieser Eintrag würde den Schlüssel 4 aus dem Array __errormessage__ ausgeben.
+
+## Angepasste Fehlerseiten
+
+Seit Version 1.2.0 habt Ihr die Möglichkeit eigene Fehlerseiten zu kreieren. Die Fehlerseiten werden immer mit dem Eintrag der Login Seite ausgerufen und müssen demnach auch im entsprechenden Ordner - siehe "Konfigurationsdatei congig.php" - als error.php vorhanden sein.

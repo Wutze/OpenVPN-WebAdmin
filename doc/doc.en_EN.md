@@ -111,4 +111,8 @@ echo GET_Lang::message("4", "errormessage");
 
 This entry would output key 4 from the array __errormessage__.
 
+## Customized error pages
+
+Since version 1.2.0 you have the possibility to create your own error pages. The error pages are always called up with the entry of the login page and must therefore also be available in the corresponding folder - see "Configuration file congig.php" - as error.php.
+
 Translated with www.DeepL.com/Translator (free version)
