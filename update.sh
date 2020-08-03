@@ -556,6 +556,64 @@ do_select(){
   done < <(echo "$sel")
 }
 
+write_webconfig(){
+  {
+  echo "<?php
+/**
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+ *
+ * NOTICE OF LICENSE
+ *
+ * GNU AFFERO GENERAL PUBLIC LICENSE V3
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ *
+ * @author    Wutze
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.1.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ */
+
+(stripos(\$_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');"
+  echo ""
+  echo ""
+  echo "\$dbhost=\"$DBHOST\";"
+  echo "\$dbuser=\"$DBUSER\";"
+  echo "\$dbname=\"$DBNAME\";"
+  echo "\$dbport=\"3306\";"
+  echo "\$dbpass=\"$DBPASS\";"
+  echo "\$dbtype=\"mysqli\";"
+  echo "\$dbdebug=FALSE;"
+  echo "\$sessdebug=FALSE;"
+
+  echo "/* Site-Name */
+define('_SITE_NAME',\"OVPN-WebAdmin\");
+define('HOME_URL',\"vpn.home\");
+define('_DEFAULT_LANGUAGE','en_EN');
+
+/** Login Site */
+define('_LOGINSITE','login1');"
+
+  }> $WEBROOT$BASEPATH"/include/config.php"
+  
+  echo "
+
+	/** 
+	 * only for development!
+	 * please comment out if no longer needed!
+	 */
+	define('dev','dev/dev.php');
+	if (defined('dev')){
+		include('dev/class.dev.php');
+	}"
+}>> $WEBROOT$BASEPATH"/include/config.php"
+  
+
 
 ## first information to update
 # you must say yes to continue!
