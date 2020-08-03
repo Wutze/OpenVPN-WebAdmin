@@ -653,7 +653,7 @@ main(){
   write_config
   write_webconfig
   print_out 1 "Configs written"
-  chown -R "$WWWOWNER:$WWWOWNER" "$BASEPATH$WEBROOT"
+  chown -R "$WWWOWNER:$WWWOWNER" "$WEBROOT$BASEPATH"
   chown -R "$WWWOWNER:$WWWOWNER" $WEBROOT/vpn
   print_out 1 "set file rights"
 }
