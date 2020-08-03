@@ -306,7 +306,7 @@ make_backup(){
 ## Fixed a bug in the installation script that saved the wrong BASEPATH of the Webroot (up to version 1.1.1)
 fix_error_1(){
   if [[ ! -d "$BASEPATH$WEBROOT" ]]; then
-    BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "openvpn-admin" ${r} ${c} o --title "${SETVPN12}" 3>&1 1>&2 2>&3)
+    BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} openvpn-admin --title "${SETVPN12}" 3>&1 1>&2 2>&3)
     control_box $? "fix error Web-Basepath to $BASEPATH"
   fi
 }
