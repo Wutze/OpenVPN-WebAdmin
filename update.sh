@@ -443,14 +443,22 @@ start_update_normal(){
     mv vpn/history/osx-viscosity/ vpn/history/osx
     mv vpn/conf/osx-viscosity/ vpn/conf/osx
     ## move history files
+    if [[ -d  "vpn/history/osx" ]]; then
     cp vpn/history/osx/history/* vpn/history/osx/
     rm -r vpn/history/osx/history/
-    cp vpn/history/windows/history/* vpn/history/osx/
+    fi
+    if [[ ! -d  "vpn/history/windows" ]]; then
+    cp vpn/history/windows/history/* vpn/history/windows/
     rm -r vpn/history/windows/history/
+    fi
+    if [[ ! -d  "vpn/history/gnu-linux" ]]; then
     cp vpn/history/gnu-linux/history/* vpn/history/gnu-linux/
     rm -r vpn/history/gnu-linux/history/
+    fi
+    if [[ ! -d  "vpn/history/server" ]]; then
     cp vpn/history/server/history/* vpn/history/server/
     rm -r vpn/history/server/history/
+    fi
   fi
 
   control_script "renew Files"
