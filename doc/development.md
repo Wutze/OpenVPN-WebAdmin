@@ -2,8 +2,8 @@
 
 ## Screenshots
 
-![Previsualisation Development Button](doc/img/dev1.png)
-![Previsualisation Development Overview](doc/img/dev2.png)
+![Previsualisation Development Button](/doc/img/dev1.png)
+![Previsualisation Development Overview](/doc/img/dev2.png)
 
 ## Einführung DE
 

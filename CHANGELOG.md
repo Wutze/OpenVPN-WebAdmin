@@ -20,7 +20,7 @@
 
 ### VPN-Server
 
-- OpenVPN-Server VPN-Login log modified. Messages now clearly visible and searchable
+- OpenVPN-Server VPN-Loging log modified. Messages now clearly visible and searchable
 - added multitail plugin for logfile (installation/snippets)
 
 ## 1.1.1
