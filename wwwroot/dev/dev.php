@@ -41,109 +41,45 @@
  */
 
 
-$prevVal = shell_exec("cat /proc/stat");
-$prevArr = explode(' ',trim($prevVal));
-$prevTotal = $prevArr[2] + $prevArr[3] + $prevArr[4] + $prevArr[5];
-$prevIdle = $prevArr[5];
-usleep(0.15 * 1000000);
-$val = shell_exec("cat /proc/stat");
-$arr = explode(' ', trim($val));
-$total = $arr[2] + $arr[3] + $arr[4] + $arr[5];
-$idle = $arr[5];
-$intervalTotal = intval($total - $prevTotal);
-$stat['cpu'] =  intval(100 * (($intervalTotal - ($idle - $prevIdle)) / $intervalTotal));
+ 
+#echo $dev;
 
-
-
-$cpu_result = shell_exec("cat /proc/cpuinfo | grep model\ name");
-$stat['cpu_model'] = strstr($cpu_result, "\n", true);
-preg_match_all('/([a-z\s\w]*):([0-9\s\wa-zA-Z]*)/m', $stat['cpu_model'], $matches, PREG_SET_ORDER, 0);
-$stat['cpu_model'] = $matches[0][2];
-//memory stat
-$stat['mem_percent'] = round(shell_exec("free | grep Mem | awk '{print $3/$2 * 100.0}'"), 2);
-$mem_result = shell_exec("cat /proc/meminfo | grep MemTotal");
-$stat['mem_total'] = round(preg_replace("#[^0-9]+(?:\.[0-9]*)?#", "", $mem_result) / 1024 / 1024, 3);
-$mem_result = shell_exec("cat /proc/meminfo | grep MemFree");
-$stat['mem_free'] = round(preg_replace("#[^0-9]+(?:\.[0-9]*)?#", "", $mem_result) / 1024 / 1024, 3);
-$stat['mem_used'] = $stat['mem_total'] - $stat['mem_free'];
-
-
-
-preg_match_all('/^(MemTotal|MemFree|MemAvailable)(:[\W]*)([0-9]*)/m', shell_exec("cat /proc/meminfo"), $matches, PREG_SET_ORDER, 0);
-
-preg_match_all('/^(NAME=|VERSION=)"([0-9a-zA-Z\/\.\s\(\)]*)"/m', shell_exec("cat /etc/os-release"), $matches, PREG_SET_ORDER, 0);
-
-$stat['osversion'] = $matches[1][2];
-$stat['osname'] = $matches[0][2];
-
-
-$GLOBALS['devint']->collect('dev',$stat);
-
-
+ echo "Welcome in the developer hell";
 
 ?>
 
 
-
-
-        <div class="row">
           <div class="col-md-4">
-            <div class="card card-primary card-outline">
-              <div class="card-body box-profile">
-                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle" src="/images/ovpn-original.png" alt="SysPicture">
-                </div>
-                <h3 class="profile-username text-center">OpenVPN-WebAdmin</h3>
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item">
-                    <b>OVPN Version:</b> <a class="float-right">1.2.0</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>CPU:</b> <a class="float-right"><?php echo $stat['cpu_model']; ?></a>
-                  </li>
-                </ul>
+            <div class="info-box mb-3 bg-warning">
+              <span class="info-box-icon"><i class="fas fa-tag"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Files</span>
+                <span class="info-box-number">836</span>
+              </div>
+            </div>
+            <div class="info-box mb-3 bg-success">
+              <span class="info-box-icon"><i class="far fa-heart"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Size</span>
+                <span class="info-box-number">4,2 MB</span>
+              </div>
+            </div>
+            <div class="info-box mb-3 bg-danger">
+              <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Downloads</span>
+                <span class="info-box-number">45</span>
+              </div>
+            </div>
+            <div class="info-box mb-3 bg-info">
+              <span class="info-box-icon"><i class="far fa-comment"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Issues</span>
+                <span class="info-box-number">3</span>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <div class="text-center">
-                  <i class="fa fa-hdd"></i>
-                </div>
-                <ul class="list-group list-group-unbordered mb-4">
-                  <li class="list-group-item">
-                    <b>RAM total:</b> <a class="float-right"><?php echo $stat['mem_total']; ?></a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>RAM free:</b> <a class="float-right"><?php echo $stat['mem_free']; ?></a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>RAM used:</b> <a class="float-right"><?php echo $stat['mem_used']; ?></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <div class="text-center">
-                  <i class="fa fa-cogs"></i>
-                </div>
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item">
-                    <b>OS Name:</b> <a class="float-right"><?php echo $stat['osname']; ?></a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>OS Version:</b> <a class="float-right"><?php echo $stat['osversion']; ?></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
 
 
 
