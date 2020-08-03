@@ -15,7 +15,7 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 [![Doku English](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
 [![Doku Deutsch/German](https://img.shields.io/badge/Dokumentation-DE-%230034F0?style=plastic)](doc/doc.de_DE.md)
-[![Doku Deutsch/German](https://img.shields.io/badge/Dokumentation-FR-%230034F0?style=plastic)](doc/doc.fr_FR.md)
+[![Doku Französisch/French](https://img.shields.io/badge/Dokumentation-FR-%230034F0?style=plastic)](doc/doc.fr_FR.md)
 
 [![Update Doku](https://img.shields.io/badge/Update--Doku--1.2.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.2.0.info.md)
 
@@ -129,7 +129,7 @@ You can simply confirm this with Enter without any input.
 nano /etc/apache2/sites-enabled/[ apache config ]
 ````
   
-* You must reboot the server after installation, otherwise the vpn server will not start correctly and no connection will be established!
+* You must **reboot** the server after installation, otherwise the vpn server will not start correctly and no connection will be established!
 
 * Finally, create a port forwarding on your Internet Router to this VPN-Server. Check the documentation of the router manufacturer or search the Internet for instructions.
 
