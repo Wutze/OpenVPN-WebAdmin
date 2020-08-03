@@ -436,7 +436,7 @@ start_update_normal(){
 
   ## move all history folders and osx folder
   cd $WEBROOT
-  if [[ ! -d  "vpn/history/osx-viscosity/" ]]; then
+  if [[ ! -d  "vpn/history/osx" ]]; then
     ## rename osx folder
     mv vpn/history/osx-viscosity/ vpn/history/osx
     mv vpn/conf/osx-viscosity/ vpn/conf/osx
