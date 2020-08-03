@@ -113,3 +113,5 @@ Je ne vois aucune erreur sur votre serveur pour réagir en conséquence.
 Toutefois, cette mise à jour introduit certaines fonctionnalités qui vous permettent de restaurer l'ancienne installation à partir d'une sauvegarde ultérieure.
 
 Continuer ?"
+
+AUPDATE01="Après la mise à jour, veuillez vider le cache du navigateur!"
