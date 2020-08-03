@@ -104,10 +104,13 @@ $stat['osname'] = $matches[0][2];
                   </div>
                   <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item">
-                      <b>OS Name:</b> <a class="float-right"><?php echo $stat['osname']; ?></a>
+                      <b>System:</b> <a class="float-right"><?php echo $stat['osname']; ?></a>
                     </li>
                     <li class="list-group-item">
-                      <b>OS Version:</b> <a class="float-right"><?php echo $stat['osversion']; ?></a>
+                      <b>Version:</b> <a class="float-right"><?php echo $stat['osversion']; ?></a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>PHP:</b> <a class="float-right"><?php echo phpversion(); ?></a>
                     </li>
                   </ul>
                 </div>
