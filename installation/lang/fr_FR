@@ -40,8 +40,8 @@ USER03="Installation avortée"
 BREAK="Scénario avorté"
 BEFOR="Appuyez sur ENTER pour démarrer l'installation ou sur ctrl+c pour l'interrompre".
 
-SELECT00="Sélection des options d'installation"
-SELECT01="Installation avec"
+SELECT_A="Sélection des options d'installation"
+SELECT_B="Installation avec"
 
 SELECT01="Copier l'échantillon de config.conf.vers config.conf ?"
 SELECT02="Installer automatiquement les paquets manquants"

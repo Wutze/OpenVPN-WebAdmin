@@ -38,8 +38,8 @@ USER03="Installation abgebrochen"
 BREAK="Script abgebrochen"
 BEFOR="Drücke ENTER um die Installation zu beginnen oder strg+c um abzubrechen"
 
-SELECT00="Auswahl Installationsoptionen"
-SELECT01="Installation mit"
+SELECT_A="Auswahl Installationsoptionen"
+SELECT_B="Installation mit"
 
 SELECT01="config.conf.sample nach config.conf kopieren?"
 SELECT02="Automatische Installation fehlender Pakete"

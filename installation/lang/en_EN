@@ -38,8 +38,8 @@ USER03="Installation aborted"
 BREAK="Script break"
 BEFOR="Press ENTER to start the installation or ctrl+c to cancel"
 
-SELECT00="Selection of installation options"
-SELECT01="Installation with"
+SELECT_A="Selection of installation options"
+SELECT_B="Installation with"
 
 SELECT01="copy config.conf.sample to config.conf?"
 SELECT02="Automatic installation of missing packages"

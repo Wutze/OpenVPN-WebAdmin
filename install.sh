@@ -219,7 +219,7 @@ do_select(){
 #value=("0" "${SELECT00}" on "2" "${SELECT01}" on "3" "${SELECT02}" off)
 #whiptail --title "xx" --checklist "choose" 16 78 10 "${value[@]}"
 # nginx fehlt noch
-	sel=$(whiptail --title "${SELECT0}" --checklist --separate-output "${SELECT1}:" ${r} ${c} ${h} \
+	sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
     "1" "${SELECT01} " on \
     "2" "${SELECT02} " on \
     "3" "${SELECT03} " on \
@@ -564,7 +564,12 @@ sed -i "s/DBNAME=''/DBNAME='$db_name'/" "/etc/openvpn/scripts/config.sh"
 # Create the directory of the web application
 mkdir $www
 mkdir "$openvpn_admin"
-cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data$modules_dev} "$openvpn_admin"
+if [ -n "$moddev" ]; then
+  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
+else
+  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+fi
+
 mkdir {$www/vpn,$www/vpn/history,$www/vpn/history/server,$www/vpn/history/osx,$www/vpn/history/gnu-linux,$www/vpn/history/win}
 cp -r "$base_path/"installation/conf $www/vpn/
 ln -s /etc/openvpn/server.conf $www/vpn/conf/server/server.conf
@@ -573,11 +578,42 @@ ln -s /etc/openvpn/server.conf $www/vpn/conf/server/server.conf
 cd "$openvpn_admin"
 
 # Replace config.sample.php variables
-cp ./include/config.sample.php ./include/config.php
+#cp ./include/config.sample.php ./include/config.php
 #sed -i "s/\$dbhost = '';/\$dbhost = '$db_host';/" "./include/config.php"
 #sed -i "s/\$dbuser = '';/\$dbuser = '$mysql_user';/" "./include/config.php"
 #sed -i "s/\$dbname = '';/\$dbname = '$db_name';/" "./include/config.php"
 #sed -i "s/\$dbpass = '';/\$dbpass = '${escaped}';/" "./include/config.php"
+
+write_config(){
+  if [[ ! -d  "${updpath}" ]]; then
+    mkdir $updpath
+  fi
+
+  {
+  echo "VERSION=\"1.2.0\""
+  echo "DBHOST=\"$db_host\""
+  echo "DBUSER=\"$mysql_user\""
+  echo "DBNAME=\"$db_name\""
+  echo "BASEPATH=\"$BASEPATH\""
+  echo "WEBROOT=\"$WEBROOT\""
+  echo "WWWOWNER=\"www-data\""
+  echo "### Is it still the original installed system?"
+  echo "MACHINEID=$LOCALMACHINEID"
+  echo "INSTALLDATE=\"$(date '+%Y-%m-%d %H:%M:%S')\""
+  }> $updpath$updfile
+  
+  if [ -n "$installextensions" ]; then
+  {
+    echo "### you have installed modules"
+    echo "MODULES=\"$installextensions\""
+    echo "MODSSL=\"$modssl\""
+    echo "MODDEV=\"$moddev\""    
+    }>> $updpath$updfile
+  fi
+
+  control_box $? "write config"
+  chmod -R 600 $updpath
+}
 
   write_webconfig(){
   {
@@ -598,18 +634,18 @@ cp ./include/config.sample.php ./include/config.php
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.1.0
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos(\$_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');"
   echo ""
   echo ""
-  echo "\$dbhost=\"$DBHOST\";"
-  echo "\$dbuser=\"$DBUSER\";"
-  echo "\$dbname=\"$DBNAME\";"
+  echo "\$dbhost=\"$db_host\";"
+  echo "\$dbuser=\"$mysql_user\";"
+  echo "\$dbname=\"$db_name\";"
   echo "\$dbport=\"3306\";"
-  echo "\$dbpass=\"$DBPASS\";"
+  echo "\$dbpass=\"${escaped}\";"
   echo "\$dbtype=\"mysqli\";"
   echo "\$dbdebug=FALSE;"
   echo "\$sessdebug=FALSE;"
@@ -624,7 +660,7 @@ define('_LOGINSITE','login1');"
 
   }> $WEBROOT$BASEPATH"/include/config.php"
   
-  if [ $moddev == "yes" ]; then
+  if [ -n "$moddev" ]; then
     {
     echo "
 
@@ -683,37 +719,6 @@ mkdir $updpath
 updfile="config.ovpn-admin.upd"
 
 SERVERID=$( cat /etc/machine-id )
-
-write_config(){
-  if [[ ! -d  "${updpath}" ]]; then
-    mkdir $updpath
-  fi
-
-  {
-  echo "VERSION=\"1.2.0\""
-  echo "DBHOST=\"$DBHOST\""
-  echo "DBUSER=\"$DBUSER\""
-  echo "DBNAME=\"$DBNAME\""
-  echo "BASEPATH=\"$BASEPATH\""
-  echo "WEBROOT=\"$WEBROOT\""
-  echo "WWWOWNER=\"www-data\""
-  echo "### Is it still the original installed system?"
-  echo "MACHINEID=$LOCALMACHINEID"
-  echo "INSTALLDATE=\"$(date '+%Y-%m-%d %H:%M:%S')\""
-  }> $updpath$updfile
-  
-  if [ $installextensions == "yes" ]; then
-  {
-    echo "### you have installed modules"
-    echo "MODULES=\"$installextensions\""
-    echo "MODULES_SSL=\"$modssl\""
-    echo "MODULES_DEV=\"$moddev\""    
-    }>> $updpath$updfile
-  fi
-
-  control_box $? "write config"
-  chmod -R 600 $updpath
-}
 
 chown -R root $updpath
 chmod 0600 $updpath
