@@ -40,8 +40,8 @@ USER03="Installation avortée"
 BREAK="Scénario avorté"
 BEFOR="Appuyez sur ENTER pour démarrer l'installation ou sur ctrl+c pour l'interrompre".
 
-SELECT00="Sélection des options d'installation"
-SELECT01="Installation avec"
+SELECT_A="Sélection des options d'installation"
+SELECT_B="Installation avec"
 
 SELECT01="Copier l'échantillon de config.conf.vers config.conf ?"
 SELECT02="Installer automatiquement les paquets manquants"
@@ -77,7 +77,7 @@ SETVPN08="Admin Nom d'utilisateur pour le frontend web de l'OpenVPN-Admin".
 SETVPN09="Admin Mot de passe utilisateur pour le frontend web de l'OpenVPN-Admin".
 SETVPN10="Nom de la base de données"
 SETVPN11="Répertoire racine du serveur web"
-SETVPN12="Répertoire web de l'OpenVPN WebAdmin"
+SETVPN12="Correction Répertoire web de l'OpenVPN WebAdmin! (sans /)"
 
 SETFIN01="Installation de base OpenVPN-Admin terminée."
 SETFIN02="Pour terminer l'installation, veuillez configurer votre serveur web (Apache, NGinx...)"

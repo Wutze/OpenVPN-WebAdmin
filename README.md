@@ -15,6 +15,7 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 [![Doku English](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
 [![Doku Deutsch/German](https://img.shields.io/badge/Dokumentation-DE-%230034F0?style=plastic)](doc/doc.de_DE.md)
+[![Doku Französisch/French](https://img.shields.io/badge/Dokumentation-FR-%230034F0?style=plastic)](doc/doc.fr_FR.md)
 
 [![Update Doku](https://img.shields.io/badge/Update--Doku--1.2.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.2.0.info.md)
 
@@ -22,9 +23,9 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 Administrate its OpenVPN with a web interface (logs visualisations, users managing...) with MariaDB.
 
-![Previsualisation Login](doc/login.png)
-![Previsualisation Administration](doc/overview.png)
-![Previsualisation Useradministration](doc/useradmin.png)
+![Previsualisation Login](doc/img/login.png)
+![Previsualisation Administration](doc/img/overview.png)
+![Previsualisation Useradministration](doc/img/useradmin.png)
 
 ## Prerequisite
 
@@ -94,20 +95,33 @@ Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
 ## Installation
 
+![Previsualisation Setup](doc/img/setup.png)
+
+* Currently you can choose from the languages German, English and French
 * Setup OpenVPN and the web application:
 
 ````code
 cd /opt/
 git clone https://github.com/Wutze/OpenVPN-WebAdmin openvpn-admin
 cd openvpn-admin
-cp config.conf.sample config.conf
+cp installation/config.conf.sample installation/config.conf
 
 # Edit your config.conf e.g. with nano
-nano config.conf
+nano installation/config.conf
 
-# Beginn main installation
+# start main installation
 ./install.sh
 ````
+
+### Note
+
+The following message is displayed during installation:
+
+````bash
+Common Name (eg: your user, host, or server name) [Easy-RSA CA]:
+````
+
+You can simply confirm this with Enter without any input.
 
 * Setup the web server (Apache, NGinx...) to serve the web application. Using the example below.
 
@@ -115,7 +129,7 @@ nano config.conf
 nano /etc/apache2/sites-enabled/[ apache config ]
 ````
   
-* You must reboot the server after installation, otherwise the vpn server will not start correctly and no connection will be established!
+* You must **reboot** the server after installation, otherwise the vpn server will not start correctly and no connection will be established!
 
 * Finally, create a port forwarding on your Internet Router to this VPN-Server. Check the documentation of the router manufacturer or search the Internet for instructions.
 
@@ -214,16 +228,6 @@ AccessFileName .htaccess
 </VirtualHost>
 ````
 
-### Changes from the original (fixes from original issues)
+### Hardware-Preview
 
-* Support use of Mysql on different server #49
-* Can it change bower to Yarn #155
-* All other entries are not very helpful for the functions. However, some have been changed in this way, as you can now modify the server.conf within the system.
-
-## Use of
-
-* [admin-lte](https://adminlte.io/)
-* [Bootstrap](https://github.com/twbs/bootstrap)
-* [Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
-* [Bootstrap Datepicker](https://github.com/eternicode/bootstrap-datepicker)
-* [JQuery](https://jquery.com/)
+![Previsualisation Preview OpenVPN-WebAdmin-Server](doc/img/19zoll.png)

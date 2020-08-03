@@ -305,8 +305,10 @@ make_backup(){
 
 ## Fixed a bug in the installation script that saved the wrong BASEPATH of the Webroot (up to version 1.1.1)
 fix_error_1(){
-  BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} ${BASEPATH} --title "${SETVPN12}" 3>&1 1>&2 2>&3)
-  control_box $? "fix error Web-Basepath to $BASEPATH"
+  if [[ ! -d "$BASEPATH$WEBROOT" ]]; then
+    BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} openvpn-admin --title "${SETVPN12}" 3>&1 1>&2 2>&3)
+    control_box $? "fix error Web-Basepath to $BASEPATH"
+  fi
 }
 
 setup_questions(){
@@ -435,17 +437,20 @@ start_update_normal(){
   fi
 
   ## move all history folders and osx folder
-  if [[ ! -d  "${WEBROOT}vpn/history/osx-viscosity/" ]]; then
-    mv ${WEBROOT}"vpn/history/osx-viscosity/ ${WEBROOT}vpn/history/osx"
-    mv ${WEBROOT}"vpn/conf/osx-viscosity/ ${WEBROOT}vpn/conf/osx"
-    cp ${WEBROOT}"vpn/history/osx/history/* ${WEBROOT}vpn/history/osx/"
-    rm -r ${WEBROOT}"vpn/history/osx/history/"
-    cp ${WEBROOT}"vpn/history/osx/history/* ${WEBROOT}vpn/history/osx/"
-    rm -r ${WEBROOT}"vpn/history/gnu-linux/history/"
-    cp ${WEBROOT}"vpn/history/gnu-linux/history/* ${WEBROOT}vpn/history/gnu-linux/"
-    rm -r ${WEBROOT}"vpn/history/gnu-linux/history/"
-    cp ${WEBROOT}"vpn/history/server/history/* ${WEBROOT}vpn/history/server/"
-    rm -r ${WEBROOT}"vpn/history/server/history/"
+  cd $WEBROOT
+  if [[ ! -d  "vpn/history/osx" ]]; then
+    ## rename osx folder
+    mv vpn/history/osx-viscosity/ vpn/history/osx
+    mv vpn/conf/osx-viscosity/ vpn/conf/osx
+    ## move history files
+    cp vpn/history/osx/history/* vpn/history/osx/
+    rm -r vpn/history/osx/history/
+    cp vpn/history/windows/history/* vpn/history/osx/
+    rm -r vpn/history/windows/history/
+    cp vpn/history/gnu-linux/history/* vpn/history/gnu-linux/
+    rm -r vpn/history/gnu-linux/history/
+    cp vpn/history/server/history/* vpn/history/server/
+    rm -r vpn/history/server/history/
   fi
 
   control_script "renew Files"
@@ -553,6 +558,67 @@ do_select(){
   done < <(echo "$sel")
 }
 
+write_webconfig(){
+  {
+  echo "<?php
+/**
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+ *
+ * NOTICE OF LICENSE
+ *
+ * GNU AFFERO GENERAL PUBLIC LICENSE V3
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ *
+ * @author    Wutze
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.2.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ */
+
+(stripos(\$_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');"
+  echo ""
+  echo ""
+  echo "\$dbhost=\"$DBHOST\";"
+  echo "\$dbuser=\"$DBUSER\";"
+  echo "\$dbname=\"$DBNAME\";"
+  echo "\$dbport=\"3306\";"
+  echo "\$dbpass=\"$DBPASS\";"
+  echo "\$dbtype=\"mysqli\";"
+  echo "\$dbdebug=FALSE;"
+  echo "\$sessdebug=FALSE;"
+
+  echo "/* Site-Name */
+define('_SITE_NAME',\"OVPN-WebAdmin\");
+define('HOME_URL',\"vpn.home\");
+define('_DEFAULT_LANGUAGE','en_EN');
+
+/** Login Site */
+define('_LOGINSITE','login1');"
+
+  }> $WEBROOT$BASEPATH"/include/config.php"
+  
+  echo "
+
+	/** 
+	 * only for development!
+	 * please comment out if no longer needed!
+   * comment in the \"define function\" to enable
+	 */
+	if(file_exists(\"dev/dev.php\")){
+		define('dev','dev/dev.php');
+	}
+	if (defined('dev')){
+		include('dev/class.dev.php');
+	}"
+}>> $WEBROOT$BASEPATH"/include/config.php"
+  
+
 
 ## first information to update
 # you must say yes to continue!
@@ -588,12 +654,19 @@ main(){
   fi
 
   write_config
+  write_webconfig
+  print_out 1 "Configs written"
+  chown -R "$WWWOWNER:$WWWOWNER" "$WEBROOT$BASEPATH"
+  chown -R "$WWWOWNER:$WWWOWNER" $WEBROOT/vpn
+  print_out 1 "set file rights"
 }
 
 ### Start Script
 
 main
 
+
+### finish script and call messages
 print_out d "Yeahh! Update ready. 【ツ】"
 print_out i "Have Fun!"
 print_out i "${SETFIN04}"
@@ -604,5 +677,5 @@ exit
 
 
 ### Hinweise
-## umbenennen vpn conf ordner in osx --- selbiges mit history
+## umbenennen vpn conf ordner in osx --- selbiges mit history - ok
 ## umschreiben variablen config.php - ok
