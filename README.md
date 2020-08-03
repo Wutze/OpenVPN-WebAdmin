@@ -94,6 +94,9 @@ Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
 ## Installation
 
+![Previsualisation Setup](doc/setup.png)
+
+* Currently you can choose from the languages German, English and French
 * Setup OpenVPN and the web application:
 
 ````code
@@ -105,11 +108,19 @@ cp installation/config.conf.sample installation/config.conf
 # Edit your config.conf e.g. with nano
 nano installation/config.conf
 
-# Beginn main installation
+# start main installation
 ./install.sh
 ````
 
-![Previsualisation Setup](doc/setup.png)
+### Note
+
+The following message is displayed during installation:
+
+````bash
+Common Name (eg: your user, host, or server name) [Easy-RSA CA]:
+````
+
+You can simply confirm this with Enter without any input.
 
 * Setup the web server (Apache, NGinx...) to serve the web application. Using the example below.
 
@@ -222,10 +233,4 @@ AccessFileName .htaccess
 * Can it change bower to Yarn #155
 * All other entries are not very helpful for the functions. However, some have been changed in this way, as you can now modify the server.conf within the system.
 
-## Use of
-
-* [admin-lte](https://adminlte.io/)
-* [Bootstrap](https://github.com/twbs/bootstrap)
-* [Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
-* [Bootstrap Datepicker](https://github.com/eternicode/bootstrap-datepicker)
-* [JQuery](https://jquery.com/)
+![Previsualisation Preview OpenVPN-WebAdmin-Server](doc/19zoll.png)
