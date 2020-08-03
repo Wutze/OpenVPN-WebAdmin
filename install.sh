@@ -631,24 +631,13 @@ define('_LOGINSITE','login1');"
 	/** 
 	 * only for development!
 	 * please comment out if no longer needed!
+   * comment in the \"define function\" to enable
 	 */
-	define('dev','dev/dev.php');
+	if(file_exists(\"dev/dev.php\")){
+		define('dev','dev/dev.php');
+	}
 	if (defined('dev')){
 		include('dev/class.dev.php');
-	}"
-    }>> $WEBROOT$BASEPATH"/include/config.php"
-  fi
-  
-  if [ $modssl == "yes" ]; then
-    {
-    echo "
-
-	/**
-	 * enable modssl
-	 */
-	define('modssl',FALSE);
-	if (defined('modssl')){
-		include('/include)/class.modssl.php');
 	}"
     }>> $WEBROOT$BASEPATH"/include/config.php"
   fi
@@ -681,11 +670,8 @@ yarn install
 print_out i "Install third party module ADOdb"
 git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
 
-#cd /opt/
-#wget "https://apexcharts.com/downloads/apexcharts-bundle.zip"
-#wget "https://codeload.github.com/apexcharts/apexcharts.js/zip/master"
-#unzip "apexcharts-bundle.zip"
-#exit
+write_webconfig
+write_config
 
 chown -R "$user:$group" "$openvpn_admin"
 chown -R "$user:$group" $www/vpn
