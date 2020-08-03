@@ -40,11 +40,11 @@
 export PATH=$PATH:/usr/sbin:/sbin
 
 ## set static vars
-config="config.conf"
+config="installation/config.conf"
 coltable=/opt/install/COL_TABLE
-installextensions="no";
-modules_ssl="no"
-modules_dev="no"
+installextensions="";
+modules_ssl=""
+modules_dev=""
 
 ## init screen
 # Find the rows and columns will default to 80x24 if it can not be detected
@@ -149,15 +149,15 @@ if [ $RET -eq 1 ]; then
   exit
 elif [ $RET -eq 0 ]; then
   case "$var2" in
-    AUTO) source lang/"$var1"
+    AUTO) source "installation/lang/$var1"
     ;;
-    de_DE) source "lang/$var2"
+    de_DE) source "installation/lang/$var2"
     ;;
-    en_EN) source "lang/$var2"
+    en_EN) source "installation/lang/$var2"
     ;;
-    fr_FR) source "lang/$var2"
+    fr_FR) source "installation/lang/$var2"
     ;;
-    *) source "lang/en_EN"
+    *) source "installation/lang/en_EN"
     ;;
   esac
 fi
@@ -227,6 +227,7 @@ do_select(){
     "5" "${SELECT05} " on \
     "7" "${SELECT07} " on \
     "9" "${SELECT09} " on \
+    "11" "${SELECT11} " off \
     "20" "${SELECT20} " off \
     3>&1 1>&2 2>&3)
 #  RET=$?
@@ -299,7 +300,13 @@ make_owner(){
 }
 
 set_config(){
-  cp config.conf.sample config.conf
+  cp installation/config.conf.sample config.conf
+}
+
+## set debug install
+## Write with comma (separated call to copy)
+debug_func(){
+  modules_dev=",dev"
 }
 #### Start Script with Out- and Inputs
 ## first call funcions
@@ -326,6 +333,8 @@ do #echo "${line}";
         7|8) make_webroot $line
         ;;
         9|10) make_owner $line
+        ;;
+        11) debug_func $line
         ;;
         20) set_extensions $line
         ;;
@@ -433,7 +442,7 @@ if [ "$db_host" == localhost ]; then
 fi
 
 # current only new install
-mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpnadmin-1.1.0.dump
+mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < installation/sql/vpnadmin-1.1.0.dump
 control_script "Insert Database Dump"
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
 control_script "Insert Webadmin User"
@@ -555,7 +564,7 @@ sed -i "s/DBNAME=''/DBNAME='$db_name'/" "/etc/openvpn/scripts/config.sh"
 # Create the directory of the web application
 mkdir $www
 mkdir "$openvpn_admin"
-cp -r "$base_path/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data$modules_dev} "$openvpn_admin"
 mkdir {$www/vpn,$www/vpn/history,$www/vpn/history/server,$www/vpn/history/osx,$www/vpn/history/gnu-linux,$www/vpn/history/win}
 cp -r "$base_path/"installation/conf $www/vpn/
 ln -s /etc/openvpn/server.conf $www/vpn/conf/server/server.conf

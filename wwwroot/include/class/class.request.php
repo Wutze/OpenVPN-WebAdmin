@@ -10,7 +10,7 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
@@ -70,22 +70,6 @@ class set_request{
 	 * @return html code
 	 */
 	function main(){
-#		$this->modload = new get_modules;
-#		$this->modload->search_mod_dir();
-#		$keys = array_keys($this->modload->loaddir);
- # 	for($a=0;$a<count($keys);$a++){
-#			if(file_exists(REAL_BASE_DIR."/include/html/modules/".$keys[$a]."/class.".$keys[$a].".php")){
-#				include_once(REAL_BASE_DIR."/include/html/modules/".$keys[$a]."/class.".$keys[$a].".php");
-#				#$newmod = new $keys[$a];
-#				#$this->op = array_merge($this->op,($keys[$a]::getvars));
-#			}
-#		}
-
-		#$this->op = array_merge($this->op,($keys[$a]::getvars));
-
-
-
-
 		(array_key_exists($this->action,$this->op)) ? $this->gotox = $this->op[$this->action] : $this->gotox = 'error';
 		$this->isuser = (int)Session::GetVar('isuser');
 		$this->isadmin = (int)Session::GetVar('isadmin');

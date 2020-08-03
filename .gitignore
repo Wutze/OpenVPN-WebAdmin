@@ -1,3 +1,6 @@
-/include/config.php
-/include/ADOdb
 /node_modules
+/vpn/
+/.vscode/
+config.php
+ADOdb
+test.sh

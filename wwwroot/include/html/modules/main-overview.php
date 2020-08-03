@@ -23,8 +23,8 @@
 
 if(Session::GetVar('isadmin')){
 ?>
-        <div class="row">
 
+        <div class="row">
           <div class="col-lg-3 col-12">
             <div class="small-box bg-info">
               <div class="inner">
@@ -78,6 +78,7 @@ if(Session::GetVar('isadmin')){
           </div>
         </div>
 <?php
+@include_once(REAL_BASE_DIR."/include/html/modules/admin-sysoverview.php");
 }else{
   echo "Welcome";
 };

@@ -88,7 +88,7 @@ npm install -g yarn
 * Debian 10/Buster, PHP 7.3.x, 10.3.22-MariaDB.
 * RaspberryPi 4 with Debian Buster
 * ~~Ubuntu 20.04 Server (Minimal Installation + OpenSSH-Server)~~
-* CentOS #19
+* CentOS (view issue #19)
 
 Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 

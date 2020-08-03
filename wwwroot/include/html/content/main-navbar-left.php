@@ -32,14 +32,12 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a class="nav-link"><?php echo GET_Lang::nachricht('_TODAY'); ?></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <div class="nav-message-stage nav-link" id="message-stage"></div>
-      </li>
-      <?php
+<?php
 if (defined('dev')){
   echo devel::topnav;
 }
 ?>
     </ul>
-  
-
+    <!-- file saved or not - flying message -->
+    <div id="messagestage">Config saved</div>
+    <div id="messagestageer">Save Error</div>
