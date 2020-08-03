@@ -14,7 +14,7 @@
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.1.0
+# @version		1.2.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
@@ -40,8 +40,11 @@
 export PATH=$PATH:/usr/sbin:/sbin
 
 ## set static vars
-config="config.conf"
+config="installation/config.conf"
 coltable=/opt/install/COL_TABLE
+installextensions="";
+modules_ssl=""
+modules_dev=""
 
 ## init screen
 # Find the rows and columns will default to 80x24 if it can not be detected
@@ -138,6 +141,7 @@ var2=$(whiptail --title "Select Language" --menu "Select your language" ${r} ${c
   "AUTO" " Automatic" \
   "de_DE" " Deutsch" \
   "en_EN" " Englisch" \
+  "fr_FR" " Français" \
   3>&1 1>&2 2>&3)
 RET=$?
 if [ $RET -eq 1 ]; then
@@ -145,13 +149,15 @@ if [ $RET -eq 1 ]; then
   exit
 elif [ $RET -eq 0 ]; then
   case "$var2" in
-    AUTO) source lang/"$var1"
+    AUTO) source "installation/lang/$var1"
     ;;
-    de_DE) source "lang/$var2"
+    de_DE) source "installation/lang/$var2"
     ;;
-    en_EN) source "lang/$var2"
+    en_EN) source "installation/lang/$var2"
     ;;
-    *) source "lang/de_DE"
+    fr_FR) source "installation/lang/$var2"
+    ;;
+    *) source "installation/lang/en_EN"
     ;;
   esac
 fi
@@ -210,10 +216,8 @@ check_user(){
 
 do_select(){
 
-#value=("0" "${SELECT00}" on "2" "${SELECT01}" on "3" "${SELECT02}" off)
-#whiptail --title "xx" --checklist "choose" 16 78 10 "${value[@]}"
 # nginx fehlt noch
-	sel=$(whiptail --title "${SELECT0}" --checklist --separate-output "${SELECT1}:" ${r} ${c} ${h} \
+	sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
     "1" "${SELECT01} " on \
     "2" "${SELECT02} " on \
     "3" "${SELECT03} " on \
@@ -221,6 +225,7 @@ do_select(){
     "5" "${SELECT05} " on \
     "7" "${SELECT07} " on \
     "9" "${SELECT09} " on \
+    "11" "${SELECT11} " off \
     3>&1 1>&2 2>&3)
 #  RET=$?
   control_box $? "select"
@@ -271,6 +276,15 @@ make_webserver(){
     
 }
 
+set_extentions(){
+  installextensions="yes";
+}
+
+make_extentions(){
+  cd /opt/
+  git clone https://github.com/Wutze/OpenVPN-WebAdmin-Modules ovpn-modules
+}
+
 make_webroot(){
   www="/srv/www/"
   echo -e " ${TICK} ${1}" "Set www-root "$www
@@ -283,7 +297,13 @@ make_owner(){
 }
 
 set_config(){
-  cp config.conf.sample config.conf
+  cp installation/config.conf.sample installation/config.conf
+}
+
+## set debug install
+## Write with comma (separated call to copy)
+debug_func(){
+  modules_dev=",dev"
 }
 #### Start Script with Out- and Inputs
 ## first call funcions
@@ -310,6 +330,10 @@ do #echo "${line}";
         7|8) make_webroot $line
         ;;
         9|10) make_owner $line
+        ;;
+        11) debug_func $line
+        ;;
+        20) set_extensions $line
         ;;
         *)
         ;;
@@ -415,7 +439,7 @@ if [ "$db_host" == localhost ]; then
 fi
 
 # current only new install
-mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < sql/vpnadmin-1.1.0.dump
+mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < installation/sql/vpnadmin-1.1.0.dump
 control_script "Insert Database Dump"
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
 control_script "Insert Webadmin User"
@@ -537,9 +561,13 @@ sed -i "s/DBNAME=''/DBNAME='$db_name'/" "/etc/openvpn/scripts/config.sh"
 # Create the directory of the web application
 mkdir $www
 mkdir "$openvpn_admin"
-cp -r "$base_path/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
-mkdir $www/vpn
-#mkdir $www/vpn/conf
+if [ -n "$moddev" ]; then
+  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
+else
+  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+fi
+
+mkdir {$www/vpn,$www/vpn/history,$www/vpn/history/server,$www/vpn/history/osx,$www/vpn/history/gnu-linux,$www/vpn/history/win}
 cp -r "$base_path/"installation/conf $www/vpn/
 ln -s /etc/openvpn/server.conf $www/vpn/conf/server/server.conf
 
@@ -547,12 +575,106 @@ ln -s /etc/openvpn/server.conf $www/vpn/conf/server/server.conf
 cd "$openvpn_admin"
 
 # Replace config.sample.php variables
-cp ./include/config.sample.php ./include/config.php
-sed -i "s/\$dbhost = '';/\$dbhost = '$db_host';/" "./include/config.php"
-sed -i "s/\$dbuser = '';/\$dbuser = '$mysql_user';/" "./include/config.php"
-sed -i "s/\$dbname = '';/\$dbname = '$db_name';/" "./include/config.php"
-sed -i "s/\$dbpass = '';/\$dbpass = '${escaped}';/" "./include/config.php"
+#cp ./include/config.sample.php ./include/config.php
+#sed -i "s/\$dbhost = '';/\$dbhost = '$db_host';/" "./include/config.php"
+#sed -i "s/\$dbuser = '';/\$dbuser = '$mysql_user';/" "./include/config.php"
+#sed -i "s/\$dbname = '';/\$dbname = '$db_name';/" "./include/config.php"
+#sed -i "s/\$dbpass = '';/\$dbpass = '${escaped}';/" "./include/config.php"
 
+write_config(){
+  if [[ ! -d  "$updpath" ]]; then
+    mkdir $updpath
+  fi
+
+  {
+  echo "VERSION=\"1.2.0\""
+  echo "DBHOST=\"$db_host\""
+  echo "DBUSER=\"$mysql_user\""
+  echo "DBNAME=\"$db_name\""
+  echo "BASEPATH=\"openvpn-admin\""
+  echo "WEBROOT=\"$www\""
+  echo "WWWOWNER=\"www-data\""
+  echo "### Is it still the original installed system?"
+  echo "MACHINEID=$LOCALMACHINEID"
+  echo "INSTALLDATE=\"$(date '+%Y-%m-%d %H:%M:%S')\""
+  }> $updpath$updfile
+  
+  if [ -n "$installextensions" ]; then
+  {
+    echo "### you have installed modules"
+    echo "MODULES=\"$installextensions\""
+    echo "MODSSL=\"$modssl\""
+    echo "MODDEV=\"$moddev\""    
+    }>> $updpath$updfile
+  fi
+
+  control_box $? "write config"
+  chmod -R 600 $updpath
+}
+
+  write_webconfig(){
+  {
+  echo "<?php
+/**
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+ *
+ * NOTICE OF LICENSE
+ *
+ * GNU AFFERO GENERAL PUBLIC LICENSE V3
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ *
+ * @author    Wutze
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.2.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ */
+
+(stripos(\$_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');"
+  echo ""
+  echo ""
+  echo "\$dbhost=\"$db_host\";"
+  echo "\$dbuser=\"$mysql_user\";"
+  echo "\$dbname=\"$db_name\";"
+  echo "\$dbport=\"3306\";"
+  echo "\$dbpass=\"${escaped}\";"
+  echo "\$dbtype=\"mysqli\";"
+  echo "\$dbdebug=FALSE;"
+  echo "\$sessdebug=FALSE;"
+
+  echo "/* Site-Name */
+define('_SITE_NAME',\"OVPN-WebAdmin\");
+define('HOME_URL',\"vpn.home\");
+define('_DEFAULT_LANGUAGE','en_EN');
+
+/** Login Site */
+define('_LOGINSITE','login1');"
+
+  }> $openvpn_admin"/include/config.php"
+  
+  if [ -n "$moddev" ]; then
+    {
+    echo "
+
+	/** 
+	 * only for development!
+	 * please comment out if no longer needed!
+   * comment in the \"define function\" to enable
+	 */
+	if(file_exists(\"dev/dev.php\")){
+		define('dev','dev/dev.php');
+	}
+	if (defined('dev')){
+		include('dev/class.dev.php');
+	}"
+    }>> $openvpn_admin"/include/config.php"
+  fi
+  }
 
 # Replace in the client configurations with the ip of the server and openvpn protocol
 for file in $(find ../ -name client.ovpn); do
@@ -569,7 +691,7 @@ for file in $(find ../ -name client.ovpn); do
 done
 
 # Copy ta.key inside the client-conf directory
-for directory in "../vpn/conf/gnu-linux/" "../vpn/conf/osx-viscosity/" "../vpn/conf/windows/"; do
+for directory in "../vpn/conf/gnu-linux/" "../vpn/conf/osx/" "../vpn/conf/windows/"; do
   cp "/etc/openvpn/"{ca.crt,ta.key} $directory
 done
 
@@ -580,6 +702,8 @@ yarn install
 
 print_out i "Install third party module ADOdb"
 git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
+
+write_webconfig
 
 chown -R "$user:$group" "$openvpn_admin"
 chown -R "$user:$group" $www/vpn
@@ -592,18 +716,10 @@ updfile="config.ovpn-admin.upd"
 
 SERVERID=$( cat /etc/machine-id )
 
-echo "VERSION=\"1.1.0\"" >> $updpath$updfile
-echo "DBHOST=\"$db_host\"" >> $updpath$updfile
-echo "DBUSER=\"$mysql_user\"" >> $updpath$updfile
-echo "DBNAME=\"$db_name\"" >> $updpath$updfile
-echo "BASEPATH=\"$base_path\"" >> $updpath$updfile
-echo "WEBROOT=\"$www\"" >> $updpath$updfile
-echo "WWWOWNER=\"www-data\"" >> $updpath$updfile
-echo "### Is it still the original installed system?" >> $updpath$updfile
-echo "MACHINEID"="$SERVERID" >> $updpath$updfile
+write_config
 
 chown -R root $updpath
-chmod 0600 $updpath
+chmod 700 $updpath
 print_out 1 "update informations written (${updpath})"
 print_out d "Setup ready - please read informations!" 
 

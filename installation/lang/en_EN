@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+#
+# NOTICE OF LICENSE
+#
+# GNU AFFERO GENERAL PUBLIC LICENSE V3
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
+#
+# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+# 
+# @author    Wutze
+# @copyright 2020 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		1.2.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+
+ATTENTION="ATTENTION!
+Your VPN server should never be directly connected to the Internet, otherwise the server is vulnerable and in the worst case offers direct access to your network.
+
+In addition, you have to adjust your firewall under /usr/sbin/firewall.sh accordingly, so that the system is sufficiently protected.
+
+To be always informed about errors in the system, I recommend to install \"logwatch\" and \"fail2ban\". You can find information about this on the internet."
+
+CONFIG01="config.conf failed"
+CONFIG02="First copy the config.conf.example to config.conf and edit the file"
+CONFIG03="Example: cp config.conf.example config.conf"
+CONFIG04="to edit: nano config.conf"
+
+PLSWAIT1="Please wait, Update/Installation system ..."
+
+USER01="Script called with non-root privileges"
+USER02="The Installation requires root privileges to install and run"
+USER03="Installation aborted"
+
+BREAK="Script break"
+BEFOR="Press ENTER to start the installation or ctrl+c to cancel"
+
+SELECT_A="Selection of installation options"
+SELECT_B="Installation with"
+
+SELECT01="copy config.conf.sample to config.conf?"
+SELECT02="Automatic installation of missing packages"
+SELECT03="MySQL-Server lokal"
+SELECT04="or MySQL-Server remote"
+SELECT05="Apache"
+SELECT06="or Nginx"
+SELECT07="webpath /srv/www/openvpn-admin"
+SELECT08="or enter your own directory"
+SELECT09="Set owner webpath to www-data"
+SELECT10="or other self defined owner"
+SELECT11="Install Debug Functions?"
+SELECT20="Install all extensions?"
+
+MISSING="missing:"
+INSTALL="Just use the automatic installation of missing packages."
+ONEONLY="Only one selection is possible!"
+FEHLER01="You try to install at the same time:"
+FEHLER03="and"
+INSTMESS="You think you don't need mysql? Wrong! Let's start again. You have to make a MySQL choice!"
+
+MYSQL01="Insert your new database password"
+MYSQL02="Create DB-PW"
+
+SETVPN01="Server Hostname/IP\nUse the name as the server is to be reached from the Internet!"
+SETVPN02="OpenVPN protocol (tcp or udp)\nIf you are using a VM with this installation, then select udp:"
+SETVPN03="OpenVPN Server Port\nDefault Port tcp or udp 1194:"
+SETVPN04="MySQL Host\n(localhost, IP or FQDN)\n\nIf you are using an external database server,\nconfigure it previously so that you can enter a user name and password."
+SETVPN05="MySQL Root Password\n(The password must not be empty. Please configure this before!)"
+SETVPN06="MySQL Username for OpenVPN Database"
+SETVPN07="MySQL Userpassword for OpenVPN Database"
+SETVPN08="Admin Username for Webfrontend OpenVPN-Admin"
+SETVPN09="Admin Userpassword for Webfrontend OpenVPN-Admin"
+SETVPN10="Database name for database"
+SETVPN11="Root directory of the web server"
+SETVPN12="Correct Web directory of the OpenVPN WebAdmin! (without /)"
+
+SETFIN01="Basic installation OpenVPN-Admin completed."
+SETFIN02="To finish the installation, please configure your web server (Apache, NGinx...)"
+SETFIN03="You must restart the server, otherwise OpenVPN will not work correctly!"
+SETFIN04="Questions, answers, wishes, mistakes please communicate there: https://github.com/Wutze/OpenVPN-WebAdmin/issues"
+
+### Update variables
+UPSEL00="Update Information"
+UPSEL01="Update from Version 0.8 to 1.1.0"
+UPSEL02="General Update System 1.1.x"
+UPSEL03=""
+UPSEL04="Installation Questions"
+
+UPVERSIO="Installed Version       "
+NEVERSIO="New Version             "
+UPDBHOST="Database host *         "
+UPDBUSER="Database user *         "
+UPDBPASS="Database password *     "
+UPDBNAME="Database Name *         "
+UPWEBDIR="Web directory *         "
+UPWEBROO="Webroot *               "
+UPPATHOW="Owner                   "
+UPMASHID="Installed on Machine ID "
+INSTALLD="Installed on            "
+UPDATAOK="* Information required!
+
+All data correct?"
+
+
+UPDATEINF01="Please make a backup of your server BEFORE starting this update. Despite all the tests I can do, 
+I can't see any errors on your server to react accordingly.
+
+However, this update introduces some functionality that allows you to restore the old installation from a backup later.
+
+Continue?"
+
+AUPDATE01="Please empty the browser cache after the update!"

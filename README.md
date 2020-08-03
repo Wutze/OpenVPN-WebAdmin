@@ -1,4 +1,4 @@
-# OpenVPN WebAdmin 1.1.0
+# OpenVPN WebAdmin 1.2.0
 
 You lock your front door. But why do you leave the back entrances open? This is the same with almost all Internet accesses to your IoT, webcams and other devices.
 
@@ -6,7 +6,7 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/Wutze/OpenVPN-WebAdmin?style=plastic)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Wutze/OpenVPN-WebAdmin?style=plastic)
-![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/Wutze/OpenVPN-WebAdmin/1.1.0?style=plastic)
+![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/Wutze/OpenVPN-WebAdmin/1.2.0?style=plastic)
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/huwutze?color=blue&label=HuWutze&logo=Twitter&style=plastic)](https://twitter.de/HuWutze)
 [![Liberapay patrons](https://img.shields.io/liberapay/patrons/Wutze?style=plastic)](https://liberapay.com/Wutze/)
@@ -15,16 +15,17 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 [![Doku English](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
 [![Doku Deutsch/German](https://img.shields.io/badge/Dokumentation-DE-%230034F0?style=plastic)](doc/doc.de_DE.md)
+[![Doku Französisch/French](https://img.shields.io/badge/Dokumentation-FR-%230034F0?style=plastic)](doc/doc.fr_FR.md)
 
-[![Update Doku](https://img.shields.io/badge/Update--Doku--1.1.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.1.0.info.md)
+[![Update Doku](https://img.shields.io/badge/Update--Doku--1.2.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.2.0.info.md)
 
 ## Screenshots
 
 Administrate its OpenVPN with a web interface (logs visualisations, users managing...) with MariaDB.
 
-![Previsualisation Login](doc/login.png)
-![Previsualisation Administration](doc/overview.png)
-![Previsualisation Useradministration](doc/useradmin.png)
+![Previsualisation Login](doc/img/login.png)
+![Previsualisation Administration](doc/img/overview.png)
+![Previsualisation Useradministration](doc/img/useradmin.png)
 
 ## Prerequisite
 
@@ -43,11 +44,15 @@ Administrate its OpenVPN with a web interface (logs visualisations, users managi
 * git
 * net-tools (for the includes simple firewall)
 
+Only __CentOS__
+
+* tar
+
 ## Note MySQL
 
 If you already have a database server, you can also use this one and do not need to install one locally. You only need a database and a username and password
 
-## Manual Install with MySQL-Server
+## Manual Install with MySQL-Server (Debian)
 
 ````bash
 apt-get install openvpn apache2 php-mysql mariadb-server php-zip php unzip git wget sed curl net-tools -y
@@ -55,11 +60,27 @@ apt-get install npm nodejs -y
 npm install -g yarn
 ````
 
-## Manual Install without MySQL-Server
+## Manual Install without MySQL-Server (Debian)
 
 ````bash
 apt-get install openvpn default-mysql-client apache2 php-mysql php-zip php unzip git wget sed curl net-tools -y
 apt-get install npm nodejs -y
+npm install -g yarn
+````
+
+## Manual Install with MySQL-Server (CentOS)
+
+````bash
+yum install openvpn apache2 php-mysql mariadb-server php-zip php unzip git wget sed curl net-tools tar -y
+yum install npm nodejs -y
+npm install -g yarn
+````
+
+## Manual Install without MySQL-Server (CentOS)
+
+````bash
+yum install openvpn default-mysql-client apache2 php-mysql php-zip php unzip git wget sed curl net-tools tar -y
+yum install npm nodejs -y
 npm install -g yarn
 ````
 
@@ -68,33 +89,47 @@ npm install -g yarn
 * Debian 10/Buster, PHP 7.3.x, 10.3.22-MariaDB.
 * RaspberryPi 4 with Debian Buster
 * ~~Ubuntu 20.04 Server (Minimal Installation + OpenSSH-Server)~~
+* CentOS (view issue #19)
 
 Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
 ## Installation
 
+![Previsualisation Setup](doc/img/setup.png)
+
+* Currently you can choose from the languages German, English and French
 * Setup OpenVPN and the web application:
 
 ````code
-  cd /opt/
-  git clone https://github.com/Wutze/OpenVPN-WebAdmin openvpn-admin
-  cd openvpn-admin
-  cp config.conf.sample config.conf
+cd /opt/
+git clone https://github.com/Wutze/OpenVPN-WebAdmin openvpn-admin
+cd openvpn-admin
+cp installation/config.conf.sample installation/config.conf
 
 # Edit your config.conf e.g. with nano
-  nano config.conf
+nano installation/config.conf
 
-# Beginn main installation
-  ./install.sh
+# start main installation
+./install.sh
 ````
+
+### Note
+
+The following message is displayed during installation:
+
+````bash
+Common Name (eg: your user, host, or server name) [Easy-RSA CA]:
+````
+
+You can simply confirm this with Enter without any input.
 
 * Setup the web server (Apache, NGinx...) to serve the web application. Using the example below.
 
 ````code
-  nano /etc/apache2/sites-enabled/[ apache config ]
+nano /etc/apache2/sites-enabled/[ apache config ]
 ````
   
-* You must reboot the server after installation, otherwise the vpn server will not start correctly and no connection will be established!
+* You must **reboot** the server after installation, otherwise the vpn server will not start correctly and no connection will be established!
 
 * Finally, create a port forwarding on your Internet Router to this VPN-Server. Check the documentation of the router manufacturer or search the Internet for instructions.
 
@@ -193,17 +228,6 @@ AccessFileName .htaccess
 </VirtualHost>
 ````
 
-### Changes from the original (fixes from original issues)
+### Hardware-Preview
 
-* Support use of Mysql on different server #49
-* Can it change bower to Yarn #155
-* All other entries are not very helpful for the functions. However, some have been changed in this way, as you can now modify the server.conf within the system.
-
-## Use of
-
-* [admin-lte](https://adminlte.io/)
-* [Bootstrap](https://github.com/twbs/bootstrap)
-* [Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
-* [Bootstrap Datepicker](https://github.com/eternicode/bootstrap-datepicker)
-* [JQuery](https://jquery.com/)
-* [X-editable](https://github.com/vitalets/x-editable)
+![Previsualisation Preview OpenVPN-WebAdmin-Server](doc/img/19zoll.png)

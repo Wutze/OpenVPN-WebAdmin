@@ -14,7 +14,7 @@
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.1.0
+# @version		1.2.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
@@ -26,13 +26,15 @@
 export PATH=$PATH:/usr/sbin:/sbin
 
 ## set static vars
-THIS_VERSION="1.1.0"
+THIS_NEW_VERSION="1.2.0"
 config="config.conf"
 coltable=/opt/install/COL_TABLE
 BACKTITLE="OVPN-Admin [UPDATE]"
 updpath="/var/lib/ovpn-admin/"
 updfile="config.ovpn-admin.upd"
 base_path=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+V2=0
+modules_dev=""
 ## init screen
 # Find the rows and columns will default to 80x24 if it can not be detected
 screen_size=$(stty size 2>/dev/null || echo 24 80)
@@ -130,6 +132,7 @@ sel_lang(){
     "AUTO" " Automatic" \
     "de_DE" " Deutsch" \
     "en_EN" " Englisch" \
+    "fr_FR" " Français" \
     3>&1 1>&2 2>&3)
   RET=$?
   if [ $RET -eq 1 ]; then
@@ -137,13 +140,15 @@ sel_lang(){
     exit
   elif [ $RET -eq 0 ]; then
     case "$var2" in
-      AUTO) source lang/"$var1"
+      AUTO) source "installation/lang/$var1"
       ;;
-      de_DE) source "lang/$var2"
+      de_DE) source "installation/lang/$var2"
       ;;
-      en_EN) source "lang/$var2"
+      en_EN) source "installation/lang/$var2"
       ;;
-      *) source "lang/de_DE"
+      fr_FR) source "installation/lang/$var2"
+      ;;
+      *) source "installation/lang/de_DE"
       ;;
     esac
   fi
@@ -195,8 +200,6 @@ if_updatefile_exist(){
       source /etc/openvpn/scripts/config.sh
     fi
     print_out 1 "Setup config loaded"
-    #check_version
-    #verify_setup
   else
     # when the update file not exist, you have a older version
     print_out i "Version older than 1.1.0"
@@ -209,7 +212,6 @@ if_updatefile_exist(){
       print_out i "Please read the update.info.md in doc folder!"
       exit;
     fi
-    #setup_questions
   fi
 }
 
@@ -229,17 +231,18 @@ verify_setup(){
   fi
   if [ -n "$HOST" ]; then DBHOST=$HOST; fi
   if [ -n "$DB" ]; then DBNAME=$DB; fi
-  if [ -n "$USER" ]; then DBUSER=$USER; fi
+  #if [ -n "$USER" ]; then DBUSER=$USER; fi
 
   UPDATEINFSUM="
 ${UPDATEINF02} ↠ ${LOCALMACHINEID}
 
 ${UPVERSIO}: ${VERSION}
+${NEVERSIO}: ${THIS_NEW_VERSION}
 ${UPDBHOST}: ${DBHOST}
 ${UPDBUSER}: ${DBUSER}
 ${UPDBNAME}: ${DBNAME}
 ${UPDBPASS}: ${DBPASS}
-${UPWEBDIR}: /${BASEPATH}
+${UPWEBDIR}: ${BASEPATH}
 ${UPWEBROO}: ${WEBROOT}
 ${UPPATHOW}: ${WWWOWNER}
 ${UPMASHID}: ${MACHINEID}
@@ -253,6 +256,7 @@ ${UPDATAOK}
   
   if [ $? = 0 ]; then
       print_out 1 "Update: ${2}"
+      fix_error_1
   else
       print_out 0 "Update: ${2}"
       setup_questions
@@ -299,6 +303,14 @@ make_backup(){
   
 }
 
+## Fixed a bug in the installation script that saved the wrong BASEPATH of the Webroot (up to version 1.1.1)
+fix_error_1(){
+  if [[ ! -d "$BASEPATH$WEBROOT" ]]; then
+    BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} openvpn-admin --title "${SETVPN12}" 3>&1 1>&2 2>&3)
+    control_box $? "fix error Web-Basepath to $BASEPATH"
+  fi
+}
+
 setup_questions(){
 
   DBHOST=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN04}" ${r} ${c} ${DBHOST} --title "DB Host" 3>&1 1>&2 2>&3)
@@ -312,7 +324,7 @@ setup_questions(){
   WEBROOT=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN11}" ${r} ${c} ${WEBROOT} --title "${SETVPN11}" 3>&1 1>&2 2>&3)
   control_box $? "Web-Root"
   BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} ${BASEPATH} --title "${SETVPN12}" 3>&1 1>&2 2>&3)
-  control_box $? "Basepath"
+  control_box $? "Web-Basepath"
 
   verify_setup
   
@@ -330,7 +342,7 @@ start_update_new_version(){
   mkdir $openvpn_admin
   control_script "create new Webfolder"
 
-  cp -r "$base_path/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
   control_script "install new files"
   print_out i "Install third party module yarn"
   cd $openvpn_admin
@@ -342,8 +354,8 @@ start_update_new_version(){
   chown -R www-data $openvpn_admin
   control_script "Set access rights webfolder"
   print_out 1 "Set access rights webfolder"
-  if [[ -f "$base_path/sql/$THIS_VERSION-ovpnadmin.update.sql" ]]; then
-    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_VERSION-ovpnadmin.update.sql
+  if [[ -f "$base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
+    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
     control_script "execute Database Updates"
     mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/adodb.sql
     print_out 1 "Update Database ok"
@@ -370,7 +382,210 @@ start_update_new_version(){
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.1.0
+ * @version		1.2.0
+ * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ */
+
+(stripos(\$_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');"
+  echo ""
+  echo ""
+  echo "\$dbhost=\"$DBHOST\";"
+  echo "\$dbuser=\"$DBUSER\";"
+  echo "\$dbname=\"$DBNAME\";"
+  echo "\$dbport=\"3306\";"
+  echo "\$dbpass=\"$DBPASS\";"
+  echo "\$dbtype=\"mysqli\";"
+  echo "\$dbdebug=FALSE;"
+  echo "\$sessdebug=FALSE;"
+
+  echo "/* Site-Name */
+define('_SITE_NAME',\"OVPN-WebAdmin\");
+define('HOME_URL',\"vpn.home\");
+define('_DEFAULT_LANGUAGE','en_EN');
+
+/** Login Site */
+define('_LOGINSITE','login1');
+
+/** 
+ * only for development!
+ * please comment out if no longer needed!
+ * comment out the \"define function\" to enable
+ */
+#define('dev','dev/dev.php');
+if (defined('dev')){
+	include_once('dev/class.dev.php');
+}"
+
+  }> $WEBROOT$BASEPATH"/include/config.php"
+  control_script "create new config.php"
+  print_out 1 "create new config.php"
+
+}
+
+start_update_normal(){
+  openvpn_admin=$WEBROOT$BASEPATH
+  # simply delete the web directory to keep it clean
+  rm -r $openvpn_admin
+  print_out 1 "delete old Webfolder"
+  mkdir $openvpn_admin
+  control_script "create new Webfolder"
+
+  if [ -n "$modules_dev" ]; then
+    cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
+  else
+    cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+  fi
+
+  ## move all history folders and osx folder
+  cd $WEBROOT
+  if [[ ! -d  "vpn/history/osx" ]]; then
+    ## rename osx folder
+    mv vpn/history/osx-viscosity/ vpn/history/osx
+    mv vpn/conf/osx-viscosity/ vpn/conf/osx
+    ## move history files
+    if [[ -d  "vpn/history/osx" ]]; then
+    cp vpn/history/osx/history/* vpn/history/osx/
+    rm -r vpn/history/osx/history/
+    fi
+    if [[ ! -d  "vpn/history/windows" ]]; then
+    cp vpn/history/windows/history/* vpn/history/windows/
+    rm -r vpn/history/windows/history/
+    fi
+    if [[ ! -d  "vpn/history/gnu-linux" ]]; then
+    cp vpn/history/gnu-linux/history/* vpn/history/gnu-linux/
+    rm -r vpn/history/gnu-linux/history/
+    fi
+    if [[ ! -d  "vpn/history/server" ]]; then
+    cp vpn/history/server/history/* vpn/history/server/
+    rm -r vpn/history/server/history/
+    fi
+  fi
+
+  control_script "renew Files"
+  print_out i "Update third party module yarn"
+  cd $openvpn_admin
+  yarn install
+  control_script "yarn install"
+  print_out i "Install third party module ADOdb"
+  git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
+  control_script "ADODb install"
+
+  print_out i "Update SQL"
+  if [[ -f "$base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
+    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
+    control_script "execute Database Updates" 
+  else
+    print_out i "no changes to the database necessary"
+  fi
+}
+
+check_version(){
+
+  if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$VERSION" | sort -V | head -n1)" = "$THIS_NEW_VERSION" ]; then 
+    print_out i "Installed Version $VERSION greater than or equal to $THIS_NEW_VERSION"
+    print_out d "Update is not required"
+    exit
+  else
+    ## Special version due to renaming of several variables
+    if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$VERSION" | sort -V | head -n1)" = "1.1.0"  ]; then
+      print_out i "Installed Version $VERSION, this should be installed: $THIS_NEW_VERSION"
+      print_out i "Update is required"
+      V2=2
+      do_select
+      control_box "Set Development"
+    fi
+    #print_out i "Has nothing, must be reinstalled"
+  fi
+}
+
+startDialog(){
+  sel=$(whiptail --backtitle "${BACKTITLE}" --title "${UPSEL00}" --yesno "${UPDATEINF01}" ${r} ${c} 3>&1 1>&2 2>&3)
+  control_box $? "${UPSEL00}"
+}
+
+write_config(){
+  if [[ ! -d  "${updpath}" ]]; then
+    mkdir $updpath
+  fi
+
+  {
+  echo "VERSION=\"$THIS_NEW_VERSION\""
+  echo "DBHOST=\"$DBHOST\""
+  echo "DBUSER=\"$DBUSER\""
+  echo "DBNAME=\"$DBNAME\""
+  echo "BASEPATH=\"$BASEPATH\""
+  echo "WEBROOT=\"$WEBROOT\""
+  echo "WWWOWNER=\"www-data\""
+  echo "### Is it still the original installed system?"
+  echo "MACHINEID=$LOCALMACHINEID"
+  echo "INSTALLDATE=\"$(date '+%Y-%m-%d %H:%M:%S')\""
+  }> $updpath$updfile
+
+  control_box $? "write config"
+  chmod -R 600 $updpath
+}
+
+## Since version 1.1.1 new naming convention
+function rename_vars(){
+  sed -i "s/\$host/\$dbhost/" "./include/config.php"
+  sed -i "s/\$port/\$dbport/" "./include/config.php"
+  sed -i "s/\$db/\$dbname/" "./include/config.php"
+  sed -i "s/\$user/\$dbuser/" "./include/config.php"
+  sed -i "s/\$pass/\$dbpass/" "./include/config.php"
+
+
+  mv vpn/history/osx-viscosity/ vpn/history/osx
+
+}
+
+install_version_2(){
+  V2="YES"
+
+}
+
+## set debug install
+## Write with comma (separated call to copy)
+debug_func(){
+  modules_dev="dev"
+}
+
+do_select(){
+	sel=$(whiptail --title "${SELECT0}" --checklist --separate-output "${SELECT1}:" ${r} ${c} ${h} \
+    "11" "${SELECT11} " off \
+    3>&1 1>&2 2>&3)
+  control_box $? "select"
+
+  while read -r line;
+  do
+      case $line in
+          11) debug_func $line
+          ;;
+          *)
+          ;;
+      esac
+  done < <(echo "$sel")
+}
+
+write_webconfig(){
+  {
+  echo "<?php
+/**
+ * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+ *
+ * NOTICE OF LICENSE
+ *
+ * GNU AFFERO GENERAL PUBLIC LICENSE V3
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+ *
+ * @author    Wutze
+ * @copyright 2020 OpenVPN-WebAdmin
+ * @link			https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see				Internal Documentation ~/doc/
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -395,75 +610,23 @@ define('_DEFAULT_LANGUAGE','en_EN');
 define('_LOGINSITE','login1');"
 
   }> $WEBROOT$BASEPATH"/include/config.php"
-  control_script "create new config.php"
-  print_out 1 "create new config.php"
+  
+  echo "
 
-}
+	/** 
+	 * only for development!
+	 * please comment out if no longer needed!
+   * comment in the \"define function\" to enable
+	 */
+	if(file_exists(\"dev/dev.php\")){
+		define('dev','dev/dev.php');
+	}
+	if (defined('dev')){
+		include('dev/class.dev.php');
+	}"
+}>> $WEBROOT$BASEPATH"/include/config.php"
+  
 
-start_update_normal(){
-  openvpn_admin=$WEBROOT$BASEPATH
-
-  cp -r "$base_path/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
-  control_script "renew Files"
-  print_out i "Update third party module yarn"
-  cd $openvpn_admin
-  yarn install
-  control_script "yarn install"
-  print_out i "Update third party module ADOdb"
-  cd install/ADOdb
-  git pull
-  control_script "Update ADOdb files"
-
-  print_out i "Update SQL"
-  if [[ -f "$base_path/sql/$THIS_VERSION-ovpnadmin.update.sql" ]]; then
-    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_VERSION-ovpnadmin.update.sql
-    control_script "execute Database Updates" 
-  else
-    print_out i "no changes to the database necessary"
-  fi
-}
-
-check_version(){
-  if [ "$(printf '%s\n' "$THIS_VERSION" "$VERSION" | sort -V | head -n1)" = "$THIS_VERSION" ]; then 
-    print_out i "Installed Version greater than or equal to $THIS_VERSION"
-    print_out d "Update is not required"
-    exit;
-  else
-    print_out i "Installed Version less than $THIS_VERSION"
-    print_out i "Update required"
-    check_user
-    print_out 1 "The script wants to start now ..."
-    print_out i "Press any key"
-    print_out r
-  fi
-}
-
-startDialog(){
-  sel=$(whiptail --backtitle "${BACKTITLE}" --title "${UPSEL00}" --yesno "${UPDATEINF01}" ${r} ${c} 3>&1 1>&2 2>&3)
-  control_box $? "${UPSEL00}"
-}
-
-write_config(){
-  if [[ ! -d  "${updpath}" ]]; then
-    mkdir $updpath
-  fi
-
-  {
-  echo "VERSION=\"1.1.0\""
-  echo "DBHOST=\"$DBHOST\""
-  echo "DBUSER=\"$DBUSER\""
-  echo "DBNAME=\"$DBNAME\""
-  echo "BASEPATH=\"$BASEPATH\""
-  echo "WEBROOT=\"$WEBROOT\""
-  echo "WWWOWNER=\"www-data\""
-  echo "### Is it still the original installed system?"
-  echo "MACHINEID=$LOCALMACHINEID"
-  echo "INSTALLDATE=\"$(date '+%Y-%m-%d %H:%M:%S')\""
-  }> $updpath$updfile
-
-  control_box $? "write config"
-  chmod -R 600 $updpath
-}
 
 ## first information to update
 # you must say yes to continue!
@@ -471,7 +634,7 @@ write_config(){
 main(){
 
   # select language german or english
-  sel_lang
+  sel_lang  
   # main logo
   intro
   if_updatefile_exist
@@ -479,15 +642,16 @@ main(){
 
   # first dialog for informations
   startDialog
-  verify_setup
+
 
   ## search backup file - this was introduced with next/actual version
   if_updatefile_exist
-
+  verify_setup
   ## check vars
   #verify_setup
 
   ## create backup files and database
+  print_out i "Backup - this may take a little moment"
   make_backup
 
   ## make update files and database
@@ -498,15 +662,28 @@ main(){
   fi
 
   write_config
+  write_webconfig
+  print_out 1 "Configs written"
+  chown -R "$WWWOWNER:$WWWOWNER" "$WEBROOT$BASEPATH"
+  chown -R "$WWWOWNER:$WWWOWNER" $WEBROOT/vpn
+  print_out 1 "set file rights"
 }
 
 ### Start Script
 
 main
 
+
+### finish script and call messages
 print_out d "Yeahh! Update ready. 【ツ】"
 print_out i "Have Fun!"
 print_out i "${SETFIN04}"
+print_out i "${AUPDATE01}"
 
 
 exit
+
+
+### Hinweise
+## umbenennen vpn conf ordner in osx --- selbiges mit history - ok
+## umschreiben variablen config.php - ok

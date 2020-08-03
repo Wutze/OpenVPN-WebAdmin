@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+#
+# NOTICE OF LICENSE
+#
+# GNU AFFERO GENERAL PUBLIC LICENSE V3
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
+#
+# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+# 
+# @author    Wutze
+# @copyright 2020 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		1.2.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+
+# Traduit de l'allemand vers le français avec : https://www.deepl.com/translator
+
+ATTENTION="A l'attention !
+Votre serveur VPN ne doit jamais être directement connecté à l'internet, sinon le serveur est vulnérable et, dans le pire des cas, il offre un accès direct à votre réseau.
+
+En outre, vous devez ajuster votre pare-feu sous /usr/sbin/firewall.sh en conséquence, afin que le système soit suffisamment protégé.
+
+Pour être toujours informé des erreurs dans le système, je recommande d installer \"logwatch\" et \"fail2ban\". Vous pouvez trouver des informations à ce sujet sur Internet".
+
+CONFIG01="Pas de fichier de configuration"
+CONFIG02="Copiez d'abord l'exemple de config.conf vers config.conf et modifiez le fichier".
+CONFIG03="Exemple : cp config.conf.example config.conf"
+CONFIG04="to edit : nano config.conf"
+
+PLSWAIT1="Veuillez patienter, mise à jour/installation du système ..."
+
+USER01="Problème de droits !"
+USER02="L'installation ne peut être effectuée qu'en tant que root".
+USER03="Installation avortée"
+
+BREAK="Scénario avorté"
+BEFOR="Appuyez sur ENTER pour démarrer l'installation ou sur ctrl+c pour l'interrompre".
+
+SELECT_A="Sélection des options d'installation"
+SELECT_B="Installation avec"
+
+SELECT01="Copier l'échantillon de config.conf.vers config.conf ?"
+SELECT02="Installer automatiquement les paquets manquants"
+SELECT03="Serveur MySQL local"
+SELECT04="Serveur MySQL à distance"
+SELECT05="Apache"
+SELECT06="Nginx"
+SELECT07="Répertoire web /srv/www/openvpn-admin"
+SELECT08="entrez dans votre propre répertoire web"
+SELECT09="Propriétaire du répertoire www-data"
+SELECT10="un autre propriétaire"
+SELECT11="Installer les fonctions de débogage ?"
+SELECT20="Installer toutes les extensions ?"
+
+MISSING="I Miss :"
+INSTALL="Utilisez simplement l'installation automatique des paquets manquants."
+OONLY="Une seule sélection possible !"
+ERROR01="Vous essayez d'installer en même temps :"
+ERROR03="et"
+INSTMESS="Vous pensez que vous n'avez pas besoin de mysql ? Faux ! Recommençons ! Vous devez faire un choix MySQL !"
+
+MYSQL01="Veuillez entrer un mot de passe root pour le serveur MySQL"
+MYSQL02="Créer une DB-PW"
+
+SETVPN01="Server Hostname/IP\nUtilisez ce nom car le serveur doit être accessible depuis l'Internet !"
+SETVPN02="Protocole OpenVPN (tcp ou udp)\nSi l'installation a lieu dans une VM, veuillez utiliser udp :"
+SETVPN03="OpenVPN Server Port\nDefault Port tcp ou udp 1194 :"
+SETVPN04="MySQL Host\n(localhost, IP ou FQDN)\n\nSi vous souhaitez utiliser un serveur de base de données externe, veuillez d'abord configurer le nom d'utilisateur et le mot de passe."
+SETVPN05="Mot de passe racine MySQL\n(Le mot de passe ne doit pas être vide. Veuillez configurer ceci avant".
+SETVPN06= "Nom d'utilisateur MySQL pour la base de données OpenVPN"
+SETVPN07="Mot de passe utilisateur MySQL pour la base de données OpenVPN"
+SETVPN08="Admin Nom d'utilisateur pour le frontend web de l'OpenVPN-Admin".
+SETVPN09="Admin Mot de passe utilisateur pour le frontend web de l'OpenVPN-Admin".
+SETVPN10="Nom de la base de données"
+SETVPN11="Répertoire racine du serveur web"
+SETVPN12="Correction Répertoire web de l'OpenVPN WebAdmin! (sans /)"
+
+SETFIN01="Installation de base OpenVPN-Admin terminée."
+SETFIN02="Pour terminer l'installation, veuillez configurer votre serveur web (Apache, NGinx...)"
+SETFIN03="Vous devez redémarrer le serveur, sinon OpenVPN ne fonctionnera pas correctement !"
+SETFIN04="Veuillez y signaler vos questions, réponses, souhaits, erreurs : https://github.com/Wutze/OpenVPN-WebAdmin/issues"
+
+### Mise à jour des variables
+UPSEL00="Mise à jour des informations"
+UPSEL01="Mise à jour de la version 0.8 à 1.1.0"
+UPSEL02="Système général de mise à jour 1.1.x"
+UPSEL03=""
+UPSEL04="Questions sur l'installation"
+
+UPVERSIO="Version installée                    "
+NEVERSIO="Nouvelle version                     "
+UPDBHOST="Hôte de la base de données *         "
+UPDBUSER="Utilisateur de la base de données *  "
+UPDBPASS="Mot de passe de la base de données * "
+UPDBNAME="Nom de la base de données *          "
+UPWEBDIR="Répertoire web *                     "
+UPWEBROO="Webroot *                            "
+UPPATHOW="Propriétaire                         "
+UPMASHID="Installé sur la machine ID           "
+INSTALLD="Installé sur                         "
+UPDATAOK="* Informations requises !
+
+Toutes les données sont correctes?"
+
+
+UPDATEINF01="Veuillez faire une sauvegarde de votre serveur AVANT de commencer cette mise à jour. Malgré tous les tests que je peux faire, 
+Je ne vois aucune erreur sur votre serveur pour réagir en conséquence.
+
+Toutefois, cette mise à jour introduit certaines fonctionnalités qui vous permettent de restaurer l'ancienne installation à partir d'une sauvegarde ultérieure.
+
+Continuer ?"
+
+AUPDATE01="Après la mise à jour, veuillez vider le cache du navigateur!"
