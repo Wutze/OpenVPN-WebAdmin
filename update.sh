@@ -140,15 +140,15 @@ sel_lang(){
     exit
   elif [ $RET -eq 0 ]; then
     case "$var2" in
-      AUTO) source lang/"$var1"
+      AUTO) source "installation/lang/$var1"
       ;;
-      de_DE) source "lang/$var2"
+      de_DE) source "installation/lang/$var2"
       ;;
-      en_EN) source "lang/$var2"
+      en_EN) source "installation/lang/$var2"
       ;;
-      fr_FR) source "lang/$var2"
+      fr_FR) source "installation/lang/$var2"
       ;;
-      *) source "lang/de_DE"
+      *) source "installation/lang/de_DE"
       ;;
     esac
   fi
@@ -352,7 +352,7 @@ start_update_new_version(){
   chown -R www-data $openvpn_admin
   control_script "Set access rights webfolder"
   print_out 1 "Set access rights webfolder"
-  if [[ -f "$base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
+  if [[ -f "$base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
     mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
     control_script "execute Database Updates"
     mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/adodb.sql
@@ -380,7 +380,7 @@ start_update_new_version(){
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.1.1
+ * @version		1.2.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -402,7 +402,17 @@ define('HOME_URL',\"vpn.home\");
 define('_DEFAULT_LANGUAGE','en_EN');
 
 /** Login Site */
-define('_LOGINSITE','login1');"
+define('_LOGINSITE','login1');
+
+/** 
+ * only for development!
+ * please comment out if no longer needed!
+ * comment out the \"define function\" to enable
+ */
+#define('dev','dev/dev.php');
+if (defined('dev')){
+	include_once('dev/class.dev.php');
+}"
 
   }> $WEBROOT$BASEPATH"/include/config.php"
   control_script "create new config.php"
@@ -448,7 +458,7 @@ start_update_normal(){
   control_script "ADODb install"
 
   print_out i "Update SQL"
-  if [[ -f "$base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
+  if [[ -f "$base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
     mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
     control_script "execute Database Updates" 
   else
@@ -471,7 +481,7 @@ check_version(){
       do_select
       control_box "Set Development"
     fi
-    print_out i "Has nothing, must be reinstalled"
+    #print_out i "Has nothing, must be reinstalled"
   fi
 }
 
@@ -486,7 +496,7 @@ write_config(){
   fi
 
   {
-  echo "INSTALLEDVERSION=\"$THIS_NEW_VERSION\""
+  echo "VERSION=\"$THIS_NEW_VERSION\""
   echo "DBHOST=\"$DBHOST\""
   echo "DBUSER=\"$DBUSER\""
   echo "DBNAME=\"$DBNAME\""
@@ -530,11 +540,10 @@ do_select(){
 	sel=$(whiptail --title "${SELECT0}" --checklist --separate-output "${SELECT1}:" ${r} ${c} ${h} \
     "11" "${SELECT11} " off \
     3>&1 1>&2 2>&3)
-#  RET=$?
   control_box $? "select"
 
   while read -r line;
-  do #echo "${line}";
+  do
       case $line in
           11) debug_func $line
           ;;
@@ -588,6 +597,7 @@ main
 print_out d "Yeahh! Update ready. 【ツ】"
 print_out i "Have Fun!"
 print_out i "${SETFIN04}"
+print_out i "${AUPDATE01}"
 
 
 exit
