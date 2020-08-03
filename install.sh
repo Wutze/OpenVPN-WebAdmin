@@ -216,8 +216,6 @@ check_user(){
 
 do_select(){
 
-#value=("0" "${SELECT00}" on "2" "${SELECT01}" on "3" "${SELECT02}" off)
-#whiptail --title "xx" --checklist "choose" 16 78 10 "${value[@]}"
 # nginx fehlt noch
 	sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
     "1" "${SELECT01} " on \
@@ -228,7 +226,6 @@ do_select(){
     "7" "${SELECT07} " on \
     "9" "${SELECT09} " on \
     "11" "${SELECT11} " off \
-    "20" "${SELECT20} " off \
     3>&1 1>&2 2>&3)
 #  RET=$?
   control_box $? "select"
