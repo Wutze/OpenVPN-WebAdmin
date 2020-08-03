@@ -305,8 +305,10 @@ make_backup(){
 
 ## Fixed a bug in the installation script that saved the wrong BASEPATH of the Webroot (up to version 1.1.1)
 fix_error_1(){
-  BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} ${BASEPATH} --title "${SETVPN12}" 3>&1 1>&2 2>&3)
-  control_box $? "fix error Web-Basepath to $BASEPATH"
+  if [[ ! -d "$BASEPATH$WEBROOT" ]]; then
+    BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "openvpn-admin" ${r} ${c} o --title "${SETVPN12}" 3>&1 1>&2 2>&3)
+    control_box $? "fix error Web-Basepath to $BASEPATH"
+  fi
 }
 
 setup_questions(){
@@ -649,12 +651,19 @@ main(){
   fi
 
   write_config
+  write_webconfig
+  print_out 1 "Configs written"
+  chown -R "$WWWOWNER:$WWWOWNER" "$BASEPATH$WEBROOT"
+  chown -R "$WWWOWNER:$WWWOWNER" $WEBROOT/vpn
+  print_out 1 "set file rights"
 }
 
 ### Start Script
 
 main
 
+
+### finish script and call messages
 print_out d "Yeahh! Update ready. 【ツ】"
 print_out i "Have Fun!"
 print_out i "${SETFIN04}"
@@ -665,5 +674,5 @@ exit
 
 
 ### Hinweise
-## umbenennen vpn conf ordner in osx --- selbiges mit history
+## umbenennen vpn conf ordner in osx --- selbiges mit history - ok
 ## umschreiben variablen config.php - ok
