@@ -438,17 +438,17 @@ start_update_normal(){
   cd $WEBROOT
   if [[ ! -d  "vpn/history/osx-viscosity/" ]]; then
     ## rename osx folder
-    mv "vpn/history/osx-viscosity/ vpn/history/osx"
-    mv "vpn/conf/osx-viscosity/ vpn/conf/osx"
+    mv vpn/history/osx-viscosity/ vpn/history/osx
+    mv vpn/conf/osx-viscosity/ vpn/conf/osx
     ## move history files
-    cp "vpn/history/osx/history/* vpn/history/osx/"
-    rm -r "vpn/history/osx/history/"
-    cp "vpn/history/osx/history/* vpn/history/osx/"
-    rm -r "vpn/history/gnu-linux/history/"
-    cp "vpn/history/gnu-linux/history/* vpn/history/gnu-linux/"
-    rm -r "vpn/history/gnu-linux/history/"
-    cp "vpn/history/server/history/* vpn/history/server/"
-    rm -r "vpn/history/server/history/"
+    cp vpn/history/osx/history/* vpn/history/osx/
+    rm -r vpn/history/osx/history/
+    cp vpn/history/windows/history/* vpn/history/osx/
+    rm -r vpn/history/windows/history/
+    cp vpn/history/gnu-linux/history/* vpn/history/gnu-linux/
+    rm -r vpn/history/gnu-linux/history/
+    cp vpn/history/server/history/* vpn/history/server/
+    rm -r vpn/history/server/history/
   fi
 
   control_script "renew Files"
