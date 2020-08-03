@@ -4,7 +4,7 @@
 
 ### Installation/Update Script
 
-- moved all files and folders for webservice into separate folder
+- moved all files and folders for webservice and installation into separate folder
 - Install code cleaned up
 - Additions and changes in the Install and Update Script
 
@@ -12,15 +12,16 @@
 
 - add multilanguage functions for webservice
 - Several bugs fixed
-- add debug functions for developers
+- add debug function for developers
 - Preparation for module functions started and installed
 - php and html Code cleaned up
 - added own error pages into login folder
+- Message after saving the configurations now better visible
 
 ### VPN-Server
 
 - OpenVPN-Server VPN-Login log modified. Messages now clearly visible and searchable
-- added multitail plugin for log (installation/snippets)
+- added multitail plugin for logfile (installation/snippets)
 
 ## 1.1.1
 
