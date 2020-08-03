@@ -233,4 +233,6 @@ AccessFileName .htaccess
 * Can it change bower to Yarn #155
 * All other entries are not very helpful for the functions. However, some have been changed in this way, as you can now modify the server.conf within the system.
 
+### Hardware-Preview
+
 ![Previsualisation Preview OpenVPN-WebAdmin-Server](doc/19zoll.png)
