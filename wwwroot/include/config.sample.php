@@ -41,9 +41,11 @@
 	/** 
 	 * only for development!
 	 * please comment out if no longer needed!
-	 * comment out the "define function" to enable
+	 * comment in the "define function" to enable
 	 */
-	#define('dev','dev/dev.php');
+	if(file_exists("dev/dev.php")){
+		define('dev','dev/dev.php');
+	}
 	if (defined('dev')){
 		include_once('dev/class.dev.php');
 	}
