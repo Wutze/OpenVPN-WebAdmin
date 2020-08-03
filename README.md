@@ -100,14 +100,16 @@ Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 cd /opt/
 git clone https://github.com/Wutze/OpenVPN-WebAdmin openvpn-admin
 cd openvpn-admin
-cp config.conf.sample config.conf
+cp installation/config.conf.sample installation/config.conf
 
 # Edit your config.conf e.g. with nano
-nano config.conf
+nano installation/config.conf
 
 # Beginn main installation
 ./install.sh
 ````
+
+![Previsualisation Setup](doc/setup.png)
 
 * Setup the web server (Apache, NGinx...) to serve the web application. Using the example below.
 
