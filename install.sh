@@ -582,7 +582,7 @@ cd "$openvpn_admin"
 #sed -i "s/\$dbpass = '';/\$dbpass = '${escaped}';/" "./include/config.php"
 
 write_config(){
-  if [[ ! -d  "${updpath}" ]]; then
+  if [[ ! -d  "$updpath" ]]; then
     mkdir $updpath
   fi
 
@@ -591,8 +591,8 @@ write_config(){
   echo "DBHOST=\"$db_host\""
   echo "DBUSER=\"$mysql_user\""
   echo "DBNAME=\"$db_name\""
-  echo "BASEPATH=\"$BASEPATH\""
-  echo "WEBROOT=\"$WEBROOT\""
+  echo "BASEPATH=\"openvpn-admin\""
+  echo "WEBROOT=\"$www\""
   echo "WWWOWNER=\"www-data\""
   echo "### Is it still the original installed system?"
   echo "MACHINEID=$LOCALMACHINEID"
@@ -655,7 +655,7 @@ define('_DEFAULT_LANGUAGE','en_EN');
 /** Login Site */
 define('_LOGINSITE','login1');"
 
-  }> $WEBROOT$BASEPATH"/include/config.php"
+  }> $openvpn_admin"/include/config.php"
   
   if [ -n "$moddev" ]; then
     {
@@ -672,7 +672,7 @@ define('_LOGINSITE','login1');"
 	if (defined('dev')){
 		include('dev/class.dev.php');
 	}"
-    }>> $WEBROOT$BASEPATH"/include/config.php"
+    }>> $openvpn_admin"/include/config.php"
   fi
   }
 
@@ -718,7 +718,7 @@ updfile="config.ovpn-admin.upd"
 SERVERID=$( cat /etc/machine-id )
 
 chown -R root $updpath
-chmod 0600 $updpath
+chmod 700 $updpath
 print_out 1 "update informations written (${updpath})"
 print_out d "Setup ready - please read informations!" 
 

@@ -1,6 +1,6 @@
 {
   "name": "openvpn-webadmin",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "OpenVPN-WebAdmin Interface yarn Setup",
   "dependencies": {
     "admin-lte": "^3.0.5",
@@ -9,8 +9,7 @@
     "bootstrap-table": "^1.16.0",
     "font-awesome": "^4.7.0",
     "ionicons": "^5.0.1",
-    "jquery": "^3.5.1",
-    "x-editable": "^1.5.1"
+    "jquery": "^3.5.1"
   },
   "keywords": [
     "openvpn",
@@ -20,7 +19,7 @@
     "web"
   ],
   "authors": [
-    "Wutze <huhuwutze@gmx.net"
+    "Wutze <huhuwutze@gmx.net>"
   ],
   "license": "GPLv3",
   "private": true
