@@ -15,11 +15,13 @@ Zusätzlich wird ein neuer Menüeintrag __Dev__ eingefügt, der eine eigene "Web
 /**
  * only for development!
  * please comment out if no longer needed!
- * comment out the "define function" to enable
+ * comment in the "define function" to enable
  */
-define('dev','dev/dev.php');
+if(file_exists("dev/dev.php")){
+	define('dev','dev/dev.php');
+}
 if (defined('dev')){
-  include_once('dev/class.dev.php');
+	include_once('dev/class.dev.php');
 }
 ````
 
@@ -59,11 +61,13 @@ Translated with www.DeepL.com/Translator (free version)
 /**
  * only for development!
  * please comment out if no longer needed!
- * comment out the "define function" to enable
+ * comment in the "define function" to enable
  */
-define('dev', 'dev/dev.php');
+if(file_exists("dev/dev.php")){
+	define('dev','dev/dev.php');
+}
 if (defined('dev')){
-  include_once('dev/class.dev.php');
+	include_once('dev/class.dev.php');
 }
 ````
 
@@ -101,11 +105,13 @@ En outre, une nouvelle entrée de menu __Dev__ est ajoutée, qui affiche une nou
 /**
  * only for development!
  * please comment out if no longer needed!
- * comment out the "define function" to enable
+ * comment in the "define function" to enable
  */
-define('dev', 'dev/dev.php');
+if(file_exists("dev/dev.php")){
+	define('dev','dev/dev.php');
+}
 if (defined('dev')){
-  include_once('dev/class.dev.php');
+	include_once('dev/class.dev.php');
 }
 ````
 
