@@ -86,7 +86,7 @@ Content, also alles was dann anzuzeigende Inhalte betrifft, sollten im Ordner _/
 Wollt Ihr neue Anwendungen programmieren, dann gibt es zwei Möglichkeiten:
 
 1. Im Ordner _include/html/modules/_ einen neuen Ordner anlegen und automatisch laden lassen
-2. Einfach was neues dazu bauen und in einem passenden Ordner ablegen
+2. Einfach etwas neues dazu bauen und in einem passenden Ordner ablegen
 
 ### Installation
 
@@ -94,4 +94,16 @@ Im Ordner _installation_ sind alle relevanten Dateien/Daten für eine Erstinstal
 
 ### Dokumentation Anwendungen
 
-Im Ordner **doc** sollen alle Bilder und Dokumentationen usw. abgespeichert werden. Selbiges würde auch für eventuelle Beispielwebseiten gelten.
+Im Ordner **doc** bzw. **doc/img/** sollen alle Bilder und Dokumentationen usw. abgespeichert werden. Selbiges würde auch für eventuelle Beispielwebseiten gelten.
+
+## Systemweite Operatoren
+
+Zur Erkennung ob es sich um einen eingeloggten Benutzer oder Admin handelt, kann man die übergebenen Session-Variablen benutzen.
+
+````php
+/** ist Admin? */
+Session::GetVar('isadmin');
+
+/** ist User? */
+Session::GetVar('isadmin');
+````
