@@ -105,5 +105,5 @@ Zur Erkennung ob es sich um einen eingeloggten Benutzer oder Admin handelt, kann
 Session::GetVar('isadmin');
 
 /** ist User? */
-Session::GetVar('isadmin');
+Session::GetVar('isuser');
 ````
