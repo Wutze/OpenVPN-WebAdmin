@@ -12,11 +12,31 @@ _Ausnahme_: Es handelt sich um HTML-Text der ausschließlich in Debug-Funktionen
 
 ## Dokumentation im Code
 
-Versucht bitte nach Möglichkeit neue Funktionen oder Klassen zu dokumentieren. Wer möchte kann seine Initialen mit **@author** in die Dokumentation einfügen. Bitte dokumentiert auch den auszugebeneden HTML-Quelltext mit
+Versucht bitte nach Möglichkeit neue Funktionen oder Klassen im Stil von <https://docs.phpdoc.org/latest/references/phpdoc/index.html|phpdoc> zu dokumentieren. Wer möchte kann seine Initialen mit **@author** in die Dokumentation einfügen.
+
+````php
+/**
+ * -- wechsel
+ * @param $var huhu das da
+ * ! weg
+ * todo: dadada
+ * ? keine Ahnung
+ * @return multiple
+ * @author Dein Name
+ */
+````
+
+Bitte dokumentiert auch den auszugebeneden HTML-Quelltext mit
 
 ````html
 <!-- Text -->
-....
+<div>
+ <p>Text</p>
+ <div>the next</div>
+ <div>
+  <p>the text</p>
+ </div>
+</div>
 <!-- /Text -->
 ````
 
