@@ -60,7 +60,7 @@ if(Session::GetVar('isadmin')){
               <thead class="thead-dark">
                 <tr>
                    <th data-field="log_id" >ID</th>
-                   <th data-field="user_id" <?php echo $userfilter; ?>>User</th>
+                   <th data-field="user_id" <?php echo $userfilter; ?>><?php echo GET_Lang::nachricht('_U_NAME'); ?></th>
                    <th data-field="log_trusted_ip">From IP</th>
                    <th data-field="log_trusted_port" <?php echo $portfilter; ?>>From Port</th>
                    <th data-field="log_remote_ip">Int IP</th>
@@ -95,12 +95,12 @@ if(Session::GetVar('isadmin')){
               data-url="?op=data&amp;select=user">
               <thead class="thead-dark">
                 <tr>
-                  <th data-field="uname" >Name</th>
-                  <th data-field="gname">Gruppe</th>
-                  <th data-field="user_enable">Enable</th>
-                  <th data-field="user_start_date">von</th>
-                  <th data-field="user_end_date">bis</th>
-                  <th data-field="user_online">Online</th>
+                  <th data-field="uname"><?php echo GET_Lang::nachricht('_U_NAME'); ?></th>
+                  <th data-field="gname"><?php echo GET_Lang::nachricht('_U_GROUP'); ?></th>
+                  <th data-field="user_enable"><?php echo GET_Lang::nachricht('_U_ENABLE'); ?></th>
+                  <th data-field="user_start_date"><?php echo GET_Lang::nachricht('_U_FROM'); ?></th>
+                  <th data-field="user_end_date"><?php echo GET_Lang::nachricht('_U_TO'); ?></th>
+                  <th data-field="user_online"><?php echo GET_Lang::nachricht('_U_ONLINE'); ?></th>
                 </tr>
               </thead>
             </table>
