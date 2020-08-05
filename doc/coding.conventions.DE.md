@@ -2,7 +2,7 @@
 
 ## Code Aufbau
 
-Grundsätzlich gilt, dass alle Aufrufe über die in der Webroot liegende **index.php** erfolgen müssen. Andere Aufrufe sind nicht erlaubt. Jeder Aufruf benötigt die Option **?op=inhalt**, dem weitere Variablen im Form von **&var=xxx&var2=xxx** folgen dürfen. Im Code ist darauf zu achten, dass **&** als **&amp;** geschrieben wird. Ist **op** nicht vorhanden, wird stets die Startseite, je nachdem ob der Benutzer eingeloggt ist oder nicht, angezeigt. Die erlaubten Inhalte der Variablen **op** sind in der _include/class/class.request.php_ im Array **var $op=** hinterlegt. Jeder andere Inhalt in dieser Variable führt zu einer Fehlermeldung mit gleichzeitigem Logout aus der Anwendung.
+Grundsätzlich gilt, dass alle Aufrufe über die in der Webroot liegende **index.php** erfolgen müssen. Andere Aufrufe sind nicht erlaubt. Jeder Aufruf benötigt die Option **?op=inhalt**, dem weitere Variablen im Form von **&var=xxx&var2=xxx** folgen dürfen. Im Code ist darauf zu achten, dass **&** als **&amp;amp;** geschrieben wird. Ist **op** nicht vorhanden, wird stets die Startseite, je nachdem ob der Benutzer eingeloggt ist oder nicht, angezeigt. Die erlaubten Inhalte der Variablen **op** sind in der _include/class/class.request.php_ im Array **var $op=** hinterlegt. Jeder andere Inhalt in dieser Variable führt zu einer Fehlermeldung mit gleichzeitigem Logout aus der Anwendung.
 
 ## Code-Einrückung
 
