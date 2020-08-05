@@ -12,7 +12,7 @@ _Ausnahme_: Es handelt sich um HTML-Text der ausschließlich in Debug-Funktionen
 
 ## Dokumentation im Code
 
-Versucht bitte nach Möglichkeit neue Funktionen oder Klassen im Stil von <https://docs.phpdoc.org/latest/references/phpdoc/index.html|phpdoc> zu dokumentieren. Wer möchte kann seine Initialen mit **@author** in die Dokumentation einfügen.
+Versucht bitte nach Möglichkeit neue Funktionen oder Klassen im Stil von [phpdoc](https://docs.phpdoc.org/latest/references/phpdoc/index.html) zu dokumentieren. Wer möchte kann seine Initialen mit **@author** in die Dokumentation einfügen.
 
 ````php
 /**
