@@ -38,7 +38,7 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
               <div class="info">
-                <a href="#" class="d-block" data-widget="control-sidebar">Welcome <?php echo Session::GetVar('uname'); ?></a>
+                <a href="#" class="d-block" data-widget="control-sidebar"><?php echo GET_Lang::nachricht('_WELCOME'); ?> <?php echo Session::GetVar('uname'); ?></a>
               </div>
             </div>
             <!-- Sidebar Menu -->
@@ -73,8 +73,8 @@
                   <a href="#" data-widget="control-sidebar" class="nav-link">
                     <i class="fas fa-user-astronaut"></i>
                     <p>
-                      Account
-                      <span class="right badge badge-danger">New</span>
+                      <?php echo GET_Lang::nachricht('_YOUR_LOGIN'); ?>
+                      <span class="right badge badge-danger"><?php echo GET_Lang::nachricht('_NEW'); ?></span>
                     </p>
                   </a>
                 </li>

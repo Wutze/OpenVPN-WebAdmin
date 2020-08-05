@@ -24,61 +24,75 @@
  * Language de_DE
  */
 
-$message['_NO_USER'] = "Nom d'utilisateur inconnu" ;
-$message['_SITE_TITLE'] = "Titre de la page" ;
-$message['_LANGUGE_ERROR'] = "Erreur dans le fichier de langue" ;
+$message['_NO_USER']                = "Nom d'utilisateur inconnu" ;
+$message['_SITE_TITLE']             = "Titre de la page" ;
+$message['_LANGUGE_ERROR']          = "Erreur dans le fichier de langue" ;
 
-$message ['_HOME'] = "Home" ;
-$message['_OVERVIEW'] = "Vue d'ensemble" ;
-$message['_INFOS_PLUS'] = "Informations complémentaires" ;
+$message ['_HOME']                  = "Home" ;
+$message['_OVERVIEW']               = "Vue d'ensemble" ;
+$message['_INFOS_PLUS']             = "Informations complémentaires" ;
+$message['_WELCOME']                = "Bienvenue";
 
-$message['_VIEW'] = "display" ;
+$message['_USERS']                  = "Utilisateur";
+$message['_DISK']                   = "Disque";
+$message['_SYSTEM']                 = "Système";
+$message['_ERROR']                  = "Erreur" ;
+$message['_SAVE']                   = "Save";
+$message['_RESTART']                = "Attention ! Redémarrez le serveur ou les clients après les changements!";
+$message['_NEW']                    = "nouveau";
 
-$message['_LOGIN'] = "login" ;
-$message['_LOGIN_NAME'] = "nom d'utilisateur" ;
-$message['_LOGIN_PASS'] = "mot de passe" ;
-$message['_LOGIN_DATA'] = "Veuillez entrer les données de connexion" ;
-$message['_LOGIN_SAVE'] = "Se souvenir de la connexion" ;
-$message ['_LOGOUT'] = "X" ;
-$message['_Votre_LOGUE'] = "Votre compte";
-$message['_USER_RIGHTS'] = "vos droits d'utilisateur" ;
+$message['_U_NAME']                 = "Nom";
+$message['_U_GROUP']                = "Groupe";
+$message['_U_ENABLE']               = "Activé";
+$message['_U_FROM']                 = "from";
+$message['_U_TO']                   = "to";
+$message['_U_ONLINE']               = "En ligne";
 
-$message['_SAVE_PW'] = "save" ;
-$message['_LOGIN_PASS_CONTROL'] = "Contrôle" ;
-$message['_CHANGE_PASS'] = "Changer de mot de passe" ;
-$message['_INPUT_NEW_PASS'] = "Nouveau mot de passe" ;
-$message['_RETYPE_NEW_PASS'] = "Confirmer le mot de passe" ;
-$message['_USER_EMAIL'] = "Votre email" ;
-$message['_USER_NAME'] = "Votre nom" ;
-$message['_USER_DATA'] = "Changez vos données" ;
-$message['_SAVE_USER_DATA'] = "enregistrer les modifications" ;
+$message['_VIEW']                   = "display" ;
 
-$message['_VPN_CONFIGS'] = "Configurations" ;
-$message['_OSX_CONFIG'] = "Configuration OSX" ;
-$message['_WIN_CONFIG'] = "WIN configuration" ;
-$message['_LIN_CONFIG'] = "Configuration Android" ;
+$message['_LOGIN']                  = "login" ;
+$message['_LOGIN_NAME']             = "nom d'utilisateur" ;
+$message['_LOGIN_PASS']             = "mot de passe" ;
+$message['_LOGIN_DATA']             = "Veuillez entrer les données de connexion" ;
+$message['_LOGIN_SAVE']             = "Se souvenir de la connexion" ;
+$message['_LOGOUT']                 = "X" ;
+$message['_YOUR_LOGIN']             = "Votre compte";
+$message['_USER_RIGHTS']            = "vos droits d'utilisateur" ;
 
-$message['_SSL_CERTS'] = "certificats SSL" ;
-$message['_SSL_CERTS_NEW'] = "New Certificate" ;
-$message['_SSL_CERTS_EDIT'] = "Edit Certificate" ;
-$message['_SSL_CERTS_LIST'] = "Liste des certificats" ;
+$message['_SAVE_PW']                = "save" ;
+$message['_LOGIN_PASS_CONTROL']     = "Contrôle" ;
+$message['_CHANGE_PASS']            = "Changer de mot de passe" ;
+$message['_INPUT_NEW_PASS']         = "Nouveau mot de passe" ;
+$message['_RETYPE_NEW_PASS']        = "Confirmer le mot de passe" ;
+$message['_USER_EMAIL']             = "Votre email" ;
+$message['_USER_NAME']              = "Votre nom" ;
+$message['_USER_DATA']              = "Changez vos données" ;
+$message['_SAVE_USER_DATA']         = "enregistrer les modifications" ;
 
-$message['_TODAY'] = date('d.m.Y') ;
+$message['_VPN_CONFIGS']            = "Configurations" ;
+$message['_OSX_CONFIG']             = "Configuration OSX" ;
+$message['_WIN_CONFIG']             = "WIN configuration" ;
+$message['_LIN_CONFIG']             = "Configuration Android" ;
 
-$message['_VPN_DATA_SAV'] = "Save your .." ;
-$message['_VPN_DATA_OSX'] = "OSX-Config" ;
-$message['_VPN_DATA_WIN'] = "WIN-Config" ;
-$message['_VPN_DATA_LIN'] = "Android/Linux-Config" ;
+$message['_SSL_CERTS']              = "certificats SSL" ;
+$message['_SSL_CERTS_NEW']          = "New Certificate" ;
+$message['_SSL_CERTS_EDIT']         = "Edit Certificate" ;
+$message['_SSL_CERTS_LIST']         = "Liste des certificats" ;
+
+$message['_TODAY']                  = date('d.m.Y') ;
+
+$message['_VPN_DATA_SAV']           = "Sauvez votre..." ;
+$message['_VPN_DATA_OSX']           = "OSX-Config" ;
+$message['_VPN_DATA_WIN']           = "WIN-Config" ;
+$message['_VPN_DATA_LIN']           = "Android/Linux-Config" ;
 
 
-$message['_USERDATA_EMAIL'] = "eMail" ;
-$message['_USERDATA_PASSWORD'] = "Mot de passe" ;
-$message['_USERDATA_SAVE'] = "Créer un utilisateur" ;
-$message['_USERDATA_ISADMIN'] = "User gets admin rights" ;
-$message['_USERDATA_FROM_DATE'] = "Accès à partir de :";
-$message['_USERDATA_TO_DATE'] = "Accès jusqu'à :";
-
-$message['_ERROR'] = "Erreur" ;
+$message['_USERDATA_EMAIL']         = "eMail" ;
+$message['_USERDATA_PASSWORD']      = "Mot de passe" ;
+$message['_USERDATA_SAVE']          = "Créer un utilisateur" ;
+$message['_USERDATA_ISADMIN']       = "User gets admin rights" ;
+$message['_USERDATA_FROM_DATE']     = "Accès à partir de :";
+$message['_USERDATA_TO_DATE']       = "Accès jusqu'à :";
 
 /** 
  * messages d'erreur
@@ -86,10 +100,10 @@ $message['_ERROR'] = "Erreur" ;
  * @param $var + array-id
  * @return Message dans le dialogue modal
  */
-$errormessage[1] = $message['_USERDATA_SAVE']." a échoué. ".$message['_LOGIN_NAME']." existe déjà.";
-$errormessage[2] = "Fonction non encore disponible. Désolé" ;
-$errormessage [3] = "Le nouveau mot de passe n'était pas identique ou vide !";
-$errormessage [4] = "Mot de passe changé ! Veuillez vous reconnecter !";
+$errormessage[1]     = $message['_USERDATA_SAVE']." a échoué. ".$message['_LOGIN_NAME']." existe déjà.";
+$errormessage[2]     = "Fonction non encore disponible. Désolé" ;
+$errormessage [3]    = "Le nouveau mot de passe n'était pas identique ou vide !";
+$errormessage [4]    = "Mot de passe changé ! Veuillez vous reconnecter !";
 
 /**
  * gimmick de bas de page du slogan kitchen 
