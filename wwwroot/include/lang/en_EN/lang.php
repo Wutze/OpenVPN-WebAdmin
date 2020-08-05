@@ -31,6 +31,23 @@ $message['_LANGUGE_ERROR']          = "Error in the language file";
 $message['_HOME']                   = "Home";
 $message['_OVERVIEW']               = "Overview";
 $message['_INFOS_PLUS']             = "Additional information";
+$message['_WELCOME']                = "Welcome";
+
+$message['_USERS']                  = "User";
+$message['_DISK']                   = "Disk";
+$message['_SYSTEM']                 = "System";
+$message['_ERROR']                  = "Error";
+$message['_SAVE']                   = "Save";
+$message['_RESTART']                = "Attention! Restart server or clients after changes!";
+$message['_NEW']                    = "New";
+
+$message['_U_NAME']                 = "User";
+$message['_U_GROUP']                = "Group";
+$message['_U_ENABLE']               = "Enable";
+$message['_U_FROM']                 = "from";
+$message['_U_TO']                   = "to";
+$message['_U_ONLINE']               = "Online";
+
 
 $message['_VIEW']                   = "view";
 
@@ -78,7 +95,7 @@ $message['_USERDATA_ISADMIN']       = "User gets admin rights";
 $message['_USERDATA_FROM_DATE']     = "Access from:";
 $message['_USERDATA_TO_DATE']       = "Access to:";
 
-$message['_ERROR']                  = "Error";
+
 
 /** 
  * error messages
