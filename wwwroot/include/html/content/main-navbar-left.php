@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.2.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -33,7 +33,7 @@
         <a class="nav-link"><?php echo GET_Lang::nachricht('_TODAY'); ?></a>
       </li>
 <?php
-if (defined('dev')){
+if (defined('dev') and Session::GetVar('isadmin')){
   echo devel::topnav;
 }
 ?>
