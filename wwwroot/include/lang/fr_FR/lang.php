@@ -10,18 +10,18 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.2.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 /**
- * Language de_DE
+ * Language fr_FR
  */
 
 $message['_NO_USER']                = "Nom d'utilisateur inconnu" ;
@@ -47,6 +47,9 @@ $message['_U_ENABLE']               = "Activé";
 $message['_U_FROM']                 = "from";
 $message['_U_TO']                   = "to";
 $message['_U_ONLINE']               = "En ligne";
+
+$message['_ATTENTION_FW']           = "Vous devriez savoir ce que vous faites!";
+$message['_ATTENTION_CF']           = "Le client et/ou le serveur doit être redémarré après les modifications.";
 
 $message['_VIEW']                   = "display" ;
 

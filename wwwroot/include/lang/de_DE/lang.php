@@ -10,7 +10,7 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
@@ -48,7 +48,8 @@ $message['_U_FROM']                 = "von";
 $message['_U_TO']                   = "bis";
 $message['_U_ONLINE']               = "Online";
 
-
+$message['_ATTENTION_FW']           = "Du solltest wissen was Du tust!";
+$message['_ATTENTION_CF']           = "Nach Änderungen sollten Client und Server neu gestartet werden";
 
 $message['_VIEW']                   = "anzeigen";
 
