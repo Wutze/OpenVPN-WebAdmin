@@ -28,7 +28,7 @@
       <div class="container-fluid">
         <div class="tab-content" id="v-pills-tabContent col-sm-12 block-grid">
         <?php
-          @include(REAL_BASE_DIR."/include/html/modules/main-overview.php");
+          @include(REAL_BASE_DIR."/include/html/content/main-overview.php");
         ?>
           <div class="tab-pane fade position-relative p-3 bg-white" id="log" role="tabpanel" aria-labelledby="log-tab">
             <div class="ribbon-wrapper ribbon-lg">
@@ -121,6 +121,18 @@ if(Session::GetVar('isadmin')){
           <?php
 if(Session::GetVar('isadmin') and defined('dev')){
   include_once(dev);
+}
+if(Session::GetVar('isadmin') and defined('firewall')){
+  $fw_out = new firewall;
+  echo firewall::content_head;
+  echo firewall::content();
+  echo firewall::content_foot;
+}
+if(Session::GetVar('isadmin') and defined('system')){
+  $sys_out = new system;
+  echo system::content_head;
+  echo system::content();
+  echo system::content_foot;
 }
 if(Session::GetVar('isadmin') and defined('modssl')){
   echo modssl::content();

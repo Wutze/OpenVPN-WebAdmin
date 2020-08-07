@@ -40,7 +40,8 @@ class configfiles{
   var $files = array('server'=>'server',
                   'win'=>'win',
                   'lin'=>'lin',
-                  'osx'=>'osx');
+                  'osx'=>'osx',
+                  'fw'=>'fw');
   var $zipfile = array(
                   'osx' => 'osx',
                   'win' => 'win',
@@ -49,20 +50,25 @@ class configfiles{
                   'win'=>'windows',
                   'lin'=>'gnu-linux',
                   'osx'=>'osx',
-                  'server' => 'server');
+                  'server' => 'server',
+                  "firewall"=>'firewall');
   var $conf_filepathname = array(
                   'win' => 'windows/client.ovpn',
                   'lin' => 'gnu-linux/client.ovpn',
                   'osx' => 'osx/client.ovpn',
-                  'server' => 'server/server.conf');
+                  'server' => 'server/server.conf',
+                  'firewall' => 'firewall.sh');
   var $conf_filename = array(
                   'win' => 'client.ovpn',
                   'lin' => 'client.ovpn',
                   'osx' => 'client.ovpn',
-                  'server' => 'server.conf');
+                  'server' => 'server.conf',
+                  'firewall' => 'firewall.sh');
   var $config_full_path = "../vpn/conf/";
   var $history_full_path = "../vpn/history/";
   var $data_temp_dir = "./data/temp/";
+  var $fw_full_path = "/usr/sbin/";
+  var $fw_history_full_path = "../vpn/history/";
 
   /**
    * main function
@@ -102,8 +108,13 @@ class configfiles{
   function getHistory($cfg_file) {
     require_once(REAL_BASE_DIR.'/include/class/class.Diff.php');
     $random = rand(0,getrandmax());
-    $scan_directory = array_slice(scandir($this->history_full_path.$this->conf_array[$cfg_file]."/"), 2);
+    if ($this->file == "firewall"){
+      $scan_directory = array_slice(scandir($this->fw_history_full_path.$this->conf_array[$cfg_file]."/"), 2);
+    }else{
+      $scan_directory = array_slice(scandir($this->history_full_path.$this->conf_array[$cfg_file]."/"), 2);
+    }
     $scanned_directory = array_reverse($scan_directory);
+
     $i = 0;
     ?>
     <div class="alert alert-info" role="alert"><b>History</b>
@@ -130,7 +141,13 @@ class configfiles{
               </div>
               <div class="history">
                 <pre id="diff">
-                  <?php echo "\n".Diff::toHTML(Diff::compareFiles($this->history_full_path.$this->conf_array[$cfg_file]."/".$file, $this->config_full_path.$this->conf_filepathname[$cfg_file])); ?>
+                  <?php
+                  if($this->file == "firewall"){
+                    echo "\n".Diff::toHTML(Diff::compareFiles($this->fw_history_full_path.$this->conf_array[$cfg_file]."/".$file, $this->fw_full_path.$this->conf_filepathname[$cfg_file]));
+                  }else{
+                    echo "\n".Diff::toHTML(Diff::compareFiles($this->history_full_path.$this->conf_array[$cfg_file]."/".$file, $this->config_full_path.$this->conf_filepathname[$cfg_file]));
+                  }
+                  ?>
                 </pre>
               </div>
             </div>
@@ -151,10 +168,22 @@ class configfiles{
     /** is not admin - logout user, destroy sessions */
     ($this->isadmin) ? "" : header("Location: ?op=error");
     $timecode = time();
-    $this->fullpath_with_file = $this->config_full_path.$this->conf_filepathname[$this->file];
-    $this->file_category = basename($this->file);
-    $this->backup_dir = $this->history_full_path."".$this->conf_array[$this->file]."/";
-    $this->backupfilename = $timecode."_".$this->conf_filename[$this->file];
+    if($this->file == "firewall"){
+      $this->fullpath_with_file = $this->fw_full_path.$this->conf_filepathname[$this->file];
+      $this->file_category = basename($this->file);
+      $this->backup_dir = $this->fw_history_full_path."".$this->conf_array[$this->file]."/";
+      $this->backupfilename = $timecode."_".$this->conf_filename[$this->file];
+    }else{
+      $this->fullpath_with_file = $this->config_full_path.$this->conf_filepathname[$this->file];
+      $this->file_category = basename($this->file);
+      $this->backup_dir = $this->history_full_path."".$this->conf_array[$this->file]."/";
+      $this->backupfilename = $timecode."_".$this->conf_filename[$this->file];
+    }
+
+    $GLOBALS['devint']->collect($timecode,$this);
+    if($this->file == "firewall"){
+   # $GLOBALS['devint']->ends();
+    }
 
     if (!file_exists($this->backup_dir)){
       mkdir($this->history_full_path.$this->conf_array[$this->file],0700,true);
@@ -174,7 +203,13 @@ class configfiles{
   }
 
   function print_configfiles(){
-    $cfg_file=$this->config_full_path.$this->conf_filepathname[$this->file];
+    if ($this->file == "firewall"){
+      $cfg_file=$this->fw_full_path.$this->conf_filepathname[$this->file];
+      $this->attention = GET_Lang::nachricht('_ATTENTION_FW');
+    }else{
+      $cfg_file=$this->config_full_path.$this->conf_filepathname[$this->file];
+      $this->attention = GET_Lang::nachricht('_ATTENTION_CF'); #"Attention! Restart server or clients after changes!";
+    };
     ?>
     <div class="ribbon-wrapper ribbon-lg">
       <div class="ribbon bg-warning text-lg">
@@ -183,7 +218,7 @@ class configfiles{
     </div>
     <fieldset>
       <form class="save-form" method="post">
-        <p>Attention! Restart server or clients after changes!</p>
+        <p><?php echo $this->attention; ?></p>
         <textarea class="alert-danger form-control" data-config-file="<?= $this->file ?>" name="" id="" cols="30" rows="20"><?= @file_get_contents($cfg_file) ?></textarea>
       </form>
     </fieldset>
@@ -207,7 +242,7 @@ class configfiles{
       return;
     };
     $this->rootpath = realpath($this->config_full_path.$this->conf_array[$this->file]);
-    $this->testroot = $this->config_full_path.$this->conf_array[$this->file];
+#    $this->testroot = $this->config_full_path.$this->conf_array[$this->file];
     $this->archive_base_name = "openvpn-".$this->zipfile[$this->file];
     $this->archive_name = $this->archive_base_name.'.'.Session::GetVar('uname').".zip";
     $this->archive_path = $this->data_temp_dir.$this->archive_name;
@@ -241,8 +276,6 @@ class configfiles{
     header("Pragma: no-cache");
     header("Expires: 0");
     readfile($this->archive_path);
-  
-
     unlink($this->archive_path);
   }
 
