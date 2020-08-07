@@ -75,6 +75,37 @@ Essentiell für den Aufbau der Webseite sind dann folgende, im Ordner _/include/
 
 Wie die Namen schon verraten, das sind die Dateien die für den Aufbau der Webseite verantwortlich sind. Die _main-html.php_ lädt dann alle benötigten Dateien, je nach Zugriffsrechten des Benutzers.
 
+### Ordnerstruktur wwwroot
+
+````code
+wwwroot
+    |
+    ├>css (alle css Dateien)
+    ├>data ()
+    |   └>temp (temporäre Dateien zum speichern etc.) [benötigt]
+    ├>dev (Development Dateien)
+    ├>images (Systemrelevante Bilder) [benötigt]
+    ├>include (Konfigurationsdateien und load.php) [benötigt]
+    |   ├>ADOdb (während der Installation erstellte Datenbankklasse) [benötigt]
+    |   ├>class (alle Klassen zum ovpn-webadmin) [benötigt]
+    |   ├>html (main html-code, footer, header, Websiteaufbau main-html.php)
+    |   |   ├>content (Inhalte wie content, nvaigationsleisten, übersicht usw.) [benötigt]
+    |   |   ├>login (Login Funktion)
+    |   |   |   └>login1|login2|login3 (Error und Login File mitsamt ihrer Daten) [benötigt]
+    |   |   └>modules (für alle Module im jeweils eigenen Ordner)
+    |   |       ├>admin (alle admin files, die dem normalen User nicht angezeigt werden)
+    |   |       ├>configfiles (Klasse für das client.conf Modul und firewall ) [benötigt]
+    |   |       |   └>class (sobald ein Ordner "class" enthalten ist, wird automatisch diese Klasse geladen)
+    |   |       .
+    |   |       .
+    |   |       └>  alle anderen module
+    |   └>lang
+    |       └>de_DE|en_EN|fr_FR (Sprachfiles "lang.php" im jeweiligen Order)
+    ├>js (JavaScript Dateien)
+    └>node_modules (wird erst während der Installation angelegt)
+
+````
+
 ### Dateibenennung
 
 Dateien die Ergänzungen in den Menüs beinhalten, sollten einfach im Ordner _/include/html/_ abgelegt werden.
