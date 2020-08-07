@@ -50,20 +50,20 @@ Die Webanwendung ist vollständnig im Ordner _wwwroot_ zu finden. Der Aufruf der
 
 ````code
 index.php
-       |
-       - load.php
-               |
-               - config.php
-               - all available modules
-               - all available Languages (see _/include/html/modules/languages/_)
-               - all standard classes (Session, json, livedata, secure, data)
-                    |
-                    - class.request.php (Central control File [Broker])
-                        |    |    |    |
-                        |    |    |    ->
-                        |    |    ->
-                        |    ->
-                        ->                all other Scripts, Modules what ever
+    |
+    └> load.php
+        |
+        ├> config.php
+        ├> all available modules
+        ├> all available Languages (see _/include/html/modules/languages/_)
+        └> all standard classes (Session, json, livedata, secure, data ...)
+            |
+            └> class.request.php (Central control File [Broker])
+                |    |    |    |
+                |    |    |    └->
+                |    |    └->
+                |    └->
+                └->                all other Scripts, Modules what ever
 
 ````
 
@@ -80,29 +80,30 @@ Wie die Namen schon verraten, das sind die Dateien die für den Aufbau der Webse
 ````code
 wwwroot
     |
-    ├>css (alle css Dateien)
-    ├>data ()
-    |   └>temp (temporäre Dateien zum speichern etc.) [benötigt]
-    ├>dev (Development Dateien)
-    ├>images (Systemrelevante Bilder) [benötigt]
-    ├>include (Konfigurationsdateien und load.php) [benötigt]
-    |   ├>ADOdb (während der Installation erstellte Datenbankklasse) [benötigt]
-    |   ├>class (alle Klassen zum ovpn-webadmin) [benötigt]
-    |   ├>html (main html-code, footer, header, Websiteaufbau main-html.php)
-    |   |   ├>content (Inhalte wie content, nvaigationsleisten, übersicht usw.) [benötigt]
-    |   |   ├>login (Login Funktion)
-    |   |   |   └>login1|login2|login3 (Error und Login File mitsamt ihrer Daten) [benötigt]
-    |   |   └>modules (für alle Module im jeweils eigenen Ordner)
-    |   |       ├>admin (alle admin files, die dem normalen User nicht angezeigt werden)
-    |   |       ├>configfiles (Klasse für das client.conf Modul und firewall ) [benötigt]
-    |   |       |   └>class (sobald ein Ordner "class" enthalten ist, wird automatisch diese Klasse geladen)
+    ├> css (alle css Dateien) [benötigt]
+    ├> data () [benötigt]
+    |   └> temp (temporäre Dateien zum speichern etc.) [benötigt]
+    ├> dev (Development Dateien)
+    ├> images (Systemrelevante Bilder) [benötigt]
+    ├> include (Konfigurationsdateien und load.php) [benötigt]
+    |   ├> ADOdb (während der Installation erstellte Datenbankklasse) [benötigt]
+    |   ├> class (alle Klassen zum ovpn-webadmin) [benötigt]
+    |   ├> html (main html-code, footer, header, Websiteaufbau main-html.php) [benötigt]
+    |   |   ├> content (Inhalte wie content, nvaigationsleisten, übersicht usw.) [benötigt]
+    |   |   ├> login (Login Funktion)
+    |   |   |   └> login1|login2|login3 (Error und Login File mitsamt ihrer Daten) [mind. 1 benötigt]
+    |   |   └> modules (für alle Module im jeweils eigenen Ordner)
+    |   |       ├> admin (alle admin files, die dem normalen User nicht angezeigt werden)
+    |   |       ├> configfiles (Klasse für das client.conf Modul und firewall ) [benötigt]
+    |   |       |   └> class (sobald ein Ordner "class" enthalten ist und ...)
+    |   |       |       └> class.configfiles.php (... eine Klasse mit dem Namen "class.[modulname].php vorhanden ist, wird automatisch geladen)
     |   |       .
     |   |       .
     |   |       └>  alle anderen module
-    |   └>lang
-    |       └>de_DE|en_EN|fr_FR (Sprachfiles "lang.php" im jeweiligen Order)
-    ├>js (JavaScript Dateien)
-    └>node_modules (wird erst während der Installation angelegt)
+    |   └> lang
+    |       └> de_DE|en_EN|fr_FR| ... (Sprachfile "lang.php" im jeweiligen Order der Sprache. Wird automatisch geladen) [mind. 1 benötigt]
+    ├> js (JavaScript Dateien) [benötigt]
+    └> node_modules (wird erst während der Installation angelegt) [benötigt]
 
 ````
 
