@@ -65,7 +65,7 @@
                     <?php
                     /** view only for Admins */
                     if(Session::GetVar('isadmin')){
-                      @include(REAL_BASE_DIR."/include/html/modules/main-sidebar.admin.php");
+                      @include(REAL_BASE_DIR."/include/html/modules/admin/admin-mainsidebar.php");
                     }; ?>
                   </ul>
                 </li>

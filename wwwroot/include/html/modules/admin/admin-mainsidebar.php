@@ -36,6 +36,15 @@ if((int)Session::GetVar('gid') === 1){
 if (defined('dev')){
   echo devel::navcode;
 }
+if (constant('firewall') == TRUE){
+  echo firewall::navcode;
+}
+if (constant('system') == TRUE){
+  echo system::navcode;
+}
+if (defined('ssl')){
+  echo modssl::navcode;
+}
 ?>
                     <li class="nav-item">
                       <a class="nav-link" id="admin-tab" data-toggle="pill" href="#admin" role="menu" aria-controls="admin" aria-selected="false">

@@ -78,7 +78,7 @@ if(Session::GetVar('isadmin')){
           </div>
         </div>
 <?php
-@include_once(REAL_BASE_DIR."/include/html/modules/admin-sysoverview.php");
+@include_once(REAL_BASE_DIR."/include/html/modules/admin/admin-sysoverview.php");
 }else{
   echo "Welcome";
 };
