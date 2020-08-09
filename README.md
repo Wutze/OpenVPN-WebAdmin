@@ -27,6 +27,12 @@ Administrate its OpenVPN with a web interface (logs visualisations, users managi
 ![Previsualisation Administration](doc/img/overview.png)
 ![Previsualisation Useradministration](doc/img/useradmin.png)
 
+## Preview
+
+[![Preview](https://img.shields.io/badge/Preview-opvn.ddnss.eu-%23B10079?style=plastic)](http://ovpn.ddnss.eu/)
+
+Login/Password: admin/admin or user/user
+
 ## Prerequisite
 
 * GNU/Linux with Bash and root access
