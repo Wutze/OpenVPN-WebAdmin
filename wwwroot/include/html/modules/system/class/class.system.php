@@ -55,7 +55,9 @@ class system{
    * @return generate html-code
    */
   function content(){
-    $out = "<button>Test</button>";
+    $out = "<button>Restart Firewall</button>";
+    $out.= "<button>Restart OpenVPN-Server</button>";
+    $out.= "<button>Restart System</button>";
     return $out;
   }
 
