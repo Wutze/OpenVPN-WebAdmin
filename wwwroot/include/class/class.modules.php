@@ -24,9 +24,6 @@
 
 /** This class is for language modules and modules */
 class get_modules{
-  var $path_modules=REAL_BASE_DIR."/include/html/modules/";
-  var $path_languages=REAL_BASE_DIR."/include/lang/";
-
 
   /** function read modules dir and load modules */
   function search_mod_dir() {
