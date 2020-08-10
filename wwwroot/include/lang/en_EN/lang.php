@@ -77,6 +77,9 @@ $message['_OSX_CONFIG']             = "OSX Configuration";
 $message['_WIN_CONFIG']             = "WIN Configuration";
 $message['_LIN_CONFIG']             = "Android Configuration";
 
+$message['_CONF_SAVED']             = "config saved";
+$message['_CONF_SAVE_ERROR']        = "save error";
+
 $message['_SSL_CERTS']              = "SSL-Certificates";
 $message['_SSL_CERTS_NEW']          = "new Certificate";
 $message['_SSL_CERTS_EDIT']         = "edit certificate";
@@ -94,6 +97,11 @@ $message['_USERDATA_EMAIL']         = "eMail";
 $message['_USERDATA_PASSWORD']      = "Password";
 $message['_USERDATA_SAVE']          = "create user";
 $message['_USERDATA_ISADMIN']       = "User gets admin rights";
+$message['_USERDATA_ISADMIN']       = "User receives full admin rights";
+$message['_USERDATA_ISCONFIGADMIN'] = "User receives configuration rights";
+$message['_USERDATA_ISLOGADMIN']    = "User gets log view rights";
+$message['_USERDATA_ISUSERADMIN']   = "User receives user administration rights";
+$message['_USERDATA_ISTLSADMIN']    = "User receives certificate management rights";
 $message['_USERDATA_FROM_DATE']     = "Access from:";
 $message['_USERDATA_TO_DATE']       = "Access to:";
 

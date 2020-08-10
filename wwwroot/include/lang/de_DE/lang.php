@@ -77,6 +77,9 @@ $message['_OSX_CONFIG']             = "OSX Konfiguration";
 $message['_WIN_CONFIG']             = "WIN Konfiguration";
 $message['_LIN_CONFIG']             = "Android Konfiguration";
 
+$message['_CONF_SAVED']             = "Konfiguration gespeichert";
+$message['_CONF_SAVE_ERROR']        = "Fehler beim speichern";
+
 $message['_SSL_CERTS']              = "SSL-Zertifikate";
 $message['_SSL_CERTS_NEW']          = "Neues Zertifikat";
 $message['_SSL_CERTS_EDIT']         = "Edit Zertifikat";
@@ -93,10 +96,13 @@ $message['_VPN_DATA_LIN']           = "Android/Linux-Config";
 $message['_USERDATA_EMAIL']         = "eMail";
 $message['_USERDATA_PASSWORD']      = "Password";
 $message['_USERDATA_SAVE']          = "Benutzer anlegen";
-$message['_USERDATA_ISADMIN']       = "Benutzer erhält Admin-Rechte";
+$message['_USERDATA_ISADMIN']       = "Benutzer erhält vollständige Admin-Rechte";
+$message['_USERDATA_ISCONFIGADMIN'] = "Benutzer erhält Konfigurations-Rechte";
+$message['_USERDATA_ISLOGADMIN']    = "Benutzer erhält Logansicht-Rechte";
+$message['_USERDATA_ISUSERADMIN']   = "Benutzer erhält Benutzerverwaltung-Rechte";
+$message['_USERDATA_ISTLSADMIN']    = "Benutzer erhält Rechte zur Zertifikatverwaltung";
 $message['_USERDATA_FROM_DATE']     = "Zugriff ab:";
 $message['_USERDATA_TO_DATE']       = "Zugriff bis:";
-
 
 
 /** 

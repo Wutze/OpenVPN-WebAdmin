@@ -39,5 +39,5 @@ if (defined('dev') and Session::GetVar('isadmin')){
 ?>
     </ul>
     <!-- file saved or not - flying message -->
-    <div id="messagestage">Config saved</div>
-    <div id="messagestageer">Save Error</div>
+    <div id="messagestage"><?php echo GET_Lang::nachricht('_CONF_SAVED'); ?></div>
+    <div id="messagestageer"><?php echo GET_Lang::nachricht('_CONF_SAVE_ERROR'); ?></div>

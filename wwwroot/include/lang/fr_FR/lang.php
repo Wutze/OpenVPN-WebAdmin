@@ -77,6 +77,9 @@ $message['_OSX_CONFIG']             = "Configuration OSX" ;
 $message['_WIN_CONFIG']             = "WIN configuration" ;
 $message['_LIN_CONFIG']             = "Configuration Android" ;
 
+$message['_CONF_SAVED']             = "Configuration sauvegardée";
+$message['_CONF_SAVE_ERROR']        = "sauvegarder l'erreur";
+
 $message['_SSL_CERTS']              = "certificats SSL" ;
 $message['_SSL_CERTS_NEW']          = "New Certificate" ;
 $message['_SSL_CERTS_EDIT']         = "Edit Certificate" ;
@@ -90,10 +93,15 @@ $message['_VPN_DATA_WIN']           = "WIN-Config" ;
 $message['_VPN_DATA_LIN']           = "Android/Linux-Config" ;
 
 
-$message['_USERDATA_EMAIL']         = "eMail" ;
-$message['_USERDATA_PASSWORD']      = "Mot de passe" ;
-$message['_USERDATA_SAVE']          = "Créer un utilisateur" ;
-$message['_USERDATA_ISADMIN']       = "User gets admin rights" ;
+$message['_USERDATA_EMAIL']         = "eMail";
+$message['_USERDATA_PASSWORD']      = "Mot de passe";
+$message['_USERDATA_SAVE']          = "Créer un utilisateur";
+$message['_USERDATA_ISADMIN']       = "User gets admin rights";
+$message['_USERDATA_ISADMIN']       = "L'utilisateur reçoit tous les droits d'administration";
+$message['_USERDATA_ISCONFIGADMIN'] = "L'utilisateur reçoit des droits de configuration";
+$message['_USERDATA_ISLOGADMIN']    = "User gets log view rights";
+$message['_USERDATA_ISUSERADMIN']   = "L'utilisateur reçoit les droits d'administration de l'utilisateur";
+$message['_USERDATA_ISTLSADMIN']    = "L'utilisateur reçoit les droits de gestion des certificats";
 $message['_USERDATA_FROM_DATE']     = "Accès à partir de :";
 $message['_USERDATA_TO_DATE']       = "Accès jusqu'à :";
 
