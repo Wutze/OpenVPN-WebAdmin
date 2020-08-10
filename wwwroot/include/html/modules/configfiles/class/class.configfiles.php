@@ -77,7 +77,7 @@ class configfiles{
 
     (array_key_exists($this->action,$this->go)) ? $this->gotox = $this->go[$this->action] : $this->gotox = 'ERROR';
     ($this->isuser) ? '' : $this->gotox = 'ERROR';
-
+#    $GLOBALS['devint']->collect('config'.".".rand(0,1000),$this);
     switch($this->gotox){
       case "save";
         $this->save_config();
@@ -180,11 +180,6 @@ class configfiles{
       $this->backupfilename = $timecode."_".$this->conf_filename[$this->file];
     }
 
-    $GLOBALS['devint']->collect($timecode,$this);
-    if($this->file == "firewall"){
-   # $GLOBALS['devint']->ends();
-    }
-
     if (!file_exists($this->backup_dir)){
       mkdir($this->history_full_path.$this->conf_array[$this->file],0700,true);
       mkdir($this->backup_dir, 0700, true);
@@ -208,7 +203,7 @@ class configfiles{
       $this->attention = GET_Lang::nachricht('_ATTENTION_FW');
     }else{
       $cfg_file=$this->config_full_path.$this->conf_filepathname[$this->file];
-      $this->attention = GET_Lang::nachricht('_ATTENTION_CF'); #"Attention! Restart server or clients after changes!";
+      $this->attention = GET_Lang::nachricht('_ATTENTION_CF');
     };
     ?>
     <div class="ribbon-wrapper ribbon-lg">
@@ -268,8 +263,6 @@ class configfiles{
     }
     // Zip archive will be created only after closing object
     $zip->close();
-    #$GLOBALS['devint']->collect('give a name',$this);
-    #$GLOBALS['devint']->ends();
     //then send the headers to foce download the zip file
     header("Content-type: application/zip");
     header("Content-Disposition: attachment; filename=".$this->archive_name);
@@ -289,13 +282,18 @@ class configfiles{
   }
   
   public static function content(){
-    include(REAL_BASE_DIR."/include/html/modules/configfiles/admin-clients.config.php");
+    include(REAL_BASE_DIR."/include/html/modules/configfiles/admin-content.configfiles.php");
   }
 
 }
 
 
 
+
+## todo ~ 1.5.0
+# Einbau Definitionen
+# * zum speichern vpn Konfigurationen
+# * Firewall
 
 
 ?>

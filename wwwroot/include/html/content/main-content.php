@@ -106,7 +106,7 @@ if(Session::GetVar('isadmin')){
             </table>
 <?php
 if(Session::GetVar('isadmin')){
-  include(REAL_BASE_DIR."/include/html/modules/user/admin-add.user.php");
+  include(REAL_BASE_DIR."/include/html/modules/admin/admin-add.user.php");
 }
 ?>
           </div>
