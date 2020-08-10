@@ -62,16 +62,20 @@ require_once(REAL_BASE_DIR.'/include/class/class.jsonObject.php');
 
 ### separated for future modularization
 require_once(REAL_BASE_DIR.'/include/class/class.modules.php');
+define('mod_dir',REAL_BASE_DIR."/include/html/modules/");
+define('lang_dir',REAL_BASE_DIR."/include/lang/");
 ## autoload modules
 $modload = new get_modules;
+$modload->set_value('path_modules',mod_dir);
 $modload->search_mod_dir();
+
 $keys = array_keys($modload->loaddir);
 for($a=0;$a<count($keys);$a++){
   if(file_exists($modload->path_modules."/".$keys[$a]."/class/class.".$keys[$a].".php")){
     include_once($modload->path_modules."/".$keys[$a]."/class/class.".$keys[$a].".php");
   }
 }
-(defined('dev'))? $GLOBALS['devint']->collect('load',$modload) : "";
+(defined('dev'))? $GLOBALS['devint']->collect('modload',$modload) : "";
 #(defined('dev'))? $GLOBALS['devint']->ends() : "";
 
 
