@@ -22,6 +22,7 @@
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
 $rr = new get_modules;
+$rr->set_value('path_languages',lang_dir);
 $rr->load_languages();
 $re = '/([a-z]{2})/';
 preg_match($re, Session::GetVar('lang'), $setcurrlang);
