@@ -80,13 +80,32 @@
                                 <input type="text" class="form-control is-warning" name="todate" id="datepicker2" placeholder="Date ...">
                               </div>
                           </div>
+                          <hr />
                           <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                               <div class="form-group">
                                 <div class="custom-control custom-switch">
                                   <input type="checkbox" class="custom-control-input" name="makeadmin" id="adminSwitch">
                                   <label class="custom-control-label" for="adminSwitch"><?php echo GET_Lang::nachricht('_USERDATA_ISADMIN'); ?></label>
                                 </div>
+<?php if(defined('preview')){ ?>
+                                <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input" disabled name="makeconfigadmin" id="configadminSwitch">
+                                  <label class="custom-control-label" for="configadminSwitch"><?php echo GET_Lang::nachricht('_USERDATA_ISCONFIGADMIN'); ?></label>
+                                </div>
+                                <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input" disabled name="makelogadmin" id="logadminSwitch">
+                                  <label class="custom-control-label" for="logadminSwitch"><?php echo GET_Lang::nachricht('_USERDATA_ISLOGADMIN'); ?></label>
+                                </div>
+                                <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input" disabled name="makeuseradmin" id="useradminSwitch">
+                                  <label class="custom-control-label" for="useradminSwitch"><?php echo GET_Lang::nachricht('_USERDATA_ISUSERADMIN'); ?></label>
+                                </div>
+                                <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input" disabled name="maketlsadmin" id="tlsadminSwitch">
+                                  <label class="custom-control-label" for="tlsadminSwitch"><?php echo GET_Lang::nachricht('_USERDATA_ISTLSADMIN'); ?></label>
+                                </div>
+<?php } ?>
                               </div>
                             </div> 
                           </div>
