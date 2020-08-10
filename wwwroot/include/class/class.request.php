@@ -136,6 +136,10 @@ class set_request{
 			/** Userverwaltung */
 			case "adduser";
 			case "saveuserchanges";
+				/** only for preview server */
+				if(defined('preview')){
+					header("Location: .");
+				}
 				$manipulate_user = new createchangeuser;
 				$manipulate_user->set_value('uname',$this->request['uname']);
 				(isset($this->request['mail'])) ? $manipulate_user->set_value('mail',$this->request['mail']) : "";
@@ -171,7 +175,7 @@ class set_request{
 				header("Location: .");
 			break;
 
-			/** logout from webfrontend */
+			/** change language */
 			case "language";
 				Session::SetVar('lang',$this->request['lang']);
 				header("Location: .");
@@ -182,8 +186,8 @@ class set_request{
 			 * @return force logout and session destroy
 			 */
 			case "error";
-				require_once(REAL_BASE_DIR.'/include/html/login/'._LOGINSITE.'/error.php');
 				Session::Destroy();
+				require_once(REAL_BASE_DIR.'/include/html/login/'._LOGINSITE.'/error.php');
 			break;
 		}
 	}
