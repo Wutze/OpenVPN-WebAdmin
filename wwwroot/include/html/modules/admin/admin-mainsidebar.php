@@ -36,10 +36,10 @@ if((int)Session::GetVar('gid') === 1){
 if (defined('dev')){
   echo devel::navcode;
 }
-if (constant('firewall') == TRUE){
+if (defined('firewall')){
   echo firewall::navcode;
 }
-if (constant('system') == TRUE){
+if (defined('system')){
   echo system::navcode;
 }
 if (defined('ssl')){
