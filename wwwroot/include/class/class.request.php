@@ -186,8 +186,8 @@ class set_request{
 			 * @return force logout and session destroy
 			 */
 			case "error";
-				Session::Destroy();
 				require_once(REAL_BASE_DIR.'/include/html/login/'._LOGINSITE.'/error.php');
+				Session::Destroy();
 			break;
 		}
 	}
