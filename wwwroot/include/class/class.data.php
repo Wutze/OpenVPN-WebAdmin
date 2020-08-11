@@ -86,6 +86,8 @@ class godata{
     $page = "LIMIT ".$this->req['offset'].",".$this->req['limit']."";
     $filter = isset($this->req['filter']) ? json_decode($this->req['filter'],true) : [];
     ($this->req['search']) ? $where = " WHERE user_id like '%".$this->req['search']."%'" : $where = "";
+    ($this->req['sort']) ? $sort = $this->req['sort'] : $sort = "log_id";
+    ($this->req['order']) ? $order = $this->req['order'] : $order = "DESC";
     /** create sort */
     foreach(array_keys($filter) as $key){
       (array_key_exists($key,$filter)) ? $where .= " AND ".$key." = '".$filter[$key]."'" : "";
@@ -98,10 +100,12 @@ class godata{
       }
     }
     /** make query */
-    $sql = "SELECT log.*, (SELECT COUNT(*) FROM log AS counter $where) AS nb FROM log $where ORDER BY log_id DESC $page";
+    $sql = "SELECT log.*, (SELECT COUNT(*) FROM log AS counter $where) AS nb FROM log $where ORDER BY $sort $order $page";
     /** execute query */
     $result = $data->execute($sql);
-
+#    $this->idnode = getmypid();
+#    $GLOBALS['devint']->collect('give a name',$this);
+#    $GLOBALS['devint']->ends();
 
       /** create json from database data for bootstrap table */
       while ($r = $result->fetchRow())
