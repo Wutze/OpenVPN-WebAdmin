@@ -148,7 +148,7 @@ del{
 }
 
 .card-main, .progressdata{
-  background-color: #7c7c7c5e !important;
+  background-color: #003c744d !important;
   box-shadow: 0 0 3px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
 }
 
@@ -210,4 +210,55 @@ del{
 
 #diff{
   margin: 0px !important;
+}
+
+.sidebar-dark-primary {
+  background-image: url("../images/bg.png");
+  background-color:!important;
+}
+
+.brand-link, .main-header, .nav-item, .navbar-nav .nav-link, .control-sidebar, .main-footer{
+  background-color: #00101f !important;
+  color: #ffffff !important;
+  border-bottom: 0px;
+}
+
+.nav-pills .has-treeview{
+  background-color: #00101f59 !important;
+}
+
+.nav-pills .has-treeview .nav-item{
+  background-color: #00101f96 !important;
+}
+
+.sidebar{
+  padding: 0px;
+}
+
+.main-footer{
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.small-box {
+	border-radius: 0px;
+	box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
+	display: block;
+  margin-bottom: 20px;
+  margin-top: 3px;
+  margin-bottom: 5px;
+	position: relative;
+}
+
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.p-3{
+  padding: 5px !important;
+}
+
+.card-primary{
+  margin: 0px;
 }
