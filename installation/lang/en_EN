@@ -113,3 +113,5 @@ However, this update introduces some functionality that allows you to restore th
 Continue?"
 
 AUPDATE01="Please empty the browser cache after the update!"
+
+MODENABLE="You installed modules. To enable these modules, transfer the following information from /include/module.config.php to /include/config.php"

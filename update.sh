@@ -14,7 +14,7 @@
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.2.0
+# @version		1.3.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
@@ -26,15 +26,14 @@
 export PATH=$PATH:/usr/sbin:/sbin
 
 ## set static vars
-THIS_NEW_VERSION="1.2.0"
+THIS_NEW_VERSION="1.3.0"
 config="config.conf"
 coltable=/opt/install/COL_TABLE
 BACKTITLE="OVPN-Admin [UPDATE]"
 updpath="/var/lib/ovpn-admin/"
 updfile="config.ovpn-admin.upd"
 base_path=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-V2=0
-modules_dev=""
+
 ## init screen
 # Find the rows and columns will default to 80x24 if it can not be detected
 screen_size=$(stty size 2>/dev/null || echo 24 80)
@@ -231,7 +230,7 @@ verify_setup(){
   fi
   if [ -n "$HOST" ]; then DBHOST=$HOST; fi
   if [ -n "$DB" ]; then DBNAME=$DB; fi
-  #if [ -n "$USER" ]; then DBUSER=$USER; fi
+  if [ -n "$INSTALLEDVERSION" ]; then VERSION=$INSTALLEDVERSION; fi
 
   UPDATEINFSUM="
 ${UPDATEINF02} ↠ ${LOCALMACHINEID}
@@ -252,13 +251,12 @@ ${UPDATAOK}
 "
   
   sel=$(whiptail --backtitle "${BACKTITLE}" --title "${UPSEL00}" --yesno "${UPDATEINFSUM}" ${r} ${c} 3>&1 1>&2 2>&3)
-  #control_box $? "${UPSEL00}"
   
   if [ $? = 0 ]; then
-      print_out 1 "Update: ${2}"
+      print_out 1 "Update: Inputs ok"
       fix_error_1
   else
-      print_out 0 "Update: ${2}"
+      print_out i "Update: get inputs"
       setup_questions
   fi
 }
@@ -294,9 +292,12 @@ make_backup(){
   fi
 
   date=$(date '+%Y-%m-%d')
-  tar cfz /opt/ovpn-backup/$date-archiv.tar.gz $WEBROOT$BASEPATH
+  tar cfz /opt/ovpn-backup/$date-archiv.tar.gz --exclude=node_modules --exclude=ADOdb $WEBROOT$BASEPATH
   control_script "create tar"
   print_out 1 "Backup Webfolder ok"
+  cp $WEBROOT$BASEPATH/include/config.php /opt/ovpn-backup/$date-config.php
+  
+  print_out i "Insert Password MySQL Database!"
   mysqldump --opt -Q -u $DBUSER -p$DBPASS -h $DBHOST $DBNAME > /opt/ovpn-backup/$date-dump.sql
   control_script "create db dump"
   print_out 1 "Backup Database ok"
@@ -305,7 +306,7 @@ make_backup(){
 
 ## Fixed a bug in the installation script that saved the wrong BASEPATH of the Webroot (up to version 1.1.1)
 fix_error_1(){
-  if [[ ! -d "$BASEPATH$WEBROOT" ]]; then
+  if [[ ! -d "$WEBROOT$BASEPATH" ]]; then
     BASEPATH=$(whiptail --backtitle "${BACKTITLE}" --inputbox "${SETVPN12}" ${r} ${c} openvpn-admin --title "${SETVPN12}" 3>&1 1>&2 2>&3)
     control_box $? "fix error Web-Basepath to $BASEPATH"
   fi
@@ -460,6 +461,10 @@ start_update_normal(){
     rm -r vpn/history/server/history/
     fi
   fi
+  
+  if [[ ! -d  "vpn/history/firewall" ]]; then
+    mkdir vpn/history/firewall
+  fi
 
   control_script "renew Files"
   print_out i "Update third party module yarn"
@@ -480,7 +485,7 @@ start_update_normal(){
 }
 
 check_version(){
-
+  if [ -n "$INSTALLEDVERSION" ]; then VERSION=$INSTALLEDVERSION; fi
   if [ "$(printf '%s\n' "$THIS_NEW_VERSION" "$VERSION" | sort -V | head -n1)" = "$THIS_NEW_VERSION" ]; then 
     print_out i "Installed Version $VERSION greater than or equal to $THIS_NEW_VERSION"
     print_out d "Update is not required"
@@ -492,9 +497,11 @@ check_version(){
       print_out i "Update is required"
       V2=2
       do_select
-      control_box "Set Development"
+      #control_box "Set Development"
+      return
     fi
-    #print_out i "Has nothing, must be reinstalled"
+    print_out i "Has nothing, must be reinstalled"
+    exit
   fi
 }
 
@@ -522,7 +529,7 @@ write_config(){
   }> $updpath$updfile
 
   control_box $? "write config"
-  chmod -R 600 $updpath
+  chmod -R 700 $updpath
 }
 
 ## Since version 1.1.1 new naming convention
@@ -543,22 +550,23 @@ install_version_2(){
 
 }
 
-## set debug install
-## Write with comma (separated call to copy)
-debug_func(){
-  modules_dev="dev"
-}
 
 do_select(){
-	sel=$(whiptail --title "${SELECT0}" --checklist --separate-output "${SELECT1}:" ${r} ${c} ${h} \
+	sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
     "11" "${SELECT11} " off \
+    "12" "${SELECT12} " off \
+    "20" "${SELECT20} " off \
     3>&1 1>&2 2>&3)
   control_box $? "select"
 
   while read -r line;
   do
       case $line in
-          11) debug_func $line
+          11) modules_dev="1"
+          ;;
+          12) modules_firewall="1"
+          ;;
+          20) modules_all="1"
           ;;
           *)
           ;;
@@ -567,65 +575,37 @@ do_select(){
 }
 
 write_webconfig(){
-  {
-  echo "<?php
-/**
- * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
- *
- * NOTICE OF LICENSE
- *
- * GNU AFFERO GENERAL PUBLIC LICENSE V3
- * that is bundled with this package in the file LICENSE.md.
- * It is also available through the world-wide-web at this URL:
- * https://www.gnu.org/licenses/agpl-3.0.en.html
- *
- * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @author    Wutze
- * @copyright 2020 OpenVPN-WebAdmin
- * @link			https://github.com/Wutze/OpenVPN-WebAdmin
- * @see				Internal Documentation ~/doc/
- * @version		1.2.0
- * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
- */
 
-(stripos(\$_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');"
-  echo ""
-  echo ""
-  echo "\$dbhost=\"$DBHOST\";"
-  echo "\$dbuser=\"$DBUSER\";"
-  echo "\$dbname=\"$DBNAME\";"
-  echo "\$dbport=\"3306\";"
-  echo "\$dbpass=\"$DBPASS\";"
-  echo "\$dbtype=\"mysqli\";"
-  echo "\$dbdebug=FALSE;"
-  echo "\$sessdebug=FALSE;"
+cp /opt/ovpn-backup/$date-config.php $WEBROOT$BASEPATH/include/config.php
+control_script "Copy web.config.php"
 
-  echo "/* Site-Name */
-define('_SITE_NAME',\"OVPN-WebAdmin\");
-define('HOME_URL',\"vpn.home\");
-define('_DEFAULT_LANGUAGE','en_EN');
-
-/** Login Site */
-define('_LOGINSITE','login1');"
-
-  }> $WEBROOT$BASEPATH"/include/config.php"
-  
+if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
   echo "
+/** 
+ * only for development!
+ * please comment out if no longer needed!
+ * comment in the \"define function\" to enable
+ */
+if(file_exists(\"dev/dev.php\")){
+	define('dev','dev/dev.php');
+}
+if (defined('dev')){
+	include('dev/class.dev.php');
+}
+" >> $WEBROOT$BASEPATH"/include/module.config.php"
+MOD_ENABLE="1"
+fi
 
-	/** 
-	 * only for development!
-	 * please comment out if no longer needed!
-   * comment in the \"define function\" to enable
-	 */
-	if(file_exists(\"dev/dev.php\")){
-		define('dev','dev/dev.php');
-	}
-	if (defined('dev')){
-		include('dev/class.dev.php');
-	}"
-}>> $WEBROOT$BASEPATH"/include/config.php"
-  
+if [ -n "$modules_firewall" ] || [ -n "$modules_all" ]; then
+  echo "
+define('firewall',TRUE);
+" >> $WEBROOT$BASEPATH"/include/module.config.php"
+MOD_ENABLE="1"
+fi
+
+print_out i "Config and Module Config written"
+}
+
 
 
 ## first information to update
@@ -643,12 +623,7 @@ main(){
   # first dialog for informations
   startDialog
 
-
-  ## search backup file - this was introduced with next/actual version
-  if_updatefile_exist
   verify_setup
-  ## check vars
-  #verify_setup
 
   ## create backup files and database
   print_out i "Backup - this may take a little moment"
@@ -679,6 +654,10 @@ print_out d "Yeahh! Update ready. 【ツ】"
 print_out i "Have Fun!"
 print_out i "${SETFIN04}"
 print_out i "${AUPDATE01}"
+
+if [ -n "$MOD_ENABLE" ]; then
+print_out i $MODENABLE
+fi
 
 
 exit

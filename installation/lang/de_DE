@@ -52,6 +52,7 @@ SELECT08="eigenes Webverzeichnis eingeben"
 SELECT09="Eigentümer des Verzeichnisses www-data"
 SELECT10="einen anderer Eigentümer"
 SELECT11="Debug Funkionen installieren?"
+SELECT12="Firewalleditor installieren?"
 SELECT20="Alle Erweiterungen installieren?"
 
 MISSING="Ich vermisse:"
@@ -112,3 +113,5 @@ Mit diesem Update werden jedoch einige Funktionalitäten eingeführt, die ein sp
 Weiter machen?"
 
 AUPDATE01="Nach dem Update bitte Browsercache leeren!"
+
+MODENABLE="Du hast Module installiert. Zum einschalten dieser Module übertrage bitte die folgenden Informationen aus der /include/module.config.php in /include/config.php"
