@@ -142,8 +142,7 @@ del{
 }
 
 .error-msg{
-  background-color: #fa8b8b7e;
-  box-shadow: 0 0 20px #ff0000;
+  box-shadow: 0 0 20px #ff0000 !important;
   color: #ffffff;
 }
 
@@ -212,9 +211,8 @@ del{
   margin: 0px !important;
 }
 
-.sidebar-dark-primary {
+.sidebar-dark-primary, .login-box {
   background-image: url("../images/bg.png");
-  background-color:!important;
 }
 
 .brand-link, .main-header, .nav-item, .navbar-nav .nav-link, .control-sidebar, .main-footer{
@@ -255,10 +253,21 @@ del{
   padding-right: 0px;
 }
 
-.p-3{
+.p-3, .login-logo, .login-box-body{
   padding: 5px !important;
 }
 
 .card-primary{
   margin: 0px;
+}
+
+.login-box .login-logo a, .login-box, .login-logo {
+  color: #ffffff !important;
+  background-color: #00101f !important;
+  padding: 0px;
+  margin: 0px;
+}
+
+.login-box{
+  box-shadow: 0 0 5px rgba(0,16,31, 0.918),0 1px 5px rgba(0,16,31,.2);
 }

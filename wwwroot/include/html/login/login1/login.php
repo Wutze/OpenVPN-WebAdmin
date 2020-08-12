@@ -10,12 +10,12 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.2.0
+ * @version		1.3.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -30,11 +30,9 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
     <title><?php echo _SITE_NAME; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="stylesheet" href="css/index.css" type="text/css" />
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="node_modules/admin-lte/dist/css/adminlte.min.css">
-    <script src="node_modules/ionicons/dist/ionicons.js"></script>
+    <link rel="stylesheet" href="css/index.css" type="text/css" />
   </head>
   <body class="hold-transition login-page">
     <div class="login-box">
@@ -75,11 +73,5 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
         </form>
       </div>
     </div>
-    <!-- jQuery -->
-<script src="node_modules/admin-lte/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="node_modules/admin-lte/dist/js/adminlte.min.js"></script>
   </body>
 </html>

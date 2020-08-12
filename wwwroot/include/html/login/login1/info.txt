@@ -2,3 +2,5 @@ Template by
 
 Wutze
 https://github.com/Wutze
+
+CSS styles are anchored in the system css/index.css

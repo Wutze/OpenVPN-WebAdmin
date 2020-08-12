@@ -21,7 +21,6 @@
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
-include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,10 +29,8 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
     <title><?php echo _SITE_NAME; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="stylesheet" href="css/index.css" type="text/css" />
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="node_modules/admin-lte/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="css/index.css" type="text/css" />
     <script src="node_modules/ionicons/dist/ionicons.js"></script>
   </head>
   <body class="hold-transition login-page">
@@ -46,11 +43,5 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
         <p class="login-box-msg"><a href="/"><?php echo GET_Lang::nachricht("_HOME") ?></a></p>
       </div>
     </div>
-    <!-- jQuery -->
-<script src="node_modules/admin-lte/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="node_modules/admin-lte/dist/js/adminlte.min.js"></script>
   </body>
 </html>
