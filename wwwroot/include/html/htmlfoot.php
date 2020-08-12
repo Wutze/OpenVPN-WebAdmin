@@ -41,7 +41,7 @@ if (Session::GetVar('isuser') || defined('dev')){
 
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+  <aside class="control-sidebar">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
       <form action="/" method="post">
