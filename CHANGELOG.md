@@ -1,5 +1,13 @@
 # OpenVPN-WebAdmin Version History
 
+## 1.3.0
+
+- fix bug in sortable log-tables
+- moved, add or delete files (The big clean up)
+- clean up code
+- change css styles for better look
+- add module firewall to edit firewall settings
+
 ## 1.2.0
 
 ### Installation/Update Script
