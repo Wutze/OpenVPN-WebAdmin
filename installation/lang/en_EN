@@ -114,4 +114,5 @@ Continue?"
 
 AUPDATE01="Please empty the browser cache after the update!"
 
-MODENABLE="You installed modules. To enable these modules, transfer the following information from /include/module.config.php to /include/config.php"
+MOENABLE0="You installed modules. To enable these modules, transfer the following"
+MOENABLE1="information from /include/module.config.php to /include/config.php"

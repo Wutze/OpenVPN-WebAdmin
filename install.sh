@@ -745,5 +745,6 @@ print_out i "${SETFIN03}"
 print_out d "${SETFIN04}"
 
 if [ -n "$MOD_ENABLE" ]; then
-print_out i $MODENABLE
+print_out i $MOENABLE0
+print_out i $MOENABLE1
 fi

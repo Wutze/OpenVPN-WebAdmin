@@ -114,4 +114,5 @@ Weiter machen?"
 
 AUPDATE01="Nach dem Update bitte Browsercache leeren!"
 
-MODENABLE="Du hast Module installiert. Zum einschalten dieser Module übertrage bitte die folgenden Informationen aus der /include/module.config.php in /include/config.php"
+MOENABLE0="Du hast Module installiert. Zum einschalten dieser Module übertrage bitte die folgenden Informationen"
+MOENABLE1="aus der /include/module.config.php in /include/config.php"

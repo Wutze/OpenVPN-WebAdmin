@@ -116,4 +116,5 @@ Continuer ?"
 
 AUPDATE01="Après la mise à jour, veuillez vider le cache du navigateur!"
 
-MODENABLE="Vous avez installé des modules. Pour activer ces modules, veuillez transférer les informations suivantes de /include/module.config.php à /include/config.php"
+MOENABLE0="Vous avez installé des modules. Pour activer ces modules, veuillez transférer les informations"
+MOENABLE1="suivantes de /include/module.config.php à /include/config.php"

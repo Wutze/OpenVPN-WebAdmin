@@ -659,7 +659,8 @@ print_out i "${SETFIN04}"
 print_out i "${AUPDATE01}"
 
 if [ -n "$MOD_ENABLE" ]; then
-print_out i $MODENABLE
+print_out i $MOENABLE0
+print_out i $MOENABLE1
 fi
 
 
