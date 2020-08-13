@@ -14,7 +14,7 @@
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.2.0
+# @version		1.3.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
@@ -226,6 +226,8 @@ do_select(){
     "7" "${SELECT07} " on \
     "9" "${SELECT09} " on \
     "11" "${SELECT11} " off \
+    "12" "${SELECT12} " off \
+    "20" "${SELECT20} " off \
     3>&1 1>&2 2>&3)
 #  RET=$?
   control_box $? "select"
@@ -331,9 +333,14 @@ do #echo "${line}";
         ;;
         9|10) make_owner $line
         ;;
-        11) debug_func $line
+        11) modules_dev="1"
+            MOD_ENABLE="1"
         ;;
-        20) set_extensions $line
+        12) modules_firewall="1"
+            MOD_ENABLE="1"
+        ;;
+        20) modules_all="1"
+            MOD_ENABLE="1"
         ;;
         *)
         ;;
@@ -587,7 +594,7 @@ write_config(){
   fi
 
   {
-  echo "VERSION=\"1.2.0\""
+  echo "VERSION=\"1.3.0\""
   echo "DBHOST=\"$db_host\""
   echo "DBUSER=\"$mysql_user\""
   echo "DBNAME=\"$db_name\""
@@ -599,14 +606,14 @@ write_config(){
   echo "INSTALLDATE=\"$(date '+%Y-%m-%d %H:%M:%S')\""
   }> $updpath$updfile
   
-  if [ -n "$installextensions" ]; then
-  {
-    echo "### you have installed modules"
-    echo "MODULES=\"$installextensions\""
-    echo "MODSSL=\"$modssl\""
-    echo "MODDEV=\"$moddev\""    
-    }>> $updpath$updfile
-  fi
+#  if [ -n "$installextensions" ]; then
+#  {
+#    echo "### you have installed modules"
+#    echo "MODULES=\"$installextensions\""
+#    echo "MODSSL=\"$modssl\""
+#    echo "MODDEV=\"$moddev\""    
+#    }>> $updpath$updfile
+#  fi
 
   control_box $? "write config"
   chmod -R 600 $updpath
@@ -656,24 +663,33 @@ define('_DEFAULT_LANGUAGE','en_EN');
 define('_LOGINSITE','login1');"
 
   }> $openvpn_admin"/include/config.php"
-  
-  if [ -n "$moddev" ]; then
-    {
-    echo "
 
-	/** 
-	 * only for development!
-	 * please comment out if no longer needed!
-   * comment in the \"define function\" to enable
-	 */
-	if(file_exists(\"dev/dev.php\")){
-		define('dev','dev/dev.php');
-	}
-	if (defined('dev')){
-		include('dev/class.dev.php');
-	}"
-    }>> $openvpn_admin"/include/config.php"
+  if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
+    echo "
+/** 
+ * only for development!
+ * please comment out if no longer needed!
+ * comment in the \"define function\" to enable
+ */
+if(file_exists(\"dev/dev.php\")){
+  define('dev','dev/dev.php');
+}
+if (defined('dev')){
+  include('dev/class.dev.php');
+}
+" >> $WEBROOT$BASEPATH"/include/module.config.php"
+    MOD_ENABLE="1"
   fi
+
+  if [ -n "$modules_firewall" ] || [ -n "$modules_all" ]; then
+    echo "
+define('firewall',TRUE);
+" >> $WEBROOT$BASEPATH"/include/module.config.php"
+    MOD_ENABLE="1"
+  fi
+
+  print_out i "Config and Module Config written"
+
   }
 
 # Replace in the client configurations with the ip of the server and openvpn protocol
@@ -727,3 +743,7 @@ print_out 1 "${SETFIN01}"
 print_out i "${SETFIN02}"
 print_out i "${SETFIN03}"
 print_out d "${SETFIN04}"
+
+if [ -n "$MOD_ENABLE" ]; then
+print_out i $MODENABLE
+fi
