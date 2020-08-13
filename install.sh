@@ -564,9 +564,9 @@ sed -i "s/DBNAME=''/DBNAME='$db_name'/" "/etc/openvpn/scripts/config.sh"
 mkdir $www
 mkdir "$openvpn_admin"
 if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
-  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
+  cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
 else
-  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+  cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
 fi
 
 mkdir {$www/vpn,$www/vpn/history,$www/vpn/history/server,$www/vpn/history/osx,$www/vpn/history/gnu-linux,$www/vpn/history/win}
