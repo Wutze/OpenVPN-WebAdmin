@@ -1,6 +1,6 @@
 # Update OpenVPN-WebAdmin
 
-## Update from Version 1.1.1 to 1.2.0
+## Update from Version 1.1.x to 1.3.0
 
 ### German
 
