@@ -432,9 +432,9 @@ start_update_normal(){
   control_script "create new Webfolder"
 
   if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
-    cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
+    cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
   else
-    cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+    cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
   fi
 
   ## move all history folders and osx folder
