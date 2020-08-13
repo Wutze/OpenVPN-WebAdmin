@@ -568,7 +568,7 @@ sed -i "s/DBNAME=''/DBNAME='$db_name'/" "/etc/openvpn/scripts/config.sh"
 # Create the directory of the web application
 mkdir $www
 mkdir "$openvpn_admin"
-if [ -n "$moddev" ]; then
+if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
   cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
 else
   cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
