@@ -500,8 +500,8 @@ check_version(){
       #control_box "Set Development"
       return
     fi
-    print_out i "Has nothing, must be reinstalled"
-    exit
+    do_select
+    return
   fi
 }
 
