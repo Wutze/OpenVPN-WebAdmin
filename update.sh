@@ -431,7 +431,7 @@ start_update_normal(){
   mkdir $openvpn_admin
   control_script "create new Webfolder"
 
-  if [ -n "$modules_dev" ]; then
+  if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
     cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
   else
     cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
@@ -563,10 +563,13 @@ do_select(){
   do
       case $line in
           11) modules_dev="1"
+              MOD_ENABLE="1"
           ;;
           12) modules_firewall="1"
+              MOD_ENABLE="1"
           ;;
           20) modules_all="1"
+              MOD_ENABLE="1"
           ;;
           *)
           ;;
