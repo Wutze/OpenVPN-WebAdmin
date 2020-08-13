@@ -278,14 +278,14 @@ make_webserver(){
     
 }
 
-set_extentions(){
-  installextensions="yes";
-}
+#set_extentions(){
+#  installextensions="yes";
+#}
 
-make_extentions(){
-  cd /opt/
-  git clone https://github.com/Wutze/OpenVPN-WebAdmin-Modules ovpn-modules
-}
+#make_extentions(){
+#  cd /opt/
+#  git clone https://github.com/Wutze/OpenVPN-WebAdmin-Modules ovpn-modules
+#}
 
 make_webroot(){
   www="/srv/www/"
@@ -302,11 +302,6 @@ set_config(){
   cp installation/config.conf.sample installation/config.conf
 }
 
-## set debug install
-## Write with comma (separated call to copy)
-debug_func(){
-  modules_dev=",dev"
-}
 #### Start Script with Out- and Inputs
 ## first call funcions
 echo "${ATTENTION}" > info.text
@@ -638,7 +633,7 @@ write_config(){
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.2.0
+ * @version		1.3.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -677,14 +672,14 @@ if(file_exists(\"dev/dev.php\")){
 if (defined('dev')){
   include('dev/class.dev.php');
 }
-" >> $WEBROOT$BASEPATH"/include/module.config.php"
+" >> $openvpn_admin"/include/module.config.php"
     MOD_ENABLE="1"
   fi
 
   if [ -n "$modules_firewall" ] || [ -n "$modules_all" ]; then
     echo "
 define('firewall',TRUE);
-" >> $WEBROOT$BASEPATH"/include/module.config.php"
+" >> $openvpn_admin"/include/module.config.php"
     MOD_ENABLE="1"
   fi
 
@@ -745,6 +740,6 @@ print_out i "${SETFIN03}"
 print_out d "${SETFIN04}"
 
 if [ -n "$MOD_ENABLE" ]; then
-print_out i $MOENABLE0
-print_out i $MOENABLE1
+  print_out i "${MOENABLE0}"
+  print_out i "${MOENABLE1}"
 fi
