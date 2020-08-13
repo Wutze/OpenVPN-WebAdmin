@@ -1,37 +1,37 @@
-# OpenVPN WebAdmin 1.2.0
+# OpenVPN WebAdmin 1.3.0
 
 You lock your front door. But why do you leave the back entrances open? This is the same with almost all Internet accesses to your IoT, webcams and other devices.
 
 Create and manage your virtual private network via web browser and OpenVPN. This system is a simple and easy method for your private user manager. The system is suitable for families, shared flats or companies that value free software. If you want to become independent from big cloud providers, if you really care about the security of your data without having to reveal the communication to secret services or data collectors, you will find your way with this system.
 
-![GitHub last commit](https://img.shields.io/github/last-commit/Wutze/OpenVPN-WebAdmin?style=plastic)
-![GitHub repo size](https://img.shields.io/github/repo-size/Wutze/OpenVPN-WebAdmin?style=plastic)
-![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/Wutze/OpenVPN-WebAdmin/1.2.0?style=plastic)
+![GitHub OpenVPN-WebAdmin last commit](https://img.shields.io/github/last-commit/Wutze/OpenVPN-WebAdmin?style=plastic)
+![GitHub OpenVPN-WebAdmin repo size](https://img.shields.io/github/repo-size/Wutze/OpenVPN-WebAdmin?style=plastic)
+![GitHub OpenVPN-WebAdmin commits since latest release](https://img.shields.io/github/commits-since/Wutze/OpenVPN-WebAdmin/1.3.0?style=plastic)
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/huwutze?color=blue&label=HuWutze&logo=Twitter&style=plastic)](https://twitter.de/HuWutze)
 [![Liberapay patrons](https://img.shields.io/liberapay/patrons/Wutze?style=plastic)](https://liberapay.com/Wutze/)
 
 ## Extended documentation
 
-[![Doku English](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
-[![Doku Deutsch/German](https://img.shields.io/badge/Dokumentation-DE-%230034F0?style=plastic)](doc/doc.de_DE.md)
-[![Doku Französisch/French](https://img.shields.io/badge/Dokumentation-FR-%230034F0?style=plastic)](doc/doc.fr_FR.md)
+[![Doku English OpenVPN-WebAdmin](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
+[![Doku Deutsch/German OpenVPN-WebAdmin](https://img.shields.io/badge/Dokumentation-DE-%230034F0?style=plastic)](doc/doc.de_DE.md)
+[![Doku Französisch/French OpenVPN-WebAdmin](https://img.shields.io/badge/Dokumentation-FR-%230034F0?style=plastic)](doc/doc.fr_FR.md)
 
-[![Update Doku](https://img.shields.io/badge/Update--Doku--1.2.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.2.0.info.md)
+[![Update Doku OpenVPN-WebAdmin](https://img.shields.io/badge/Update--Doku--1.3.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.x.x.info.md)
+
+## Live-Preview
+
+[![Preview OpenVPN-WebAdmin](https://img.shields.io/badge/Preview-opvn.ddnss.eu-%23B10079?style=plastic)](http://ovpn.ddnss.eu/)
+
+Login/Password: admin/admin or user/user
 
 ## Screenshots
 
 Administrate its OpenVPN with a web interface (logs visualisations, users managing...) with MariaDB.
 
-![Previsualisation Login](doc/img/login.png)
-![Previsualisation Administration](doc/img/overview.png)
-![Previsualisation Useradministration](doc/img/useradmin.png)
-
-## Preview
-
-[![Preview](https://img.shields.io/badge/Preview-opvn.ddnss.eu-%23B10079?style=plastic)](http://ovpn.ddnss.eu/)
-
-Login/Password: admin/admin or user/user
+![Previsualisation Login OpenVPN-WebAdmin](doc/img/login.png)
+![Previsualisation Administration OpenVPN-WebAdmin](doc/img/overview.png)
+![Previsualisation Useradministration OpenVPN-WebAdmin](doc/img/useradmin.png)
 
 ## Prerequisite
 
@@ -51,6 +51,8 @@ Login/Password: admin/admin or user/user
 * net-tools (for the includes simple firewall)
 
 Only __CentOS__
+
+In addition to the packages, the following must be installed
 
 * tar
 

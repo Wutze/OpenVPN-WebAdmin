@@ -7,6 +7,11 @@
 - clean up code
 - change css styles for better look
 - add module firewall to edit firewall settings
+- fix bugs in update.sh
+- add Development Doku
+- add Coding Conventions (for the monent only in German)
+- change Documentaions
+- more translations inserted (DE/FR/EN)
 
 ## 1.2.0
 
