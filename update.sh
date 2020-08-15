@@ -14,7 +14,7 @@
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.3.0
+# @version		1.4.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
@@ -26,7 +26,7 @@
 export PATH=$PATH:/usr/sbin:/sbin
 
 ## set static vars
-THIS_NEW_VERSION="1.3.0"
+THIS_NEW_VERSION="1.4.0"
 config="config.conf"
 coltable=/opt/install/COL_TABLE
 BACKTITLE="OVPN-Admin [UPDATE]"
@@ -270,9 +270,9 @@ create_setup_new_user(){
   mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME -e "UPDATE user SET gid = '2'; "
   control_script "set all Users to Group User"
   print_out 1 "All Users now Group User"
-  mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${ADMIN}', encrypt('${ADMINPW}'),'1','1');"
+  mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME -e "INSERT INTO user (user_name, user_pass, gid, user_enable) VALUES ('${ADMIN}', encrypt('${ADMINPW}'),'1','1');"
   control_script "Insert new Webadmin"
-  mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${ADMIN}-user', encrypt('${ADMINPW}'),'2','1');"
+  mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME -e "INSERT INTO user (user_name, user_pass, gid, user_enable) VALUES ('${ADMIN}-user', encrypt('${ADMINPW}'),'2','1');"
   control_script "Insert new User"
   print_out 1 "setting up MySQL OK"
   print_out i "Admin-Login now with $ADMIN and our new Password!"
@@ -437,6 +437,7 @@ start_update_normal(){
     cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
   fi
 
+  cp -r "$base_path/installation/scripts/"{connect.sh,disconnect.sh,login.sh} "/etc/openvpn/scripts/"
   ## move all history folders and osx folder
   cd $WEBROOT
   if [[ ! -d  "vpn/history/osx" ]]; then
@@ -668,5 +669,4 @@ exit
 
 
 ### Hinweise
-## umbenennen vpn conf ordner in osx --- selbiges mit history - ok
-## umschreiben variablen config.php - ok
+## 
