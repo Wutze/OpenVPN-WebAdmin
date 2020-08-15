@@ -10,12 +10,12 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.4.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -72,18 +72,16 @@ class passwd{
 		$data = newAdoConnection(_DB_TYPE);
 		$data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
 
-		$this->sql = "SELECT user.user_id AS uname,
-												user.uid AS uid,
-												user.gid AS gid, 
-												user.user_pass AS pass, 
-												user.user_enable AS isenable, 
-												groupnames.name AS groupname 
-												FROM usergroups AS usergroups, 
-												user AS user, 
-												groupnames AS groupnames 
-												WHERE usergroups.gid = user.gid 
-												AND groupnames.gname = usergroups.gid 
-												AND user.user_id = '".self::check_vars($this->data->request['uname'])."'";
+		$this->sql = "SELECT user.user_name AS uname,
+									user.uid AS uid,
+									user.gid AS gid, 
+									user.user_pass AS pass, 
+									user.user_enable AS isenable, 
+									groupnames.name AS groupname 
+									FROM { oj groupnames AS groupnames 
+									LEFT OUTER JOIN user AS user 
+									ON groupnames.gid = user.gid } 
+									WHERE user.user_name = '".self::check_vars($this->data->request['uname'])."'";
 
 		$this->res = $data->getRow($this->sql);
 		$this->okornot = self::control_pass();
@@ -207,7 +205,7 @@ class createchangeuser extends passwd{
 			/** create insert new user */
 			$this->table = "user";
 			$this->record = array();
-			$this->record['user_id'] = $this->uname;			
+			$this->record['user_name'] = $this->uname;
 			$this->record['gid'] = ($this->makeadmin) ? 1 : 2;
 			$this->record['user_pass'] = password_hash($this->pass,$this->option_crypt);
 			$this->record['user_mail'] = ($this->mail) ? $this->mail : FALSE;

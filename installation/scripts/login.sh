@@ -8,7 +8,7 @@ password=$(echap "$password")
 echo $(date '+%a %b %d %H:%M:%S %Y')" [ovpn] Start Login Process for: $username: [INFO]"
 
 # Authentication
-user_pass=$(mysql -h$DBHOST -P$DBPORT -u$DBUSER -p$DBPASS $DBNAME -sN -e "SELECT user_pass FROM user WHERE user_id = '$username' AND user_enable=1 AND (TO_DAYS(now()) >= TO_DAYS(user_start_date) OR user_start_date IS NULL) AND (TO_DAYS(now()) <= TO_DAYS(user_end_date) OR user_end_date IS NULL)")
+user_pass=$(mysql -h$DBHOST -P$DBPORT -u$DBUSER -p$DBPASS $DBNAME -sN -e "SELECT user_pass FROM user WHERE user_name = '$username' AND user_enable=1 AND (TO_DAYS(now()) >= TO_DAYS(user_start_date) OR user_start_date IS NULL) AND (TO_DAYS(now()) <= TO_DAYS(user_end_date) OR user_end_date IS NULL)")
 
 # Check the user
 # write log entry

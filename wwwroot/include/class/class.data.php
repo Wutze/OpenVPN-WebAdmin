@@ -46,7 +46,7 @@ class godata{
   var $offset = '/[0-9]*/m';
   var $limit = '/[0-9]*/m';
   var $allowedchars = '/^[a-z0-9\_\-]*$/';
-  var $allowed_query_filters = ['user_id', 'log_trusted_ip','log_trusted_port','log_remote_ip','log_remote_port'];
+  var $allowed_query_filters = ['user_name', 'log_trusted_ip','log_trusted_port','log_remote_ip','log_remote_port'];
 
   function main(){
     (array_key_exists($this->action,$this->go)) ? $this->gotox = $this->go[$this->action] : $this->gotox = 'ERROR';
@@ -85,7 +85,7 @@ class godata{
     /** set dynamic filters and create query */
     $page = "LIMIT ".$this->req['offset'].",".$this->req['limit']."";
     $filter = isset($this->req['filter']) ? json_decode($this->req['filter'],true) : [];
-    ($this->req['search']) ? $where = " WHERE user_id like '%".$this->req['search']."%'" : $where = "";
+    ($this->req['search']) ? $where = " WHERE user_name like '%".$this->req['search']."%'" : $where = "";
     ($this->req['sort']) ? $sort = $this->req['sort'] : $sort = "log_id";
     ($this->req['order']) ? $order = $this->req['order'] : $order = "DESC";
     /** create sort */
@@ -94,18 +94,15 @@ class godata{
     }
     if(!(int)Session::GetVar('isadmin')){
       if(!empty($where)){
-        $where = $where.' AND user_id = \''.Session::GetVar('uname').'\'';
+        $where = $where.' AND user_name = \''.Session::GetVar('uname').'\'';
       }else{
-        $where = 'WHERE user_id = \''.Session::GetVar('uname').'\'';
+        $where = 'WHERE user_name = \''.Session::GetVar('uname').'\'';
       }
     }
     /** make query */
     $sql = "SELECT log.*, (SELECT COUNT(*) FROM log AS counter $where) AS nb FROM log $where ORDER BY $sort $order $page";
     /** execute query */
     $result = $data->execute($sql);
-#    $this->idnode = getmypid();
-#    $GLOBALS['devint']->collect('give a name',$this);
-#    $GLOBALS['devint']->ends();
 
       /** create json from database data for bootstrap table */
       while ($r = $result->fetchRow())
@@ -114,7 +111,7 @@ class godata{
         $o->id   = "0";
         $o->text = $sql;
         $o->log_id   = $r[0];
-        $o->user_id = $r[1];
+        $o->user_name = $r[1];
         $o->log_trusted_ip = $r[2];
         $o->log_trusted_port = $r[3];
         $o->log_remote_ip = $r[4];
@@ -147,22 +144,25 @@ class godata{
   function read_user(){
     $data = newAdoConnection(_DB_TYPE);
     $page = "LIMIT ".$this->req['offset'].",".$this->req['limit']."";
-    ($this->req['search']) ? $where = " WHERE user_id like '%".$this->req['search']."%'" : $where = "";
+    ($this->req['search']) ? $where = " WHERE user_name like '%".$this->req['search']."%'" : $where = "";
     $data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
     $sql = "SELECT COUNT( uid ) AS nb FROM user AS user $where";
     $nbv = $data->execute($sql);
     $nb = $nbv->fetchRow();
+
     $sql = "SELECT user.uid AS uid,
-            user.user_id AS uname,
+            user.user_name AS uname,
             groupnames.name AS gname,
             user.user_online,
             user.user_enable,
             user.user_start_date,
             user.user_end_date,
-            user.user_mail
-            FROM { oj groupnames AS groupnames
-            LEFT OUTER JOIN user AS user
-            ON groupnames.gname = user.gid } $where ORDER BY uid asc $page" ;
+            user.user_mail 
+            FROM { oj groupnames AS groupnames 
+            RIGHT OUTER JOIN user AS user 
+            ON groupnames.gid = user.gid } 
+            $where ORDER BY uid asc $page ";
+
     $result = $data->execute($sql);
 
     while ($r = $result->fetchRow()){
@@ -173,7 +173,6 @@ class godata{
         $o->uuid = $r[0];
         $o->uname = $r[1];
         $o->gname = $r[2];
-        #$o->user_online = $r[3];
         ($r[3]) ? $o->user_online='<div class="mini-led-green-blink"></div>' : $o->user_online='<div class="mini-led-gray"></div>';
         ($r[4]) ? $o->user_enable='<div class="mini-led-green"></div>' : $o->user_enable='<div class="mini-led-red"></div>';
         $o->enable = $r[4];

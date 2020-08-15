@@ -172,7 +172,7 @@ class golivedata{
     $data = newAdoConnection(_DB_TYPE);
     $data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
     $searchuser = $this->action['uname'];
-    $this->sql="SELECT `user_id` FROM `user` WHERE `user_id` = '$searchuser'  ";
+    $this->sql="SELECT `user_name` FROM `user` WHERE `user_name` = '$searchuser'  ";
     $result = $data->execute($this->sql);
     $user = $result->fetchRow();
 

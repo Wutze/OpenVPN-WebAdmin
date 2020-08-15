@@ -60,7 +60,7 @@ if(Session::GetVar('isadmin')){
               <thead class="thead-dark">
                 <tr>
                    <th data-field="log_id" >ID</th>
-                   <th data-field="user_id" <?php echo $userfilter; ?>><?php echo GET_Lang::nachricht('_U_NAME'); ?></th>
+                   <th data-field="user_name" <?php echo $userfilter; ?>><?php echo GET_Lang::nachricht('_U_NAME'); ?></th>
                    <th data-field="log_trusted_ip">From IP</th>
                    <th data-field="log_trusted_port" <?php echo $portfilter; ?>>From Port</th>
                    <th data-field="log_remote_ip">Int IP</th>
