@@ -441,7 +441,7 @@ if [ "$db_host" == localhost ]; then
 fi
 
 # current only new install
-mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < installation/sql/vpnadmin-1.1.0.dump
+mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < installation/sql/vpnadmin.dump
 control_script "Insert Database Dump"
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
 control_script "Insert Webadmin User"
