@@ -55,7 +55,7 @@ if(file_exists(REAL_BASE_DIR.'/dev.version.php')){
                   <h3 class="profile-username text-center">OpenVPN-WebAdmin</h3>
                   <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item">
-                      <b>OVPN Version:</b> <a class="float-right"><?php echo version; ?></a>
+                      <b>OVPN Version:</b> <a class="float-right"><?php echo version.devel; ?></a>
                     </li>
                     <li class="list-group-item">
                       <b>CPU:</b> <a class="float-right"><?php echo $stat['cpu_model']; ?></a>
