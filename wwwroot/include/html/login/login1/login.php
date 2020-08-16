@@ -37,13 +37,13 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-          <a href="/"><img src="./images/logo.png" />&nbsp;<?php echo _SITE_NAME; ?></a>
+        <a href="/"><img src="images/logo.png" />&nbsp;<?php echo _SITE_NAME; ?></a>
       </div>
       <div class="login-box-body">
         <p class="login-box-msg"><?php echo GET_Lang::nachricht("_LOGIN_DATA") ?></p>
         <form action="/" method="post">
           <div class="input-group mb-3">
-            <?php echo username(); ?>
+            <?php echo username()."\n"; ?>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -51,7 +51,7 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
             </div>
           </div>
           <div class="input-group mb-3">
-            <?php echo password(); ?>
+            <?php echo password()."\n"; ?>
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -64,11 +64,9 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
               <?php echo hiddenfields()."\n"; ?>
               </div>
             </div>
-            <!-- /.col -->
             <div class="col-4">
               <?php echo button('btn-primary btn-block'); ?>
             </div>
-            <!-- /.col -->
           </div>
         </form>
       </div>
