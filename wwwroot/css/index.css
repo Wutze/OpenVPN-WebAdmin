@@ -271,3 +271,8 @@ del{
 .login-box{
   box-shadow: 0 0 5px rgba(0,16,31, 0.918),0 1px 5px rgba(0,16,31,.2);
 }
+
+.nonono{
+  background-color: #ffffff !important;
+  text-align: center;
+}

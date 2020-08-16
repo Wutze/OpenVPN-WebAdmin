@@ -34,10 +34,11 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
 		<link rel="stylesheet" href="node_modules/admin-lte/dist/css/adminlte.min.css">
 		<link rel="stylesheet" href="node_modules/admin-lte/plugins/fontawesome-free/css/all.min.css">		
 		<script src="node_modules/jquery/dist/jquery.min.js"></script>
-	  <link rel="stylesheet" type="text/css" href="include/html/login/<?php echo _LOGINSITE; ?>/login.css">
+		<link rel="stylesheet" type="text/css" href="include/html/login/<?php echo _LOGINSITE; ?>/login.css">
+		<link rel="stylesheet" href="css/index.css" type="text/css" />
 </head>
 <!--Coded with love by Mutiullah Samim-->
-	<body>
+	<body><?php echo noscript(); ?>
 		<div class="container h-100">
 			<div class="d-flex justify-content-center h-100">
 				<div class="user_card">

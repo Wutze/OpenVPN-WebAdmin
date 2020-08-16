@@ -65,7 +65,20 @@ function button($option=""){
   return $out = '<button type="submit" class="btn btn-primary '.$option.'" name="op" value="checklogin">'.GET_Lang::nachricht("_LOGIN").'</button>';
 }
 
-
+function noscript(){
+  $out = '
+  <noscript>
+  <div class="nonono">
+    <div class="mini-led-red-blink">
+    </div>
+    <div class="login-box-body">
+      <p>'.GET_Lang::nachricht("_NEED_JAVASCRIPT").'</p>
+    </div>
+  </div>
+  </noscript>
+  ';
+  return $out;
+}
 
 
 ?>
