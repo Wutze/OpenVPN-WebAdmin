@@ -35,6 +35,7 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
     <link rel="stylesheet" href="css/index.css" type="text/css" />
   </head>
   <body class="hold-transition login-page">
+  <?php echo noscript(); ?>
     <div class="login-box">
       <div class="login-logo">
         <a href="/"><img src="images/logo.png" />&nbsp;<?php echo _SITE_NAME; ?></a>

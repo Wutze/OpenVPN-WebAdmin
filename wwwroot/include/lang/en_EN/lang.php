@@ -27,6 +27,7 @@
 $message['_NO_USER']                = "Unknown user name";
 $message['_SITE_TITLE']             = "Page title";
 $message['_LANGUGE_ERROR']          = "Error in the language file";
+$message['_NEED_JAVASCRIPT']        = "Sorry, JavaScript is required!";
 
 $message['_HOME']                   = "Home";
 $message['_OVERVIEW']               = "Overview";

@@ -34,6 +34,7 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
 		<link rel="stylesheet" href="node_modules/admin-lte/dist/css/adminlte.min.css">
 		<link rel="stylesheet" href="node_modules/admin-lte/plugins/fontawesome-free/css/all.css">
 		<link rel="stylesheet" type="text/css" href="include/html/login/<?php echo _LOGINSITE; ?>/login.css">
+		<link rel="stylesheet" href="css/index.css" type="text/css" />
 </head>
 <body>
 <div class="container">
@@ -47,6 +48,7 @@ include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
 					<span><a href="https://twitter.de/huwutze"><i class="fab fa-twitter-square"></i></a></span>
 				</div>
 			</div>
+			<?php echo noscript(); ?>
 			<div class="card-body">
 			<form action="/" method="post">
 					<div class="input-group form-group">
