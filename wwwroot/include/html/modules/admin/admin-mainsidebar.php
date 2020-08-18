@@ -43,7 +43,7 @@ if (defined('system')){
   echo system::navcode;
 }
 if (defined('ssl')){
-  echo modssl::navcode;
+  echo ssl::navcode();
 }
 ?>
                     <li class="nav-item">

@@ -22,7 +22,7 @@
  (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
 
- class modssl{
+ class ssl{
 
   public static function navcode(){
     include(REAL_BASE_DIR."/include/html/modules/ssl/main-sidebar.ssl.php");
@@ -38,3 +38,4 @@
 
 
  }
+ 
