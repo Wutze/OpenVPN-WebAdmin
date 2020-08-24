@@ -32,7 +32,7 @@
                   DEV
                 </div>
               </div>
-<h4>Devel</h4>
+<h4 class='callout'>Devel</h4>
  <!-- /nicht anfassen, wird benötigt -->
 <?php
 /**
@@ -42,28 +42,48 @@
 
 
  
-#echo $dev;
+echo "<div class='callout callout-success'>Welcome in the developer hell</div>";
 
- echo "Welcome in the developer hell";
+function scan_dir($path){
+  $getdir=new RecursiveDirectoryIterator($path,FilesystemIterator::SKIP_DOTS);
+
+  $bytestotal=0;
+  $nbfiles=0;
+  foreach (new RecursiveIteratorIterator($getdir) as $filename=>$alldata) {
+    $filesize=$alldata->getSize();
+    $bytestotal+=$filesize;
+    $nbfiles++;
+    $files[] = $filename;
+  }
+
+  $bytestotal=number_format($bytestotal);
+
+  return array('total_files'=>$nbfiles,'total_size'=>$bytestotal,'files'=>$files);
+}
+
+$test = scan_dir(REAL_BASE_DIR);
+
 
 ?>
 
-
-          <div class="col-md-4">
+        <div class="row">
+          <div class=".col-xs-3 col-md-6">
             <div class="info-box mb-3 bg-warning">
               <span class="info-box-icon"><i class="fas fa-tag"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Files</span>
-                <span class="info-box-number">836</span>
+                <span class="info-box-number"><?php echo $test['total_files']; ?></span>
               </div>
             </div>
             <div class="info-box mb-3 bg-success">
               <span class="info-box-icon"><i class="far fa-heart"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Size</span>
-                <span class="info-box-number">4,2 MB</span>
+                <span class="info-box-number"><?php echo $test['total_size']; ?> bytes</span>
               </div>
             </div>
+          </div>
+          <div class=".col-xs-3 col-md-6">
             <div class="info-box mb-3 bg-danger">
               <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
               <div class="info-box-content">
@@ -80,6 +100,8 @@
               </div>
             </div>
           </div>
+        </div>
+        
 
 
 
