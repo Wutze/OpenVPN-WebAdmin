@@ -10,12 +10,12 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.5.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -42,9 +42,6 @@ if (defined('firewall')){
 if (defined('system')){
   echo system::navcode;
 }
-if (defined('ssl')){
-  echo ssl::navcode();
-}
 ?>
                     <li class="nav-item">
                       <a class="nav-link" id="admin-tab" data-toggle="pill" href="#admin" role="menu" aria-controls="admin" aria-selected="false">
@@ -53,4 +50,9 @@ if (defined('ssl')){
                       </a>
                     </li>
                     <!-- /mod admin user + config -->
-<?php }; ?>
+<?php };
+if (defined('ssl')){
+  echo ssl::navcode();
+}
+
+?>
