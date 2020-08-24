@@ -25,7 +25,7 @@ if(Session::GetVar('isadmin')){
 ?>
 
         <div class="row">
-          <div class="col-lg-3 col-12">
+          <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="small-box bg-info">
               <div class="inner">
                 <h3><?php echo GET_Lang::nachricht('_SYSTEM'); ?></h3>
@@ -38,7 +38,7 @@ if(Session::GetVar('isadmin')){
             </div>
           </div>
 
-          <div class="col-lg-3 col-12">
+          <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="small-box bg-success">
               <div class="inner">
                 <h3><?php echo GET_Lang::nachricht('_DISK'); ?></h3>
@@ -51,7 +51,7 @@ if(Session::GetVar('isadmin')){
             </div>
           </div>
 
-          <div class="col-lg-3 col-12">
+          <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="small-box bg-warning">
               <div class="inner">
                 <h3><?php echo GET_Lang::nachricht('_USERS'); ?></h3>
@@ -64,7 +64,7 @@ if(Session::GetVar('isadmin')){
             </div>
           </div>
 
-          <div class="col-lg-3 col-12">
+          <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="small-box bg-danger">
               <div class="inner">
                 <h3><?php echo GET_Lang::nachricht('_ERROR'); ?></h3>
