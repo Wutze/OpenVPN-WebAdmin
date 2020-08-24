@@ -41,6 +41,7 @@ class set_request{
 	var $op = array(
 					'adduser'=>'adduser',
 					'saveuserchanges'=>'saveuserchanges',
+					'loadmodul'=>'loadmodul',
 					'logout'=>'logout',
 					'login'=>'login',
 					'checklogin'=>'checklogin',
@@ -181,6 +182,20 @@ class set_request{
 				header("Location: .");
 			break;
 
+			/** for modul extensions */
+			case "loadmodul";
+				if(file_exists(REAL_BASE_DIR."/include/html/modules/".$this->request['modname']."/class/class.".$this->request['modname'].".php")){
+					$this->loadmodul = new $this->request['modname'];
+					$this->loadmodul->set_value('modname',$this->request['modname']);
+					$this->loadmodul->set_value('request',$this->request);
+					$this->loadmodul->set_value('isuser',$this->isuser);
+					$this->loadmodul->set_value('isadmin',$this->isadmin);
+					$this->loadmodul->set_value('gid',Session::GetVar('gid'));
+					$this->loadmodul->main();
+				}
+				#$GLOBALS['devint']->collect('reqmod',$this);
+				#$GLOBALS['devint']->ends();
+			break;
 			/** 
 			 * For invalid or incorrect entries
 			 * @return force logout and session destroy
