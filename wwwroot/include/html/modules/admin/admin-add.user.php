@@ -124,3 +124,8 @@
     dateFormat: "yy-mm-dd" //Database compatible date()
   });
 </script>
+
+<?php
+include(REAL_BASE_DIR.'/include/html/modules/admin/admin-content.modal.php');
+
+

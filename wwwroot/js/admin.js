@@ -84,7 +84,6 @@ $(function () {
   }
 } );
 
-
 /**
  * Reads json data and displays it
  * ! The script starts too late. Why?
@@ -132,21 +131,6 @@ function userdetails(index, row) {
                 '</div>'+
               '</div>'+
             '</div>'
-  var usersdate = '<div class="form-group">' +
-                '<div class="custom-control custom-switch">'+
-                  '<input type="text" class="form-control is-warning" name="fromdate" id="datepickerA-' + row['uuid'] + '" name="fromdate" value="' + ((row['user_start_date']) ? row['user_start_date']: '') + '" disabled="" placeholder="from ...">'+
-                  '<input type="text" class="form-control is-warning" name="todate" id="datepickerB-' + row['uuid'] + '" name="todate" value="' + ((row['user_end_date']) ? row['user_end_date']: '') + '" disabled="" placeholder="to ...">'+
-                '</div>'+
-              '</div>'
-  var usersdatebox = '<div class="col-lg-3 col-12">'+
-              '<div class="small-box bg">'+
-                '<div class="inner">'+
-                  '<h5>Time Limit</h5>'+
-                  '' + usersdate + '' +
-                '</div>'+
-              '</div>'+
-            '</div>'
-
   var isuser = '<div class="form-group">' +
                     '<div class="custom-control custom-switch">'+
                       '<input type="checkbox" ' + ((row['enable']==="1")?'checked':'') + ' class="custom-control-input" name="isuser" id="isuserSwitch-' + row['uuid'] + '">'+
@@ -181,7 +165,6 @@ function userdetails(index, row) {
     html.push('<form role="form" action="/" method="post" data-index="uu-' + row['uuid'] + '"><div class="row">' + 
               '' + userinfobox + ''+
               '' + isuserbox + ''+
-              '' + usersdatebox + ''+
               '' + usersmailbox + ''+
               '</div>' +
               '<input type="hidden" name="uid" value="' + row['uuid'] + '">' +
@@ -190,9 +173,38 @@ function userdetails(index, row) {
               '<input type="hidden" name="op" value="saveuserchanges">' +
               '<button type="submit" class="btn btn-app bg-warning" name="make" value="update"><i class="fa fa-save"></i>Update</button>' +
               '<button type="submit" class="btn btn-app bg-danger" name="make" value="delete"><i class="fa fa-trash"></i>Delete</button>' +
-              '<button type="submit" class="btn btn-app bg-info" name="make" value="sendmail"><i class="fa fa-envelope"></i>Mail</button>' +
-              '</form>'
-              )
+              '<button type="submit" class="btn btn-app bg-info" name="make" value="sendmail"><i class="fa fa-envelope"></i>Mail</button>'
+              ),
+    html.push(new_userdetails(row)),
+    html.push('</form>'),
+    html.push(getuserdata(row['uuid']))
   return html.join('')
 }
 
+
+function new_userdetails(row) {
+  var html = []
+  html.push('' +
+  '<button type="button" class="btn btn-app bg-primary" data-target="#modal" data-toggle="modal" data-uuid="' + row['uuid'] + '">' +
+    '<i class="fas fa-user-edit"></i>Details' +
+  '</button>'
+  )
+  return html
+}
+
+/**
+ * get userid from modal button "details" in user table
+ * @param {int} uuid
+ */
+function getuserdata(uuid){
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "?op=loadmodul&modname=user&go=getuserdata&uid=" + uuid, true);
+  xhttp.send();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var myArr = JSON.parse(this.responseText);
+      document.getElementById("uuid").value = myArr['user']['uid'];
+      document.getElementById("username").value = myArr['user']['user_name'];
+    }
+  };
+};
