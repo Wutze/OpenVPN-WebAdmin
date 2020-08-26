@@ -21,6 +21,19 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 [![Update Doku OpenVPN-WebAdmin](https://img.shields.io/badge/Update--Doku--1.3.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.x.x.info.md)
 
+## Webfrontend Übersetzungen vorhanden in
+
+## Webfrontend translations available in
+
+## Les traductions de Webfrontend sont disponibles en
+
+## 网前翻译可在
+
+* Deutsch, German, en allemand, 德语
+* Englisch, English, Anglais, 英文
+* Französisch, French, en français, 法国人
+* Chinesich (vereinfacht), Chinese (simplified), Chinois (simplifié), 中文（简体）
+
 ## Live-Preview
 
 [![Preview OpenVPN-WebAdmin](https://img.shields.io/badge/Preview-opvn.ddnss.eu-%23B10079?style=plastic)](http://ovpn.ddnss.eu/)

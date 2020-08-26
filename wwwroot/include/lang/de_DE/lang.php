@@ -92,6 +92,10 @@ $message['_VPN_DATA_SAV']           = "Speichere Deine ...";
 $message['_VPN_DATA_OSX']           = "OSX-Config";
 $message['_VPN_DATA_WIN']           = "WIN-Config";
 $message['_VPN_DATA_LIN']           = "Android/Linux-Config";
+$message['_VPN_CLIENT_SAV']         = "Client Download ...";
+$message['_VPN_CLIENT_OSX']         = "OSX";
+$message['_VPN_CLIENT_WIN']         = "WIN";
+$message['_VPN_CLIENT_LIN']         = "Andoid";
 
 
 $message['_USERDATA_EMAIL']         = "eMail";

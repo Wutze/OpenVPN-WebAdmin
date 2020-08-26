@@ -227,6 +227,7 @@ do_select(){
     "9" "${SELECT09} " on \
     "11" "${SELECT11} " off \
     "12" "${SELECT12} " off \
+    "13" "${SELECT13} " off \
     "20" "${SELECT20} " off \
     3>&1 1>&2 2>&3)
 #  RET=$?
@@ -332,6 +333,9 @@ do #echo "${line}";
             MOD_ENABLE="1"
         ;;
         12) modules_firewall="1"
+            MOD_ENABLE="1"
+        ;;
+        13) modules_clientdownload="1"
             MOD_ENABLE="1"
         ;;
         20) modules_all="1"
@@ -683,6 +687,13 @@ define('firewall',TRUE);
     MOD_ENABLE="1"
   fi
 
+  if [ -n "$modules_clientdownload" ] || [ -n "$modules_all" ]; then
+    echo "
+define('clientload',TRUE);
+" >> $openvpn_admin"/include/module.config.php"
+    MOD_ENABLE="1"
+  fi
+  
   print_out i "Config and Module Config written"
 
   }

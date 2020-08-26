@@ -91,6 +91,10 @@ $message['_VPN_DATA_SAV']           = "保存您的 ...";
 $message['_VPN_DATA_OSX']           = "OSX-配置";
 $message['_VPN_DATA_WIN']           = "WIN-配置";
 $message['_VPN_DATA_LIN']           = "Android/Linux-配置";
+$message['_VPN_CLIENT_SAV']         = "客户端下载 ...";
+$message['_VPN_CLIENT_OSX']         = "OSX";
+$message['_VPN_CLIENT_WIN']         = "WIN";
+$message['_VPN_CLIENT_LIN']         = "Andoid";
 
 
 $message['_USERDATA_EMAIL']         = "電子郵件";
@@ -120,10 +124,10 @@ $errormessage[4]                    = "密码已更改 请再次登录!";
  * footer gimmick from the Slogan kitchen (Sprücheküche) 
  */
 $freedom = array(
-                'Wer Sicherheit der Freiheit vorzieht, ist zu Recht ein Sklave. (Aristoteles)',
-                'Die Freiheit geht zugrunde, wenn wir nicht alles verachten, was uns unter ein Joch beugen will. (Seneca)',
-                'Lass dich nicht unterkriegen; sei frech und wild und wunderbar. (Pipi Langstrumpf)',
-                'Mir ist die gefährliche Freiheit lieber als eine ruhige Knechtschaft. (Rousseau)'
+                '宁愿选择安全也不选择自由的人，理所当然是奴隶。(亚里士多德)',
+                '如果我们不鄙视一切试图将我们置于枷锁之下的东西，自由就会消亡。塞内卡。',
+                '不要被它打倒，要大胆狂野，精彩纷呈。(皮皮龙袜)',
+                '我更喜欢危险的自由，而不是安静的奴役。(卢梭)'
 );
 
 

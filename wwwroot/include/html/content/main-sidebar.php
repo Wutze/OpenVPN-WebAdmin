@@ -111,6 +111,12 @@
                   </ul>
                 </li>
                 <!-- /load configs -->
+                <?php
+                /** view only when enable client load */
+                if(defined('clientload')){
+                  include_once(REAL_BASE_DIR.'/include/html/content/main-sidebar.clientload.php');
+                };
+                ?>
               </ul>
             </nav>
             <!-- /.sidebar-menu -->

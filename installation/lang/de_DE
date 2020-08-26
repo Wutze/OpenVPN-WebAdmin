@@ -53,6 +53,7 @@ SELECT09="Eigentümer des Verzeichnisses www-data"
 SELECT10="einen anderer Eigentümer"
 SELECT11="Debug Funkionen installieren?"
 SELECT12="Firewalleditor installieren?"
+SELECT13="Aktiviere CLient Download?"
 SELECT20="Alle Erweiterungen installieren?"
 
 MISSING="Ich vermisse:"

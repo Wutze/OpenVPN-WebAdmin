@@ -52,6 +52,7 @@ SELECT08="or enter your own directory"
 SELECT09="Set owner webpath to www-data"
 SELECT10="or other self defined owner"
 SELECT11="Install Debug Functions?"
+SELECT13="Activate client download?"
 SELECT20="Install all extensions?"
 
 MISSING="missing:"
