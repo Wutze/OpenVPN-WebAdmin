@@ -48,6 +48,10 @@ $message['_U_ENABLE']               = "Aktiviert";
 $message['_U_FROM']                 = "von";
 $message['_U_TO']                   = "bis";
 $message['_U_ONLINE']               = "Online";
+$message['_U_EXTEND_VIEW']          = "Erweiterte Ansicht für: ";
+$message['_U_TIMESETTINGS']         = "Zeitbeschränkungen";
+$message['_U_NETSETTINGS']          = "Netzwerk";
+$message['_U_PLUS']                 = "Sonstiges";
 
 $message['_ATTENTION_FW']           = "Du solltest wissen was Du tust!";
 $message['_ATTENTION_CF']           = "Nach Änderungen sollten Client und Server neu gestartet werden";
@@ -104,6 +108,9 @@ $message['_USERDATA_ISUSERADMIN']   = "Benutzer erhält Benutzerverwaltung-Recht
 $message['_USERDATA_ISTLSADMIN']    = "Benutzer erhält Rechte zur Zertifikatverwaltung";
 $message['_USERDATA_FROM_DATE']     = "Zugriff ab:";
 $message['_USERDATA_TO_DATE']       = "Zugriff bis:";
+$message['_USERDATA_NEW_USER']      = "Neuen Benutzer anlegen";
+$message['_USERDATA_USER']          = "Benutzerdaten";
+$message['_USERDATA_OPTIONS']       = "Optionen";
 
 
 /** 

@@ -276,3 +276,12 @@ del{
   background-color: #ffffff !important;
   text-align: center;
 }
+
+.bg-cemetery{
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.modal-user{
+  background-color: #d9e5fa8e !important;
+}

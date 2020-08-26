@@ -21,6 +21,11 @@
 $(function () {
   "use strict";
 
+  $("#ExtendUserModal").on("show.bs.modal", function(e) {
+    var link = $(e.relatedTarget);
+    $(this).find(".modal-body").load(link.attr("href"));
+  });
+
   window.printStatus = function(msg, alert_type='warning', bootstrap_icon='') {
      $('#message-stage').empty()
          .append(
@@ -107,59 +112,49 @@ setInterval(function(){
   };
   xmlhttp.open("GET", "/?op=live&go=load", true);
   xmlhttp.send(); 
-}, 5000);
+}, 500000);
 
 
 /**
  * create Code for Userchanges in Admin Section "List User"
- * ! not function - start/end dates !
- * ! I don't know, I can't find the error of thinking
+ * create modal button for extended edit user
  */
 function userdetails(index, row) {
   var session_id = ""
-  var usersmail = '<div class="form-group">' +
-                '<div class="custom-control custom-switch">'+
-                  '<input type="text" class="form-control is-warning" name="mail" value="' + ((row['mail']) ? row['mail']: '') + '" placeholder="Mail">'+
-                  '<input type="password" class="form-control is-warning" name="pass" value="" placeholder="new Password">'+
-                '</div>'+
-              '</div>'
-  var usersmailbox = '<div class="col-lg-3 col-12">'+
-              '<div class="small-box bg">'+
-                '<div class="inner">'+
-                  '<h5>Userdata</h5>'+
-                  '' + usersmail + '' +
-                '</div>'+
-              '</div>'+
-            '</div>'
-  var isuser = '<div class="form-group">' +
-                    '<div class="custom-control custom-switch">'+
-                      '<input type="checkbox" ' + ((row['enable']==="1")?'checked':'') + ' class="custom-control-input" name="isuser" id="isuserSwitch-' + row['uuid'] + '">'+
-                      '<label class="custom-control-label" for="isuserSwitch-' + row['uuid'] + '"></label>'+
+  var usersmail = '<div class="form-group row">' +
+                    '<div class="custom-control col-md-6">'+
+                      '<input type="text" class="form-control is-warning" name="mail" value="' + ((row['mail']) ? row['mail']: '') + '" placeholder="Set Mail">'+
+                    '</div>' +
+                    '<div class="custom-control col-md-6">' +
+                      '<input type="password" class="form-control is-warning" name="pass" value="" placeholder="New Password">'+
                     '</div>'+
                   '</div>'
-  var isuserbox = '<div class="col-lg-3 col-12">'+
-                  '<div class="small-box bg">'+
-                    '<div class="inner">'+
-                      '<h5>User enable</h5>'+
-                      '' + isuser + '' +
-                    '</div>'+
+  var usersmailbox =  '<div class="col-md-6 col-12">'+
+                        '' + usersmail + '' +
+                      '</div>'
+  var isuser = '<div class="form-group">' +
+                  '<div class="custom-control custom-switch">'+
+                    '<input type="checkbox" ' + ((row['enable']==="1")?'checked':'') + ' class="custom-control-input" name="isuser" id="isuserSwitch-' + row['uuid'] + '">'+
+                    '<label class="custom-control-label" for="isuserSwitch-' + row['uuid'] + '"></label>'+
                   '</div>'+
                 '</div>'
+  var isuserbox = '<div class="col-lg-3 col-12">'+
+                    '<div class="small-box bg">'+
+                        'User enable: '+ isuser + '' +
+                    '</div>'+
+                  '</div>'
 
   var isadmin = '<div class="form-group">' +
-                '<div class="custom-control custom-switch">'+
-                  '<input type="checkbox" ' + ((row['gname']==='admin')?'checked':'') + ' class="custom-control-input" name="makeadmin" id="adminSwitch-' + row['uuid'] + '">'+
-                  '<label class="custom-control-label" for="adminSwitch-' + row['uuid'] + '"></label>'+
-                '</div>'+
-              '</div>'
-  var userinfobox = '<div class="col-lg-3 col-12">'+
-                '<div class="small-box bg">'+
-                  '<div class="inner">'+
-                    '<h5>User: ' + row['uname'] + '</h5>'+
-                    'IsAdmin?: ' + isadmin + '' +
+                  '<div class="custom-control custom-switch">'+
+                    '<input type="checkbox" ' + ((row['gname']==='admin')?'checked':'') + ' class="custom-control-input" name="makeadmin" id="adminSwitch-' + row['uuid'] + '">'+
+                    '<label class="custom-control-label" for="adminSwitch-' + row['uuid'] + '"></label>'+
                   '</div>'+
-                '</div>'+
-              '</div>'
+                '</div>'
+  var userinfobox = '<div class="col-lg-3 col-12">'+
+                      '<div class="small-box bg">'+
+                          'Admin? ' + isadmin + '' +
+                      '</div>'+
+                    '</div>'
 
   var html = []
     html.push('<form role="form" action="/" method="post" data-index="uu-' + row['uuid'] + '"><div class="row">' + 
@@ -172,23 +167,23 @@ function userdetails(index, row) {
               '<input type="hidden" name="session" value="' + session_id + '">' +
               '<input type="hidden" name="op" value="saveuserchanges">' +
               '<button type="submit" class="btn btn-app bg-warning" name="make" value="update"><i class="fa fa-save"></i>Update</button>' +
-              '<button type="submit" class="btn btn-app bg-danger" name="make" value="delete"><i class="fa fa-trash"></i>Delete</button>' +
-              '<button type="submit" class="btn btn-app bg-info" name="make" value="sendmail"><i class="fa fa-envelope"></i>Mail</button>'
+              '<button type="submit" class="btn btn-app bg-danger" name="make" value="delete"><i class="fa fa-trash"></i>Delete</button>' 
               ),
-    html.push(new_userdetails(row)),
+    html.push(new_userdetails(row['uuid'])),
     html.push('</form>'),
     html.push(getuserdata(row['uuid']))
   return html.join('')
 }
 
-
-function new_userdetails(row) {
-  var html = []
-  html.push('' +
-  '<button type="button" class="btn btn-app bg-primary" data-target="#modal" data-toggle="modal" data-uuid="' + row['uuid'] + '">' +
+/**
+ * Set modal button
+ * @param {*} row userid
+ */
+function new_userdetails(uuid) {
+  var html = '' +
+  '<button type="button" class="btn btn-app bg-cemetery" data-target="#modal" data-toggle="modal" data-uuid="' + uuid + '">' +
     '<i class="fas fa-user-edit"></i>Details' +
   '</button>'
-  )
   return html
 }
 
@@ -203,8 +198,14 @@ function getuserdata(uuid){
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var myArr = JSON.parse(this.responseText);
-      document.getElementById("uuid").value = myArr['user']['uid'];
-      document.getElementById("username").value = myArr['user']['user_name'];
+      document.getElementById("uuid").innerHTML = myArr['user']['uid'];
+      document.getElementById("username").innerHTML = myArr['user']['user_name'];
+      document.getElementById("datepicker3").value = myArr['user']['user_start_date'];
+      document.getElementById("datepicker4").value = myArr['user']['user_end_date'];
+      document.getElementById("lastlogin").innerHTML = myArr['last']['log_start_time'];
+      document.getElementById("logins").innerHTML = myArr['last']['anz'];
     }
   };
 };
+
+

@@ -22,11 +22,10 @@
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
 ?>        
-          <form role="form"  id="quickForm" action="/" method="post">
+          <form role="form" id="quickForm" action="/" method="post">
             <div class="container container-admin-adduser">
-              <h3>Userspace</h3>
               <ul class="nav nav-tabs">
-                <li class="active"><a href="#adduser" data-toggle="tab" class="btn btn-info" role="button">Add User</a></li>
+                <li class="active"><a href="#adduser" data-toggle="tab" class="btn btn-info" role="button"><?php echo GET_Lang::nachricht('_USERDATA_NEW_USER'); ?></a></li>
               </ul>
               <div class="tab-content">
                 <div id="adduser" class="tab-pane fade in <?php echo ((session::GetVar('code')=='1')? "active show" : ""); ?>">
@@ -36,7 +35,7 @@
                       <!-- general form elements -->
                       <div class="card card-primary">
                         <div class="card-header">
-                          <h3 class="card-title">Userdata</h3>
+                          <h3 class="card-title"><?php echo GET_Lang::nachricht('_USERDATA_USER'); ?></h3>
                         </div>
                         <!-- /.card-header -->
                           <div class="card-body">
@@ -55,7 +54,7 @@
                           </div>
                           <!-- /.card-body -->
                           <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" name="op" value="adduser">Submit</button>
+                            <button type="submit" class="btn btn-primary" name="op" value="adduser"><?php echo GET_Lang::nachricht('_USERDATA_SAVE'); ?></button>
                           </div>
                       </div>
                       <!-- /.card -->
@@ -65,7 +64,7 @@
                       <!-- general form elements disabled -->
                       <div class="card card-warning">
                         <div class="card-header">
-                          <h3 class="card-title">User Options</h3>
+                          <h3 class="card-title"><?php echo GET_Lang::nachricht('_USERDATA_OPTIONS'); ?></h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">

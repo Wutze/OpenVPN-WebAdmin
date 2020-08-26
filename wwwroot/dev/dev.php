@@ -104,6 +104,31 @@ $test = scan_dir(REAL_BASE_DIR);
         
 
 
+<!-- Link trigger modal -->
+<a href="?op=loadmodul&modname=user&go=getuserdata&uid=1" data-remote="false" data-toggle="modal" data-uuid="xxx" data-target="#ExtendUserModal" class="btn btn-default">
+    Launch Modal
+</a>
+
+<!-- Default bootstrap modal example -->
+<div class="modal fade" id="ExtendUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <?php

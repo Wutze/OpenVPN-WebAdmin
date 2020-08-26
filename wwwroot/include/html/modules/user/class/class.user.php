@@ -89,12 +89,16 @@ class getdata extends user{
 
 		$data = newAdoConnection(_DB_TYPE);
 		$data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
-		$sql = 'SELECT user.* FROM user AS user WHERE uid = '.$uid.' ';
+    $sql1 = 'SELECT user.* FROM user AS user WHERE uid = '.$uid.' ';
+    $res1 = $data->getRow($sql1);
+    $sql2= "SELECT user_name, log_start_time, COUNT( log_id ) AS anz FROM log AS log WHERE user_name = '".$res1['user_name']."' ORDER BY log_start_time DESC";
+    $res2 = $data->getRow($sql2);
 
 		$o = new jsonObject;
 		$o->id   = "0";
 		$o->text = "userdata";
-		$o->user = $data->getRow($sql);
+    $o->user = $res1;
+    $o->last = $res2;
 		$o->make_json();
 
 		return $o;
