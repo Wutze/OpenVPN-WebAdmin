@@ -107,7 +107,15 @@ wwwroot
 
 ````
 
-### Dateibenennung
+## Module
+
+Meine Entscheidung für einen in Teilen modularen Aufbau liegt darin begründet, dass es möglich sein sollte die Webseiten von Administratoren und Usern später auf zwei verschiedenen Webservern zu ermöglichen. Den oder die "entfernten" Server für die Benutzer, den lokalen, mit dem OpenVPN-Server, für die Administratoren. Alle Module müssen in der _config.php_ entsprechend eingeschaltet werden. Nichts soll per Zufall geschehen, Ihr müsst wissen was Ihr tut, denn die Sicherheit Eures Netzwerkes steht auf dem Spiel. So einfach ist das.
+
+### Modulentwicklung
+
+Im Moment ist der Code für neue Module noch in Entwicklung. Hier wird es in den nächsten Versionen noch einige Veränderungen geben. Geplant ist gegen Ende 2020 Version 2.0 zu veröffentlichen, welche dann auch neue Module ermöglichen soll.
+
+## Dateibenennung
 
 Dateien die Ergänzungen in den Menüs beinhalten, sollten einfach im Ordner _/include/html/_ abgelegt werden.
 
@@ -139,3 +147,7 @@ Session::GetVar('isadmin');
 /** ist User? */
 Session::GetVar('isuser');
 ````
+
+## Debugging
+
+![Development OpenVPN-WebAdmin](doc/development.md)
