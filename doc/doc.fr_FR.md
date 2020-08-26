@@ -1,6 +1,6 @@
-# Documentation en allemand
+# Documentation en français
 
-## Intro
+## Introduction
 
 Vous verrouillez votre porte d'entrée. Mais pourquoi laissez-vous les entrées de derrière ouvertes ? Il en va de même pour presque tous les accès Internet à votre IdO, vos webcams et autres appareils.
 

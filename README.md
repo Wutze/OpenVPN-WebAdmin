@@ -7,6 +7,8 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 ![GitHub OpenVPN-WebAdmin last commit](https://img.shields.io/github/last-commit/Wutze/OpenVPN-WebAdmin?style=plastic)
 ![GitHub OpenVPN-WebAdmin repo size](https://img.shields.io/github/repo-size/Wutze/OpenVPN-WebAdmin?style=plastic)
 ![GitHub OpenVPN-WebAdmin commits since latest release](https://img.shields.io/github/commits-since/Wutze/OpenVPN-WebAdmin/1.3.0?style=plastic)
+![OpenVPN-WebAdmin Stable Branch](https://img.shields.io/badge/Master-Stable%20Branch-green)
+![OpenVPN-WebAdmin Development Branch](https://img.shields.io/badge/Devel-Development%20Branch-yellow)
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/huwutze?color=blue&label=HuWutze&logo=Twitter&style=plastic)](https://twitter.de/HuWutze)
 [![Liberapay patrons](https://img.shields.io/liberapay/patrons/Wutze?style=plastic)](https://liberapay.com/Wutze/)
@@ -50,37 +52,24 @@ Administrate its OpenVPN with a web interface (logs visualisations, users managi
 * git
 * net-tools (for the includes simple firewall)
 
-Only __CentOS__
-
-In addition to the packages, the following must be installed
+Additionally for __CentOS__ the following is required
 
 * tar
 
 ## Note MySQL
 
-If you already have a database server, you can also use this one and do not need to install one locally. You only need a database and a username and password
+If you already have a database server, you can also use it and do not need to install it locally. You only need a database and a user name and password.
 
-## Manual Install with MySQL-Server (Debian)
+For a local installation of a MySQL server, you will automatically be asked to enter a root password.
 
-````bash
-apt-get install openvpn apache2 php-mysql mariadb-server php-zip php unzip git wget sed curl net-tools -y
-apt-get install npm nodejs -y
-npm install -g yarn
-````
-
-## Manual Install without MySQL-Server (Debian)
+## Manual Install without MySQL-Server (Debian/Ubuntu)
 
 ````bash
 apt-get install openvpn default-mysql-client apache2 php-mysql php-zip php unzip git wget sed curl net-tools -y
+# If you want to use a local MySQL-Server, use the following line
+apt-get install mariadb-server
+
 apt-get install npm nodejs -y
-npm install -g yarn
-````
-
-## Manual Install with MySQL-Server (CentOS)
-
-````bash
-yum install openvpn apache2 php-mysql mariadb-server php-zip php unzip git wget sed curl net-tools tar -y
-yum install npm nodejs -y
 npm install -g yarn
 ````
 
@@ -88,13 +77,16 @@ npm install -g yarn
 
 ````bash
 yum install openvpn default-mysql-client apache2 php-mysql php-zip php unzip git wget sed curl net-tools tar -y
+# If you want to use a local MySQL-Server, use the following line
+yum install mariadb-server
+
 yum install npm nodejs -y
 npm install -g yarn
 ````
 
 ## Tested on
 
-* Debian 10/Buster, PHP 7.3.x, 10.3.22-MariaDB.
+* Debian 10/Buster, PHP 7.2.x, 10.3.22-MariaDB.
 * RaspberryPi 4 with Debian Buster
 * ~~Ubuntu 20.04 Server (Minimal Installation + OpenSSH-Server)~~
 * CentOS (view issue #19)
@@ -112,6 +104,9 @@ Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 cd /opt/
 git clone https://github.com/Wutze/OpenVPN-WebAdmin openvpn-admin
 cd openvpn-admin
+
+# You can also use the example configuration Configuration.
+# The installation script will automatically adopt it.
 cp installation/config.conf.sample installation/config.conf
 
 # Edit your config.conf e.g. with nano
@@ -123,23 +118,29 @@ nano installation/config.conf
 
 ### Note
 
-The following message is displayed during installation:
+The message appearing during the installation can simply be completed with Enter.
 
 ````bash
 Common Name (eg: your user, host, or server name) [Easy-RSA CA]:
 ````
 
-You can simply confirm this with Enter without any input.
+## Setup Webserver
 
-* Setup the web server (Apache, NGinx...) to serve the web application. Using the example below.
+Setup the web server (Apache, NGinx...) to serve the web application. Using the example below.
 
 ````code
-nano /etc/apache2/sites-enabled/[ apache config ]
+nano /etc/apache2/sites-enabled/[ your apache config ]
 ````
-  
-* You must **reboot** the server after installation, otherwise the vpn server will not start correctly and no connection will be established!
 
-* Finally, create a port forwarding on your Internet Router to this VPN-Server. Check the documentation of the router manufacturer or search the Internet for instructions.
+See the example configurations at the end of this page.
+
+## Attention
+
+**You must reboot the server after installation, otherwise the vpn server will not start correctly and no connection will be established!**
+
+The VPN server and especially the administrative web interface should never be directly connected to the Internet. The danger of compromising your own network is simply too great.
+
+For this reason, finally create a port forwarding on your Internet Router to this VPN-Server. Check the documentation of the router manufacturer or search the Internet for instructions.
 
 ## Update
 
