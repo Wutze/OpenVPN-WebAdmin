@@ -93,9 +93,16 @@ $message['_SSL_CERTS_LIST']         = "Liste der Zertifikate";
 $message['_TODAY']                  = date('d.m.Y');
 
 $message['_VPN_DATA_SAV']           = "Speichere Deine ...";
+$message['_VPN_DATA_TT']            = "Auswahl und Download Deiner Clientconfiguration";
 $message['_VPN_DATA_OSX']           = "OSX-Config";
 $message['_VPN_DATA_WIN']           = "WIN-Config";
 $message['_VPN_DATA_LIN']           = "Android/Linux-Config";
+$message['_VPN_CLIENT_SAV']         = "Doku/Download ...";
+$message['_VPN_CLIENT_TT']          = "Dokumentation/Download VPN-Client ...";
+$message['_VPN_CLIENT_OSX']         = "OSX";
+$message['_VPN_CLIENT_WIN']         = "WIN";
+$message['_VPN_CLIENT_LIN']         = "Android";
+$message['_VPN_CLIENT_EXT']         = "Mehr Informationen";
 
 
 $message['_USERDATA_EMAIL']         = "eMail";

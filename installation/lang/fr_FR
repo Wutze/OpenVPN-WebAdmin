@@ -54,6 +54,7 @@ SELECT08="entrez dans votre propre répertoire web"
 SELECT09="Propriétaire du répertoire www-data"
 SELECT10="un autre propriétaire"
 SELECT11="Installer les fonctions de débogage ?"
+SELECT13="Activer le téléchargement du client ?"
 SELECT20="Installer toutes les extensions ?"
 
 MISSING="I Miss :"

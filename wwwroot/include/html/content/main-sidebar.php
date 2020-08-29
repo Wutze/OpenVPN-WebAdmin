@@ -10,12 +10,12 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.4.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -74,6 +74,7 @@
                     <i class="fas fa-user-astronaut"></i>
                     <p>
                       <?php echo GET_Lang::nachricht('_YOUR_LOGIN'); ?>
+
                       <span class="right badge badge-danger"><?php echo GET_Lang::nachricht('_NEW'); ?></span>
                     </p>
                   </a>
@@ -83,9 +84,10 @@
                 if(Session::GetVar('isadmin') and defined('modssl')){
                   echo modssl::navcode();
                 }; ?>
+
                 <!-- load configs -->
                 <li class="nav-item has-treeview">
-                  <a href="#" class="nav-link active bg-warning">
+                  <a href="#" class="nav-link active bg-warning" data-toggle="tooltip" title="<?php echo Get_Lang::nachricht('_VPN_DATA_TT'); ?>">
                     <i class="nav-icon fa fa-download"></i>
                     <p><?php echo GET_Lang::nachricht('_VPN_DATA_SAV'); ?><i class="right fas fa-angle-left"></i></p>
                   </a>
@@ -110,9 +112,16 @@
                     </li>
                   </ul>
                 </li>
-                <!-- /load configs -->
               </ul>
             </nav>
+            <!-- /load configs -->
+                <?php
+                /** view only when enable client load */
+                if(defined('clientload')){
+                  echo clientload::navcode();
+                  #include_once(REAL_BASE_DIR.'/include/html/content/main-sidebar.clientload.php');
+                };
+                ?>
             <!-- /.sidebar-menu -->
           </div>
         </div>

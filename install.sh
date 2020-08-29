@@ -227,6 +227,7 @@ do_select(){
     "9" "${SELECT09} " on \
     "11" "${SELECT11} " off \
     "12" "${SELECT12} " off \
+    "13" "${SELECT13} " off \
     "20" "${SELECT20} " off \
     3>&1 1>&2 2>&3)
 #  RET=$?
@@ -238,9 +239,18 @@ set_autoinstall(){
   autoinstall2="npm install -g yarn"
 }
 
-# Future for the progressbar
 go_progress(){
-  apt-get $1
+  if [[ -e /etc/debian_version ]]; then
+    os="debian"
+    os_version=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
+    print_out i "Install on: " $os $os_version
+    apt-get $1
+  elif [[ -e /etc/centos-release ]]; then
+    os="centos"
+    os_version=$(grep -oE '[0-9]+' /etc/centos-release | head -1)
+    print_out i "Install on: " $os $os_version
+    yum install $1
+  fi
 }
 
 make_mysql(){
@@ -332,6 +342,9 @@ do #echo "${line}";
             MOD_ENABLE="1"
         ;;
         12) modules_firewall="1"
+            MOD_ENABLE="1"
+        ;;
+        13) modules_clientdownload="1"
             MOD_ENABLE="1"
         ;;
         20) modules_all="1"
@@ -683,6 +696,13 @@ define('firewall',TRUE);
     MOD_ENABLE="1"
   fi
 
+  if [ -n "$modules_clientdownload" ] || [ -n "$modules_all" ]; then
+    echo "
+define('clientload',TRUE);
+" >> $openvpn_admin"/include/module.config.php"
+    MOD_ENABLE="1"
+  fi
+  
   print_out i "Config and Module Config written"
 
   }

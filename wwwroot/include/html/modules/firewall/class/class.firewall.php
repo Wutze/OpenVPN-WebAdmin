@@ -32,15 +32,15 @@
 class firewall{
   /** sidebar menu code */
   const navcode ='
-<!-- firewall menu -->
-<li class="nav-item">
- <a class="nav-link" id="dev-tab" data-toggle="pill" href="#fw" role="menu" aria-controls="fw" aria-selected="false">
-   <i class="fa fa-bomb"></i>
-   <p>Firewall</p>
-   <span class="right badge badge-danger">⟰</span>
- </a>
-</li>
-<!-- /firewall menu -->
+                    <!-- firewall menu -->
+                    <li class="nav-item">
+                      <a class="nav-link" id="dev-tab" data-toggle="pill" href="#fw" role="menu" aria-controls="fw" aria-selected="false">
+                        <i class="fa fa-bomb"></i>
+                        <p>Firewall</p>
+                        <span class="right badge badge-danger">⟰</span>
+                      </a>
+                    </li>
+                    <!-- /firewall menu -->
 ';
   /** this const open the tabpanel for firewall content */
   const content_head = '

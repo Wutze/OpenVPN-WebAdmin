@@ -41,28 +41,16 @@
               data-toggle="table"
               data-side-pagination="server"
               data-pagination="true"
-<?php
-if(Session::GetVar('isadmin')){
-  $userfilter = '';
-  $portfilter = '';
-  ?>
               data-search="true"
               data-detail-formatter="logdetails"
               data-search-time-out="1000"
-  <?php
-
-}else{
-  $userfilter = '';
-  $portfilter = '';
-}
-?>
               data-url="?op=data&amp;select=log">
               <thead class="thead-dark">
                 <tr>
                    <th data-field="log_id" >ID</th>
-                   <th data-field="user_name" <?php echo $userfilter; ?>><?php echo GET_Lang::nachricht('_U_NAME'); ?></th>
+                   <th data-field="user_name" ><?php echo GET_Lang::nachricht('_U_NAME'); ?></th>
                    <th data-field="log_trusted_ip">From IP</th>
-                   <th data-field="log_trusted_port" <?php echo $portfilter; ?>>From Port</th>
+                   <th data-field="log_trusted_port" >From Port</th>
                    <th data-field="log_remote_ip">Int IP</th>
                    <th data-field="log_remote_port">Int Port</th>
                    <th data-field="log_received" data-sortable="true">rec</th>
@@ -136,6 +124,9 @@ if(Session::GetVar('isadmin') and defined('system')){
 }
 if(Session::GetVar('isadmin') and defined('modssl')){
   echo modssl::content();
+};
+if(defined('clientload')){
+  echo clientload::content();
 };
 ?>
 
