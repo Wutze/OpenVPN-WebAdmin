@@ -296,6 +296,7 @@ make_backup(){
   control_script "create tar"
   print_out 1 "Backup Webfolder ok"
   cp $WEBROOT$BASEPATH/include/config.php /opt/ovpn-backup/$date-config.php
+  cp -R $WEBROOT$BASEPATH/data /opt/ovpn-backup/$date-data
   
   print_out i "Insert Password MySQL Database!"
   mysqldump --opt -Q -u $DBUSER -p$DBPASS -h $DBHOST $DBNAME > /opt/ovpn-backup/$date-dump.sql
@@ -556,6 +557,7 @@ do_select(){
 	sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
     "11" "${SELECT11} " off \
     "12" "${SELECT12} " off \
+    "13" "${SELECT13} " off \
     "20" "${SELECT20} " off \
     3>&1 1>&2 2>&3)
   control_box $? "select"
@@ -567,6 +569,9 @@ do_select(){
               MOD_ENABLE="1"
           ;;
           12) modules_firewall="1"
+              MOD_ENABLE="1"
+          ;;
+          13) modules_clientdownload="1"
               MOD_ENABLE="1"
           ;;
           20) modules_all="1"
@@ -582,6 +587,8 @@ write_webconfig(){
 
 cp /opt/ovpn-backup/$date-config.php $WEBROOT$BASEPATH/include/config.php
 control_script "Copy web.config.php"
+cp -R /opt/ovpn-backup/$date-data $WEBROOT$BASEPATH/data
+control_script "Copy data folder"
 
 if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
   echo "
