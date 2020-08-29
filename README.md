@@ -250,6 +250,11 @@ AccessFileName .htaccess
 </VirtualHost>
 ````
 
+## Special Thanks to external Coders
+
+* <https://github.com/erusev/parsedown> for Markdown Parser Class in Modul Clientdownload
+* Kate Morley - <http://iamkate.com/> for PHP Diff Class in Modul Client Configuration
+
 ### Hardware-Preview
 
 ![Previsualisation Preview OpenVPN-WebAdmin-Server](doc/img/19zoll.png)
