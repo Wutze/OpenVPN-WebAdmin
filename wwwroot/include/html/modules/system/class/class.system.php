@@ -32,14 +32,14 @@
 class system{
   /** sidebar menu code */
   const navcode ='
-<!-- system menu -->
-<li class="nav-item">
- <a class="nav-link" id="dev-tab" data-toggle="pill" href="#syss" role="menu" aria-controls="sys" aria-selected="false">
-   <i class="fa fa-medkit"></i>
-   <p>System</p>
- </a>
-</li>
-<!-- /firewall menu -->
+                    <!-- system menu -->
+                    <li class="nav-item">
+                    <a class="nav-link" id="dev-tab" data-toggle="pill" href="#syss" role="menu" aria-controls="sys" aria-selected="false">
+                      <i class="fa fa-medkit"></i>
+                      <p>System</p>
+                    </a>
+                    </li>
+                    <!-- /firewall menu -->
 ';
   /** this const open the tabpanel for firewall content */
   const content_head = '

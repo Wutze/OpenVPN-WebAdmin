@@ -26,6 +26,7 @@ $out->set_value('action','print');
 $out->set_value('isuser',Session::GetVar('isuser'));
 $out->set_value('isadmin',Session::GetVar('isadmin'));
 ?>
+        <!-- content configuration -->
           <div class="col-12 col-sm-12">
             <div class="card card-primary card-tabs">
               <div class="card-header p-0 pt-1">
@@ -69,8 +70,8 @@ $out->main();
                   </div>
                 </div>
               </div>
-              <!-- /.card -->
             </div>
           </div>
+        <!-- /content configuration -->
 <?php
 
