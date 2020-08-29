@@ -89,19 +89,21 @@ $message['_SSL_CERTS_LIST']         = "List certificates";
 $message['_TODAY']                  = date('Y.m.d');
 
 $message['_VPN_DATA_SAV']           = "Save your ...";
+$message['_VPN_DATA_TT']            = "Select and download your client definition";
 $message['_VPN_DATA_OSX']           = "OSX-Config";
 $message['_VPN_DATA_WIN']           = "WIN-Config";
 $message['_VPN_DATA_LIN']           = "Android/Linux-Config";
-$message['_VPN_CLIENT_SAV']         = "Client Download ...";
+$message['_VPN_CLIENT_SAV']         = "Docu/Download ...";
+$message['_VPN_CLIENT_TT']          = "Documentation/Download VPN client ...";
 $message['_VPN_CLIENT_OSX']         = "OSX";
 $message['_VPN_CLIENT_WIN']         = "WIN";
 $message['_VPN_CLIENT_LIN']         = "Andoid";
+$message['_VPN_CLIENT_EXT']         = "More information";
 
 
 $message['_USERDATA_EMAIL']         = "eMail";
 $message['_USERDATA_PASSWORD']      = "Password";
 $message['_USERDATA_SAVE']          = "create user";
-$message['_USERDATA_ISADMIN']       = "User gets admin rights";
 $message['_USERDATA_ISADMIN']       = "User receives full admin rights";
 $message['_USERDATA_ISCONFIGADMIN'] = "User receives configuration rights";
 $message['_USERDATA_ISLOGADMIN']    = "User gets log view rights";
@@ -109,7 +111,6 @@ $message['_USERDATA_ISUSERADMIN']   = "User receives user administration rights"
 $message['_USERDATA_ISTLSADMIN']    = "User receives certificate management rights";
 $message['_USERDATA_FROM_DATE']     = "Access from:";
 $message['_USERDATA_TO_DATE']       = "Access to:";
-
 
 
 /** 

@@ -88,13 +88,17 @@ $message['_SSL_CERTS_LIST']         = "Liste der Zertifikate";
 $message['_TODAY']                  = date('d.m.Y');
 
 $message['_VPN_DATA_SAV']           = "保存您的 ...";
+$message['_VPN_DATA_TT']            = "选择并下载你的客户端定义。";
 $message['_VPN_DATA_OSX']           = "OSX-配置";
 $message['_VPN_DATA_WIN']           = "WIN-配置";
 $message['_VPN_DATA_LIN']           = "Android/Linux-配置";
+$message['_VPN_CLIENT_SAV']         = "文件/下载 ...。";
+$message['_VPN_CLIENT_TT']          = "文档/下载VPN客户端...。";
 $message['_VPN_CLIENT_SAV']         = "客户端下载 ...";
 $message['_VPN_CLIENT_OSX']         = "OSX";
 $message['_VPN_CLIENT_WIN']         = "WIN";
 $message['_VPN_CLIENT_LIN']         = "Andoid";
+$message['_VPN_CLIENT_EXT']         = "更多信息。";
 
 
 $message['_USERDATA_EMAIL']         = "電子郵件";
