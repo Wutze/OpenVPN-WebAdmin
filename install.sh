@@ -239,9 +239,18 @@ set_autoinstall(){
   autoinstall2="npm install -g yarn"
 }
 
-# Future for the progressbar
 go_progress(){
-  apt-get $1
+  if [[ -e /etc/debian_version ]]; then
+    os="debian"
+    os_version=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
+    print_out i "Install on: " $os $os_version
+    apt-get $1
+  elif [[ -e /etc/centos-release ]]; then
+    os="centos"
+    os_version=$(grep -oE '[0-9]+' /etc/centos-release | head -1)
+    print_out i "Install on: " $os $os_version
+    yum install $1
+  fi
 }
 
 make_mysql(){
