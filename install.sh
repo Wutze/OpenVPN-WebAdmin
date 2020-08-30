@@ -731,8 +731,8 @@ print_out i "Install third party module ADOdb"
 git clone https://github.com/ADOdb/ADOdb $www"ovpn_modules/ADOdb"
 
 ## link from module folder into webfolder
-ln -s $www"ovpn_modules/ADOdb" $openvpn_admin"include/ADOdb"
-ln -s $www"ovpn_modules/node_modules" $openvpn_admin"node_modules"
+ln -s $www"ovpn_modules/ADOdb" $openvpn_admin"/include/ADOdb"
+ln -s $www"ovpn_modules/node_modules" $openvpn_admin"/node_modules"
 
 write_webconfig
 
