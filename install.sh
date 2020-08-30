@@ -243,12 +243,12 @@ go_progress(){
   if [[ -e /etc/debian_version ]]; then
     os="debian"
     os_version=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
-    print_out i "Install on: " $os $os_version
+    print_out i "Install on:  $os $os_version"
     apt-get $1
   elif [[ -e /etc/centos-release ]]; then
     os="centos"
     os_version=$(grep -oE '[0-9]+' /etc/centos-release | head -1)
-    print_out i "Install on: " $os $os_version
+    print_out i "Install on:  $os $os_version"
     yum install $1
   fi
 }
@@ -575,7 +575,7 @@ fi
 
 ## node_modules in separate folder
 mkdir $www/ovpn_modules
-cp "$base_path/wwwroot/"{package.json} $www/ovpn_modules/
+cp "$base_path/wwwroot/package.json" $www/ovpn_modules/
 
 mkdir {$www/vpn,$www/vpn/history,$www/vpn/history/server,$www/vpn/history/osx,$www/vpn/history/gnu-linux,$www/vpn/history/win}
 cp -r "$base_path/"installation/conf $www/vpn/
