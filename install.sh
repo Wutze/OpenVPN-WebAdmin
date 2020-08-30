@@ -288,15 +288,6 @@ make_webserver(){
     
 }
 
-#set_extentions(){
-#  installextensions="yes";
-#}
-
-#make_extentions(){
-#  cd /opt/
-#  git clone https://github.com/Wutze/OpenVPN-WebAdmin-Modules ovpn-modules
-#}
-
 make_webroot(){
   www="/srv/www/"
   echo -e " ${TICK} ${1}" "Set www-root "$www
@@ -454,7 +445,7 @@ if [ "$db_host" == localhost ]; then
 fi
 
 # current only new install
-mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < installation/sql/vpnadmin.dump
+mysql -h $db_host -u $mysql_user --password=$mysql_user_pass $db_name < installation/sql/vpnadmin-1.4.0.dump
 control_script "Insert Database Dump"
 mysql -h $db_host -u $mysql_user --password=$mysql_user_pass --database=$db_name -e "INSERT INTO user (user_id, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
 control_script "Insert Webadmin User"
@@ -577,10 +568,14 @@ sed -i "s/DBNAME=''/DBNAME='$db_name'/" "/etc/openvpn/scripts/config.sh"
 mkdir $www
 mkdir "$openvpn_admin"
 if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
-  cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
+  cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data,dev} "$openvpn_admin"
 else
-  cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+  cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data} "$openvpn_admin"
 fi
+
+## node_modules in separate folder
+mkdir $www/ovpn_modules
+cp "$base_path/wwwroot/"{package.json} $www/ovpn_modules/
 
 mkdir {$www/vpn,$www/vpn/history,$www/vpn/history/server,$www/vpn/history/osx,$www/vpn/history/gnu-linux,$www/vpn/history/win}
 cp -r "$base_path/"installation/conf $www/vpn/
@@ -732,7 +727,11 @@ print_out i "Install third party module yarn"
 yarn install
 
 print_out i "Install third party module ADOdb"
-git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
+git clone https://github.com/ADOdb/ADOdb $www/ovpn_modules/ADOdb
+
+## link from module folder into webfolder
+ln -s $www/ovpn_modules/ADOdb $openvpn_admin/include/ADOdb
+ln -s $www/ovpn_modules/node_modules $openvpn_admin/node_modules
 
 write_webconfig
 
