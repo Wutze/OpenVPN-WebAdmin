@@ -35,8 +35,8 @@ preg_match_all('/^(NAME=|VERSION=)"([0-9a-zA-Z\/\.\s\(\)]*)"/m', shell_exec("cat
 $stat['osversion'] = $matches[1][2];
 $stat['osname'] = $matches[0][2];
 
-if(file_exists(REAL_BASE_DIR.'/dev.version.php')){
-  include_once(REAL_BASE_DIR.'/dev.version.php');
+if(file_exists(REAL_BASE_DIR.'/dev/dev.version.php') and defined('preview')){
+  include_once(REAL_BASE_DIR.'/dev/dev.version.php');
   $stat['cpu_model'] = cpu;
 }elseif(file_exists(REAL_BASE_DIR.'/version.php')){
   include_once(REAL_BASE_DIR.'/version.php');
@@ -55,7 +55,7 @@ if(file_exists(REAL_BASE_DIR.'/dev.version.php')){
                   <h3 class="profile-username text-center">OpenVPN-WebAdmin</h3>
                   <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item">
-                      <b>OVPN Version:</b> <a class="float-right"><?php echo version.devel; ?></a>
+                      <b>OVPN Version:</b> <a class="float-right"><?php echo version." ".devel; ?></a>
                     </li>
                     <li class="list-group-item">
                       <b>CPU:</b> <a class="float-right"><?php echo $stat['cpu_model']; ?></a>
