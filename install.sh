@@ -575,11 +575,11 @@ fi
 
 ## node_modules in separate folder
 mkdir $www/ovpn_modules
-cp "$base_path/wwwroot/package.json" $www/ovpn_modules/
+cp "$base_path/wwwroot/package.json" $www"ovpn_modules/"
 
 mkdir {$www/vpn,$www/vpn/history,$www/vpn/history/server,$www/vpn/history/osx,$www/vpn/history/gnu-linux,$www/vpn/history/win}
-cp -r "$base_path/"installation/conf $www/vpn/
-ln -s /etc/openvpn/server.conf $www/vpn/conf/server/server.conf
+cp -r "$base_path/"installation/conf $www"vpn/"
+ln -s /etc/openvpn/server.conf $www"vpn/conf/server/server.conf"
 
 # New workspace
 cd "$openvpn_admin"
@@ -723,21 +723,22 @@ done
 
 print_out 1 "Setup Web Application done"
 
+cd $www"ovpn_modules/"
 print_out i "Install third party module yarn"
 yarn install
 
 print_out i "Install third party module ADOdb"
-git clone https://github.com/ADOdb/ADOdb $www/ovpn_modules/ADOdb
+git clone https://github.com/ADOdb/ADOdb $www"ovpn_modules/ADOdb"
 
 ## link from module folder into webfolder
-ln -s $www/ovpn_modules/ADOdb $openvpn_admin/include/ADOdb
-ln -s $www/ovpn_modules/node_modules $openvpn_admin/node_modules
+ln -s $www"ovpn_modules/ADOdb" $openvpn_admin"include/ADOdb"
+ln -s $www"ovpn_modules/node_modules" $openvpn_admin"node_modules"
 
 write_webconfig
 
 chown -R "$user:$group" "$openvpn_admin"
-chown -R "$user:$group" $www/vpn
-chown "$user:$group" $www/vpn/conf/server/server.conf
+chown -R "$user:$group" $www"vpn"
+chown "$user:$group" $www"vpn/conf/server/server.conf"
 
 print_out i "write file for future updates"
 updpath="/var/lib/ovpn-admin/"
