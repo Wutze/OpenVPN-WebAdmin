@@ -189,6 +189,20 @@ check_user(){
   fi
 }
 
+bs_version_update(){
+  if [[ -e /etc/debian_version ]]; then
+    os="debian"
+    os_version=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
+    print_out i "Update on:  $os $os_version"
+    apt-get update && apt-get upgrade -y
+  elif [[ -e /etc/centos-release ]]; then
+    os="centos"
+    os_version=$(grep -oE '[0-9]+' /etc/centos-release | head -1)
+    print_out i "Update on:  $os $os_version"
+    yum update
+  fi
+}
+
 if_updatefile_exist(){
   if [[ -f "${updpath}${updfile}" ]]; then
     # go vars from install.files if exist
@@ -335,6 +349,7 @@ setup_questions(){
   fi
 }
 
+## deprecated
 start_update_new_version(){
   openvpn_admin=$WEBROOT$BASEPATH
   # wenn alte Version - vor 1.1.0 - dann lösche das alte Verzeichnis
@@ -433,11 +448,12 @@ start_update_normal(){
   control_script "create new Webfolder"
 
   if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
-    cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data,dev} "$openvpn_admin"
+    cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data,dev} "$openvpn_admin"
   else
-    cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+    cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data} "$openvpn_admin"
   fi
-
+  
+  cp "$base_path/wwwroot/package.json" "$WEBROOT/ovpn_modules/"
   cp -r "$base_path/installation/scripts/"{connect.sh,disconnect.sh,login.sh} "/etc/openvpn/scripts/"
   ## move all history folders and osx folder
   cd $WEBROOT
@@ -470,12 +486,16 @@ start_update_normal(){
 
   control_script "renew Files"
   print_out i "Update third party module yarn"
-  cd $openvpn_admin
+  cd "$WEBROOT/ovpn_modules/"
   yarn install
-  control_script "yarn install"
-  print_out i "Install third party module ADOdb"
-  git clone https://github.com/ADOdb/ADOdb ./include/ADOdb
-  control_script "ADODb install"
+  control_script "yarn update"
+  print_out i "Update third party module ADOdb"
+  cd ADOdb/
+  git gull
+  control_script "ADODb update"
+
+  ln -s $WEBROOT"ovpn_modules/ADOdb" $openvpn_admin"/include/ADOdb"
+  ln -s $WEBROOT"ovpn_modules/node_modules" $openvpn_admin"/node_modules"
 
   print_out i "Update SQL"
   if [[ -f "$base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
@@ -639,6 +659,9 @@ main(){
   ## create backup files and database
   print_out i "Backup - this may take a little moment"
   make_backup
+  
+  # System Update
+  bs_version_update
 
   ## make update files and database
   if [ -n "$VERSION" ]; then
