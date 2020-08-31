@@ -147,7 +147,8 @@ class set_request{
 				(isset($this->request['pass'])) ? $manipulate_user->set_value('pass',$this->request['pass']) : "";
 				(isset($this->request['fromdate'])) ? $manipulate_user->set_value('fromdate',$this->request['fromdate']) : "";
 				(isset($this->request['todate'])) ? $manipulate_user->set_value('todate',$this->request['todate']) : "";
-				(isset($this->request['makeadmin'])) ? $manipulate_user->set_value('makeadmin',$this->request['makeadmin']) : $manipulate_user->set_value('makeadmin',FALSE);
+				(isset($this->request['activeadmin'])) ? $manipulate_user->set_value('activeadmin',$this->request['activeadmin']) : $manipulate_user->set_value('activeadmin',FALSE);
+				(isset($this->request['activeuser'])) ? $manipulate_user->set_value('activeuser',$this->request['activeuser']) : $manipulate_user->set_value('activeuser',FALSE);
 				$manipulate_user->set_value('isadmin',$this->isadmin);
 				$manipulate_user->set_value('isuser',$this->isuser);
 				$manipulate_user->set_value('req',$this->request);
