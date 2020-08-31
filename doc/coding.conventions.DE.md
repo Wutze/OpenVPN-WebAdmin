@@ -78,15 +78,16 @@ Wie die Namen schon verraten, das sind die Dateien die für den Aufbau der Webse
 ### Ordnerstruktur wwwroot
 
 ````code
-wwwroot
+/wwwroot/
     |
     ├> css (alle css Dateien) [benötigt]
     ├> data () [benötigt]
+    |   └> clientload (Modul clientload mit Sprachfiles)
     |   └> temp (temporäre Dateien zum speichern etc.) [benötigt]
     ├> dev (Development Dateien)
     ├> images (Systemrelevante Bilder) [benötigt]
     ├> include (Konfigurationsdateien und load.php) [benötigt]
-    |   ├> ADOdb (während der Installation erstellte Datenbankklasse) [benötigt]
+    |   ├> ADOdb (Symlink into ../../ovpn_modules/ADOdb/) (während der Installation erstellte Datenbankklasse) [benötigt]
     |   ├> class (alle Klassen zum ovpn-webadmin) [benötigt]
     |   ├> html (main html-code, footer, header, Websiteaufbau main-html.php) [benötigt]
     |   |   ├> content (Inhalte wie content, nvaigationsleisten, übersicht usw.) [benötigt]
@@ -101,9 +102,32 @@ wwwroot
     |   |       .
     |   |       └>  alle anderen module
     |   └> lang
-    |       └> de_DE|en_EN|fr_FR| ... (Sprachfile "lang.php" im jeweiligen Order der Sprache. Wird automatisch geladen) [mind. 1 benötigt]
+    |       └> de_DE|en_EN|fr_FR|cn_CN ... (Sprachfile "lang.php" im jeweiligen Order der Sprache. Wird automatisch geladen) [mind. 1 benötigt]
     ├> js (JavaScript Dateien) [benötigt]
-    └> node_modules (wird erst während der Installation angelegt) [benötigt]
+    └> node_modules (Symlink into ../ovpn_modules/node_modules/) (wird erst während der Installation angelegt) [benötigt]
+
+````
+
+### Orderstruktur anderes
+
+````code
+../www/wwwroot/
+../www/ovpn_module/
+        |
+        └> ovpn_modules () [benötigt]
+                └> ADOdb (Modul clientload mit Sprachfiles) [benötigt]
+                └> node_modules (temporäre Dateien zum speichern etc.) [benötigt]
+../www/vpn/
+        ├> conf (config files)
+        |   └> gnu-linux
+        |   └> osx
+        |   └> server
+        |   └> windows
+        └> history (config history files)
+            └> gnu-linux
+            └> osx
+            └> server
+            └> windows
 
 ````
 
