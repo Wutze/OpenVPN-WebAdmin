@@ -505,7 +505,7 @@ start_update_normal(){
 
   print_out i "Update SQL"
   if [[ -f "$base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
-    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
+    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
     control_script "execute Database Updates" 
   else
     print_out i "no changes to the database necessary"
