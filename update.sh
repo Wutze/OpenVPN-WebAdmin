@@ -492,8 +492,12 @@ start_update_normal(){
   yarn install
   control_script "yarn update"
   print_out i "Update third party module ADOdb"
-  cd ADOdb/
-  git pull
+  if [[ ! -d  $WEBROOT"ovpn_modules/ADOdb" ]]; then
+    git clone https://github.com/ADOdb/ADOdb ADOdb
+  else
+    cd ADOdb/
+    git pull
+  fi
   control_script "ADODb update"
 
   ln -s $WEBROOT"ovpn_modules/ADOdb" $openvpn_admin"/include/ADOdb"
