@@ -48,6 +48,10 @@ $message['_U_ENABLE']               = "Enable";
 $message['_U_FROM']                 = "from";
 $message['_U_TO']                   = "to";
 $message['_U_ONLINE']               = "Online";
+$message['_U_EXTEND_VIEW']          = "Advanced view for: ";
+$message['_U_TIMESETTINGS']         = "Time limits";
+$message['_U_NETSETTINGS']          = "Network (disable)";
+$message['_U_PLUS']                 = "Other (disable)";
 
 $message['_ATTENTION_FW']           = "You should know what you're doing!";
 $message['_ATTENTION_CF']           = "Client and/or server should be restarted after changes";

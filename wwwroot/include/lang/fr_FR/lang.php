@@ -48,6 +48,10 @@ $message['_U_ENABLE']               = "Activé";
 $message['_U_FROM']                 = "from";
 $message['_U_TO']                   = "to";
 $message['_U_ONLINE']               = "En ligne";
+$message['_U_EXTEND_VIEW']          = "Vue étendue pour : " ;
+$message['_U_TIMESETTINGS']         = "Délais" ;
+$message['_U_NETSETTINGS']          = "Réseau (disable)" ;
+$message['_U_PLUS']                 = "Autre (disable)" ;
 
 $message['_ATTENTION_FW']           = "Vous devriez savoir ce que vous faites!";
 $message['_ATTENTION_CF']           = "Le client et/ou le serveur doit être redémarré après les modifications.";

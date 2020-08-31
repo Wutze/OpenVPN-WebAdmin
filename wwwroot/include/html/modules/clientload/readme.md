@@ -24,7 +24,7 @@ If you have not created your own new file, the file en_EN.clientload.content.exa
 
 ## Note
 
-You should only use Markdown, as shown in the example file.
+You should only use Markdown, as shown in the example file, which is loaded automatically.
 
 ## Using the variables
 

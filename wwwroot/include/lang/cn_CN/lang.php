@@ -47,6 +47,10 @@ $message['_U_ENABLE']               = "激活的";
 $message['_U_FROM']                 = "从";
 $message['_U_TO']                   = "到";
 $message['_U_ONLINE']               = "在线咨询";
+$message['_U_EXTEND_VIEW']          = "扩展视图为。";
+$message['_U_TIMESETTINGS']         = "时间限制。";
+$message['_U_NETSETTINGS']          = "网络。(停用)";
+$message['_U_PLUS']                 = "其他。(停用)";
 
 $message['_ATTENTION_FW']           = "你应该知道你在做什么！";
 $message['_ATTENTION_CF']           = "客户端和服务器在更改后应重新启动。";
