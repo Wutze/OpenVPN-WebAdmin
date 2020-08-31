@@ -112,7 +112,7 @@ setInterval(function(){
   };
   xmlhttp.open("GET", "/?op=live&go=load", true);
   xmlhttp.send(); 
-}, 500000);
+}, 5000);
 
 
 /**
@@ -121,47 +121,50 @@ setInterval(function(){
  */
 function userdetails(index, row) {
   var session_id = ""
-  var usersmail = '<div class="form-group row">' +
-                    '<div class="custom-control col-md-6">'+
-                      '<input type="text" class="form-control is-warning" name="mail" value="' + ((row['mail']) ? row['mail']: '') + '" placeholder="Set Mail">'+
-                    '</div>' +
-                    '<div class="custom-control col-md-6">' +
-                      '<input type="password" class="form-control is-warning" name="pass" value="" placeholder="New Password">'+
-                    '</div>'+
-                  '</div>'
-  var usersmailbox =  '<div class="col-md-6 col-12">'+
-                        '' + usersmail + '' +
-                      '</div>'
-  var isuser = '<div class="form-group">' +
-                  '<div class="custom-control custom-switch">'+
-                    '<input type="checkbox" ' + ((row['enable']==="1")?'checked':'') + ' class="custom-control-input" name="isuser" id="isuserSwitch-' + row['uuid'] + '">'+
-                    '<label class="custom-control-label" for="isuserSwitch-' + row['uuid'] + '"></label>'+
-                  '</div>'+
-                '</div>'
-  var isuserbox = '<div class="col-lg-3 col-12">'+
-                    '<div class="small-box bg">'+
-                        'User enable: '+ isuser + '' +
-                    '</div>'+
-                  '</div>'
 
-  var isadmin = '<div class="form-group">' +
-                  '<div class="custom-control custom-switch">'+
-                    '<input type="checkbox" ' + ((row['gname']==='admin')?'checked':'') + ' class="custom-control-input" name="makeadmin" id="adminSwitch-' + row['uuid'] + '">'+
-                    '<label class="custom-control-label" for="adminSwitch-' + row['uuid'] + '"></label>'+
-                  '</div>'+
-                '</div>'
-  var userinfobox = '<div class="col-lg-3 col-12">'+
-                      '<div class="small-box bg">'+
-                          'Admin? ' + isadmin + '' +
-                      '</div>'+
-                    '</div>'
+var userzusatzbox = ''+
+'<div class="col-md-3 col-xs-12 ">'+
+' <input type="text" class="form-control is-warning" name="mail" value="' + ((row['mail']) ? row['mail']: '') + '" placeholder="Set Mail">'+
+'</div>'+
+'<div class="col-md-3 col-xs-12 ">'+
+' <input type="password" class="form-control is-warning" name="pass" value="" placeholder="New Password">'+
+'</div>';
+
+var isuserbox = ''+
+'<div class="col-md-2 col-xs-6 ">'+
+'User enabled? '+
+'</div>'+
+'<div class="col-md-1 col-xs-6 ">'+
+' <div class="form-group">'+
+'  <div class="custom-control custom-switch">'+
+'    <input type="checkbox" ' + ((row['enable']==="1")?'checked':'') + ' class="custom-control-input" name="activeuser" id="isuserSwitch-' + row['uuid'] + '">'+
+'    <label class="custom-control-label" for="isuserSwitch-' + row['uuid'] + '"></label>'+
+'  </div>'+
+' </div>'+
+'</div>';
+
+var isadminbox = ''+
+'<div class="col-md-2 col-xs-6 ">'+
+'Is Admin? '+
+'</div>'+
+'<div class="col-md-1 col-xs-6 ">'+
+' <div class="form-group">'+
+'  <div class="custom-control custom-switch">'+
+'    <input type="checkbox" ' + ((row['gname']==='admin')?'checked':'') + ' class="custom-control-input" name="activeadmin" id="adminSwitch-' + row['uuid'] + '">'+
+'    <label class="custom-control-label" for="adminSwitch-' + row['uuid'] + '"></label>'+
+'  </div>'+
+' </div>'+
+'</div>';
+
 
   var html = []
-    html.push('<form role="form" action="/" method="post" data-index="uu-' + row['uuid'] + '"><div class="row">' + 
-              '' + userinfobox + ''+
+    html.push('<form role="form" action="/" method="post" data-index="uu-' + row['uuid'] + '">' +
+              '<div class="row">' +
+              '' + isadminbox + ''+
               '' + isuserbox + ''+
-              '' + usersmailbox + ''+
+              '' + userzusatzbox + ''+
               '</div>' +
+              '<hr>' +
               '<input type="hidden" name="uid" value="' + row['uuid'] + '">' +
               '<input type="hidden" name="uname" value="' + row['uname'] + '">' +
               '<input type="hidden" name="session" value="' + session_id + '">' +
@@ -193,6 +196,8 @@ function new_userdetails(uuid) {
  */
 function getuserdata(uuid){
   var xhttp = new XMLHttpRequest();
+  var uu = "";
+  var gg = "";
   xhttp.open("GET", "?op=loadmodul&modname=user&go=getuserdata&uid=" + uuid, true);
   xhttp.send();
   xhttp.onreadystatechange = function() {
@@ -200,6 +205,20 @@ function getuserdata(uuid){
       var myArr = JSON.parse(this.responseText);
       document.getElementById("uuid").innerHTML = myArr['user']['uid'];
       document.getElementById("username").innerHTML = myArr['user']['user_name'];
+      document.getElementById("uid").value = myArr['user']['uid'];
+      document.getElementById("uname").value = myArr['user']['user_name'];
+      if(myArr['user']['gid'] == 1){
+        gg = "checked";
+      }else if(myArr['user']['gid'] == 2){
+        gg = "";
+      }
+      if(myArr['user']['user_enable'] == 1){
+        uu = "checked";
+      }else{
+        uu = "";
+      }
+      document.getElementById("isAdminSwitch").checked = gg;
+      document.getElementById("UserEnableSwitch").checked = uu;
       document.getElementById("datepicker3").value = myArr['user']['user_start_date'];
       document.getElementById("datepicker4").value = myArr['user']['user_end_date'];
       document.getElementById("lastlogin").innerHTML = myArr['last']['log_start_time'];
