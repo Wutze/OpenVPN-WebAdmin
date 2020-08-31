@@ -452,8 +452,10 @@ start_update_normal(){
   else
     cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data} "$openvpn_admin"
   fi
-  
-  cp "$base_path/wwwroot/package.json" "$WEBROOT/ovpn_modules/"
+  if [[ ! -d  $WEBROOT"ovpn_modules/" ]]; then
+    mkdir $WEBROOT"ovpn_modules/"
+  fi
+  cp "$base_path/wwwroot/package.json" $WEBROOT"ovpn_modules/"
   cp -r "$base_path/installation/scripts/"{connect.sh,disconnect.sh,login.sh} "/etc/openvpn/scripts/"
   ## move all history folders and osx folder
   cd $WEBROOT
@@ -486,12 +488,12 @@ start_update_normal(){
 
   control_script "renew Files"
   print_out i "Update third party module yarn"
-  cd "$WEBROOT/ovpn_modules/"
+  cd $WEBROOT"ovpn_modules/"
   yarn install
   control_script "yarn update"
   print_out i "Update third party module ADOdb"
   cd ADOdb/
-  git gull
+  git pull
   control_script "ADODb update"
 
   ln -s $WEBROOT"ovpn_modules/ADOdb" $openvpn_admin"/include/ADOdb"
