@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.4.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -84,7 +84,7 @@
                             <div class="col-sm-12">
                               <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                  <input type="checkbox" class="custom-control-input" name="makeadmin" id="adminSwitch">
+                                  <input type="checkbox" class="custom-control-input" name="activeadmin" id="adminSwitch">
                                   <label class="custom-control-label" for="adminSwitch"><?php echo GET_Lang::nachricht('_USERDATA_ISADMIN'); ?></label>
                                 </div>
 <?php if(defined('preview')){ ?>

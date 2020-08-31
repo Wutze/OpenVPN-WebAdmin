@@ -67,7 +67,7 @@
                 <div class="form-group">
                   <div class="col-xs-6 col-md-6">
                     <div class="custom-control custom-switch">
-                      <input type="checkbox" class="custom-control-input" name="makeadmin" id="isAdminSwitch">
+                      <input type="checkbox" class="custom-control-input" name="activeadmin" id="isAdminSwitch">
                       <label class="custom-control-label" for="isAdminSwitch"></label>
                     </div>
                   </div>
