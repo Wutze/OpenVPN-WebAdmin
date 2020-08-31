@@ -236,10 +236,17 @@ class createchangeuser extends passwd{
 			$data = newAdoConnection(_DB_TYPE);
 			$data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
 			$table = 'user';
-			$record["gid"] = ($this->req['makeadmin'])? 1 : 2;
-			$record["user_enable"] = ($this->req['isuser'])? 1 : 0;
-			($this->req['mail'])? $record["user_mail"] =  $this->req['mail'] : FALSE;
-			($this->req['pass'])? $record["user_pass"] = password_hash($this->req['pass'],$this->option_crypt) : '';
+			$record["gid"] = (isset($this->req['activeadmin']))? 1 : 2;
+
+			(isset($this->req['activeuser']))? $record["user_enable"] = 1 : $record["user_enable"] = 0;
+
+
+			(isset($this->req['fromdate']))? $record["user_start_date"] =  $this->req['fromdate'] : FALSE;
+			(isset($this->req['todate']))? $record["user_end_date"] =  $this->req['todate'] : FALSE;
+
+
+			(isset($this->req['mail']))? $record["user_mail"] =  $this->req['mail'] : FALSE;
+			(isset($this->req['pass']))? $record["user_pass"] = password_hash($this->req['pass'],$this->option_crypt) : '';
 			$where = "uid = $uid";
 			 
 			$data->autoExecute($table,$record,'UPDATE', $where);

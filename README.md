@@ -75,34 +75,12 @@ If you already have a database server, you can also use it and do not need to in
 
 For a local installation of a MySQL server, you will automatically be asked to enter a root password.
 
-## Manual Install without MySQL-Server (Debian/Ubuntu)
-
-````bash
-apt-get install openvpn default-mysql-client apache2 php-mysql php-zip php unzip git wget sed curl net-tools -y
-# If you want to use a local MySQL-Server, use the following line
-apt-get install mariadb-server
-
-apt-get install npm nodejs -y
-npm install -g yarn
-````
-
-## Manual Install without MySQL-Server (CentOS)
-
-````bash
-yum install openvpn default-mysql-client apache2 php-mysql php-zip php unzip git wget sed curl net-tools tar -y
-# If you want to use a local MySQL-Server, use the following line
-yum install mariadb-server
-
-yum install npm nodejs -y
-npm install -g yarn
-````
-
 ## Tested on
 
 * Debian 10/Buster, PHP 7.2.x, 10.3.22-MariaDB.
 * RaspberryPi 4 with Debian Buster
 * ~~Ubuntu 20.04 Server (Minimal Installation + OpenSSH-Server)~~
-* CentOS (view issue #19)
+* CentOS (full compatible since Version 1.4.0)
 
 Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
@@ -126,6 +104,7 @@ cp installation/config.conf.sample installation/config.conf
 nano installation/config.conf
 
 # start main installation
+# Dependencies of the packages are automatically detected and installed.
 ./install.sh
 ````
 

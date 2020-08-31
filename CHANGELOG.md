@@ -1,5 +1,18 @@
 # OpenVPN-WebAdmin Version History
 
+## 1.4.0
+
+- Required modules (node_modules and ADOdb) created outside the Web folder to make backup easier.
+- Renamed some column names in the database for better recognition.
+- New modul "clientload" for your User-Support (see readme.md in clientload module folder)
+- Modifications in your User-Administration
+- Clearer HTML Code for debugging
+- Now fully supported by centos (installation and update)
+- Various small things fixed
+- unnecessary files removed
+- Chinese language added for multilanguage support on the website (now (DE/FR/EN/CN))
+- Modularisation further simplified for subsequent versions
+
 ## 1.3.0
 
 - fix bug in sortable log-tables

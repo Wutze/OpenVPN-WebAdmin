@@ -50,8 +50,8 @@ $message['_U_TO']                   = "bis";
 $message['_U_ONLINE']               = "Online";
 $message['_U_EXTEND_VIEW']          = "Erweiterte Ansicht für: ";
 $message['_U_TIMESETTINGS']         = "Zeitbeschränkungen";
-$message['_U_NETSETTINGS']          = "Netzwerk";
-$message['_U_PLUS']                 = "Sonstiges";
+$message['_U_NETSETTINGS']          = "Netzwerk (disable)";
+$message['_U_PLUS']                 = "Sonstiges (disable)";
 
 $message['_ATTENTION_FW']           = "Du solltest wissen was Du tust!";
 $message['_ATTENTION_CF']           = "Nach Änderungen sollten Client und Server neu gestartet werden";
