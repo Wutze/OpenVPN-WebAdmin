@@ -115,6 +115,9 @@ $message['_USERDATA_ISUSERADMIN']   = "User receives user administration rights"
 $message['_USERDATA_ISTLSADMIN']    = "User receives certificate management rights";
 $message['_USERDATA_FROM_DATE']     = "Access from:";
 $message['_USERDATA_TO_DATE']       = "Access to:";
+$message['_USERDATA_NEW_USER']      = "Create a new user";
+$message['_USERDATA_USER']          = "User data";
+$message['_USERDATA_OPTIONS']       = "Options";
 
 
 /** 

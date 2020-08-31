@@ -91,7 +91,6 @@ $message['_SSL_CERTS_LIST']         = "Liste der Zertifikate";
 
 $message['_TODAY']                  = date('d.m.Y');
 
-$message['_VPN_DATA_SAV']           = "保存您的 ...";
 $message['_VPN_DATA_TT']            = "选择并下载你的客户端定义。";
 $message['_VPN_DATA_OSX']           = "OSX-配置";
 $message['_VPN_DATA_WIN']           = "WIN-配置";
@@ -115,6 +114,9 @@ $message['_USERDATA_ISUSERADMIN']   = "Benutzer erhält Benutzerverwaltung-Recht
 $message['_USERDATA_ISTLSADMIN']    = "Benutzer erhält Rechte zur Zertifikatverwaltung";
 $message['_USERDATA_FROM_DATE']     = "从:";
 $message['_USERDATA_TO_DATE']       = "进入:";
+$message['_USERDATA_NEW_USER']      = "创建新用户。";
+$message['_USERDATA_USER']          = "用户数据。";
+$message['_USERDATA_OPTIONS']       = "选项。";
 
 
 /** 
