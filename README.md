@@ -1,4 +1,4 @@
-# OpenVPN WebAdmin 1.3.0
+# OpenVPN WebAdmin 1.4.0
 
 You lock your front door. But why do you leave the back entrances open? This is the same with almost all Internet accesses to your IoT, webcams and other devices.
 
@@ -6,7 +6,7 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 ![GitHub OpenVPN-WebAdmin last commit](https://img.shields.io/github/last-commit/Wutze/OpenVPN-WebAdmin?style=plastic)
 ![GitHub OpenVPN-WebAdmin repo size](https://img.shields.io/github/repo-size/Wutze/OpenVPN-WebAdmin?style=plastic)
-![GitHub OpenVPN-WebAdmin commits since latest release](https://img.shields.io/github/commits-since/Wutze/OpenVPN-WebAdmin/1.3.0?style=plastic)
+![GitHub OpenVPN-WebAdmin commits since latest release](https://img.shields.io/github/commits-since/Wutze/OpenVPN-WebAdmin/1.4.0?style=plastic)
 ![OpenVPN-WebAdmin Stable Branch](https://img.shields.io/badge/Master-Stable%20Branch-green)
 ![OpenVPN-WebAdmin Development Branch](https://img.shields.io/badge/Devel-Development%20Branch-yellow)
 

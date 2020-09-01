@@ -14,7 +14,7 @@
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.3.0
+# @version		1.4.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
@@ -597,7 +597,7 @@ write_config(){
   fi
 
   {
-  echo "VERSION=\"1.3.0\""
+  echo "VERSION=\"1.4.0\""
   echo "DBHOST=\"$db_host\""
   echo "DBUSER=\"$mysql_user\""
   echo "DBNAME=\"$db_name\""
@@ -641,7 +641,7 @@ write_config(){
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.3.0
+ * @version		1.4.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 

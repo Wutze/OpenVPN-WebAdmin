@@ -206,7 +206,7 @@ class createchangeuser extends passwd{
 			$this->table = "user";
 			$this->record = array();
 			$this->record['user_name'] = $this->uname;
-			$this->record['gid'] = ($this->makeadmin) ? 1 : 2;
+			$this->record['gid'] = ($this->activeadmin) ? 1 : 2;
 			$this->record['user_pass'] = password_hash($this->pass,$this->option_crypt);
 			$this->record['user_mail'] = ($this->mail) ? $this->mail : FALSE;
 			$this->record['user_phone'] = 0;

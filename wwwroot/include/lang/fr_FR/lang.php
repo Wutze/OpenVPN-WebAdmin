@@ -99,7 +99,6 @@ $message['_VPN_DATA_WIN']           = "WIN-Config" ;
 $message['_VPN_DATA_LIN']           = "Android/Linux-Config" ;
 $message['_VPN_CLIENT_SAV']         = "Docu/Téléchargement ..." ;
 $message['_VPN_CLIENT_TT']          = "Documentation/Téléchargement du client VPN ..." ;
-$message['_VPN_CLIENT_SAV']         = "Téléchargement du client ...";
 $message['_VPN_CLIENT_OSX']         = "OSX";
 $message['_VPN_CLIENT_WIN']         = "WIN";
 $message['_VPN_CLIENT_LIN']         = "Andoid";
@@ -109,7 +108,6 @@ $message['_VPN_CLIENT_EXT']         = "Plus d'informations" ;
 $message['_USERDATA_EMAIL']         = "eMail";
 $message['_USERDATA_PASSWORD']      = "Mot de passe";
 $message['_USERDATA_SAVE']          = "Créer un utilisateur";
-$message['_USERDATA_ISADMIN']       = "User gets admin rights";
 $message['_USERDATA_ISADMIN']       = "L'utilisateur reçoit tous les droits d'administration";
 $message['_USERDATA_ISCONFIGADMIN'] = "L'utilisateur reçoit des droits de configuration";
 $message['_USERDATA_ISLOGADMIN']    = "User gets log view rights";
@@ -117,6 +115,9 @@ $message['_USERDATA_ISUSERADMIN']   = "L'utilisateur reçoit les droits d'admini
 $message['_USERDATA_ISTLSADMIN']    = "L'utilisateur reçoit les droits de gestion des certificats";
 $message['_USERDATA_FROM_DATE']     = "Accès à partir de :";
 $message['_USERDATA_TO_DATE']       = "Accès jusqu'à :";
+$message['_USERDATA_NEW_USER']      = "Créer un nouvel utilisateur" ;
+$message['_USERDATA_USER']          = "Données de l'utilisateur" ;
+$message['_USERDATA_OPTIONS']       = "Options" ;
 
 /** 
  * messages d'erreur
