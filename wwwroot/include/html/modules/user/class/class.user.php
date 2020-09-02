@@ -91,14 +91,17 @@ class getdata extends user{
 		$data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
     $sql1 = 'SELECT user.* FROM user AS user WHERE uid = '.$uid.' ';
     $res1 = $data->getRow($sql1);
-    $sql2= "SELECT user_name, log_start_time, COUNT( log_id ) AS anz FROM log AS log WHERE user_name = '".$res1['user_name']."' ORDER BY log_start_time DESC";
+    $sql2 = "SELECT user_name, log_start_time, COUNT( log_id ) AS anz FROM log AS log WHERE user_name = '".$res1['user_name']."' ORDER BY log_start_time DESC";
     $res2 = $data->getRow($sql2);
+    $sql3 = "SELECT user_ip.user_ip, user_ip.server_ip FROM { oj user_ip AS user_ip RIGHT OUTER JOIN user AS user ON user_ip.uid = user.uid } WHERE user.user_name = '".$res1['user_name']."'";
+    $res3 = $data->getRow($sql3);
 
 		$o = new jsonObject;
 		$o->id   = "0";
 		$o->text = "userdata";
     $o->user = $res1;
     $o->last = $res2;
+    $o->usip = $res3;
 		$o->make_json();
 
 		return $o;

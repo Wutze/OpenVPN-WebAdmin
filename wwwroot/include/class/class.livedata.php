@@ -10,12 +10,12 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.5.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -36,7 +36,7 @@
  * @return json formated data from request log|user|admin for bootstrap, jquery or other
  */
 class golivedata{
-  var $go = array('load'=>'load','cpu'=>'cpu','user'=>'user');
+  var $go = array('load'=>'load','cpu'=>'cpu','user'=>'user','userip'=>'userip');
   var $offset = '/[0-9]*/m';
   var $limit = '/[0-9]*/m';
 
@@ -53,6 +53,11 @@ class golivedata{
       case "user";
       (session::GetVar('isadmin')) ? '' : $this->gotox = 'ERROR';
         self::gouser();
+
+      break;
+      case "userip";
+      (session::GetVar('isadmin')) ? '' : $this->gotox = 'ERROR';
+        self::gouserip();
 
       break;
       case "ERROR";
@@ -180,6 +185,23 @@ class golivedata{
     $o->id   = "0";
     $o->text = "isuser or not";
     $o->isuser = ($user) ? TRUE : FALSE;
+    $o->make_json();
+
+  }
+
+  function gouserip(){
+    $data = newAdoConnection(_DB_TYPE);
+    $data->connect(_DB_SERVER, _DB_UNAME, _DB_PW, _DB_DB);
+    $searchip = $this->action['userip'];
+    $this->sql="SELECT user_ip FROM user_ip AS user_ip WHERE user_ip = '$searchip'";
+    $result = $data->execute($this->sql);
+    $userip = $result->fetchRow();
+
+    $o = new jsonObject;
+    $o->id   = "0";
+    $o->text = "isip or not";
+#    $o->ip   = $result;
+    $o->isuserip = ($userip) ? TRUE : FALSE;
     $o->make_json();
 
   }

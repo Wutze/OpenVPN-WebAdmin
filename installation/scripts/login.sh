@@ -21,6 +21,14 @@ result=$(php -r "if(password_verify('$password', '$user_pass') == true) { echo '
 
 if [ "$result" == "ok" ]; then
   echo $(date '+%a %b %d %H:%M:%S %Y')" [ovpn] $username: authentication: [OK]"
+  ## Set dynamic User based IP
+  IP=$(mysql -h$DBHOST -P$DBPORT -u$DBUSER -p$DBPASS $DBNAME -sN -e "SELECT user_ip.user_ip, user_ip.server_ip FROM { oj user_ip AS user_ip RIGHT OUTER JOIN user AS user ON user_ip.uid = user.uid } WHERE user.user_name = '$username'")
+
+  ## If OpenVPN didn't have such stupid programming, you wouldn't have to constantly rewrite files
+  if [ -n "$IP" ]; then
+    echo $(date '+%a %b %d %H:%M:%S %Y')" [ovpn] $username: set ip-adresses: $IP [OK]"
+    echo "ifconfig-push " $IP > /etc/openvpn/ccd/$username
+  fi
   exit 0
 else
   echo $(date '+%a %b %d %H:%M:%S %Y')" [ovpn] $username: authentication: [ERROR] failed"

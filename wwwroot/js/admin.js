@@ -14,7 +14,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.2.0
+ * @version		1.5.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -112,7 +112,7 @@ setInterval(function(){
   };
   xmlhttp.open("GET", "/?op=live&go=load", true);
   xmlhttp.send(); 
-}, 5000);
+}, 500000);
 
 
 /**
@@ -223,8 +223,100 @@ function getuserdata(uuid){
       document.getElementById("datepicker4").value = myArr['user']['user_end_date'];
       document.getElementById("lastlogin").innerHTML = myArr['last']['log_start_time'];
       document.getElementById("logins").innerHTML = myArr['last']['anz'];
+
+      document.getElementById("userip").value = myArr['usip']['user_ip'];
+      document.getElementById("serverip").value = myArr['usip']['server_ip'];
     }
   };
 };
 
+function showip(str) {
+  if (str.length == 0) {
+    document.getElementById("userip").innerHTML = "";
+    return;
+  } else {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var isok = JSON.parse(this.responseText);
+        if (isok['isuserip']){
+          document.getElementById("userip").style.backgroundColor = "#ea7782"; // ip not found -> ok
+          document.getElementById("saveuser").disabled = isok['isuserip'];
+        }else{
+          document.getElementById("userip").style.backgroundColor = "#90f7a7"; // ip found -> error
+          document.getElementById("saveuser").disabled = isok['isuserip'];
+        }
+        calculate_serverip(str);
+      }
+    };
+    xmlhttp.open("GET", "?op=live&go=userip&userip=" + str, true);
+    xmlhttp.send();
+  }
+}
 
+/**
+ * Calculate the Server Gateway IP automatical and control your inputs
+ * @param {IP-Adress} str 
+ */
+function calculate_serverip(str){
+  var ipaddress = str.split('.');
+  var lblock = ipaddress[3] - 1;
+  var fehler = 0;
+  if(ipaddress[0] < 1 || ipaddress[0] >= 255 || !ipaddress[0]){
+    ipaddress[0]='???';
+    fehler=1;
+  }
+  if(ipaddress[1] < 0 || ipaddress[1] >= 255 || !ipaddress[1]){
+    ipaddress[1]='???';
+    fehler=1;
+  }
+  if(ipaddress[2] < 0 || ipaddress[2] >= 255 || !ipaddress[2]){
+    ipaddress[2]='???';
+    fehler=1;
+  }
+  if (lblock <= 2 || lblock >= 254 || !lblock || lblock == -1){
+    lblock='???';
+    fehler=1;
+  }
+  if(ipaddress.length > 4){
+    fehler=1;
+  }
+  var sammel = ipaddress[0] + '.' + ipaddress[1] + '.' + ipaddress[2] + '.' + lblock;
+  // checks if number is even or odd
+  // checks if number empty or negative
+  // the server always has odd IPs
+  if (lblock%2 == 0 || (!lblock) || lblock == -1 || fehler == 1){
+    document.getElementById("serverip").style.backgroundColor = "#ea7782"; // ip ok
+    document.getElementById("saveuser").disabled = true;
+  }else{
+    document.getElementById("serverip").style.backgroundColor = "#90f7a7"; // ip not ok
+    document.getElementById("saveuser").disabled = false;
+  }
+  document.getElementById("serverip").value = sammel;
+}
+
+/**
+ * thanks to https://stackoverflow.com/questions/32978982/calculate-ip-range-from-ip-string-equal-to-x-x-x-x-x
+ * @param {ip adresse} str 
+ */
+function getIpRangeFromAddressAndNetmask(str) {
+  var part = str.split("/"); // part[0] = base address, part[1] = netmask
+  if(!part[1]){
+    part[1]=24;
+  }
+  var ipaddress = part[0].split('.');
+  var netmaskblocks = ["0","0","0","0"];
+  if(!/\d+\.\d+\.\d+\.\d+/.test(part[1])) {
+    // part[1] has to be between 0 and 32
+    netmaskblocks = ("1".repeat(parseInt(part[1], 10)) + "0".repeat(32-parseInt(part[1], 10))).match(/.{1,8}/g);
+    netmaskblocks = netmaskblocks.map(function(el) { return parseInt(el, 2); });
+  } else {
+    // xxx.xxx.xxx.xxx
+    netmaskblocks = part[1].split('.').map(function(el) { return parseInt(el, 10) });
+  }
+  var invertedNetmaskblocks = netmaskblocks.map(function(el) { return el ^ 255; });
+  var baseAddress = ipaddress.map(function(block, idx) { return block & netmaskblocks[idx]; });
+  var broadcastaddress = ipaddress.map(function(block, idx) { return block | invertedNetmaskblocks[idx]; });
+  return [baseAddress.join('.'), broadcastaddress.join('.')];
+}
+//alert(getIpRangeFromAddressAndNetmask("192.168.104.0/24"));

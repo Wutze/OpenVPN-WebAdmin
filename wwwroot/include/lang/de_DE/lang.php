@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.5.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -48,9 +48,11 @@ $message['_U_ENABLE']               = "Aktiviert";
 $message['_U_FROM']                 = "von";
 $message['_U_TO']                   = "bis";
 $message['_U_ONLINE']               = "Online";
+$message['_U_NETIP']                = "User IP-Adresse";
+$message['_U_GATEWAYIP']            = "Gateway IP Server";
 $message['_U_EXTEND_VIEW']          = "Erweiterte Ansicht für: ";
 $message['_U_TIMESETTINGS']         = "Zeitbeschränkungen";
-$message['_U_NETSETTINGS']          = "Netzwerk (disable)";
+$message['_U_NETSETTINGS']          = "Netzwerk";
 $message['_U_PLUS']                 = "Sonstiges (disable)";
 
 $message['_ATTENTION_FW']           = "Du solltest wissen was Du tust!";

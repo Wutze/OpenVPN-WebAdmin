@@ -48,9 +48,11 @@ $message['_U_ENABLE']               = "Activé";
 $message['_U_FROM']                 = "from";
 $message['_U_TO']                   = "to";
 $message['_U_ONLINE']               = "En ligne";
+$message['_U_NETIP']                = "Adresse IP de l'utilisateur" ;
+$message['_U_GATEWAYIP']            = "Gateway IP Server" ;
 $message['_U_EXTEND_VIEW']          = "Vue étendue pour : " ;
 $message['_U_TIMESETTINGS']         = "Délais" ;
-$message['_U_NETSETTINGS']          = "Réseau (disable)" ;
+$message['_U_NETSETTINGS']          = "Réseau" ;
 $message['_U_PLUS']                 = "Autre (disable)" ;
 
 $message['_ATTENTION_FW']           = "Vous devriez savoir ce que vous faites!";

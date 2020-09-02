@@ -10,12 +10,12 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.5.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -42,8 +42,8 @@
           <div class="nav flex-column nav-pills col-5 col-sm-3 col-xs-3 col-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><?php echo GET_Lang::nachricht('_OVERVIEW'); ?></a>
             <a class="nav-link" id="timesttings-tab" data-toggle="pill" href="#timesttings" role="tab" aria-controls="timesttings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_TIMESETTINGS'); ?></a>
-            <a class="nav-link disabled" id="netsettings-tab" data-toggle="pill" href="#netsettings" role="tab" aria-controls="netsettings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_NETSETTINGS'); ?></a>
-            <a class="nav-link disabled" id="othersettings-tab" data-toggle="pill" href="#othersettings" role="tab" aria-controls="othersettings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_PLUS'); ?></a>
+            <a class="nav-link" id="netsettings-tab" data-toggle="pill" href="#netsettings" role="tab" aria-controls="netsettings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_NETSETTINGS'); ?></a>
+            <a class="nav-link disable" id="othersettings-tab" data-toggle="pill" href="#othersettings" role="tab" aria-controls="othersettings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_PLUS'); ?></a>
           </div>
 
           <div class="tab-content col-7 col-sm-9 col-xs-9 col-md-9 modal-user" id="v-pills-tabContent">
@@ -104,10 +104,32 @@
               </div>
             </div>
             <div class="tab-pane fade" id="netsettings" role="tabpanel" aria-labelledby="netsettings-tab">
-            Tab 3
+              <div class="modal-body" style="">
+                <div class="row">
+                  <div class="form-group col-xs-6 col-md-6">
+                    <label class="col-form-label" ><i class="fas fa-network-wired"></i> <?php echo GET_Lang::nachricht('_U_NETIP'); ?></label>
+                    <input type="text" onkeyup="showip(this.value)" class="form-control" name="userip" id="userip" placeholder="User IP">
+                  </div>
+                  <div class="form-group col-xs-6 col-md-6">
+                    <label class="col-form-label" ><i class="fas fa-server"></i> <?php echo GET_Lang::nachricht('_U_GATEWAYIP'); ?></label>
+                    <input type="text" class="form-control" name="serverip" id="serverip" placeholder="Gateway">
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="tab-pane fade" id="othersettings" role="tabpanel" aria-labelledby="othersettings-tab">
-            Tab 4
+              <div class="modal-body" style="">
+                <div class="row">
+                  <div class="form-group col-xs-6 col-md-6">
+                    <label class="col-form-label" for="inputWarning"><i class="fas fa-network-wired"></i> <?php echo GET_Lang::nachricht('_U_NETIP'); ?></label>
+                    <input type="text" onkeyup="showip(this.value)" class="form-control is-warning" name="useripx" id="useripx" placeholder="User IP">
+                  </div>
+                  <div class="form-group col-xs-6 col-md-6">
+                    <label class="col-form-label" for="inputWarning"><i class="fas fa-server"></i> <?php echo GET_Lang::nachricht('_U_GATEWAYIP'); ?></label>
+                    <input type="text" class="form-control is-warning" name="serveripx" id="serveripx" placeholder="Gateway">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -125,7 +147,7 @@
         <input type="hidden" name="session" value="<?php echo Session::GetVar('session_id'); ?>">
         <input type="hidden" id="uid" name="uid" value="">
         <input type="hidden" id="uname" name="uname" value="">
-        <button type="submit" class="btn btn-primary" name="make" value="update">Save</button>
+        <button type="submit" id="saveuser" class="btn btn-primary" name="make" value="update">Save</button>
       </div>
     </div>
   </div>
