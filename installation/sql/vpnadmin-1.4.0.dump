@@ -46,7 +46,6 @@ CREATE TABLE `user` (
   `user_end_date` date DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
 ALTER TABLE `groupnames`
   ADD PRIMARY KEY (`gid`);
 
@@ -60,7 +59,6 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`uid`),
   ADD KEY `user_pass` (`user_pass`);
 
-
 ALTER TABLE `groupnames`
   MODIFY `gid` int(10) NOT NULL AUTO_INCREMENT;
 
@@ -72,16 +70,11 @@ ALTER TABLE `user`
 COMMIT;
 
 
-INSERT INTO `groupnames` (`gname`, `name`) VALUES
+INSERT INTO `groupnames` (`gid`, `name`) VALUES
 (1, 'admin'),
 (2, 'user');
 
-INSERT INTO `usergroups` (`gid`, `uid`, `gname`) VALUES
-(1, 1, 1),
-(2, 2, 2);
-COMMIT;
-
-INSERT INTO `log` (`log_id`, `user_id`, `log_trusted_ip`, `log_trusted_port`, `log_remote_ip`, `log_remote_port`, `log_start_time`, `log_end_time`, `log_received`, `log_send`) VALUES
+INSERT INTO `log` (`log_id`, `user_name`, `log_trusted_ip`, `log_trusted_port`, `log_remote_ip`, `log_remote_port`, `log_start_time`, `log_end_time`, `log_received`, `log_send`) VALUES
 (1, 'example', '2.247.242.183', '25417', '10.8.0.6', '1194', '2020-03-24 09:08:10', '2020-03-24 09:09:33', 1616, 3666),
 (2, 'example', '2.247.242.183', '30672', '10.8.0.6', '1194', '2020-03-24 09:09:33', '2020-03-24 09:13:54', 2879, 4404);
 
