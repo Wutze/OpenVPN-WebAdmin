@@ -201,6 +201,14 @@ class createchangeuser extends passwd{
 				header("Location: /");
 			}
 
+			$ip = "127.0.0.1";
+
+			if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+			#		echo("$ip is a valid IP address");
+			} else {
+			#		echo("$ip is not a valid IP address");
+			}
+
 			/** no further errors, then create the new user */
 			/** create insert new user */
 			$this->table = "user";

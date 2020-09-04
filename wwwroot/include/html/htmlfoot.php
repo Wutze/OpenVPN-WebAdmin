@@ -76,6 +76,9 @@ if (Session::GetVar('isuser') || defined('dev')){
 if(Session::GetVar('isadmin')){
   ?><script src="js/admin.js"></script><?php
 }
+if(file_exists(REAL_BASE_DIR.'/js/devel.js')){
+  ?><script src="js/devel.js"></script><?php
+}
 ?>
 
 

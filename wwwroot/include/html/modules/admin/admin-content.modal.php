@@ -118,18 +118,7 @@
               </div>
             </div>
             <div class="tab-pane fade" id="othersettings" role="tabpanel" aria-labelledby="othersettings-tab">
-              <div class="modal-body" style="">
-                <div class="row">
-                  <div class="form-group col-xs-6 col-md-6">
-                    <label class="col-form-label" for="inputWarning"><i class="fas fa-network-wired"></i> <?php echo GET_Lang::nachricht('_U_NETIP'); ?></label>
-                    <input type="text" onkeyup="showip(this.value)" class="form-control is-warning" name="useripx" id="useripx" placeholder="User IP">
-                  </div>
-                  <div class="form-group col-xs-6 col-md-6">
-                    <label class="col-form-label" for="inputWarning"><i class="fas fa-server"></i> <?php echo GET_Lang::nachricht('_U_GATEWAYIP'); ?></label>
-                    <input type="text" class="form-control is-warning" name="serveripx" id="serveripx" placeholder="Gateway">
-                  </div>
-                </div>
-              </div>
+Placeholder
             </div>
           </div>
         </div>

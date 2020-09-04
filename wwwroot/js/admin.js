@@ -320,3 +320,12 @@ function getIpRangeFromAddressAndNetmask(str) {
   return [baseAddress.join('.'), broadcastaddress.join('.')];
 }
 //alert(getIpRangeFromAddressAndNetmask("192.168.104.0/24"));
+
+
+var $table = $('#myTable');
+
+$table.on('expand-row.bs.table', function(e, index, row, $detail) {
+  var res = $("#desc" + index).html();
+  $detail.html(res);
+});
+

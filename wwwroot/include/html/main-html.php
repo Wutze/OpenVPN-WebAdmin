@@ -10,12 +10,12 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.5.0
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -41,9 +41,6 @@ include(REAL_BASE_DIR."/include/html/content/main-navbar-right.php");
 include(REAL_BASE_DIR."/include/html/content/main-sidebar.php");
 /** Maincontent all */
 include(REAL_BASE_DIR."/include/html/content/main-content.php");
-/** for error messages */
-if(isset($_REQUEST['code'])){
-  include(REAL_BASE_DIR."/include/html/popup.php");
-}
+
 ?>
 
