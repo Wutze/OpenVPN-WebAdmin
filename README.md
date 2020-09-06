@@ -65,10 +65,6 @@ Administrate its OpenVPN with a web interface (logs visualisations, users managi
 * git
 * net-tools (for the includes simple firewall)
 
-Additionally for __CentOS__ the following is required
-
-* tar
-
 ## Note MySQL
 
 If you already have a database server, you can also use it and do not need to install it locally. You only need a database and a user name and password.
@@ -79,8 +75,6 @@ For a local installation of a MySQL server, you will automatically be asked to e
 
 * Debian 10/Buster, PHP 7.2.x, 10.3.22-MariaDB.
 * RaspberryPi 4 with Debian Buster
-* ~~Ubuntu 20.04 Server (Minimal Installation + OpenSSH-Server)~~
-* CentOS (full compatible since Version 1.4.0)
 
 Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
