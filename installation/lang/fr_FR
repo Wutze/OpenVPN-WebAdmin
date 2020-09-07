@@ -9,12 +9,12 @@
 # https://www.gnu.org/licenses/agpl-3.0.en.html
 #
 # @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
-# 
+#
 # @author    Wutze
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.2.0
+# @version		1.4.1
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # Traduit de l'allemand vers le français avec : https://www.deepl.com/translator
@@ -54,10 +54,11 @@ SELECT08="entrez dans votre propre répertoire web"
 SELECT09="Propriétaire du répertoire www-data"
 SELECT10="un autre propriétaire"
 SELECT11="Installer les fonctions de débogage ?"
+SELECT12="Installer les éditeur de pare-feu ?"
 SELECT13="Activer le téléchargement du client ?"
 SELECT20="Installer toutes les extensions ?"
 
-MISSING="I Miss :"
+MISSING="Je regrette :"
 INSTALL="Utilisez simplement l'installation automatique des paquets manquants."
 OONLY="Une seule sélection possible !"
 ERROR01="Vous essayez d'installer en même temps :"

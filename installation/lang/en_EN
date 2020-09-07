@@ -9,12 +9,12 @@
 # https://www.gnu.org/licenses/agpl-3.0.en.html
 #
 # @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
-# 
+#
 # @author    Wutze
 # @copyright 2020 OpenVPN-WebAdmin
 # @link			https://github.com/Wutze/OpenVPN-WebAdmin
 # @see				Internal Documentation ~/doc/
-# @version		1.2.0
+# @version		1.4.1
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 ATTENTION="ATTENTION!
@@ -52,6 +52,7 @@ SELECT08="or enter your own directory"
 SELECT09="Set owner webpath to www-data"
 SELECT10="or other self defined owner"
 SELECT11="Install Debug Functions?"
+SELECT12="Install Firewalleditor?"
 SELECT13="Activate client download?"
 SELECT20="Install all extensions?"
 
