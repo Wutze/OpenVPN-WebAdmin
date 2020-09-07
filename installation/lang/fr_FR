@@ -24,21 +24,21 @@ Votre serveur VPN ne doit jamais être directement connecté à l'internet, sino
 
 En outre, vous devez ajuster votre pare-feu sous /usr/sbin/firewall.sh en conséquence, afin que le système soit suffisamment protégé.
 
-Pour être toujours informé des erreurs dans le système, je recommande d installer \"logwatch\" et \"fail2ban\". Vous pouvez trouver des informations à ce sujet sur Internet".
+Pour être toujours informé des erreurs dans le système, je recommande d installer \"logwatch\" et \"fail2ban\". Vous pouvez trouver des informations à ce sujet sur Internet"
 
 CONFIG01="Pas de fichier de configuration"
-CONFIG02="Copiez d'abord l'exemple de config.conf vers config.conf et modifiez le fichier".
+CONFIG02="Copiez d'abord l'exemple de config.conf vers config.conf et modifiez le fichier"
 CONFIG03="Exemple : cp config.conf.example config.conf"
 CONFIG04="to edit : nano config.conf"
 
 PLSWAIT1="Veuillez patienter, mise à jour/installation du système ..."
 
 USER01="Problème de droits !"
-USER02="L'installation ne peut être effectuée qu'en tant que root".
+USER02="L'installation ne peut être effectuée qu'en tant que root"
 USER03="Installation avortée"
 
 BREAK="Scénario avorté"
-BEFOR="Appuyez sur ENTER pour démarrer l'installation ou sur ctrl+c pour l'interrompre".
+BEFOR="Appuyez sur ENTER pour démarrer l'installation ou sur ctrl+c pour l'interrompre"
 
 SELECT_A="Sélection des options d'installation"
 SELECT_B="Installation avec"
@@ -74,8 +74,8 @@ SETVPN04="MySQL Host\n(localhost, IP ou FQDN)\n\nSi vous souhaitez utiliser un s
 SETVPN05="Mot de passe racine MySQL\n(Le mot de passe ne doit pas être vide. Veuillez configurer ceci avant"
 SETVPN06= "Nom d'utilisateur MySQL pour la base de données OpenVPN"
 SETVPN07="Mot de passe utilisateur MySQL pour la base de données OpenVPN"
-SETVPN08="Admin Nom d'utilisateur pour le frontend web de l'OpenVPN-Admin".
-SETVPN09="Admin Mot de passe utilisateur pour le frontend web de l'OpenVPN-Admin".
+SETVPN08="Admin Nom d'utilisateur pour le frontend web de l'OpenVPN-Admin"
+SETVPN09="Admin Mot de passe utilisateur pour le frontend web de l'OpenVPN-Admin"
 SETVPN10="Nom de la base de données"
 SETVPN11="Répertoire racine du serveur web"
 SETVPN12="Correction Répertoire web de l'OpenVPN WebAdmin! (sans /)"
