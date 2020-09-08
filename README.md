@@ -1,4 +1,4 @@
-# OpenVPN WebAdmin 1.4.0
+# OpenVPN WebAdmin 1.4.1
 
 You lock your front door. But why do you leave the back entrances open? This is the same with almost all Internet accesses to your IoT, webcams and other devices.
 
@@ -27,7 +27,7 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 ## Les traductions de Webfrontend sont disponibles en
 
-## 网前翻译可在
+## 有译文
 
 * Deutsch, German, en allemand, 德语
 * Englisch, English, Anglais, 英文
@@ -75,6 +75,7 @@ For a local installation of a MySQL server, you will automatically be asked to e
 
 * Debian 10/Buster, PHP 7.2.x, 10.3.22-MariaDB.
 * RaspberryPi 4 with Debian Buster
+* CentOS 8
 
 Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
