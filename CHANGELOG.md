@@ -1,5 +1,18 @@
 # OpenVPN-WebAdmin Version History
 
+## 1.4.1
+
+- Installation script completely rebuilt
+- Clearer structure
+- Clearer variables
+- many errors eliminated
+- Unique designations
+- Better comments
+- Messages and error messages improved
+- Create a log file for better script monitoring
+- Improvements in translations
+- CentOS8 installation now fully supported and tested!
+
 ## 1.4.0
 
 - Required modules (node_modules and ADOdb) created outside the Web folder to make backup easier.
