@@ -253,7 +253,7 @@ collect_param_webserver(){
 collect_param_webroot(){
   print_out i "create WWW Root"
   WWWROOT="/srv/www"
-  OVPNROOT="/ovpn-admin"
+  OVPNROOT="/openvpn-admin"
   OVPN_FULL_PATH=$WWWROOT$OVPNROOT
   mkdir $WWWROOT
   print_out 1 "create www-root ${WWWROOT}"
@@ -966,7 +966,7 @@ fin(){
     print_out i "${MOENABLE1}"
   fi
   datum=$(date '+%Y-%m-%d:%H.%M.%S')
-  echo ${datum}": Fin Install - thank you ;o)" > loginstall.log
+  echo ${datum}": Fin Install - thank you ;o)" >> loginstall.log
 }
 
 #
