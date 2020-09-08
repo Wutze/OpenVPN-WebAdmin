@@ -531,21 +531,24 @@ install_programs_now(){
   elif [ "${OS}" == "centos" ]; then
     print_out i "Install epel-release ${OS}"
     yum install epel-release -y  >> loginstall.log
-    control_box $? "${OS}-enable ebel-release"
+    control_box $? "${OS}-enable epel-release"
     print_out i "Update ${OS}"
     yum update -y >> loginstall.log
     control_box $? "${OS}-Update"
     print_out i "Install ${OS}"
     yum install ${webserver} ${autoinstall} ${mysqlserver} -y >> loginstall.log
+    firewall-cmd --permanent --add-service=http
+    firewall-cmd --reload
+    systemctl start httpd
     control_box $? "${OS}-Install"
-    print_out i "enable node.js ${OS}"
-    yum module enable nodejs:12 >> loginstall.log
-    control_box $? "${OS}-enable njode.js"
-    print_out i "Install node.js ${OS}"
-    yum install nodejs >> loginstall.log
-    control_box $? "${OS}-Install node.js"
+    print_out i "enable/install node.js ${OS}"
+    yum module enable nodejs:10 >> loginstall.log
+    yum install nodejs -y >> loginstall.log
+    control_box $? "${OS}-enable/install njode.js"
     print_out i "Install yarn ${OS}"
-    npm install -g yarn >> loginstall.log
+    curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+    rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
+    yum install yarn -y
     control_box $? "${OS}-Install yarn"
   fi
   print_out 1 "Installation Ok -> ${OS}"
