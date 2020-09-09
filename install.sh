@@ -537,9 +537,10 @@ install_programs_now(){
     control_box $? "${OS}-Update"
     print_out i "Install ${OS}"
     yum install ${webserver} ${autoinstall} ${mysqlserver} -y >> loginstall.log
-    firewall-cmd --permanent --add-service=http
-    firewall-cmd --reload
-    systemctl start httpd
+    firewall-cmd --permanent --add-service=http >> loginstall.log
+    firewall-cmd --reload >> loginstall.log
+    systemctl start httpd >> loginstall.log
+    systemctl enable httpd >> loginstall.log
     control_box $? "${OS}-Install"
     print_out i "enable/install node.js ${OS}"
     yum module enable nodejs:10 >> loginstall.log
@@ -548,7 +549,7 @@ install_programs_now(){
     print_out i "Install yarn ${OS}"
     curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
     rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
-    yum install yarn -y
+    yum install yarn -y >> loginstall.log
     control_box $? "${OS}-Install yarn"
   fi
   print_out 1 "Installation Ok -> ${OS}"
