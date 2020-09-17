@@ -63,6 +63,16 @@ FEHLER01="Du versuchst gleichzeitig zu installieren:"
 FEHLER03="und"
 INSTMESS="Du denkst Du brauchst mysql nicht? Falsch! Noch mal von vorn! Eine MySQL Auswahl musst Du treffen!"
 
+CENTOSME="Eine Nachricht nur für CentOS Benutzer.
+
+Du hast gehört eine Firewall schützt Dich?
+
+Du hast Angst vor Crackern, weil Du so viele Berichte darüber gelesen hast. Niemand kann etwas auf Deinem Server tun, ohne das ein Ansatzpunkt dafür existiert. Das können Sicherheitslücken, Fehlkonfigurationen oder absichtlich installierte Hintertüren sein.
+
+Sorge dafür das Du weißt, was auf Deinem System passiert, eine Firewall wird Dir nicht dabei helfen das System abzusichern!
+
+Wenn Du das System installieren möchtest, dann wird das Script Deine Firewall deaktivieren. Stimme bitte mit \"Ja\" zu. Lehnst Du ab, wird die Installation des Systems abgebrochen."
+
 MYSQL01="Vergebe bitte ein Root-Passwort für den MySQL-Server ein"
 MYSQL02="Create DB-PW"
 

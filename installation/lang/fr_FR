@@ -65,6 +65,16 @@ ERROR01="Vous essayez d'installer en même temps :"
 ERROR03="et"
 INSTMESS="Vous pensez que vous n'avez pas besoin de mysql ? Faux ! Recommençons ! Vous devez faire un choix MySQL !"
 
+CENTOSME="Un message réservé aux utilisateurs de CentOS.
+
+Vous avez entendu dire qu'un pare-feu vous protège ?
+
+Vous avez peur des crackers parce que vous avez lu tant de rapports à leur sujet. Personne ne peut rien faire sur votre serveur sans avoir un point de départ. Il peut s'agir de failles de sécurité, d'une mauvaise configuration ou d'une installation intentionnelle de portes dérobées.
+
+Assurez-vous que vous savez ce qui se passe sur votre système, un pare-feu ne vous aidera pas à sécuriser votre système !
+
+Si vous souhaitez installer le système, le script désactivera votre pare-feu. Veuillez accepter la réponse \"oui\". Si vous refusez, l'installation du système sera interrompue."
+
 MYSQL01="Veuillez entrer un mot de passe root pour le serveur MySQL"
 MYSQL02="Créer une DB-PW"
 

@@ -63,6 +63,16 @@ FEHLER01="You try to install at the same time:"
 FEHLER03="and"
 INSTMESS="You think you don't need mysql? Wrong! Let's start again. You have to make a MySQL choice!"
 
+CENTOSME="A message only for CentOS users.
+
+You have heard that a firewall protects you?
+
+You are afraid of crackers because you have read so many reports about them. Nobody can do anything on your server without a starting point. This could be security holes, misconfiguration or intentionally installed backdoors.
+
+Make sure that you know what is happening on your system, a firewall will not help you secure your system!
+
+If you want to install the system, the script will disable your firewall. Please agree with \"Yes\". If you refuse, the installation of the system will be aborted."
+
 MYSQL01="Insert your new database password"
 MYSQL02="Create DB-PW"
 
