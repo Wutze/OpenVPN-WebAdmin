@@ -266,9 +266,14 @@ collect_param_webroot(){
 #
 collect_param_owner(){
   print_out i "define Owner for permissions"
-  OWNER="www-data"
-  GROUPOWNER="www-data"
-  print_out 1 "Set permissions: ${OWNER} ${GROUPOWNER}"
+  if [ "${OS}" == "debian" ]; then
+    OWNER="www-data"
+    GROUPOWNER="www-data"
+  elif [ "${OS}" == "centos" ]; then
+    OWNER="apache"
+    GROUPOWNER="apache"
+  fi
+  print_out 1 "Set permissions on ${OS} : ${OWNER} ${GROUPOWNER}"
 }
 
 #
@@ -529,6 +534,18 @@ install_programs_now(){
     npm install -g yarn >> loginstall.log
     control_box $? "${OS}-npm/yarn Install"
   elif [ "${OS}" == "centos" ]; then
+    ## disable the firewall bullshit
+    if (whiptail --title "Question" --yesno "${CENTOSME}" ${r} ${c}); then
+      control_box 1 "Continue."
+    else
+      control_box 0 "You would rather work with a pseudo security. Script end"
+      exit
+    fi
+    
+    systemctl stop firewalld
+    systemctl disable firewalld
+    systemctl mask --now firewalld
+  
     print_out i "Install epel-release ${OS}"
     yum install epel-release -y  >> loginstall.log
     control_box $? "${OS}-enable epel-release"
@@ -537,8 +554,13 @@ install_programs_now(){
     control_box $? "${OS}-Update"
     print_out i "Install ${OS}"
     yum install ${webserver} ${autoinstall} ${mysqlserver} -y >> loginstall.log
-    firewall-cmd --permanent --add-service=http >> loginstall.log
-    firewall-cmd --reload >> loginstall.log
+    
+    ## nachfolgend nur noch Windowsuser Scheiße im Mäntelchen von CentOS
+    if [ $installsql = "1" ]; then
+      systemctl enable mariadb
+      systemctl start mariadb
+    fi
+
     systemctl start httpd >> loginstall.log
     systemctl enable httpd >> loginstall.log
     control_box $? "${OS}-Install"
@@ -609,8 +631,23 @@ set_mysql_rootpw(){
     return
   fi
 
-	echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
-	echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
+## das funktioniert unter Cent!
+
+mysql_secure_installation >> loginstall.log 2>&1 <<EOF
+
+y
+${DBROOTPW}
+${DBROOTPW}
+y
+y
+y
+y
+EOF
+
+
+
+#	echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
+#	echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
   control_box $? "set mysql root pw"
 }
 
