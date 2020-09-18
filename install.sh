@@ -436,7 +436,7 @@ start_install(){
 
   print_out i "${BEFOR}"
   print_out r
-  print_out 1 "@pos015 | Collect Informations from your Selections"
+  print_out 1 "@pos015 | Select Informations from your Selections"
   do_select
 
   while read -r line;
@@ -468,7 +468,7 @@ start_install(){
           ;;
       esac
   done < <(echo "${sel}")
-  print_out 1 "pos@015 | fin collection"
+  print_out 1 "pos@015 | fin selection"
 }
 
 
@@ -479,6 +479,7 @@ start_install(){
 # @pos016
 #
 check_config(){
+  print_out i "check config"
   if [[ -f "${config}" ]]; then
     # source it
     source ${config}
@@ -491,6 +492,7 @@ check_config(){
     echo -e ${CROSS}" Script "${BREAK}
     exit
   fi
+  print_out 1 "read config"
 }
 
 #
@@ -500,11 +502,13 @@ check_config(){
 # @pos017
 #
 collect_param_install_programs(){
+  print_out i "collect install programms"
   if [ "${OS}" == "debian" ]; then
     autoinstall="openvpn php-mysql php-zip php unzip git wget sed curl git net-tools npm nodejs"
   elif [ "${OS}" == "centos" ]; then
     autoinstall="openvpn php php-mysqlnd php-zip unzip git wget sed curl git net-tools tar npm"
   fi
+  print_out 1 "collect install programms for ${OS}"
 }
 
 #
@@ -536,9 +540,9 @@ install_programs_now(){
   elif [ "${OS}" == "centos" ]; then
     ## disable the firewall bullshit
     if (whiptail --title "Question" --yesno "${CENTOSME}" ${r} ${c}); then
-      control_box 1 "Continue."
+      print_out 1 "Continue."
     else
-      control_box 0 "You would rather work with a pseudo security. Script end"
+      print_out 0 "You would rather work with a pseudo security. Script end"
       exit
     fi
     
@@ -583,6 +587,7 @@ install_programs_now(){
 # @pos019
 #
 give_me_input(){
+  print_out i "Setup the variables"
   ## Message Boxen/Input
   ## Setup VPN
   ip_server=$(whiptail --inputbox "${SETVPN01}" ${r} ${c} --title "Hostname/IP" 3>&1 1>&2 2>&3)
@@ -614,6 +619,8 @@ give_me_input(){
   control_box $? "Web Admin User"
   admin_user_pass=$(whiptail --inputbox "${SETVPN09}" ${r} ${c} --title "Web-Admin PW" 3>&1 1>&2 2>&3)
   control_box $? "Web Admin PW"
+  
+  print_out 1 "the setup have all variables now"
 }
 
 #
@@ -740,6 +747,7 @@ make_certs(){
 
   nobody_group=$(id -ng nobody)
   sed -i "s/group nogroup/group ${nobody_group}/" "/etc/openvpn/server.conf"
+  print_out 1 "Creating the certificates"
 }
 
 #
@@ -750,6 +758,7 @@ make_certs(){
 #
 make_openvpn_config_files(){
   # Replace in the client configurations with the ip of the server and openvpn protocol
+  print_out i "make config-files for vpn"
   for file in $(find ../ -name client.ovpn); do
     sed -i "s/remote xxx\.xxx\.xxx\.xxx 443/remote ${ip_server} ${server_port}/" ${file}
     echo "<ca>" >> ${file}
@@ -779,6 +788,8 @@ make_openvpn_config_files(){
   ## Copy bash scripts (which will insert row in MySQL)
   cp -r ${CURRENT_PATH}"/installation/scripts" "/etc/openvpn/"
   chmod +x "/etc/openvpn/scripts/"*
+  
+  print_out 1 "make config-files vpn"
 
 }
 
@@ -979,7 +990,7 @@ write_config(){
 # @pos031
 #
 set_permissions(){
-
+  print_out i "Set permissions"
   chown -R ${OWNER}:${GROUPOWNER} ${OVPN_FULL_PATH}
   chown -R ${OWNER}:${GROUPOWNER} ${WWWROOT}"/vpn"
   chown ${OWNER}:${GROUPOWNER} ${WWWROOT}"/vpn/conf/server/server.conf"
@@ -1016,7 +1027,7 @@ fin(){
 # @pos034
 #
 function create_firewall(){
-print_out i "Setup firewall"
+print_out i "create simple firewall"
 
 ## create systemd Service
 echo "
@@ -1073,12 +1084,14 @@ primary_nic=`route | grep '^default' | grep -o '[^ ]*$'`
 chmod +x /usr/sbin/firewall.sh
 systemctl enable firewall.service
 systemctl start firewall
+print_out 1 "create simple firewall"
 }
 
 #
 # creates the paths
 # obsolete
 function create_dirs(){
+  print_out i "create directorys, webfolder, files"
   mkdir $WWWROOT
   mkdir $OVPN_FULL_PATH
   if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
@@ -1094,7 +1107,7 @@ function create_dirs(){
   mkdir {$WWWROOT/vpn,$WWWROOT/vpn/history,$WWWROOT/vpn/history/server,$WWWROOT/vpn/history/osx,$WWWROOT/vpn/history/gnu-linux,$WWWROOT/vpn/history/win}
   cp -r "$CURRENT_PATH/"installation/conf $WWWROOT"/vpn/"
   ln -s /etc/openvpn/server.conf $WWWROOT"/vpn/conf/server/server.conf"
-
+  print_out 1 "create directorys, webfolder, files"
 }
 
 ##
