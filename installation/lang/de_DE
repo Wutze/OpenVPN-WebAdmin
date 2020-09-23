@@ -22,7 +22,7 @@ Dein VPN-Server sollte keinesfalls direkt mit dem Internet verbunden sein, da de
 
 Außerdem musst Du Deine Firewall unter /usr/sbin/firewall.sh entsprechend anpassen, damit das System ausreichend geschützt wird.
 
-Um immer über Fehler im System informiert zu sein, empfehle ich die Installation von \"logwatch\" und \"fail2ban\". Entsprechende dazu Informationen findest Du im Internet."
+Um immer über Fehler im System informiert zu sein, empfehle ich die Installation von \"logwatch\" und \"fail2ban\". Entsprechende Informationen dazu findest Du im Internet."
 
 CONFIG01="Keine Konfigurationsdatei"
 CONFIG02="Kopiere zuerst die config.conf.example nach config.conf und editiere die Datei"
