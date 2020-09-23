@@ -130,3 +130,8 @@ AUPDATE01="Après la mise à jour, veuillez vider le cache du navigateur!"
 
 MOENABLE0="Vous avez installé des modules. Pour activer ces modules, veuillez transférer les informations"
 MOENABLE1="suivantes de /include/module.config.php à /include/config.php"
+
+INFO001="Veuillez patienter, l'installation peut prendre jusqu'à 10 minutes"
+INFO002="Vous pouvez vérifier l'avancement de l'installation avec tail -f /opt/[ovpn-git]/loginstall.log"
+INFO003="voir dans une session séparée de SSH"
+

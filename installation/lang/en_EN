@@ -128,3 +128,8 @@ AUPDATE01="Please empty the browser cache after the update!"
 
 MOENABLE0="You installed modules. To enable these modules, transfer the following"
 MOENABLE1="information from /include/module.config.php to /include/config.php"
+
+INFO001="Please wait, the installation can take up to 10 minutes"
+INFO002="You can check the progress of the installation with tail -f /opt/[ovpn-git]/loginstall.log"
+INFO003="view in a separate SSH session"
+

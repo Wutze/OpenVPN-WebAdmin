@@ -73,19 +73,19 @@ Sorge dafür das Du weißt, was auf Deinem System passiert, eine Firewall wird D
 
 Wenn Du das System installieren möchtest, dann wird das Script Deine Firewall deaktivieren. Stimme bitte mit \"Ja\" zu. Lehnst Du ab, wird die Installation des Systems abgebrochen."
 
-MYSQL01="Vergebe bitte ein Root-Passwort für den MySQL-Server ein"
-MYSQL02="Create DB-PW"
+MYSQL01="Vergebe bitte ein Root-Passwort für den MySQL-Server"
+MYSQL02="Erzeuge Datenbank Passwort"
 
 SETVPN01="Server Hostname/IP\nVerwende den Namen so, wie der Server aus dem Internet erreicht werden soll!"
 SETVPN02="OpenVPN protocol (tcp or udp)\nWenn die Installation in einer VM stattfindet, nutze bitte udp:"
 SETVPN03="OpenVPN Server Port\nDefault Port tcp or udp 1194:"
 SETVPN04="MySQL Host\n(localhost, IP or FQDN)\n\nWenn Du einen externen Datenbankserver nutzen möchtest,\nkonfiguriere da zuerst Benutzername und Passwort."
-SETVPN05="MySQL Root Password\n(The password must not be empty. Please configure this before!"
-SETVPN06="MySQL Benutzername für die OpenVPN Datenbank"
-SETVPN07="MySQL Benutzerpasswort für die OpenVPN Datenbank"
-SETVPN08="Admin Benutzername für das Webfrontend des OpenVPN-Admin"
-SETVPN09="Admin Benutzerpasswort für das Webfrontend des OpenVPN-Admin"
-SETVPN10="Datenbankname für die Datenbank"
+SETVPN05="MySQL Root Password:\nDas Passwort sollte nicht leer sein und muss vor der Installation gesetzt bzw. Dir bekannt sein. (Du benötigst das Passwort nur zur Installation)"
+SETVPN06="Datenbankinformationen für die Installation:\nMySQL Benutzername für die OpenVPN Datenbank.  (frei konfigurierbar)"
+SETVPN07="Datenbankinformationen für die Installation:\nMySQL Benutzerpasswort für die OpenVPN Datenbank"
+SETVPN08="Logindaten für das Webfrontend:\nAdmin Benutzername für das Webfrontend des OpenVPN-Admin. (frei konfigurierbar)"
+SETVPN09="Logindaten für das Webfrontend:\nAdmin Benutzerpasswort für das Webfrontend des OpenVPN-Admin."
+SETVPN10="Datenbankinformationen für die Installation:\nDatenbankname für die OVPN Datenbank (remote oder lokal)"
 SETVPN11="Rootverzeichnis des Webservers"
 SETVPN12="Korrektur Webverzeichnis OpenVPN-WebAdmin! (ohne /)"
 
@@ -127,3 +127,9 @@ AUPDATE01="Nach dem Update bitte Browsercache leeren!"
 
 MOENABLE0="Du hast Module installiert. Zum einschalten dieser Module übertrage bitte die folgenden Informationen"
 MOENABLE1="aus der /include/module.config.php in /include/config.php"
+
+
+INFO001="Bitte warten, die Installation kann bis zu 10 Minuten andauern."
+INFO002="Du kannst den Fortgang der Installation mit tail -f /opt/[ovpn-git]/loginstall.log"
+INFO003="in einer eigenen SSH Session betrachten"
+
