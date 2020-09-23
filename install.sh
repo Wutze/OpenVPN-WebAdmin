@@ -103,25 +103,25 @@ fi
 control_box(){
   exitstatus=$?
   if [ ${exitstatus} = 0 ]; then
-      print_out 1 "Execution Ok: ${2}"
+      message_print_out 1 "Execution Ok: ${2}"
   else
-      print_out 0 "Execution break: ${2}"
+      message_print_out 0 "Execution break: ${2}"
       exit
   fi
 }
 
 #
 # Errors in the script are intercepted and displayed here
-# @Call After executing a command: control_script "description"
+# @Call After executing a command: control_script_message "description"
 # @param $? + Description
 # @return continue script or or exit when error with exit 100
 # @see additional description @pos100
 # @pos002
 #  
-control_script(){
+control_script_message(){
   if [ ! $? -eq 0 ]
   then
-  print_out 0 "Error ${1} "
+  message_print_out 0 "Error ${1} "
   exit 100
   fi
 }
@@ -129,12 +129,12 @@ control_script(){
 #
 # formats the notes and messages in an appealing form
 # @param [1|0|i|d|r] [Text]
-# @example: print_out 1 "your text"
+# @example: message_print_out 1 "your text"
 # @return formated Text with "0" red cross, "1" green tick, "i"nfo, "d"one Message or need input with "r"ead
 # @see additional description @pos100
 # @pos003
 #  
-print_out(){
+message_print_out(){
   case "${1}" in
     1)
     echo -e " ${TICK} ${2}"
@@ -153,14 +153,14 @@ print_out(){
     ;;
   esac
   datum=$(date '+%Y-%m-%d:%H.%M.%S')
-  echo ${datum}": "${2} >> loginstall.log
+  echo ${datum}": "${2} >> ${CURRENT_PATH}/loginstall.log
 }
 
 ### Additional Description
 # @pos100
 # The two functions should be used in combination.
-# "print_out" should indicate where the script is and what it wants to do,
-# "control_script" or "control_box" should then indicate the completion of the action,
+# "message_print_out" should indicate where the script is and what it wants to do,
+# "control_script_message" or "control_box" should then indicate the completion of the action,
 # whether it was successful or no
 ###
 
@@ -181,7 +181,7 @@ ${COL_BLUE}        ◢■◤
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■${COL_NC}
 "
 datum=$(date '+%Y-%m-%d:%H.%M.%S')
-echo ${datum}": Start Install" > loginstall.log
+echo ${datum}": Start Install" > ${CURRENT_PATH}/loginstall.log
 }
 
 #
@@ -190,24 +190,24 @@ echo ${datum}": Start Install" > loginstall.log
 # you can take only one database, else error message
 # @return $installsql [1|0]
 # @return $mysqlserver for install
-# @callfrom function start_install
+# @callfrom function do_select_start_install
 # @pos005
 #
 collect_param_mysql(){
-  print_out i "define selectet SQL-Server|SQL-Client"
+  message_print_out i "define selectet SQL-Server|SQL-Client"
   # If the variable xxx already contains a value, it means this function
   # has been called before. A double installation is not allowed
   # exit script
   if [ ${mysqlserver} ]; then
-    print_out 0 "${FEHLER01} ${SELECT03} ${FEHLER03} ${SELECT04}. ${ONEONLY}"
-    print_out 0 ${BREAK}
+    message_print_out 0 "${FEHLER01} ${SELECT03} ${FEHLER03} ${SELECT04}. ${ONEONLY}"
+    message_print_out 0 ${BREAK}
     exit
   fi
   if [ ${1} = 3 ]; then
     mysqlserver="mariadb-server"
     # Definition whether local server [1] or remote [0]
     installsql="1"
-    print_out 1 "Install Server on ${OS}: ${mysqlserver}"
+    message_print_out 1 "Install Server on ${OS}: ${mysqlserver}"
   elif [ ${1} = 4 ]; then
     if [ "${OS}" = "centos" ]; then
       mysqlserver="mysql"
@@ -216,20 +216,20 @@ collect_param_mysql(){
       mysqlserver="default-mysql-client"
       installsql="0"
     fi
-    print_out 1 "Install Client on ${OS}: ${mysqlserver}"
+    message_print_out 1 "Install Client on ${OS}: ${mysqlserver}"
   fi
 }
 
 #
 # all collect Functions collect the script options
-# @callfrom function start_install
+# @callfrom function do_select_start_install
 # @pos006
 #
 collect_param_webserver(){
-  print_out i "define selectet Webserver"
+  message_print_out i "define selectet Webserver"
   if [ ${webserver} ]; then
-    print_out 0 "${FEHLER01} ${SELECT04} ${FEHLER03} ${SELECT05}. ${ONEONLY}"
-    print_out 0 ${BREAK}
+    message_print_out 0 "${FEHLER01} ${SELECT04} ${FEHLER03} ${SELECT05}. ${ONEONLY}"
+    message_print_out 0 ${BREAK}
     exit
   fi
   if [ ${1} = 5 ]; then
@@ -238,34 +238,32 @@ collect_param_webserver(){
     else
       webserver="apache2"
     fi
-    print_out 1 "Install on ${OS}: ${webserver}"
+    message_print_out 1 "Install on ${OS}: ${webserver}"
   elif [ ${1} = 6 ]; then
     webserver="nginx"
-    print_out 1 "Install on ${OS}: ${webserver}"
+    message_print_out 1 "Install on ${OS}: ${webserver}"
   fi
 }
 
 #
 # set var webroot
-# @callfrom function start_install
+# @callfrom function do_select_start_install
 # @pos007
 #
 collect_param_webroot(){
-  print_out i "create WWW Root"
+  message_print_out i "Set Parameters Webserver"
   WWWROOT="/srv/www"
   OVPNROOT="/openvpn-admin"
   OVPN_FULL_PATH=$WWWROOT$OVPNROOT
-  mkdir $WWWROOT
-  print_out 1 "create www-root ${WWWROOT}"
 }
 
 #
 # set the php-script owner
-# @callfrom function start_install
+# @callfrom function do_select_start_install
 # @pos008
 #
 collect_param_owner(){
-  print_out i "define Owner for permissions"
+  message_print_out i "define Owner for permissions"
   if [ "${OS}" == "debian" ]; then
     OWNER="www-data"
     GROUPOWNER="www-data"
@@ -273,16 +271,16 @@ collect_param_owner(){
     OWNER="apache"
     GROUPOWNER="apache"
   fi
-  print_out 1 "Set permissions on ${OS} : ${OWNER} ${GROUPOWNER}"
+  message_print_out 1 "define permissions on ${OS} : ${OWNER}:${GROUPOWNER}"
 }
 
 #
 # copy install.conf, when you call it
-# @callfrom function start_install
+# @callfrom function do_select_start_install
 # @pos009
 #
 copy_config(){
-  print_out i "copy install.config"
+  message_print_out i "copy install.config"
   cp installation/config.conf.sample installation/config.conf
   control_box $0 "copy config.conf"
 }
@@ -296,7 +294,7 @@ copy_config(){
 # @pos010
 #
 set_language(){
-  print_out i "Select Language"
+  message_print_out i "Select Language"
   # Split System-Variable $LANG
   var1=${LANG%.*}
   ## Select Language to install
@@ -308,7 +306,7 @@ set_language(){
     3>&1 1>&2 2>&3)
   RET=$?
   if [ ${RET} -eq 1 ]; then
-    print_out 0 "Exit select language"
+    message_print_out 0 "Exit select language"
     exit
   elif [ ${RET} -eq 0 ]; then
     case "${var2}" in
@@ -331,9 +329,9 @@ set_language(){
     esac
   fi
   if [ $var2 = "AUTO" ]; then
-    print_out 1 "Set Language to: ${var1}"
+    message_print_out 1 "Set Language to: ${var1}"
   else
-    print_out 1 "Set Language to: ${var2}"
+    message_print_out 1 "Set Language to: ${var2}"
   fi
 }
 
@@ -350,12 +348,12 @@ check_user(){
   local str="Root user check"
   if [[ "${EUID}" -eq 0 ]]; then
     # they are root and all is good
-    print_out 1 "${str}"
+    message_print_out 1 "${str}"
   else
-    print_out 0 "${str}"
-    print_out i "${COL_LIGHT_RED}${USER01}${COL_NC}"
-    print_out i "${USER02}"
-    print_out 0 "${USER03}"
+    message_print_out 0 "${str}"
+    message_print_out i "${COL_LIGHT_RED}${USER01}${COL_NC}"
+    message_print_out i "${USER02}"
+    message_print_out 0 "${USER03}"
     exit 1
   fi
 }
@@ -369,16 +367,17 @@ set_os_version(){
   if [[ -e /etc/debian_version ]]; then
     OS="debian"
     OSVERSION=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
-    print_out i "Install on:  ${OS} ${OSVERSION}"
+    message_print_out i "Install on:  ${OS} ${OSVERSION}"
     # Fix Debian 10 Fehler
     export PATH=$PATH:/usr/sbin:/sbin
   elif [[ -e /etc/centos-release ]]; then
     OS="centos"
     OSVERSION=$(grep -oE '[0-9]+' /etc/centos-release | head -1)
-    print_out i "Install on:  ${OS} ${OSVERSION}"
+    message_print_out i "Install on:  ${OS} ${OSVERSION}"
   else
-    print_out 0 "No suitable operating system found, sorry"
-    print_out 0 ${BREAK}
+    message_print_out 0 "No suitable operating system found, sorry"
+    message_print_out 0 ${BREAK}
+    exit
   fi
 }
 
@@ -388,12 +387,12 @@ set_os_version(){
 # @pos013
 #
 test_system(){
-  print_out i "checks if all required programs are installed"
+  message_print_out i "checks if all required programs are installed"
   for i in openvpn mysql php yarn node unzip wget sed route tar; do
     which $i > /dev/null
     if [ $? -ne 0 ]; then
-      print_out 0 "${MISSING} ${COL_LIGHT_RED}${i}${COL_NC}! ${INSTALL}"
-      print_out 0 "${BREAK}"
+      message_print_out 0 "${MISSING} ${COL_LIGHT_RED}${i}${COL_NC}! ${INSTALL}"
+      message_print_out 0 "${BREAK}"
       exit
     fi
   done
@@ -401,12 +400,12 @@ test_system(){
 
 #
 # Selection of installation options
-# @callfrom function start_install
+# @callfrom function do_select_start_install
 # @pos014
 #
 do_select(){
   # nginx fehlt noch
-  print_out i "give me inputs"
+  message_print_out i "give me inputs"
 	sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
     "1" "${SELECT01} " on \
     "2" "${SELECT02} " on \
@@ -427,30 +426,32 @@ do_select(){
 # @callfrom function main
 # @pos015
 #
-start_install(){
-  print_out 1 "Intro Attention"
+do_select_start_install(){
+  message_print_out 1 "Intro Attention"
   #### Start Script with Out- and Inputs
   ## first call funcions
+  ## creates a readme first file with installation information
   echo "${ATTENTION}" > README.FIRST.txt
   whiptail --textbox README.FIRST.txt --title "Information" ${r} ${c}
 
-  print_out i "${BEFOR}"
-  print_out r
-  print_out 1 "@pos015 | Select Informations from your Selections"
+  message_print_out i "${BEFOR}"
+  message_print_out r
+  message_print_out 1 "Select the installationoptions:"
+  ## go to @pos014, select install options
   do_select
-
+  ## execute the previously selected options
   while read -r line;
   do #echo "${line}";
       case ${line} in
-          1) copy_config
+          1) copy_config ## @pos009
           ;;
-          2) collect_param_install_programs ${line}
+          2) collect_param_install_programs ${line} ## @pos017
           ;;
-          3|4) collect_param_mysql ${line}
+          3|4) collect_param_mysql ${line} ## @pos005
           ;;
-          5|6) collect_param_webserver ${line}
+          5|6) collect_param_webserver ${line} ## @pos006
           ;;
-          9|10) collect_param_owner ${line}
+          9|10) collect_param_owner ${line} ## @pos008
           ;;
           11) modules_dev="1"
               MOD_ENABLE="1"
@@ -468,7 +469,7 @@ start_install(){
           ;;
       esac
   done < <(echo "${sel}")
-  print_out 1 "pos@015 | fin selection"
+  message_print_out 1 "Fin selection"
 }
 
 
@@ -479,7 +480,7 @@ start_install(){
 # @pos016
 #
 check_config(){
-  print_out i "check config"
+  message_print_out i "check install-config"
   if [[ -f "${config}" ]]; then
     # source it
     source ${config}
@@ -489,26 +490,27 @@ check_config(){
     echo -e ${CONFIG02}
     echo -e ${COL_LIGHT_GREEN}${CONFIG03}${COL_NC}
     echo -e ${CONFIG04}
-    echo -e ${CROSS}" Script "${BREAK}
+    echo -e ${CROSS}" "${BREAK}
+    message_print_out 0 "error check install-config"
     exit
   fi
-  print_out 1 "read config"
+  message_print_out 1 "read install-config"
 }
 
 #
 # you need this programs
 # Here it is defined which operating system needs which programs
-# @callfrom function start_install
+# @callfrom function do_select_start_install
 # @pos017
 #
 collect_param_install_programs(){
-  print_out i "collect install programms"
+  message_print_out i "collect install programms"
   if [ "${OS}" == "debian" ]; then
     autoinstall="openvpn php-mysql php-zip php unzip git wget sed curl git net-tools npm nodejs"
   elif [ "${OS}" == "centos" ]; then
     autoinstall="openvpn php php-mysqlnd php-zip unzip git wget sed curl git net-tools tar npm"
   fi
-  print_out 1 "collect install programms for ${OS}"
+  message_print_out 1 "collect install programms for ${OS}"
 }
 
 #
@@ -518,31 +520,31 @@ collect_param_install_programs(){
 #
 install_programs_now(){
   if [ ! ${mysqlserver} ]; then
-    print_out 0 "${INSTMESS}"
-    print_out 0 "${BREAK}"
+    message_print_out 0 "${INSTMESS}"
+    message_print_out 0 "${BREAK}"
     exit
   fi
-  print_out i "Please wait, the installation can take up to 10 minutes."
-  print_out i "You can view the install progress in /opt/[ovpn-git] via"  
-  print_out i "tail -f loginstall.log in another ssh session"
+  message_print_out i "${INFO001}"
+  message_print_out i "${INFO002}"  
+  message_print_out i "${INFO003}"
   if [ "${OS}" == "debian" ]; then
-    print_out i "Update ${OS}"
-    apt-get update -y >> loginstall.log
-    print_out i "Upgrade ${OS}"
-    apt-get upgrade -y >> loginstall.log
+    message_print_out i "Update ${OS}"
+    apt-get update -y >> ${CURRENT_PATH}/loginstall.log
+    message_print_out i "Upgrade ${OS}"
+    apt-get upgrade -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Update"
-    print_out i "Install ${OS}"
-    apt-get install ${webserver} ${autoinstall} ${mysqlserver} -y >> loginstall.log
+    message_print_out i "Install Packages ${OS}"
+    apt-get install ${webserver} ${autoinstall} ${mysqlserver} -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install"
-    print_out i "Install npm/yarn ${OS}"
-    npm install -g yarn >> loginstall.log
+    message_print_out i "Install npm/yarn ${OS}"
+    npm install -g yarn >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-npm/yarn Install"
   elif [ "${OS}" == "centos" ]; then
     ## disable the firewall bullshit
     if (whiptail --title "Question" --yesno "${CENTOSME}" ${r} ${c}); then
-      print_out 1 "Continue."
+      message_print_out 1 "Continue."
     else
-      print_out 0 "You would rather work with a pseudo security. Script end"
+      message_print_out 0 "You would rather work with a pseudo security. Script end"
       exit
     fi
     
@@ -550,14 +552,14 @@ install_programs_now(){
     systemctl disable firewalld
     systemctl mask --now firewalld
   
-    print_out i "Install epel-release ${OS}"
-    yum install epel-release -y  >> loginstall.log
+    message_print_out i "Install epel-release ${OS}"
+    yum install epel-release -y  >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-enable epel-release"
-    print_out i "Update ${OS}"
-    yum update -y >> loginstall.log
+    message_print_out i "Update ${OS}"
+    yum update -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Update"
-    print_out i "Install ${OS}"
-    yum install ${webserver} ${autoinstall} ${mysqlserver} -y >> loginstall.log
+    message_print_out i "Install Packages ${OS}"
+    yum install ${webserver} ${autoinstall} ${mysqlserver} -y >> ${CURRENT_PATH}/loginstall.log
     
     ## nachfolgend nur noch Windowsuser Scheiße im Mäntelchen von CentOS
     if [ $installsql = "1" ]; then
@@ -565,20 +567,20 @@ install_programs_now(){
       systemctl start mariadb
     fi
 
-    systemctl start httpd >> loginstall.log
-    systemctl enable httpd >> loginstall.log
+    systemctl start httpd >> ${CURRENT_PATH}/loginstall.log
+    systemctl enable httpd >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install"
-    print_out i "enable/install node.js ${OS}"
-    yum module enable nodejs:10 >> loginstall.log
-    yum install nodejs -y >> loginstall.log
+    message_print_out i "enable/install node.js ${OS}"
+    yum module enable nodejs:10 >> ${CURRENT_PATH}/loginstall.log
+    yum install nodejs -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-enable/install njode.js"
-    print_out i "Install yarn ${OS}"
+    message_print_out i "Install yarn ${OS}"
     curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
     rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
-    yum install yarn -y >> loginstall.log
+    yum install yarn -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install yarn"
   fi
-  print_out 1 "Installation Ok -> ${OS}"
+  message_print_out 1 "Installation Ok -> ${OS}"
 }
 
 #
@@ -587,7 +589,7 @@ install_programs_now(){
 # @pos019
 #
 give_me_input(){
-  print_out i "Setup the variables"
+  message_print_out i "Setup the variables"
   ## Message Boxen/Input
   ## Setup VPN
   ip_server=$(whiptail --inputbox "${SETVPN01}" ${r} ${c} --title "Hostname/IP" 3>&1 1>&2 2>&3)
@@ -620,7 +622,7 @@ give_me_input(){
   admin_user_pass=$(whiptail --inputbox "${SETVPN09}" ${r} ${c} --title "Web-Admin PW" 3>&1 1>&2 2>&3)
   control_box $? "Web Admin PW"
   
-  print_out 1 "the setup have all variables now"
+  message_print_out 1 "the setup have all variables now"
 }
 
 #
@@ -629,18 +631,12 @@ give_me_input(){
 # @pos020
 #
 set_mysql_rootpw(){
-  print_out i "Insert/Set MySQL Root PW"
-	DBROOTPW=$(whiptail --inputbox "${MYSQL01}" ${r} ${c} --title "${MYSQL02}" 3>&1 1>&2 2>&3)
+  message_print_out i "Insert/Set MySQL Root PW"
+  DBROOTPW=$(whiptail --inputbox "${MYSQL01}" ${r} ${c} --title "${MYSQL02}" 3>&1 1>&2 2>&3)
   control_box $? "input mysql root pw"
 
-  if [ mysql -u root -p${DBROOTPW} -e exit ]; then
-    print_out 1 "root password already set"
-    return
-  fi
-
-## das funktioniert unter Cent!
-
-mysql_secure_installation >> loginstall.log 2>&1 <<EOF
+  if [ "${OS}" == "centos" ]; then
+    mysql_secure_installation >> ${CURRENT_PATH}/loginstall.log 2>&1 <<EOF
 
 y
 ${DBROOTPW}
@@ -650,11 +646,10 @@ y
 y
 y
 EOF
-
-
-
-#	echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
-#	echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
+  elif [ "${OS}" == "debian"]; then
+	echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
+	echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
+  fi
   control_box $? "set mysql root pw"
 }
 
@@ -666,7 +661,7 @@ EOF
 # @pos021
 #  
 create_database(){
-  print_out i "Setup User Password for OpenVPN-WebAdmin on your DB-Server"
+  message_print_out i "Setup User Password for OpenVPN-WebAdmin on your DB-Server"
   EXPECTED_ARGS=3
   MYSQL=`which mysql`
   Q1="CREATE DATABASE IF NOT EXISTS $1;"
@@ -692,15 +687,15 @@ create_database(){
 # @pos022
 #
 install_mysql_database(){
-  print_out i "Setup Database"
+  message_print_out i "Setup Database"
   # current only new install
   mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} ${db_name} < installation/sql/vpnadmin-1.4.0.dump
-  control_script "Insert Database Dump"
+  control_script_message "Insert Database Dump"
   mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} --database=${db_name} -e "INSERT INTO user (user_name, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
-  control_script "Insert Webadmin User"
+  control_script_message "Insert Webadmin User"
   mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} --database=${db_name} -e "INSERT INTO user (user_name, user_pass, gid, user_enable) VALUES ('${admin_user}-user', encrypt('${admin_user_pass}'),'2','1');"
-  control_script "Insert first User"
-  print_out 1 "setting up MySQL OK"
+  control_script_message "Insert first User"
+  message_print_out 1 "setting up MySQL OK"
 }
 
 #
@@ -710,7 +705,7 @@ install_mysql_database(){
 # @pos023
 #
 make_certs(){
-  print_out i "Creating the certificates"
+  message_print_out i "Creating the certificates"
 
   # Get the rsa keys
   # mal austauschen gegen "neu"
@@ -723,42 +718,47 @@ make_certs(){
 
   cd /etc/openvpn/easy-rsa
 
-  print_out i "Setup OpenVPN"
-  print_out i "Init PKI dirs and build CA certs"
+  message_print_out i "Setup OpenVPN"
+  message_print_out i "Init PKI dirs and build CA certs"
   ./easyrsa init-pki
   ./easyrsa build-ca nopass
-  print_out i "Generate Diffie-Hellman parameters"
+  message_print_out i "Generate Diffie-Hellman parameters"
   ./easyrsa gen-dh
-  print_out i "Genrate server keypair"
+  message_print_out i "Genrate server keypair"
   ./easyrsa build-server-full server nopass
-  print_out i "Generate shared-secret for TLS Authentication"
+  message_print_out i "Generate shared-secret for TLS Authentication"
   openvpn --genkey --secret pki/ta.key
-  print_out 1 "setting up EasyRSA Ok"
-
+  message_print_out 1 "setting up EasyRSA Ok"
+  message_print_out 1 "Creating the certificates"
+  
   # Copy certificates and the server configuration in the openvpn directory
   cp /etc/openvpn/easy-rsa/pki/{ca.crt,ta.key,issued/server.crt,private/server.key,dh.pem} "/etc/openvpn/"
+  message_print_out 1 "Copy Certifikates /etc/openvpn/"
   cp "${CURRENT_PATH}/installation/server.conf" "/etc/openvpn/"
+  message_print_out 1 "Copy Server Conf"
   mkdir "/etc/openvpn/ccd"
+  message_print_out 1 "make ccd dir"
   sed -i "s/port 443/port ${server_port}/" "/etc/openvpn/server.conf"
-
+  message_print_out 1 "Set Openvpn Proto"
   if [ ${openvpn_proto} = "udp" ]; then
     sed -i "s/proto tcp/proto ${openvpn_proto}/" "/etc/openvpn/server.conf"
   fi
 
   nobody_group=$(id -ng nobody)
   sed -i "s/group nogroup/group ${nobody_group}/" "/etc/openvpn/server.conf"
-  print_out 1 "Creating the certificates"
+  message_print_out 1 "Change Access OpenVPN Group"
+  message_print_out 1 "Setup OpenVPN Finish"
 }
 
 #
 # copy now all config file
 # copy keys, scripts and make server.conf
-# @callfrom function
+# @callfrom function main
 # @pos024
 #
-make_openvpn_config_files(){
+create_openvpn_config_files(){
   # Replace in the client configurations with the ip of the server and openvpn protocol
-  print_out i "make config-files for vpn"
+  message_print_out i "make config-files for vpn"
   for file in $(find ../ -name client.ovpn); do
     sed -i "s/remote xxx\.xxx\.xxx\.xxx 443/remote ${ip_server} ${server_port}/" ${file}
     echo "<ca>" >> ${file}
@@ -789,7 +789,7 @@ make_openvpn_config_files(){
   cp -r ${CURRENT_PATH}"/installation/scripts" "/etc/openvpn/"
   chmod +x "/etc/openvpn/scripts/"*
   
-  print_out 1 "make config-files vpn"
+  message_print_out 1 "make config-files vpn"
 
 }
 
@@ -798,14 +798,16 @@ make_openvpn_config_files(){
 # @callfrom function
 # @pos025
 #
-make_openvpn_setup(){
+create_openvpn_setup(){
   # Configure MySQL in openvpn scripts
+  message_print_out i "Create Access-Configfile for VPN-Scripts/Server"
   cp /etc/openvpn/scripts/config.sample.sh /etc/openvpn/scripts/config.sh
   sed -i "s/DBHOST=''/DBHOST='${db_host}'/" "/etc/openvpn/scripts/config.sh"
   sed -i "s/DBUSER=''/DBUSER='${mysql_user}'/" "/etc/openvpn/scripts/config.sh"
   escaped=$(echo -n "${mysql_user_pass}" | sed 's#\\#\\\\#g;s#&#\\&#g')
   sed -i "s/DBPASS=''/DBPASS='${escaped}'/" "/etc/openvpn/scripts/config.sh"
   sed -i "s/DBNAME=''/DBNAME='${db_name}'/" "/etc/openvpn/scripts/config.sh"
+  message_print_out 1 "Access Config for VPN-Scripts/Server created"
 }
 
 #
@@ -815,15 +817,18 @@ make_openvpn_setup(){
 #
 create_webdirectory(){
   # Create the directory of the web application
-  print_out 1 "create webfolder"
+  message_print_out 1 "Create webfolder"
+  mkdir $WWWROOT
+  message_print_out 1 "Create Rootfolder ${WWWROOT}"
+
   mkdir $OVPN_FULL_PATH
-  control_script "create webfolder"
+  control_script_message "Create Webfolder"
   if [ -n "${modules_dev}" ] || [ -n "${modules_all}" ]; then
     cp -r "${CURRENT_PATH}/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data,dev} "${OVPN_FULL_PATH}"
-    control_script "copy webfolder with dev"
+    control_script_message "Copy webfolder with dev"
   else
     cp -r "${CURRENT_PATH}/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data} "${OVPN_FULL_PATH}"
-    control_script "copy webfolder"
+    control_script_message "Copy webfolder"
   fi
 }
 
@@ -834,26 +839,26 @@ create_webdirectory(){
 # @pos027
 #
 create_third_party(){
-  print_out i "Create Third Party Module"
+  message_print_out i "Create Third Party Module"
   ## node_modules in separate folder
   mkdir $WWWROOT"/ovpn_modules"
-  control_script "create modules folder"
+  control_script_message "create modules folder"
   cp $CURRENT_PATH"/wwwroot/package.json" $WWWROOT"/ovpn_modules/"
-  control_script "copy package.json"
+  control_script_message "copy package.json"
 
   cd $WWWROOT"/ovpn_modules/"
-  print_out i "Install third party module yarn"
+  message_print_out i "Install third party module yarn"
   yarn install
-  control_script "yarn installed"
-  print_out i "Install third party module ADOdb"
+  control_script_message "yarn installed"
+  message_print_out i "Install third party module ADOdb"
   git clone https://github.com/ADOdb/ADOdb $WWWROOT"/ovpn_modules/ADOdb"
-  control_script "ADOdb installed"
+  control_script_message "ADOdb installed"
 
   ## link from module folder into webfolder
   ln -s $WWWROOT"/ovpn_modules/ADOdb" $OVPN_FULL_PATH"/include/ADOdb"
-  control_script "create Link ADOdb"
+  control_script_message "create Link ADOdb"
   ln -s $WWWROOT"/ovpn_modules/node_modules" $OVPN_FULL_PATH"/node_modules"
-  control_script "create Link node_modules"
+  control_script_message "create Link node_modules"
 }
 
 #
@@ -939,7 +944,7 @@ define('clientload',TRUE);
     MOD_ENABLE="1"
   fi
   
-  print_out i "Config and Module Config written"
+  message_print_out i "Config and Module Config written"
 
 }
 
@@ -949,7 +954,7 @@ define('clientload',TRUE);
 # @pos029
 #
 write_config(){
-  print_out i "write file for future updates"
+  message_print_out i "write file for future updates"
   updpath="/var/lib/ovpn-admin/"
   mkdir $updpath
   updfile="config.ovpn-admin.upd"
@@ -979,7 +984,7 @@ write_config(){
 #  fi
 
   control_box $? "write config"
-  print_out 1 "update informations written (${updpath})"
+  message_print_out 1 "update informations written (${updpath})"
   chmod -R 600 ${updpath}
 
 }
@@ -990,7 +995,7 @@ write_config(){
 # @pos031
 #
 set_permissions(){
-  print_out i "Set permissions"
+  message_print_out i "Set permissions"
   chown -R ${OWNER}:${GROUPOWNER} ${OVPN_FULL_PATH}
   chown -R ${OWNER}:${GROUPOWNER} ${WWWROOT}"/vpn"
   chown ${OWNER}:${GROUPOWNER} ${WWWROOT}"/vpn/conf/server/server.conf"
@@ -998,7 +1003,7 @@ set_permissions(){
   chown -R root ${updpath}
   chmod -R 600 ${updpath}
 
-  print_out d "Setup ready - please read informations!"
+  message_print_out d "Setup ready - please read informations!"
 }
 
 #
@@ -1007,18 +1012,18 @@ set_permissions(){
 # @callfrom function main
 # @pos032
 #
-fin(){
-  print_out 1 "${SETFIN01}"
-  print_out i "${SETFIN02}"
-  print_out i "${SETFIN03}"
-  print_out d "${SETFIN04}"
+message_fin(){
+  message_print_out 1 "${SETFIN01}"
+  message_print_out i "${SETFIN02}"
+  message_print_out i "${SETFIN03}"
+  message_print_out d "${SETFIN04}"
 
   if [ -n "${MOD_ENABLE}" ]; then
-    print_out i "${MOENABLE0}"
-    print_out i "${MOENABLE1}"
+    message_print_out i "${MOENABLE0}"
+    message_print_out i "${MOENABLE1}"
   fi
   datum=$(date '+%Y-%m-%d:%H.%M.%S')
-  echo ${datum}": Fin Install - thank you ;o)" >> loginstall.log
+  echo ${datum}": Fin Install - thank you ;o)" >> ${CURRENT_PATH}/loginstall.log
 }
 
 #
@@ -1027,7 +1032,7 @@ fin(){
 # @pos034
 #
 function create_firewall(){
-print_out i "create simple firewall"
+message_print_out i "create simple firewall"
 
 ## create systemd Service
 echo "
@@ -1084,14 +1089,16 @@ primary_nic=`route | grep '^default' | grep -o '[^ ]*$'`
 chmod +x /usr/sbin/firewall.sh
 systemctl enable firewall.service
 systemctl start firewall
-print_out 1 "create simple firewall"
+message_print_out 1 "create simple firewall"
 }
 
 #
 # creates the paths
-# obsolete
-function create_dirs(){
-  print_out i "create directorys, webfolder, files"
+# @pos35
+#
+create_dirs(){
+  message_print_out i "create directorys, webfolder, files"
+  
   mkdir $WWWROOT
   mkdir $OVPN_FULL_PATH
   if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
@@ -1107,7 +1114,7 @@ function create_dirs(){
   mkdir {$WWWROOT/vpn,$WWWROOT/vpn/history,$WWWROOT/vpn/history/server,$WWWROOT/vpn/history/osx,$WWWROOT/vpn/history/gnu-linux,$WWWROOT/vpn/history/win}
   cp -r "$CURRENT_PATH/"installation/conf $WWWROOT"/vpn/"
   ln -s /etc/openvpn/server.conf $WWWROOT"/vpn/conf/server/server.conf"
-  print_out 1 "create directorys, webfolder, files"
+  message_print_out 1 "create directorys, webfolder, files"
 }
 
 ##
@@ -1148,7 +1155,7 @@ main(){
   # start selection of install options
   # set the install options
   # @pos015
-  start_install
+  do_select_start_install
 
   #
   # check vars in your install config
@@ -1163,16 +1170,16 @@ main(){
   fi
 
   #
+  # checks if all required programs are installed
+  # @pos013
+  test_system
+
+  #
   # If MySQL Server is to be installed locally
   # @pos020
   if [[ ${installsql} = "1" ]]; then
     set_mysql_rootpw
-  fi  
-
-  #
-  # checks if all required programs are installed
-  # @pos013
-  test_system
+  fi
 
   #
   # Input of all system relevant data
@@ -1180,10 +1187,11 @@ main(){
   give_me_input
 
   #
-  # As the name says
+  # you take local mysql server, create local database
   # @pos021
-  create_database $db_name $mysql_user $mysql_user_pass
-
+  if [[ ${installsql} = "1" ]]; then
+    create_database $db_name $mysql_user $mysql_user_pass
+  fi
   #
   # As the name says
   # @pos022
@@ -1197,12 +1205,12 @@ main(){
   #
   # As the name says
   # @pos024
-  make_openvpn_config_files
+  create_openvpn_config_files
 
   #
   # set Database Permissions
   # @pos025
-  make_openvpn_setup
+  create_openvpn_setup
 
   #
   # As the name says
@@ -1237,7 +1245,7 @@ main(){
   #
   # As the name says
   # @pos032
-  fin
+  message_fin
 }
 
 
