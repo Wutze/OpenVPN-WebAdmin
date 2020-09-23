@@ -646,7 +646,7 @@ y
 y
 y
 EOF
-  elif [ "${OS}" == "debian"]; then
+  elif [ "${OS}" == "debian" ]; then
 	echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
 	echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
   fi
@@ -759,6 +759,7 @@ make_certs(){
 create_openvpn_config_files(){
   # Replace in the client configurations with the ip of the server and openvpn protocol
   message_print_out i "make config-files for vpn"
+  cd ${CURRENT_PATH}
   for file in $(find ../ -name client.ovpn); do
     sed -i "s/remote xxx\.xxx\.xxx\.xxx 443/remote ${ip_server} ${server_port}/" ${file}
     echo "<ca>" >> ${file}
@@ -1002,6 +1003,10 @@ set_permissions(){
 
   chown -R root ${updpath}
   chmod -R 600 ${updpath}
+
+  if [ "${OS}" == "centos" ]; then
+    chcon -R --reference=/var/www /srv/www
+  fi
 
   message_print_out d "Setup ready - please read informations!"
 }
