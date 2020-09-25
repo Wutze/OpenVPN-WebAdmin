@@ -10,13 +10,13 @@
  * https://www.gnu.org/licenses/agpl-3.0.en.html
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- * 
+ *
  * @author    Wutze
  * @copyright 2020 OpenVPN-WebAdmin
- * @link			https://github.com/Wutze/OpenVPN-WebAdmin
- * @see				Internal Documentation ~/doc/
- * @version		1.0.0
- * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ * @link      https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see       Internal Documentation ~/doc/
+ * @version   1.4.1
+ * @todo      new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
@@ -78,9 +78,9 @@ if(Session::GetVar('isadmin')){
           </div>
         </div>
 <?php
-@include_once(REAL_BASE_DIR."/include/html/modules/admin/admin-sysoverview.php");
+  @include_once(REAL_BASE_DIR."/include/html/modules/admin/admin-sysoverview.php");
 }else{
-  echo "Welcome";
+  include(REAL_BASE_DIR."/include/html/modules/user/main.overview.user.php");
 };
 
 
