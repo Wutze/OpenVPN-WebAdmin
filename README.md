@@ -57,6 +57,7 @@ Administrate its OpenVPN with a web interface (logs visualisations, users managi
 * PHP >= 7.x with modules:
   * zip
   * mysql
+  * json
 * yarn
 * unzip
 * wget

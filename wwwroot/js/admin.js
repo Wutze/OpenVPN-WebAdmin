@@ -112,7 +112,7 @@ setInterval(function(){
   };
   xmlhttp.open("GET", "/?op=live&go=load", true);
   xmlhttp.send(); 
-}, 500000);
+}, 5000);
 
 
 /**
