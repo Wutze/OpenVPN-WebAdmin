@@ -508,7 +508,7 @@ collect_param_install_programs(){
   if [ "${OS}" == "debian" ]; then
     autoinstall="openvpn php-mysql php-zip php unzip git wget sed curl git net-tools npm nodejs"
   elif [ "${OS}" == "centos" ]; then
-    autoinstall="openvpn php php-mysqlnd php-zip unzip git wget sed curl git net-tools tar npm"
+    autoinstall="openvpn php php-mysqlnd php-zip php-json unzip git wget sed curl git net-tools tar npm"
   fi
   message_print_out 1 "collect install programms for ${OS}"
 }
@@ -566,6 +566,10 @@ install_programs_now(){
       systemctl enable mariadb
       systemctl start mariadb
     fi
+
+	message_print_out i "Enable OpenVPN-Server"
+	mkdir /var/log/openvpn
+	systemctl -f enable openvpn-server@server.service
 
     systemctl start httpd >> ${CURRENT_PATH}/loginstall.log
     systemctl enable httpd >> ${CURRENT_PATH}/loginstall.log
@@ -883,12 +887,12 @@ write_webconfig(){
  *
  * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
  *
- * @author    Wutze
- * @copyright 2020 OpenVPN-WebAdmin
- * @link			https://github.com/Wutze/OpenVPN-WebAdmin
- * @see				Internal Documentation ~/doc/
+ * @author		Wutze
+ * @copyright	2020 OpenVPN-WebAdmin
+ * @link		https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see			Internal Documentation ~/doc/
  * @version		\"${VERSION}\"
- * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+ * @todo		new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
 (stripos(\$_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');"
@@ -1006,6 +1010,10 @@ set_permissions(){
 
   if [ "${OS}" == "centos" ]; then
     chcon -R --reference=/var/www /srv/www
+    chcon -t httpd_sys_content_t ${OVPN_FULL_PATH} -R
+    chcon -t httpd_sys_rw_content_t ${OVPN_FULL_PATH}/data/ -R
+    chcon -t httpd_sys_rw_content_t ${WWWROOT}/vpn/ -R
+    chcon -t httpd_sys_rw_content_t /etc/openvpn/server.conf
   fi
 
   message_print_out d "Setup ready - please read informations!"
