@@ -10,12 +10,12 @@
 #
 # @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
 #
-# @author    Wutze
-# @copyright 2020 OpenVPN-WebAdmin
-# @link			https://github.com/Wutze/OpenVPN-WebAdmin
-# @see				Internal Documentation ~/doc/
-# @version		1.4.1
-# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+# @author     Wutze
+# @copyright  2020 OpenVPN-WebAdmin
+# @link       https://github.com/Wutze/OpenVPN-WebAdmin
+# @see        Internal Documentation ~/doc/
+# @version    1.4.1
+# @todo       new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 
 ### Set Vars
@@ -148,8 +148,8 @@ message_print_out(){
     d)
     echo -e " ${DONE} ${2}"
     ;;
-    r)	read -rsp " ${2}"
-	    echo "【ツ】"
+    r)  read -rsp " ${2}"
+    echo "【ツ】"
     ;;
   esac
   datum=$(date '+%Y-%m-%d:%H.%M.%S')
@@ -171,7 +171,7 @@ message_print_out(){
 intro(){
   clear
   NOW=$(date +"%Y")
-	echo -e "${COL_LIGHT_RED}
+  echo -e "${COL_LIGHT_RED}
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 ${COL_BLUE}        ◢■◤
       ◢■◤
@@ -406,7 +406,7 @@ test_system(){
 do_select(){
   # nginx fehlt noch
   message_print_out i "give me inputs"
-	sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
+  sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
     "1" "${SELECT01} " on \
     "2" "${SELECT02} " on \
     "3" "${SELECT03} " on \
@@ -551,7 +551,7 @@ install_programs_now(){
     systemctl stop firewalld
     systemctl disable firewalld
     systemctl mask --now firewalld
-  
+
     message_print_out i "Install epel-release ${OS}"
     yum install epel-release -y  >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-enable epel-release"
@@ -560,8 +560,7 @@ install_programs_now(){
     control_box $? "${OS}-Update"
     message_print_out i "Install Packages ${OS}"
     yum install ${webserver} ${autoinstall} ${mysqlserver} -y >> ${CURRENT_PATH}/loginstall.log
-    
-    ## nachfolgend nur noch Windowsuser Scheiße im Mäntelchen von CentOS
+
     if [ $installsql = "1" ]; then
       systemctl enable mariadb
       systemctl start mariadb
@@ -651,8 +650,8 @@ y
 y
 EOF
   elif [ "${OS}" == "debian" ]; then
-	echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
-	echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
+    echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
+    echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
   fi
   control_box $? "set mysql root pw"
 }
@@ -672,7 +671,7 @@ create_database(){
   Q2="GRANT ALL ON $1.* TO '$2'@'localhost' IDENTIFIED BY '$3';"
   Q3="FLUSH PRIVILEGES;"
   SQL="${Q1}${Q2}${Q3}"
-   
+
   if [ $# -ne ${EXPECTED_ARGS} ]
   then
     echo "Usage: $0 dbname dbuser dbpass"
@@ -1270,3 +1269,8 @@ main(){
 ## @pos000
 ##
 main
+
+
+## todos for one of the next versions
+# replace easy-rsa zip file
+#
