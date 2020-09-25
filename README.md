@@ -172,6 +172,7 @@ Looks at the configuration of the VPN app. If necessary, adjust the address of y
         ServerAdmin webmaster@localhost
         DocumentRoot /srv/www/openvpn-admin
 
+        # change Logfile Path or comment out in CentOS8
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
