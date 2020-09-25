@@ -125,12 +125,15 @@ if(Session::GetVar('isadmin') and defined('system')){
 if(Session::GetVar('isadmin') and defined('modssl')){
   echo modssl::content();
 };
-if(defined('clientload')){
-  echo clientload::content();
-};
+
 ?>
 
 <?php
+};
+# here and follows
+# user cotent without admin rights
+if(defined('clientload')){
+  echo clientload::content();
 };
 ?>
         </div>
