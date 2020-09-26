@@ -736,25 +736,25 @@ make_certs(){
   
   # Copy certificates and the server configuration in the openvpn directory
   if [ "${OS}" == "centos" ]; then
-    RSA_PATH="/etc/openvpn/server"
+    OVPNSERVERPATH="/etc/openvpn/server"
   else
-    RSA_PATH="/etc/openvpn"
+    OVPNSERVERPATH="/etc/openvpn"
   fi
 
-  cp /etc/openvpn/easy-rsa/pki/{ca.crt,ta.key,issued/server.crt,private/server.key,dh.pem} ${RSA_PATH}
-  message_print_out 1 "Copy Certifikates ${RSA_PATH}"
-  cp "${CURRENT_PATH}/installation/server.conf" ${RSA_PATH}
+  cp /etc/openvpn/easy-rsa/pki/{ca.crt,ta.key,issued/server.crt,private/server.key,dh.pem} ${OVPNSERVERPATH}
+  message_print_out 1 "Copy Certifikates ${OVPNSERVERPATH}"
+  cp "${CURRENT_PATH}/installation/server.conf" ${OVPNSERVERPATH}
   message_print_out 1 "Copy Server Conf"
-  mkdir "${RSA_PATH}/ccd"
+  mkdir "${OVPNSERVERPATH}/ccd"
   message_print_out 1 "make ccd dir"
-  sed -i "s/port 443/port ${server_port}/" "${RSA_PATH}/server.conf"
+  sed -i "s/port 443/port ${server_port}/" "${OVPNSERVERPATH}/server.conf"
   message_print_out 1 "Set Openvpn Proto"
   if [ ${openvpn_proto} = "udp" ]; then
-    sed -i "s/proto tcp/proto ${openvpn_proto}/" "${RSA_PATH}/server.conf"
+    sed -i "s/proto tcp/proto ${openvpn_proto}/" "${OVPNSERVERPATH}/server.conf"
   fi
 
   nobody_group=$(id -ng nobody)
-  sed -i "s/group nogroup/group ${nobody_group}/" "${RSA_PATH}/server.conf"
+  sed -i "s/group nogroup/group ${nobody_group}/" "${OVPNSERVERPATH}/server.conf"
   message_print_out 1 "Change Access OpenVPN Group"
   message_print_out 1 "Setup OpenVPN Finish"
 }
@@ -772,10 +772,10 @@ create_openvpn_config_files(){
   for file in $(find ../ -name client.ovpn); do
     sed -i "s/remote xxx\.xxx\.xxx\.xxx 443/remote ${ip_server} ${server_port}/" ${file}
     echo "<ca>" >> ${file}
-    cat "${RSA_PATH}/ca.crt" >> ${file}
+    cat "${OVPNSERVERPATH}/ca.crt" >> ${file}
     echo "</ca>" >> ${file}
     echo "<tls-auth>" >> ${file}
-    cat "${RSA_PATH}/ta.key" >> ${file}
+    cat "${OVPNSERVERPATH}/ta.key" >> ${file}
     echo "</tls-auth>" >> ${file}
     if [ ${openvpn_proto} = "udp" ]; then
       sed -i "s/proto tcp-client/proto udp/" ${file}
@@ -786,18 +786,18 @@ create_openvpn_config_files(){
 
   # Copy ta.key inside the client-conf directory
   for directory in "${WWWROOT}/vpn/conf/gnu-linux/" "${WWWROOT}/vpn/conf/osx/" "${WWWROOT}/vpn/conf/windows/"; do
-    cp "${RSA_PATH}/"{ca.crt,ta.key} $directory
+    cp "${OVPNSERVERPATH}/"{ca.crt,ta.key} $directory
   done
 
   #mkdir -p $WWWROOT/{vpn}/{history}/{server,osx,win,gnu-linux,firewall}
   
   #mkdir -p {$WWWROOT"/vpn",$WWWROOT"/vpn/history",$WWWROOT"/vpn/history/server",$WWWROOT"/vpn/history/osx",$WWWROOT"/vpn/history/gnu-linux",$WWWROOT"/vpn/history/win"}
   cp -r ${CURRENT_PATH}"/installation/conf" ${WWWROOT}"/vpn/"
-  ln -s ${RSA_PATH}/server.conf ${WWWROOT}"/vpn/conf/server/server.conf"
+  ln -s ${OVPNSERVERPATH}/server.conf ${WWWROOT}"/vpn/conf/server/server.conf"
 
   ## Copy bash scripts (which will insert row in MySQL)
-  cp -r ${CURRENT_PATH}"/installation/scripts" "/etc/openvpn/"
-  chmod +x "${RSA_PATH}/scripts/"*
+  cp -r ${CURRENT_PATH}"/installation/scripts" ${OVPNSERVERPATH}
+  chmod +x "${OVPNSERVERPATH}/scripts/"*
   
   message_print_out 1 "make config-files vpn"
 
