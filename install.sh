@@ -692,7 +692,7 @@ create_database(){
 install_mysql_database(){
   message_print_out i "Setup Database"
   # current only new install
-  mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} ${db_name} < installation/sql/vpnadmin-1.4.0.dump
+  mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} ${db_name} < installation/sql/vpnadmin-${VERSION}.dump
   control_script_message "Insert Database Dump"
   mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} --database=${db_name} -e "INSERT INTO user (user_name, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
   control_script_message "Insert Webadmin User"
