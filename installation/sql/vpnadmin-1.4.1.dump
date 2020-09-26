@@ -6,14 +6,6 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Datenbank: `ovpn-admin`
---
-CREATE DATABASE IF NOT EXISTS `ovpn-admin` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `ovpn-admin`;
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `groupnames`
 --
 
