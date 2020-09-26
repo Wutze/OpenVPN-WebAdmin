@@ -745,7 +745,10 @@ make_certs(){
   message_print_out 1 "Copy Certifikates ${OVPNSERVERPATH}"
   cp "${CURRENT_PATH}/installation/server.conf" ${OVPNSERVERPATH}
   message_print_out 1 "Copy Server Conf"
-  mkdir "${OVPNSERVERPATH}/ccd"
+  # ccd dir
+  # The folder is entered directly in the server configuration and
+  # should not be changed, otherwise the login scripts may not work properly
+  mkdir "/etc/openvpn/ccd"
   message_print_out 1 "make ccd dir"
   sed -i "s/port 443/port ${server_port}/" "${OVPNSERVERPATH}/server.conf"
   message_print_out 1 "Set Openvpn Proto"
@@ -811,12 +814,13 @@ create_openvpn_config_files(){
 create_openvpn_setup(){
   # Configure MySQL in openvpn scripts
   message_print_out i "Create Access-Configfile for VPN-Scripts/Server"
-  cp /etc/openvpn/scripts/config.sample.sh /etc/openvpn/scripts/config.sh
-  sed -i "s/DBHOST=''/DBHOST='${db_host}'/" "/etc/openvpn/scripts/config.sh"
-  sed -i "s/DBUSER=''/DBUSER='${mysql_user}'/" "/etc/openvpn/scripts/config.sh"
+  cp "${OVPNSERVERPATH}/config.sample.sh" "${OVPNSERVERPATH}/scripts/config.sh"
+  control_script_message "create script directory"
+  sed -i "s/DBHOST=''/DBHOST='${db_host}'/" "${OVPNSERVERPATH}/scripts/config.sh"
+  sed -i "s/DBUSER=''/DBUSER='${mysql_user}'/" "${OVPNSERVERPATH}/scripts/config.sh"
   escaped=$(echo -n "${mysql_user_pass}" | sed 's#\\#\\\\#g;s#&#\\&#g')
-  sed -i "s/DBPASS=''/DBPASS='${escaped}'/" "/etc/openvpn/scripts/config.sh"
-  sed -i "s/DBNAME=''/DBNAME='${db_name}'/" "/etc/openvpn/scripts/config.sh"
+  sed -i "s/DBPASS=''/DBPASS='${escaped}'/" "${OVPNSERVERPATH}/scripts/config.sh"
+  sed -i "s/DBNAME=''/DBNAME='${db_name}'/" "${OVPNSERVERPATH}/scripts/config.sh"
   message_print_out 1 "Access Config for VPN-Scripts/Server created"
 }
 
