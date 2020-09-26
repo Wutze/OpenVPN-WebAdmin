@@ -814,7 +814,7 @@ create_openvpn_config_files(){
 create_openvpn_setup(){
   # Configure MySQL in openvpn scripts
   message_print_out i "Create Access-Configfile for VPN-Scripts/Server"
-  cp "${OVPNSERVERPATH}/config.sample.sh" "${OVPNSERVERPATH}/scripts/config.sh"
+  cp "${OVPNSERVERPATH}/scripts/config.sample.sh" "${OVPNSERVERPATH}/scripts/config.sh"
   control_script_message "create script directory"
   sed -i "s/DBHOST=''/DBHOST='${db_host}'/" "${OVPNSERVERPATH}/scripts/config.sh"
   sed -i "s/DBUSER=''/DBUSER='${mysql_user}'/" "${OVPNSERVERPATH}/scripts/config.sh"
