@@ -1026,7 +1026,7 @@ set_permissions(){
   chown nobody:nobody /etc/openvpn/ccd
 
   if [ "${OS}" == "centos" ]; then
-    sed -i "s/WorkingDirectory=\/etc\/openvpn\/server/WorkingDirectory=\/etc\/openvpn/g" "/etc/systemd/system/multi-user.target.wants/openvpn-server@server.service"
+    sed -i "s/WorkingDirectory=\/etc\/openvpn\/server/WorkingDirectory=\/etc\/openvpn/g" "/usr/lib/systemd/system/openvpn-server@.service"
     systemctl daemon-reload
     chcon -R --reference=/var/www /srv/www
     chcon -t httpd_sys_content_t ${OVPN_FULL_PATH} -R
