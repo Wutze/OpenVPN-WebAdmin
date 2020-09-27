@@ -214,6 +214,7 @@ collect_param_mysql(){
       installsql="0"
     else
       mysqlserver="default-mysql-client"
+      setsebool -P httpd_can_network_connect_db on
       installsql="0"
     fi
     message_print_out 1 "Install Client on ${OS}: ${mysqlserver}"
@@ -570,8 +571,8 @@ install_programs_now(){
     mkdir /var/log/openvpn
     # diese Änderung ist notwendig, da sonst die server.conf nicht per Web editiert werden kann
     # bzw. der OpenVPN-Server schlicht nicht starten mag
-    sed -i "s/SELINUX=enforcing/SELINUX=disable/" "/etc/selinux/config"
-    sed -i "s/WorkingDirectory=/etc/openvpn/server/WorkingDirectory=/etc/openvpn/" "/etc/systemd/system/multi-user.target.wants/openvpn-server@server.service"
+    sed -i "s/SELINUX=enforcing/SELINUX=disabled/" "/etc/selinux/config"
+    sed -i "s/WorkingDirectory=\/etc\/openvpn\/server/WorkingDirectory=\/etc\/openvpn/g" "/etc/systemd/system/multi-user.target.wants/openvpn-server@server.service"
     systemctl daemon-reload
     systemctl -f enable openvpn-server@server.service
 
