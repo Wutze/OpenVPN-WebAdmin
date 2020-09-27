@@ -211,10 +211,10 @@ collect_param_mysql(){
   elif [ ${1} = 4 ]; then
     if [ "${OS}" = "centos" ]; then
       mysqlserver="mysql"
+      setsebool -P httpd_can_network_connect_db on
       installsql="0"
     else
       mysqlserver="default-mysql-client"
-      setsebool -P httpd_can_network_connect_db on
       installsql="0"
     fi
     message_print_out 1 "Install Client on ${OS}: ${mysqlserver}"
@@ -572,8 +572,6 @@ install_programs_now(){
     # diese Änderung ist notwendig, da sonst die server.conf nicht per Web editiert werden kann
     # bzw. der OpenVPN-Server schlicht nicht starten mag
     sed -i "s/SELINUX=enforcing/SELINUX=disabled/" "/etc/selinux/config"
-    sed -i "s/WorkingDirectory=\/etc\/openvpn\/server/WorkingDirectory=\/etc\/openvpn/g" "/etc/systemd/system/multi-user.target.wants/openvpn-server@server.service"
-    systemctl daemon-reload
     systemctl -f enable openvpn-server@server.service
 
     systemctl start httpd >> ${CURRENT_PATH}/loginstall.log
@@ -1025,8 +1023,11 @@ set_permissions(){
 
   chown -R root ${updpath}
   chmod -R 600 ${updpath}
+  chown nobody:nobody /etc/openvpn/ccd
 
   if [ "${OS}" == "centos" ]; then
+    sed -i "s/WorkingDirectory=\/etc\/openvpn\/server/WorkingDirectory=\/etc\/openvpn/g" "/etc/systemd/system/multi-user.target.wants/openvpn-server@server.service"
+    systemctl daemon-reload
     chcon -R --reference=/var/www /srv/www
     chcon -t httpd_sys_content_t ${OVPN_FULL_PATH} -R
     chcon -t httpd_sys_rw_content_t ${OVPN_FULL_PATH}/data/ -R
