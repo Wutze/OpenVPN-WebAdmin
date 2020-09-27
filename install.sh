@@ -566,9 +566,12 @@ install_programs_now(){
       systemctl start mariadb
     fi
 
-	message_print_out i "Enable OpenVPN-Server"
-	mkdir /var/log/openvpn
-	systemctl -f enable openvpn-server@server.service
+    message_print_out i "Enable OpenVPN-Server"
+    mkdir /var/log/openvpn
+    # diese Änderung ist notwendig, da sonst die server.conf nicht per Web editiert werden kann
+    # bzw. der OpenVPN-Server schlicht nicht starten mag
+    sed -i "s/SELINUX=enforcing/SELINUX=permissive/" "/etc/selinux/config"
+    systemctl -f enable openvpn-server@server.service
 
     systemctl start httpd >> ${CURRENT_PATH}/loginstall.log
     systemctl enable httpd >> ${CURRENT_PATH}/loginstall.log
@@ -1022,7 +1025,7 @@ set_permissions(){
     chcon -t httpd_sys_content_t ${OVPN_FULL_PATH} -R
     chcon -t httpd_sys_rw_content_t ${OVPN_FULL_PATH}/data/ -R
     chcon -t httpd_sys_rw_content_t ${WWWROOT}/vpn/ -R
-    chcon -t httpd_sys_rw_content_t /etc/openvpn/server.conf
+    chcon -t httpd_sys_rw_content_t ${OVPNSERVERPATH}/server.conf
   fi
 
   message_print_out d "Setup ready - please read informations!"
