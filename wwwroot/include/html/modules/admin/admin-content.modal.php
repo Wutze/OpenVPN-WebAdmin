@@ -42,8 +42,8 @@
           <div class="nav flex-column nav-pills col-5 col-sm-3 col-xs-3 col-md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><?php echo GET_Lang::nachricht('_OVERVIEW'); ?></a>
             <a class="nav-link" id="timesttings-tab" data-toggle="pill" href="#timesttings" role="tab" aria-controls="timesttings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_TIMESETTINGS'); ?></a>
-            <a class="nav-link" id="netsettings-tab" data-toggle="pill" href="#netsettings" role="tab" aria-controls="netsettings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_NETSETTINGS'); ?></a>
-            <a class="nav-link disable" id="othersettings-tab" data-toggle="pill" href="#othersettings" role="tab" aria-controls="othersettings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_PLUS'); ?></a>
+            <a class="nav-link disabled" id="netsettings-tab" data-toggle="pill" href="#netsettings" role="tab" aria-controls="netsettings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_NETSETTINGS'); ?> (disable)</a>
+            <a class="nav-link disabled" id="othersettings-tab" data-toggle="pill" href="#othersettings" role="tab" aria-controls="othersettings" aria-selected="false"><?php echo GET_Lang::nachricht('_U_PLUS'); ?></a>
           </div>
 
           <div class="tab-content col-7 col-sm-9 col-xs-9 col-md-9 modal-user" id="v-pills-tabContent">
