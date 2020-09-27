@@ -570,7 +570,9 @@ install_programs_now(){
     mkdir /var/log/openvpn
     # diese Änderung ist notwendig, da sonst die server.conf nicht per Web editiert werden kann
     # bzw. der OpenVPN-Server schlicht nicht starten mag
-    sed -i "s/SELINUX=enforcing/SELINUX=permissive/" "/etc/selinux/config"
+    sed -i "s/SELINUX=enforcing/SELINUX=disable/" "/etc/selinux/config"
+    sed -i "s/WorkingDirectory=/etc/openvpn/server/WorkingDirectory=/etc/openvpn/" "/etc/systemd/system/multi-user.target.wants/openvpn-server@server.service"
+    systemctl daemon-reload
     systemctl -f enable openvpn-server@server.service
 
     systemctl start httpd >> ${CURRENT_PATH}/loginstall.log
@@ -739,7 +741,10 @@ make_certs(){
   
   # Copy certificates and the server configuration in the openvpn directory
   if [ "${OS}" == "centos" ]; then
-    OVPNSERVERPATH="/etc/openvpn/server"
+    # CentOS is unfortunately somewhat special here.
+    # Originally the path should only be a different one,
+    # on "install_programs_now" now the system start script is changed
+    OVPNSERVERPATH="/etc/openvpn"
   else
     OVPNSERVERPATH="/etc/openvpn"
   fi
