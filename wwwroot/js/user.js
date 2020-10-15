@@ -14,7 +14,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.0.0
+ * @version		1.4.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -39,8 +39,10 @@ function showuser(str) {
         var isok = JSON.parse(this.responseText);
         if (isok['isuser']){
           document.getElementById("InputUsername").style.backgroundColor = "#ea7782"; // username not found
+          document.getElementById("Plonk").disabled = true;
         }else{
           document.getElementById("InputUsername").style.backgroundColor = "#90f7a7"; // username found
+          document.getElementById("Plonk").disabled = false;
         }
       }
     };

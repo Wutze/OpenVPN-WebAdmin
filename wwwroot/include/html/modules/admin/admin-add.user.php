@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.4.0
+ * @version		1.4.1
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -54,7 +54,7 @@
                           </div>
                           <!-- /.card-body -->
                           <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" name="op" value="adduser"><?php echo GET_Lang::nachricht('_USERDATA_SAVE'); ?></button>
+                            <button type="submit" class="btn btn-primary" name="op" value="adduser" id="Plonk"><?php echo GET_Lang::nachricht('_USERDATA_SAVE'); ?></button>
                           </div>
                       </div>
                       <!-- /.card -->
