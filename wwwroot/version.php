@@ -21,5 +21,5 @@
 
 (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');
 
-define('version',"1.4.1");
+define('version',"1.4.2");
 define('devel','main');

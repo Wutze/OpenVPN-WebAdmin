@@ -10,184 +10,29 @@
 #
 # @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
 #
-# @author    Wutze
-# @copyright 2020 OpenVPN-WebAdmin
-# @link			https://github.com/Wutze/OpenVPN-WebAdmin
-# @see				Internal Documentation ~/doc/
-# @version		1.4.0
-# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+# @author     Wutze
+# @copyright  2020 OpenVPN-WebAdmin
+# @link       https://github.com/Wutze/OpenVPN-WebAdmin
+# @see        Internal Documentation ~/doc/
+# @version    1.4.2
+# @todo       new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 # debug
 #set -x
 
-
-
 ## Fix Debian 10 Fehler
 export PATH=$PATH:/usr/sbin:/sbin
+## load main functions
+source installation/functions.sh
 
 ## set static vars
-THIS_NEW_VERSION="1.4.0"
-config="config.conf"
-coltable=/opt/install/COL_TABLE
+config="installation/config.conf"
 BACKTITLE="OVPN-Admin [UPDATE]"
 updpath="/var/lib/ovpn-admin/"
 updfile="config.ovpn-admin.upd"
-base_path=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+CURRENT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+THIS_NEW_VERSION=$(php -r "include('wwwroot/version.php'); echo version;" )
 
-## init screen
-# Find the rows and columns will default to 80x24 if it can not be detected
-screen_size=$(stty size 2>/dev/null || echo 24 80)
-rows=$(echo "${screen_size}" | awk '{print $1}')
-columns=$(echo "${screen_size}" | awk '{print $2}')
-
-# Divide by two so the dialogs take up half of the screen, which looks nice.
-r=$(( rows / 2 ))
-c=$(( columns / 2 ))
-# Unless the screen is tiny
-r=$(( r < 20 ? 20 : r ))
-c=$(( c < 70 ? 70 : c ))
-h=$(( r - 7 ))
-
-# The script is part of a larger script collection, so this entry exists.
-# If the color table file exists
-if [[ -f "${coltable}" ]]; then
-  # source it
-  source ${coltable}
-# Otherwise,
-else
-  # Set these values so the installer can still run in color
-  COL_NC='\e[0m' # No Color
-  COL_LIGHT_GREEN='\e[1;32m'
-  COL_LIGHT_RED='\e[1;31m'
-  COL_BLUE='\e[94m'
-  COL_YELLOW='\e[0;33m'
-  TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
-  CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
-  INFR="[${COL_YELLOW}▸${COL_NC}]"
-  INFL="[${COL_YELLOW}◂${COL_NC}]"
-  DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
-  OVER="\\r\\033[K"
-fi
-
-#
-#  description: intercepts errors and displays them as messages
-#  name: control_box
-#  @param $? + Description
-#  @return Message OK or Exit Script
-#  
-control_box(){
-  exitstatus=$?
-  if [ $exitstatus = 0 ]; then
-      print_out 1 "Update: ${2}"
-  else
-      print_out 0 "Update: ${2}"
-      exit
-  fi
-}
-#
-#  description: Intercept and display errors
-#  name: control_script
-#  @param $?
-#  @return continue script or or exit when error with exit 100
-#  
-control_script(){
-  if [ ! $? -eq 0 ]
-  then
-  print_out 0 "Error ${1}"
-  exit 100
-  fi
-}
-#
-#  description: formats the notes and messages in an appealing form
-#  name: print_out
-#  @param [1|0|i|d|r] [Text]]
-#  @return formated Text with red cross, green tick, "i"nfo, "d"one Message or need input with "r"
-#  
-print_out(){
-  case "${1}" in
-    1)
-    echo -e " ${TICK} ${2}"
-    ;;
-    0)
-    echo -e " ${CROSS} ${2}"
-    ;;
-    i)
-    echo -e " ${INFR} ${2}"
-    ;;
-    d)
-    echo -e " ${DONE} ${2}"
-    ;;
-    r)	read -rsp " ${2}"
-    echo ""
-    ;;
-  esac
-}
-
-sel_lang(){
-  # Split System-Variable $LANG
-  var1=${LANG%.*}
-  ## Select Language to install
-  var2=$(whiptail --backtitle "${BACKTITLE}" --title "Select Language" --menu "Select your language" ${r} ${c} ${h} \
-    "AUTO" " Automatic" \
-    "de_DE" " Deutsch" \
-    "en_EN" " Englisch" \
-    "fr_FR" " Français" \
-    3>&1 1>&2 2>&3)
-  RET=$?
-  if [ $RET -eq 1 ]; then
-    print_out 0 "Exit select language"
-    exit
-  elif [ $RET -eq 0 ]; then
-    case "$var2" in
-      AUTO) source "installation/lang/$var1"
-      ;;
-      de_DE) source "installation/lang/$var2"
-      ;;
-      en_EN) source "installation/lang/$var2"
-      ;;
-      fr_FR) source "installation/lang/$var2"
-      ;;
-      *) source "installation/lang/de_DE"
-      ;;
-    esac
-  fi
-}
-## Intro with colored Logo
-intro(){
-  clear
-  NOW=$(date +"%Y")
-	echo -e "${COL_LIGHT_RED}
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-${COL_BLUE}        ◢■◤
-      ◢■◤
-    ◢■◤  ${COL_LIGHT_RED} O P E N V P N - ${COL_NC}W E B A D M I N${COL_LIGHT_RED} - S E R V E R${COL_BLUE}
-  ◢■◤                         【ツ】 © 10.000BC - ${NOW}
-◢■■■■■■■■■■■■■■■■■■■■◤             ${COL_LIGHT_RED}L   I   N   U   X
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-        ${COL_BLUE}https://github.com/Wutze/OpenVPN-WebAdmin${COL_NC}
-"
-}
-
-#
-#  description: you can only install with root privileges, check this
-#  name: check_user
-#  @param $?
-#  @return continue script or or exit when no root user
-#  
-check_user(){
-  # Must be root to install
-  local str="Root user check"
-  if [[ "${EUID}" -eq 0 ]]; then
-    # they are root and all is good
-    print_out 1 "${str}"
-  else
-    print_out 0 "${str}"
-    print_out i "${COL_LIGHT_RED}${USER01}${COL_NC}"
-    print_out i "${USER02}"
-    print_out 0 "${USER03}"
-    exit 1
-  fi
-}
 
 bs_version_update(){
   if [[ -e /etc/debian_version ]]; then
@@ -359,7 +204,7 @@ start_update_new_version(){
   mkdir $openvpn_admin
   control_script "create new Webfolder"
 
-  cp -r "$base_path/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
+  cp -r "$CURRENT_PATH/wwwroot/"{index.php,favicon.ico,package.json,js,include,css,images,data} "$openvpn_admin"
   control_script "install new files"
   print_out i "Install third party module yarn"
   cd $openvpn_admin
@@ -371,10 +216,10 @@ start_update_new_version(){
   chown -R www-data $openvpn_admin
   control_script "Set access rights webfolder"
   print_out 1 "Set access rights webfolder"
-  if [[ -f "$base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
-    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
+  if [[ -f "$CURRENT_PATH/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
+    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $CURRENT_PATH/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
     control_script "execute Database Updates"
-    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/sql/adodb.sql
+    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $CURRENT_PATH/sql/adodb.sql
     print_out 1 "Update Database ok"
     create_setup_new_user
   else
@@ -399,7 +244,7 @@ start_update_new_version(){
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.2.0
+ * @version		$THIS_NEW_VERSION
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -448,15 +293,15 @@ start_update_normal(){
   control_script "create new Webfolder"
 
   if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
-    cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data,dev} "$openvpn_admin"
+    cp -r "$CURRENT_PATH/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data,dev} "$openvpn_admin"
   else
-    cp -r "$base_path/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data} "$openvpn_admin"
+    cp -r "$CURRENT_PATH/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data} "$openvpn_admin"
   fi
   if [[ ! -d  $WEBROOT"ovpn_modules/" ]]; then
     mkdir $WEBROOT"ovpn_modules/"
   fi
-  cp "$base_path/wwwroot/package.json" $WEBROOT"ovpn_modules/"
-  cp -r "$base_path/installation/scripts/"{connect.sh,disconnect.sh,login.sh} "/etc/openvpn/scripts/"
+  cp "$CURRENT_PATH/wwwroot/package.json" $WEBROOT"ovpn_modules/"
+  cp -r "$CURRENT_PATH/installation/scripts/"{connect.sh,disconnect.sh,login.sh} "/etc/openvpn/scripts/"
   ## move all history folders and osx folder
   cd $WEBROOT
   if [[ ! -d  "vpn/history/osx" ]]; then
@@ -504,8 +349,8 @@ start_update_normal(){
   ln -s $WEBROOT"ovpn_modules/node_modules" $openvpn_admin"/node_modules"
 
   print_out i "Update SQL"
-  if [[ -f "$base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
-    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $base_path/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
+  if [[ -f "$CURRENT_PATH/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql" ]]; then
+    mysql -h $DBHOST -u $DBUSER --password=$DBPASS $DBNAME < $CURRENT_PATH/installation/sql/$THIS_NEW_VERSION-ovpnadmin.update.sql
     control_script "execute Database Updates" 
   else
     print_out i "no changes to the database necessary"
