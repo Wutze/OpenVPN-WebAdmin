@@ -731,8 +731,8 @@ make_certs(){
   ./easyrsa build-ca nopass
   message_print_out i "Generate Diffie-Hellman parameters"
   ./easyrsa gen-dh
-  message_print_out i "Genrate server keypair"
-  ./easyrsa build-server-full server nopass
+  message_print_out i "Genrate server keypair for "$ip_server
+  ./easyrsa build-server-full $ip_server nopass
   message_print_out i "Generate shared-secret for TLS Authentication"
   openvpn --genkey --secret pki/ta.key
   message_print_out 1 "setting up EasyRSA Ok"
@@ -748,7 +748,7 @@ make_certs(){
     OVPNSERVERPATH="/etc/openvpn"
   fi
 
-  cp /etc/openvpn/easy-rsa/pki/{ca.crt,ta.key,issued/server.crt,private/server.key,dh.pem} ${OVPNSERVERPATH}
+  cp /etc/openvpn/easy-rsa/pki/{ca.crt,ta.key,issued/${ip_server}.crt,private/${ip_server}.key,dh.pem} ${OVPNSERVERPATH}
   message_print_out 1 "Copy Certifikates ${OVPNSERVERPATH}"
   cp "${CURRENT_PATH}/installation/server.conf" ${OVPNSERVERPATH}
   message_print_out 1 "Copy Server Conf"
@@ -805,10 +805,14 @@ create_openvpn_config_files(){
   cp -r ${CURRENT_PATH}"/installation/conf" ${WWWROOT}"/vpn/"
   ln -s ${OVPNSERVERPATH}/server.conf ${WWWROOT}"/vpn/conf/server/server.conf"
 
+  message_print_out i "adjust key and cert for the server for ${ip_server}"
+  sed -i "s/cert server.crt/cert ${ip_server}.crt/" /etc/openvpn/server.conf
+  sed -i "s/key server.key/key ${ip_server}.key/" /etc/openvpn/server.conf
+
   ## Copy bash scripts (which will insert row in MySQL)
   cp -r ${CURRENT_PATH}"/installation/scripts" ${OVPNSERVERPATH}
   chmod +x "${OVPNSERVERPATH}/scripts/"*
-  
+
   message_print_out 1 "make config-files vpn"
 
 }
@@ -918,7 +922,7 @@ write_webconfig(){
   echo "\$dbuser=\"${mysql_user}\";"
   echo "\$dbname=\"${db_name}\";"
   echo "\$dbport=\"3306\";"
-  echo "\$dbpass=\"${escaped}\";"
+  echo "\$dbpass=\"PASSWORD\";"
   echo "\$dbtype=\"mysqli\";"
   echo "\$dbdebug=FALSE;"
   echo "\$sessdebug=FALSE;"
@@ -933,6 +937,8 @@ define('_DEFAULT_LANGUAGE','en_EN');
 define('_LOGINSITE','login1');"
 
   }> ${OVPN_FULL_PATH}"/include/config.php"
+
+  sed -i "s/dbpass=\"PASSWORD\"/dbpass=\"${escaped}\"/" "${OVPN_FULL_PATH}/include/config.php"
 
   if [ -n "${modules_dev}" ] || [ -n "${modules_all}" ]; then
     echo "
