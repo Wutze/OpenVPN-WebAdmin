@@ -19,9 +19,10 @@
 
 
 ### Set Vars
-
 # debug
-#set -x
+# If you want to debug the script, start it with this call
+## DEBUG=1 ./install.sh
+test -z "$DEBUG" || set -x
 
 ## short Description install file
 ## script explained step by step
@@ -507,7 +508,7 @@ check_config(){
 collect_param_install_programs(){
   message_print_out i "collect install programms"
   if [ "${OS}" == "debian" ]; then
-    autoinstall="openvpn php-mysql php-zip php unzip git wget sed curl git net-tools npm nodejs"
+    autoinstall="openvpn php-mysql php-zip php unzip git wget sed curl git net-tools nodejs"
   elif [ "${OS}" == "centos" ]; then
     autoinstall="openvpn php php-mysqlnd php-zip php-json unzip git wget sed curl git net-tools tar npm"
   fi
@@ -534,6 +535,10 @@ install_programs_now(){
     message_print_out i "Upgrade ${OS}"
     apt-get upgrade -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Update"
+    message_print_out i "Install Nodejs 12.x ${OS}"
+    wget https://deb.nodesource.com/setup_12.x -O node-setup.sh >> ${CURRENT_PATH}/loginstall.log
+    chmod 700 node-setup.sh >> ${CURRENT_PATH}/loginstall.log
+    ./node-setup.sh >> ${CURRENT_PATH}/loginstall.log
     message_print_out i "Install Packages ${OS}"
     apt-get install ${webserver} ${autoinstall} ${mysqlserver} -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install"
