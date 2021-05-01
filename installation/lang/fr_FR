@@ -41,7 +41,7 @@ BREAK="Scénario avorté"
 BEFOR="Appuyez sur ENTER pour démarrer l'installation ou sur ctrl+c pour l'interrompre"
 
 SELECT_A="Sélection des options d'installation"
-SELECT_B="Installation avec"
+SELECT_B="Installation avec les options suivantes (Veuillez d'abord lire le manuel !)"
 
 SELECT01="Copier l'échantillon de config.conf.vers config.conf ?"
 SELECT02="Installer automatiquement les paquets manquants"

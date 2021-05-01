@@ -39,7 +39,7 @@ BREAK="Script break"
 BEFOR="Press ENTER to start the installation or ctrl+c to cancel"
 
 SELECT_A="Selection of installation options"
-SELECT_B="Installation with"
+SELECT_B="Installation with the following options (Please read the manual first!)"
 
 SELECT01="copy config.conf.sample to config.conf?"
 SELECT02="Automatic installation of missing packages"
