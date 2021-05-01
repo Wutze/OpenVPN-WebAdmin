@@ -50,6 +50,7 @@ echo ${datum}": Start Install" >> ${CURRENT_PATH}/loginstall.log
 #
 # init screen
 # Find the rows and columns will default to 80x24 if it can not be detected
+# @pos00
 #
 set_screen_vars(){
   screen_size=$(stty size 2>/dev/null || echo 24 80)

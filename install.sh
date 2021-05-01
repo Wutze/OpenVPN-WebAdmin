@@ -48,11 +48,12 @@ test -z "$DEBUG" || set -x
 #
 # set static vars
 #
+source installation/functions.sh
 config="installation/config.conf"
 BACKTITLE="OVPN-Admin [INSTALLATION]"
 # Set the path from which you started your installation
 CURRENT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-VERSION=$(php -r "include('wwwroot/version.php'); echo version;" )
+VERSION="1.4.1"
 
 ##### System Functions #####
 
@@ -353,8 +354,8 @@ install_programs_now(){
     yum install ${webserver} ${autoinstall} ${mysqlserver} -y >> ${CURRENT_PATH}/loginstall.log
 
     if [ $installsql = "1" ]; then
-      systemctl enable mariadb
-      systemctl start mariadb
+      systemctl enable mariadb >> ${CURRENT_PATH}/loginstall.log
+      systemctl start mariadb >> ${CURRENT_PATH}/loginstall.log
     fi
 
     message_print_out i "Enable OpenVPN-Server"
@@ -370,13 +371,13 @@ install_programs_now(){
     message_print_out i "enable/install node.js ${OS}"
     ## jetzt Version 12 da Version 10 veraltet
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash >> ${CURRENT_PATH}/loginstall.log
-    nvm install 12.22.1 >> ${CURRENT_PATH}/loginstall.log
+    yum module reset nodejs:10 -y >> ${CURRENT_PATH}/loginstall.log
     yum module enable nodejs:12 >> ${CURRENT_PATH}/loginstall.log
     yum install nodejs -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-enabled/install njode.js"
     message_print_out i "Install yarn ${OS}"
-    curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
-    rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
+    curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo >> ${CURRENT_PATH}/loginstall.log
+    rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg >> ${CURRENT_PATH}/loginstall.log
     yum install yarn -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install yarn"
   fi
@@ -958,7 +959,11 @@ create_dirs(){
 ##
 main(){
   #
-  # @pos004
+  # function.sh @pos00
+  set_screen_vars
+
+  #
+  # functions.sh @pos004
   intro
 
   #
@@ -975,7 +980,7 @@ main(){
   # Set OS Version and checks if this version is supported
   # @pos012
   set_os_version
-  
+
   #
   # set all web params
   # @pos007, @pos008
