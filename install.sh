@@ -340,9 +340,9 @@ install_programs_now(){
       exit
     fi
     
-    systemctl stop firewalld
-    systemctl disable firewalld
-    systemctl mask --now firewalld
+    systemctl stop firewalld >> ${CURRENT_PATH}/loginstall.log
+    systemctl disable firewalld >> ${CURRENT_PATH}/loginstall.log
+    systemctl mask --now firewalld >> ${CURRENT_PATH}/loginstall.log
 
     message_print_out i "Install epel-release ${OS}"
     yum install epel-release -y  >> ${CURRENT_PATH}/loginstall.log
@@ -363,18 +363,17 @@ install_programs_now(){
     # diese Änderung ist notwendig, da sonst die server.conf nicht per Web editiert werden kann
     # bzw. der OpenVPN-Server schlicht nicht starten mag
     sed -i "s/SELINUX=enforcing/SELINUX=disabled/" "/etc/selinux/config"
-    systemctl -f enable openvpn-server@server.service
-
+    systemctl -f enable openvpn-server@server.service >> ${CURRENT_PATH}/loginstall.log
     systemctl start httpd >> ${CURRENT_PATH}/loginstall.log
     systemctl enable httpd >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install"
-    message_print_out i "enable/install node.js ${OS}"
+    message_print_out i "enable/install nodejs ${OS}"
     ## jetzt Version 12 da Version 10 veraltet
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash >> ${CURRENT_PATH}/loginstall.log
     yum module reset nodejs:10 -y >> ${CURRENT_PATH}/loginstall.log
-    yum module enable nodejs:12 >> ${CURRENT_PATH}/loginstall.log
+    yum module enable nodejs:12 -y >> ${CURRENT_PATH}/loginstall.log
     yum install nodejs -y >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-enabled/install njode.js"
+    control_box $? "${OS}-enabled/install nodejs"
     message_print_out i "Install yarn ${OS}"
     curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo >> ${CURRENT_PATH}/loginstall.log
     rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg >> ${CURRENT_PATH}/loginstall.log
