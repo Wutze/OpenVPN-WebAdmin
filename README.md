@@ -48,6 +48,14 @@ Administrate its OpenVPN with a web interface (logs visualisations, users managi
 ![Previsualisation Administration OpenVPN-WebAdmin](doc/img/overview.png)
 ![Previsualisation Useradministration OpenVPN-WebAdmin](doc/img/useradmin.png)
 
+## General note
+
+This installation is mainly optimised for a server without further services. In particular, if you already have a MySQL server, you should read the documentation!
+
+## Note CentOS 8
+
+Without deactivated firewall the installation will not be completed. Only those who have a clean installation do not need a firewall.
+
 ## Prerequisite
 
 * GNU/Linux with Bash and root access
