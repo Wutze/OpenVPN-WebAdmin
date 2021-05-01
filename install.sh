@@ -368,11 +368,14 @@ install_programs_now(){
     systemctl enable httpd >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install"
     message_print_out i "enable/install node.js ${OS}"
-    yum module enable nodejs:10 >> ${CURRENT_PATH}/loginstall.log
+    ## jetzt Version 12 da Version 10 veraltet
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash >> ${CURRENT_PATH}/loginstall.log
+    nvm install 12.22.1 >> ${CURRENT_PATH}/loginstall.log
+    yum module enable nodejs:12 >> ${CURRENT_PATH}/loginstall.log
     yum install nodejs -y >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-enable/install njode.js"
+    control_box $? "${OS}-enabled/install njode.js"
     message_print_out i "Install yarn ${OS}"
-    curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+    curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
     rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg
     yum install yarn -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install yarn"
