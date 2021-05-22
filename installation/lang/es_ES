@@ -18,14 +18,14 @@
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 ATTENTION="¡ATENCIÓN!
-Tu servidor VPN nunca debería estar conectado directamente a Internet, de lo contrario el servidor sería vulnerable y en el peor de los casos ofrecería acceso directo a tu red.
+Su servidor VPN nunca debería estar conectado directamente a Internet, de lo contrario el servidor sería vulnerable y en el peor de los casos ofrecería acceso directo a su red.
 
-Además, deberías ajustar tu firewall en /usr/sbin/firewall.sh como corresponde, así el sistema estaría suficientemente protegido.
+Además, debería ajustar su firewall en /usr/sbin/firewall.sh como corresponde, así el sistema estaría suficientemente protegido.
 
-Para estar siempre informado de los errores en el sistema, recomiendo instalar \"logwatch\" y \"fail2ban\". Puedes encontrar información sobre esto en internet."
+Para estar siempre informado de los errores del sistema, recomiendo instalar \"logwatch\" y \"fail2ban\". Puede encontrar información sobre esto en internet."
 
 CONFIG01="falló config.conf"
-CONFIG02="Primero copia el archivo config.conf.example a config.conf y edita el archivo"
+CONFIG02="Primero copie el archivo config.conf.example a config.conf y edite el archivo"
 CONFIG03="Ejemplo: cp config.conf.example config.conf"
 CONFIG04="para editar el archivo: nano config.conf"
 
@@ -36,7 +36,7 @@ USER02="La instalación requiere privilegios de root para instalarse y ejecutars
 USER03="Instalación cancelada"
 
 BREAK="Script detenido"
-BEFOR="Pulsa ENTER para comenzar la instalación o Ctrl+c para cancelarla"
+BEFOR="Pulse ENTER para comenzar la instalación o Ctrl+c para cancelarla"
 
 SELECT_A="Selección de opciones de instalación"
 SELECT_B="Instalación con las siguientes opciones (Por favor, ¡lea el manual primero!)"
@@ -59,9 +59,9 @@ SELECT20="¿Instalar todas las extensiones?"
 MISSING="faltante:"
 INSTALL="Simplemente utilice la instalación automática de paquetes faltantes."
 ONEONLY="¡Solo es posible una única selección!"
-FEHLER01="Está intentanto instalar al mismo tiempo:"
+FEHLER01="Está intentando instalar al mismo tiempo:"
 FEHLER03="y"
-INSTMESS="¿Crees que no necesitas MySQL? ¡Incorrecto! Comencemos de nuevo. ¡Debes realizar una elección de MySQL!"
+INSTMESS="¿Cree que no necesitas MySQL? ¡Incorrecto! Comencemos de nuevo. ¡Debe realizar una elección de MySQL!"
 
 CENTOSME="Un mensaje para usuarios de CentOS.
 
