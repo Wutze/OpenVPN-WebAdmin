@@ -128,7 +128,7 @@ $message['_USERDATA_OPTIONS']       = "Options";
  * @param $var + array-id
  * @return Message in modal dialog
  */
-$errormessage[1]                    = $message['_USERDATA_SAVE']." failed or empty passowrd";
+$errormessage[1]                    = $message['_USERDATA_SAVE']." failed or empty password";
 $errormessage[2]                    = "Function not yet available. Sorry.";
 $errormessage[3]                    = "Newly assigned password was not identical or empty!";
 $errormessage[4]                    = "Password changed! Please new Login!";
