@@ -222,6 +222,7 @@ set_language(){
     "de_DE" " Deutsch" \
     "en_EN" " Englisch" \
     "fr_FR" " Français" \
+    "es_ES" " Español" \
     3>&1 1>&2 2>&3)
   RET=$?
   if [ ${RET} -eq 1 ]; then
@@ -242,6 +243,8 @@ set_language(){
       en_EN) source "installation/lang/${var2}"
       ;;
       fr_FR) source "installation/lang/${var2}"
+      ;;
+      es_ES) source "installation/lang/${var2}"
       ;;
       *) source "installation/lang/en_EN"
       ;;
