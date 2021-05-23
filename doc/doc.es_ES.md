@@ -2,7 +2,7 @@
 
 ## Introducción
 
-Cierras la puerta principal de tu casa. Pero ¿por qué dejas abierta la puerta de trasera? Esto es equiparable con casi todos los accesos a internet de tus dispositivos de internet de las cosas (IoT), cámaras web y otros dispositivos.
+Cierras la puerta principal de tu casa. Pero ¿por qué dejas abierta la puerta trasera? Esto es equiparable con casi todos los accesos a internet de tus dispositivos de internet de las cosas (IoT), cámaras web y otros dispositivos.
 
 Hola amigos y amigas.
 
@@ -39,7 +39,7 @@ define('_DEFAULT_LANGUAGE','de_DE');
 define('_LOGINSITE', 'login1');
 ````
 
-La entrada ___LOGINSITE__ define el contenido que debe ser cargado para la página de inicio de sesión (login) que puedes inprimir tu mismo. Las diferentes páginas de inicio de sesión están almacenadas en __include/html/login/ [ carpeta ]__. El archivo __login.php__ será cargado y mostrado automáticamente.
+La entrada ___LOGINSITE__ define el contenido que debe ser cargado para la página de inicio de sesión (login) que puedes imprimir tu mismo. Las diferentes páginas de inicio de sesión están almacenadas en __include/html/login/ [ carpeta ]__. El archivo __login.php__ será cargado y mostrado automáticamente.
 
 ### Página de inicio de sesión definida por el usuario
 
@@ -49,7 +49,7 @@ Ya existen algunos ejemplos en __login1, login2 y login3__. Que pueden servir pa
 include (REAL_BASE_DIR.'/include/html/login/login.functions.php');
 ````
 
-Con esta entrada cargas llas funciones de plantilla que son necesarias para la transmisión de los datos de inicio de sesión.
+Con esta entrada cargas las funciones de plantilla que son necesarias para la transmisión de los datos de inicio de sesión.
 
 #### entradas requeridas
 
@@ -91,7 +91,7 @@ echo _SITE_NAME;
 
 ````
 
-## Mostrando variable desde los archivos de idiomas
+## Mostrando variables desde los archivos de idiomas
 
 De manera predeterminada, el contenido del array __$message__ siempre es mostrado. La mejor manera de hacer esta llamada es mediante:
 
@@ -100,7 +100,7 @@ echo GET_Lang::message("_LOGIN_DATA");
 
 ````
 
-Como la calse __class.language.php__ está también siempre cargado, la llamada puede hacerse de esta forma. La clase busca la clave correspondiente, aquí ___LOGIN_DATA__ y la muestra. Las claves que no existan son mostradas de manera automática con un __LANGUAGE_ERROR__ y la entrada que se ha pasado con error.
+Como la clase __class.language.php__ está también siempre cargada, la llamada puede hacerse de esta forma. La clase busca la clave correspondiente, aquí ___LOGIN_DATA__ y la muestra. Las claves que no existan son mostradas de manera automática con un __LANGUAGE_ERROR__ y la entrada que se ha pasado con error.
 
 Si quieres cargar otros arrays desde el archivo de idioma, simplemente pasa el nombre del array, la clase encontrará el valor y lo mostrará.
 
