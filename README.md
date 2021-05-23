@@ -29,10 +29,13 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 ## 有译文
 
+## Traducción disponible en español (thank you @victorhck )
+
 * Deutsch, German, en allemand, 德语
 * Englisch, English, Anglais, 英文
 * Französisch, French, en français, 法国人
 * Chinesich (vereinfacht), Chinese (simplified), Chinois (simplifié), 中文（简体）
+* Spanisch, Spanish, Espagnol, 西班牙, Español
 
 ## Live-Preview
 
