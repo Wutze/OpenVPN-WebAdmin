@@ -95,7 +95,7 @@ Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
 ![Previsualisation Setup](doc/img/setup.png)
 
-* Currently you can choose from the languages German, English and French
+* Currently you can choose from the languages German, English, French and Spanish
 * Setup OpenVPN and the web application:
 
 ````code
