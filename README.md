@@ -18,6 +18,7 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 [![Doku English OpenVPN-WebAdmin](https://img.shields.io/badge/Documentation-EN-%230034F0?style=plastic)](doc/doc.en_EN.md)
 [![Doku Deutsch/German OpenVPN-WebAdmin](https://img.shields.io/badge/Dokumentation-DE-%230034F0?style=plastic)](doc/doc.de_DE.md)
 [![Doku Französisch/French OpenVPN-WebAdmin](https://img.shields.io/badge/Dokumentation-FR-%230034F0?style=plastic)](doc/doc.fr_FR.md)
+[![Doku Spanisch/Español OpenVPN-WebAdmin](https://img.shields.io/badge/Dokumentation-ES-%230034F0?style=plastic)](doc/doc.es_ES.md)
 
 [![Update Doku OpenVPN-WebAdmin](https://img.shields.io/badge/Update--Doku--1.3.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.x.x.info.md)
 
