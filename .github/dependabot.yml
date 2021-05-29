@@ -1,0 +1,13 @@
+# Testfile
+# erst mal schauen ob und wie das funktioniert
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/wwwroot"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "03:00"
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
