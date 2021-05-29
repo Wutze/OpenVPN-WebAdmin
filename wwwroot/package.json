@@ -8,7 +8,7 @@
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-table": "^1.16.0",
     "font-awesome": "^4.7.0",
-    "ionicons": "^5.0.1",
+    "ionicons": "^5.5.1",
     "jquery": "^3.5.1"
   },
   "keywords": [
