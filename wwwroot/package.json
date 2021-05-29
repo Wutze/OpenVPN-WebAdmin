@@ -4,7 +4,7 @@
   "description": "OpenVPN-WebAdmin Interface yarn Setup",
   "dependencies": {
     "admin-lte": "^3.0.5",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^5.0.1",
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-table": "^1.16.0",
     "font-awesome": "^4.7.0",
