@@ -15,7 +15,7 @@
  * @copyright 2020 OpenVPN-WebAdmin
  * @link			https://github.com/Wutze/OpenVPN-WebAdmin
  * @see				Internal Documentation ~/doc/
- * @version		1.2.0
+ * @version		1.4.2
  * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
  */
 
@@ -34,6 +34,8 @@ $stat['mem_used'] = $stat['mem_total'] - $stat['mem_free'];
 preg_match_all('/^(NAME=|VERSION=)"([0-9a-zA-Z\/\.\s\(\)]*)"/m', shell_exec("cat /etc/os-release"), $matches, PREG_SET_ORDER, 0);
 $stat['osversion'] = $matches[1][2];
 $stat['osname'] = $matches[0][2];
+preg_match_all('/^OpenVPN[0-9\.\s\_\-a-z]*/m', shell_exec("openvpn --version"), $matches, PREG_SET_ORDER, 0);
+$stat['ovpnversion'] = $matches[0][0];
 
 if(file_exists(REAL_BASE_DIR.'/dev/dev.version.php') and defined('preview')){
   include_once(REAL_BASE_DIR.'/dev/dev.version.php');
@@ -115,6 +117,9 @@ if(file_exists(REAL_BASE_DIR.'/dev/dev.version.php') and defined('preview')){
                     </li>
                     <li class="list-group-item">
                       <b>Version:</b> <a class="float-right"><?php echo $stat['osversion']; ?></a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>OpenVPN Version:</b> <a class="float-right"><?php echo $stat['ovpnversion']; ?></a>
                     </li>
                     <li class="list-group-item">
                       <b>PHP:</b> <a class="float-right"><?php echo phpversion(); ?></a>
