@@ -14,7 +14,7 @@
 # @copyright  2020 OpenVPN-WebAdmin
 # @link       https://github.com/Wutze/OpenVPN-WebAdmin
 # @see        Internal Documentation ~/doc/
-# @version    1.4.1
+# @version    1.4.2
 # @todo       new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
 
@@ -286,12 +286,31 @@ check_config(){
 }
 
 #
+# Security updates come in too late from the distributions.
+# Therefore, the openvpn repo will be used from now on.
+# @callfrom function collect_param_install_programs
+#
+set_openvpn_repo(){
+  message_print_out i "set openvpn repo"
+  if [ "${OS}" == "debian" ]; then
+    apt-get update && apt-get -y install ca-certificates wget net-tools gnupg >> ${CURRENT_PATH}/loginstall.log
+    wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -
+    echo "deb http://build.openvpn.net/debian/openvpn/stable/ ${CODENAME} main" > /etc/apt/sources.list.d/openvpn-as-repo.list
+    apt-get update >> ${CURRENT_PATH}/loginstall.log
+  elif [ "${OS}" == "centos" ]; then
+    yum copr enable dsommers/openvpn-git >> ${CURRENT_PATH}/loginstall.log
+  fi
+  message_print_out 1 "set openvpn repo ${OS}"
+}
+
+#
 # you need this programs
 # Here it is defined which operating system needs which programs
 # @callfrom function do_select_start_install
 # @pos017
 #
 collect_param_install_programs(){
+  set_openvpn_repo
   message_print_out i "collect install programms"
   if [ "${OS}" == "debian" ]; then
     autoinstall="openvpn php-mysql php-zip php unzip git wget sed curl git net-tools nodejs"

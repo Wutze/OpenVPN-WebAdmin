@@ -1,4 +1,4 @@
-# OpenVPN WebAdmin 1.4.1
+# OpenVPN WebAdmin 1.4.2
 
 You lock your front door. But why do you leave the back entrances open? This is the same with almost all Internet accesses to your IoT, webcams and other devices.
 
@@ -77,6 +77,7 @@ Without deactivated firewall the installation will not be completed. Only those 
 * curl
 * git
 * net-tools (for the includes simple firewall)
+* gnupg
 
 ## Note MySQL
 
@@ -86,7 +87,7 @@ For a local installation of a MySQL server, you will automatically be asked to e
 
 ## Tested on
 
-* Debian 10/Buster, PHP 7.2.x, 10.3.22-MariaDB.
+* Debian 10/Buster, PHP 7.3.x, 10.3.22-MariaDB.
 * RaspberryPi 4 with Debian Buster
 * CentOS 8
 

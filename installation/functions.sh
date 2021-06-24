@@ -187,16 +187,15 @@ check_user(){
 # @pos012
 #
 set_os_version(){
-  if [[ -e /etc/debian_version ]]; then
-    OS="debian"
-    OSVERSION=$(grep -oE '[0-9]+' /etc/debian_version | head -1)
-    message_print_out i "Install on:  ${OS} ${OSVERSION}"
+  if [[ -e /etc/os-release ]]; then
+    OS=$(grep "\bID\b" /etc/os-release | cut -d '=' -f2 | tr -d '"')
+    OSVERSION=$(grep "\bVERSION_ID\b" /etc/os-release | cut -d '=' -f2 | tr -d '"')
+    CODENAME=$(grep "\bVERSION_CODENAME\b" /etc/os-release | cut -d '=' -f2 | tr -d '"')
+    message_print_out i "Install on:  ${OS} ${CODENAME}"
     # Fix Debian 10 Fehler
-    export PATH=$PATH:/usr/sbin:/sbin
-  elif [[ -e /etc/centos-release ]]; then
-    OS="centos"
-    OSVERSION=$(grep -oE '[0-9]+' /etc/centos-release | head -1)
-    message_print_out i "Install on:  ${OS} ${OSVERSION}"
+    if [ ${OS} = 'debian' ]; then
+      export PATH=$PATH:/usr/sbin:/sbin
+    fi
   else
     message_print_out 0 "No suitable operating system found, sorry"
     message_print_out 0 ${BREAK}
