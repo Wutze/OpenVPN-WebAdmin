@@ -6,7 +6,7 @@ Sorry, only new installation. The version with the updates from 1.4.0 to current
 
 - Display OpenVPN-Server Version in the overview
 - The OpenVPN server is now installed directly by the maintainer Openvpn. The update cycles of the respective distributions simply take too long. Security comes first.
-- Update nodejs 10 auf 12
+- Update nodejs 10 to 12
 - added Spanish lang (es_ES) in web frontend/installation (Many thanks to @victorhck)
 - Changes in the installation procedure
 
