@@ -298,7 +298,7 @@ set_openvpn_repo(){
     echo "deb http://build.openvpn.net/debian/openvpn/stable/ ${CODENAME} main" > /etc/apt/sources.list.d/openvpn-as-repo.list
     apt-get update >> ${CURRENT_PATH}/loginstall.log
   elif [ "${OS}" == "centos" ]; then
-    yum copr enable dsommers/openvpn-git >> ${CURRENT_PATH}/loginstall.log
+    yum copr enable dsommers/openvpn-git -y >> ${CURRENT_PATH}/loginstall.log
   fi
   message_print_out 1 "set openvpn repo ${OS}"
 }
