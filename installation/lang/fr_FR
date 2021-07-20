@@ -45,8 +45,8 @@ SELECT_B="Installation avec les options suivantes (Veuillez d'abord lire le manu
 
 SELECT01="Copier l'échantillon de config.conf.vers config.conf ?"
 SELECT02="Installer automatiquement les paquets manquants"
-SELECT03="Serveur MySQL local"
-SELECT04="Serveur MySQL à distance"
+SELECT03="Serveur MySQL local (Nouveau)"
+SELECT04="Serveur MySQL à distance (ou existant)"
 SELECT05="Apache"
 SELECT06="Nginx"
 SELECT07="Répertoire web /srv/www/openvpn-admin"
