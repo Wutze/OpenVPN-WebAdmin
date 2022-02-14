@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "description": "OpenVPN-WebAdmin Interface yarn Setup",
   "dependencies": {
-    "admin-lte": "^3.1.0",
+    "admin-lte": "^3.2.0",
     "bootstrap": "^4.5.0",
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-table": "^1.18.3",
