@@ -93,6 +93,32 @@ For a local installation of a MySQL server, you will automatically be asked to e
 
 Feel free to open issues. <https://github.com/Wutze/OpenVPN-WebAdmin/issues>
 
+## FAST DEPLOY docker-compose
+
+````code
+cp installation/config.conf.sample installation/config.conf
+docker-compose up --build -d
+docker exec -it openvpn-webadmin bash
+
+./install.sh
+ANSWERS:
+Automatic
+1
+1
+127.0.0.1
+udp
+1194
+mariadb-openvpn
+openvpnadmin
+openvpnadmin_user
+3pLWHbtXWP4UU
+admin
+test
+test-vpn
+
+cd /var/www && rm -rf html && ln -s /srv/www/openvpn-admin/ html
+````
+See browser http://localhost:8061/
 ## Installation
 
 ![Previsualisation Setup](doc/img/setup.png)

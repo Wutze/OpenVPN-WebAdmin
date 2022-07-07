@@ -5,3 +5,12 @@ config.php
 ADOdb
 test.sh
 
+/.idea/
+/.database/
+/srv/
+/node-setup.sh
+/README.FIRST.txt
+/loginstall.log
+/installation/config.conf
+!/installation/conf/
+!/installation/conf/gnu-linux/client.ovpn

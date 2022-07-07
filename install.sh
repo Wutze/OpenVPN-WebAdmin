@@ -313,9 +313,9 @@ collect_param_install_programs(){
   set_openvpn_repo
   message_print_out i "collect install programms"
   if [ "${OS}" == "debian" ]; then
-    autoinstall="openvpn php-mysql php-zip php unzip git wget sed curl git net-tools nodejs"
+    autoinstall="openvpn unzip git wget sed curl git net-tools nodejs"
   elif [ "${OS}" == "centos" ]; then
-    autoinstall="openvpn php php-mysqlnd php-zip php-json unzip git wget sed curl git net-tools tar npm"
+    autoinstall="openvpn unzip git wget sed curl git net-tools tar npm"
   fi
   message_print_out 1 "collect install programms for ${OS}"
 }
@@ -345,6 +345,7 @@ install_programs_now(){
     chmod 700 node-setup.sh >> ${CURRENT_PATH}/loginstall.log
     ./node-setup.sh >> ${CURRENT_PATH}/loginstall.log
     message_print_out i "Install Packages ${OS}"
+    echo "apt-get install ${webserver} ${autoinstall} ${mysqlserver}"
     apt-get install ${webserver} ${autoinstall} ${mysqlserver} -y >> ${CURRENT_PATH}/loginstall.log
     control_box $? "${OS}-Install"
     message_print_out i "Install npm/yarn ${OS}"
@@ -450,11 +451,15 @@ give_me_input(){
 # @pos020
 #
 set_mysql_rootpw(){
-  message_print_out i "Insert/Set MySQL Root PW"
   DBROOTPW=$(whiptail --inputbox "${MYSQL01}" ${r} ${c} --title "${MYSQL02}" 3>&1 1>&2 2>&3)
+
+  message_print_out i "Insert/Set MySQL Root PW"
   control_box $? "input mysql root pw"
+  return
+
 
   if [ "${OS}" == "centos" ]; then
+    echo "CALL: mysql_secure_installation (centos)"
     mysql_secure_installation >> ${CURRENT_PATH}/loginstall.log 2>&1 <<EOF
 
 y
@@ -466,6 +471,7 @@ y
 y
 EOF
   elif [ "${OS}" == "debian" ]; then
+    echo "CALL: mysql -u root --password=\"${DBROOTPW}\" (debian)"
     echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
     echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
   fi
@@ -493,7 +499,7 @@ create_database(){
     echo "Usage: $0 dbname dbuser dbpass"
     exit
   fi
-   
+  echo "CALL: $MYSQL -h ${db_host} -uroot --password=${DBROOTPW} -e \"${SQL}\""
   $MYSQL -h ${db_host} -uroot --password=${DBROOTPW} -e "${SQL}"
   control_box $? "Create local Database"
 }
@@ -1032,6 +1038,7 @@ main(){
   # If MySQL Server is to be installed locally
   # @pos020
   if [[ ${installsql} = "1" ]]; then
+    echo "CALL: install.sh set_mysql_rootpw"
     set_mysql_rootpw
   fi
 

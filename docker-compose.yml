@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  openvpn-webadmin:
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    build:
+      context: '.'
+      args:
+        uid: 1000
+    container_name: openvpn-webadmin
+    ports:
+      - 8061:80 #apache 80
+      - "1194:1194/udp"
+#    env_file:
+#      - ./.moneff-landing.env
+    volumes:
+      - .:/opt/openvpn
+#      - ./srv/:/srv/
+    networks:
+      - default
+      - moneff-network
+    depends_on:
+      - maria-db #second service
+  maria-db:
+    image: mariadb:10.7
+    container_name: mariadb-openvpn
+    volumes:
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./.database/mariadb:/var/lib/mysql
+    env_file:
+      - ./.mariadb.env
+    ports:
+      - "13306:3306"
+    networks:
+      - default
+      - moneff-network
+
+networks:
+  moneff-network:
+    name: moneff-network
+
