@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="node_modules/jquery-ui-dist/jquery-ui.min.css" type="text/css" />
     <link rel="stylesheet" href="node_modules/bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.css" type="text/css" />
     <link rel="stylesheet" href="node_modules/admin-lte/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="node_modules/flag-icon-css/css/flag-icon.css">
+    <link rel="stylesheet" href="node_modules/flag-icon-css/css/flag-icons.css">
     <link rel="icon" type="image/png" href="images/favicon.png">
 
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
@@ -45,4 +45,7 @@
     <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="node_modules/jquery-ui-dist/jquery-ui.js"></script>
     <link rel="stylesheet" href="css/index.css" type="text/css" />
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css" type="text/css" />
+
+    <script src="node_modules/bootstrap/js/dist/util.js"></script>
   </head>

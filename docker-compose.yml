@@ -20,7 +20,7 @@ services:
 #      - ./srv/:/srv/
     networks:
       - default
-      - moneff-network
+      - openvpn-network
     depends_on:
       - maria-db #second service
   maria-db:
@@ -35,9 +35,9 @@ services:
       - "13306:3306"
     networks:
       - default
-      - moneff-network
+      - openvpn-network
 
 networks:
   moneff-network:
-    name: moneff-network
+    name: openvpn-network
 
