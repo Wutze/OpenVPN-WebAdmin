@@ -1,0 +1,83 @@
+<?php
+/**
+ * this File is part of OpenVPN-WebAdmin - (c) 2020/2025 OpenVPN-WebAdmin
+ *
+ * NOTICE OF LICENSE
+ *
+ * GNU AFFERO GENERAL PUBLIC LICENSE V3
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * @author      Wutze
+ * @copyright   2025 OpenVPN-WebAdmin
+ * @link        https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see         Internal Documentation ~/doc/
+ * @version     2.0.0
+ */
+?>
+<!-- Sidebar.php -->
+<?php
+$activeOp = $activeOp ?? 'dashboard';
+$user = $user ?? null;
+$isAdmin = (bool)($user['is_admin'] ?? false)
+    || str_contains(strtolower((string)($user['role'] ?? '')), 'admin')
+    || ((int)($user['gid'] ?? 0) === 1);
+?>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="?op=dashboard" class="brand-link">
+        <span class="brand-text font-weight-light"><?= Lang::get('_BRAND_NAME') ?></span>
+    </a>
+    <div class="sidebar">
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
+                <li class="nav-item">
+                    <a href="?op=dashboard" class="nav-link <?= $activeOp === 'dashboard' ? 'active' : '' ?>">
+                        <i class="nav-icon bi bi-speedometer2"></i>
+                        <p><?= Lang::get('_MENU_DASHBOARD') ?></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="?op=account" class="nav-link <?= $activeOp === 'account' ? 'active' : '' ?>">
+                        <i class="nav-icon bi bi-person-gear"></i>
+                        <p><?= Lang::get('_MENU_ACCOUNT') ?></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="?op=profiles" class="nav-link <?= $activeOp === 'profiles' ? 'active' : '' ?>">
+                        <i class="nav-icon bi bi-file-earmark-zip"></i>
+                        <p><?= Lang::get('_MENU_PROFILES') ?></p>
+                    </a>
+                </li>
+
+                <?php if ($isAdmin): ?>
+                    <li class="nav-header"><?= Lang::get('_MENU_ADMIN') ?></li>
+                    <li class="nav-item">
+                        <a href="?op=users" class="nav-link <?= $activeOp === 'users' ? 'active' : '' ?>">
+                            <i class="nav-icon bi bi-people"></i>
+                            <p><?= Lang::get('_MENU_USERS') ?></p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="?op=logs" class="nav-link <?= $activeOp === 'logs' ? 'active' : '' ?>">
+                            <i class="nav-icon bi bi-journal-text"></i>
+                            <p><?= Lang::get('_MENU_LOGS') ?></p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="?op=config" class="nav-link <?= $activeOp === 'config' ? 'active' : '' ?>">
+                            <i class="nav-icon bi bi-sliders"></i>
+                            <p><?= Lang::get('_MENU_CONFIG') ?></p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="?op=settings" class="nav-link <?= $activeOp === 'settings' ? 'active' : '' ?>">
+                            <i class="nav-icon bi bi-gear-wide-connected"></i>
+                            <p><?= Lang::get('_MENU_SETTINGS') ?></p>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </div>
+</aside>

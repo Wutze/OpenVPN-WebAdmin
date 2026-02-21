@@ -1,0 +1,221 @@
+/**
+ * this File is part of OpenVPN-WebAdmin - (c) 2020/2025 OpenVPN-WebAdmin
+ *
+ * NOTICE OF LICENSE
+ *
+ * GNU AFFERO GENERAL PUBLIC LICENSE V3
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * @author      Wutze
+ * @copyright   2025 OpenVPN-WebAdmin
+ * @link        https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see         Internal Documentation ~/doc/
+ * @version     2.0.0
+ */
+
+body {
+  padding-top: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+https://bootsnipp.com/snippets/jvP6z
+*/
+.mini-led-green, .mini-led-green-blink {
+    background-color: #80FF00;
+    box-shadow: #7D7B80 0 -1px 6px 1px, inset #460 0 -1px 8px, #80FF00 0 3px 11px;
+}
+.mini-led-red, .mini-led-red-blink {
+    background-color: #F00;
+    box-shadow: #7D7B80 0 -1px 6px 1px, inset #600 0 -1px 8px, #F00 0 3px 11px;
+}
+.mini-led-gray, .mini-led-gray-blink {
+  background-color: #aab2bd;
+  box-shadow: #aab2bd 0 -1px 6px 1px, inset #656d78 0 -1px 8px, #656d78 0 1px 6px;
+}
+.mini-led-gray,
+.mini-led-red,
+.mini-led-red-blink,
+.mini-led-green,
+.mini-led-green-blink {
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.mini-led-green-blink {
+  -webkit-animation: blinkGreen 0.7s infinite;
+  -moz-animation: blinkGreen 0.7s infinite;
+  -ms-animation: blinkGreen 0.7s infinite;
+  -o-animation: blinkGreen 0.7s infinite;
+  animation: blinkGreen 0.7s infinite;
+}
+
+.mini-led-red-blink {
+  -webkit-animation: blinkRed 0.7s infinite;
+  -moz-animation: blinkRed 0.7s infinite;
+  -ms-animation: blinkRed 0.7s infinite;
+  -o-animation: blinkRed 0.7s infinite;
+  animation: blinkRed 0.7s infinite;
+}
+
+@-webkit-keyframes blinkGreen {
+  0% {
+    background-color: #80FF00;
+  }
+  50% {
+    background-color: #6cff82;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #80FF00 0 1px 0;
+  }
+  100% {
+    background-color: #80FF00;
+  }
+}
+@keyframes blinkGreen {
+  0% {
+    background-color: #80FF00;
+  }
+  50% {
+    background-color: #6cff82;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #80FF00 0 1px 0;
+  }
+  100% {
+    background-color: #80FF00;
+  }
+}
+
+@-moz-keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+@-webkit-keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+@keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+
+ins, del{
+  vertical-align : top;
+  white-space    : pre;
+  white-space    : pre-wrap;
+  font-family    : monospace;
+}
+ins{
+  color: #ccff00;
+}
+del{
+  color: #ff0000;
+}
+
+.sidebar-dark-primary, .login-box {
+  background-image: url("../img/bg.png");
+}
+
+.nav-item, .control-sidebar {
+  background-color: #00000065 !important;
+  color: #ffffff !important;
+}
+
+.main-header, .main-footer{
+  background-color: #480083;
+  color: #ffffff;
+}
+
+.nav-link, .brand-link{
+  background-color:#ffffff;
+}
+.brand-link, .navbar-nav{
+  background-color:#2635c0d3;
+  text-decoration: none;
+  color: #ffffff;
+}
+#debug-container {
+  position: relative;
+  z-index: 9999;
+}
+.debug-card {
+    font-family: monospace;
+    font-size: 0.85rem;
+    border-radius: 0 !important;
+    margin-bottom: 0.25rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.dashboard-card {
+  border: 1px solid #dbe1f1;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .08);
+}
+
+.account-card {
+  border: 1px solid #dbe1f1;
+}
+
+.ovpn-editor {
+  min-height: 0;
+  height: auto;
+  flex: 1 1 auto;
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.9rem;
+  white-space: pre;
+  resize: vertical;
+}
+
+.ovpn-editor-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+}
+
+.config-editor-card {
+  height: calc(100vh - 260px);
+  min-height: 520px;
+}
+
+.config-diff {
+  min-height: 420px;
+  max-height: 420px;
+  overflow: auto;
+  background: #0b1020;
+  color: #d6e4ff;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.82rem;
+}

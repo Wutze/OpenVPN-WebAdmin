@@ -1,0 +1,1741 @@
+[2025-10-02 03:16:17] Array
+(
+    [Exception] => Access to undeclared static property Micro\OpenvpnWebadmin\Core\GoRequest::$currentLang
+    [File] => /srv/www/openvpn-webadmin/html/login1/login.php
+    [Line] => 26
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(112): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:16:18] Array
+(
+    [Exception] => Access to undeclared static property Micro\OpenvpnWebadmin\Core\GoRequest::$currentLang
+    [File] => /srv/www/openvpn-webadmin/html/login1/login.php
+    [Line] => 26
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(112): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:16:24] Array
+(
+    [Exception] => Access to undeclared static property Micro\OpenvpnWebadmin\Core\GoRequest::$currentLang
+    [File] => /srv/www/openvpn-webadmin/html/login1/login.php
+    [Line] => 26
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(112): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:17:20] Array
+(
+    [Exception] => Access to undeclared static property Micro\OpenvpnWebadmin\Core\GoRequest::$currentLang
+    [File] => /srv/www/openvpn-webadmin/html/login1/login.php
+    [Line] => 26
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(112): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:17:23] Array
+(
+    [Exception] => Access to undeclared static property Micro\OpenvpnWebadmin\Core\GoRequest::$currentLang
+    [File] => /srv/www/openvpn-webadmin/html/login1/login.php
+    [Line] => 26
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(112): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:17:23] Array
+(
+    [Exception] => Access to undeclared static property Micro\OpenvpnWebadmin\Core\GoRequest::$currentLang
+    [File] => /srv/www/openvpn-webadmin/html/login1/login.php
+    [Line] => 26
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(112): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:17:29] Array
+(
+    [Exception] => Access to undeclared static property Micro\OpenvpnWebadmin\Core\GoRequest::$currentLang
+    [File] => /srv/www/openvpn-webadmin/html/login1/login.php
+    [Line] => 26
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(112): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:28:59] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/login.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 66
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:29:00] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/login.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 66
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:29:20] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/login1/login.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 66
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:29:20] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/login1/login.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 66
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(34): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:32:56] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/error.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 103
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(59): Micro\OpenvpnWebadmin\Core\GoRequest->showError()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:32:56] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/error.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 103
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(59): Micro\OpenvpnWebadmin\Core\GoRequest->showError()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:34:47] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/main.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 78
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:42:07] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/public/src/Layout/HtmlHead.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 80
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:42:22] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/public/../../src/Layout/HtmlHead.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 80
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:43:30] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/public/../../src/Layout/HtmlHead.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 80
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 03:43:44] Array
+(
+    [Exception] => Class "Lang" not found
+    [File] => /srv/www/openvpn-webadmin/src/Layout/HtmlHead.php
+    [Line] => 2
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(80): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:43:57] Array
+(
+    [Exception] => Class "Lang" not found
+    [File] => /srv/www/openvpn-webadmin/src/Layout/HtmlHead.php
+    [Line] => 2
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(80): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 03:44:07] Array
+(
+    [Exception] => Class "Lang" not found
+    [File] => /srv/www/openvpn-webadmin/src/Layout/HtmlHead.php
+    [Line] => 2
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(80): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:04:56] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getCurrent()
+    [File] => /srv/www/openvpn-webadmin/src/Layout/layout.php
+    [Line] => 6
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(86): include()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:05:02] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getCurrent()
+    [File] => /srv/www/openvpn-webadmin/src/Layout/layout.php
+    [Line] => 6
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(86): include()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:17:14] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:18:47] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:30:31] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:31:02] Array
+(
+    [Exception] => Class "Dotenv\Dotenv" not found
+    [File] => /srv/www/openvpn-webadmin/src/load.php
+    [Line] => 31
+    [Trace] => #0 /srv/www/openvpn-webadmin/public/index.php(6): require_once()
+#1 {main}
+)
+
+[2025-10-02 04:31:02] Array
+(
+    [Exception] => Class "Dotenv\Dotenv" not found
+    [File] => /srv/www/openvpn-webadmin/src/load.php
+    [Line] => 31
+    [Trace] => #0 /srv/www/openvpn-webadmin/public/index.php(6): require_once()
+#1 {main}
+)
+
+[2025-10-02 04:38:32] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:38:59] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:41:31] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/pages/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:42:05] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../src/Templates/pages/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:42:49] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../../src/Templates/pages/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:43:04] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../../Templates/pages/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:43:13] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/pages/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:44:43] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/pages/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:57:36] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/pages/dashboards.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:58:00] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/pages/Dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:58:22] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/Views/Dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 04:58:42] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../../Templates/Views/Dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 05:00:04] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getCurrent()
+    [File] => /srv/www/openvpn-webadmin/src/Templates/layout.php
+    [Line] => 2
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/Template.php(36): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#3 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-02 05:00:15] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../../Templates/pages/dashbaord.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 05:00:27] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../../Templates/pages/dashbaord.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 05:00:35] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getCurrent()
+    [File] => /srv/www/openvpn-webadmin/src/Templates/layout.php
+    [Line] => 2
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/Template.php(36): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#3 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-02 05:02:34] Array
+(
+    [Exception] => Template not found: /srv/www/openvpn-webadmin/src/Core/../Templates/pages/dashboard.php
+    [File] => /srv/www/openvpn-webadmin/src/Core/Template.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 05:03:36] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getCurrent()
+    [File] => /srv/www/openvpn-webadmin/src/Templates/layout.php
+    [Line] => 2
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/Template.php(36): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#3 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-02 05:03:55] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getCurrent()
+    [File] => /srv/www/openvpn-webadmin/src/Templates/layout.php
+    [Line] => 2
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/Template.php(36): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#3 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-02 05:04:13] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getCurrent()
+    [File] => /srv/www/openvpn-webadmin/src/Templates/layout.php
+    [Line] => 2
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/Template.php(36): require()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(97): Micro\OpenvpnWebadmin\Core\Template->render()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#3 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-02 08:47:46] Array
+(
+    [Exception] => Micro\OpenvpnWebadmin\Templates\Template::__construct(): Argument #1 ($title) must be of type string, array given, called in /srv/www/openvpn-webadmin/src/Core/GoRequest.php on line 81
+    [File] => /srv/www/openvpn-webadmin/src/Templates/Template.php
+    [Line] => 10
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(81): Micro\OpenvpnWebadmin\Templates\Template->__construct()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 08:48:03] Array
+(
+    [Exception] => Micro\OpenvpnWebadmin\Templates\Template::__construct(): Argument #1 ($title) must be of type string, array given, called in /srv/www/openvpn-webadmin/src/Core/GoRequest.php on line 81
+    [File] => /srv/www/openvpn-webadmin/src/Templates/Template.php
+    [Line] => 10
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(81): Micro\OpenvpnWebadmin\Templates\Template->__construct()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 08:48:15] Array
+(
+    [Exception] => Micro\OpenvpnWebadmin\Templates\Template::__construct(): Argument #1 ($title) must be of type string, array given, called in /srv/www/openvpn-webadmin/src/Core/GoRequest.php on line 81
+    [File] => /srv/www/openvpn-webadmin/src/Templates/Template.php
+    [Line] => 10
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(81): Micro\OpenvpnWebadmin\Templates\Template->__construct()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 08:49:13] Array
+(
+    [Exception] => Micro\OpenvpnWebadmin\Templates\Template::__construct(): Argument #2 ($content) must be of type string, null given, called in /srv/www/openvpn-webadmin/src/Core/GoRequest.php on line 81
+    [File] => /srv/www/openvpn-webadmin/src/Templates/Template.php
+    [Line] => 10
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(81): Micro\OpenvpnWebadmin\Templates\Template->__construct()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 09:09:35] Array
+(
+    [Exception] => syntax error, unexpected token "}"
+    [File] => /srv/www/openvpn-webadmin/src/Templates/Template.php
+    [Line] => 65
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(81): Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#3 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-02 09:09:46] Array
+(
+    [Exception] => syntax error, unexpected token "}"
+    [File] => /srv/www/openvpn-webadmin/src/Templates/Template.php
+    [Line] => 65
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(81): Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#3 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-02 09:09:58] Array
+(
+    [Exception] => syntax error, unexpected token "}"
+    [File] => /srv/www/openvpn-webadmin/src/Templates/Template.php
+    [Line] => 65
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(81): Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(42): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#3 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-02 09:40:29] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Templates\Dashboard" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 82
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(44): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 09:41:47] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Templates\Dashboard" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 82
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(44): Micro\OpenvpnWebadmin\Core\GoRequest->showMain()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 13:12:11] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\UserController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 139
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(64): Micro\OpenvpnWebadmin\Core\GoRequest->dispatch()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 13:13:10] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Templates\UserController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 139
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(64): Micro\OpenvpnWebadmin\Core\GoRequest->dispatch()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 13:14:03] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\UserController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 139
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(64): Micro\OpenvpnWebadmin\Core\GoRequest->dispatch()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 14:35:33] Array
+(
+    [Exception] => Call to a member function index() on null
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 140
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(64): Micro\OpenvpnWebadmin\Core\GoRequest->dispatch()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 14:36:21] Array
+(
+    [Exception] => Call to a member function index() on null
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 140
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(64): Micro\OpenvpnWebadmin\Core\GoRequest->dispatch()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 14:37:08] Array
+(
+    [Exception] => syntax error, unexpected token "->", expecting ")"
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 140
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/public/index.php(10): Composer\Autoload\ClassLoader->loadClass()
+#2 {main}
+)
+
+[2025-10-02 14:37:08] Array
+(
+    [Exception] => syntax error, unexpected token "->", expecting ")"
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 140
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/public/index.php(10): Composer\Autoload\ClassLoader->loadClass()
+#2 {main}
+)
+
+[2025-10-02 14:37:32] Array
+(
+    [Exception] => syntax error, unexpected token "->", expecting ")"
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 140
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/public/index.php(10): Composer\Autoload\ClassLoader->loadClass()
+#2 {main}
+)
+
+[2025-10-02 14:37:32] Array
+(
+    [Exception] => syntax error, unexpected token "->", expecting ")"
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 140
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/public/index.php(10): Composer\Autoload\ClassLoader->loadClass()
+#2 {main}
+)
+
+[2025-10-02 17:37:52] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Templates\User" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 98
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showUsers()
+#1 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-02 18:28:32] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\DataController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 56
+    [Trace] => #0 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#1 {main}
+)
+
+[2025-10-02 18:28:46] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\DataController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 56
+    [Trace] => #0 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#1 {main}
+)
+
+[2025-10-02 18:29:12] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\DataController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 56
+    [Trace] => #0 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#1 {main}
+)
+
+[2025-10-02 18:29:44] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\DataController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 56
+    [Trace] => #0 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#1 {main}
+)
+
+[2025-10-02 18:30:23] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Core\DataController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 56
+    [Trace] => #0 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#1 {main}
+)
+
+[2025-10-02 18:31:34] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Models\UserModel" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 18:34:24] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Models\UserModel" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 24
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 18:37:10] Array
+(
+    [Exception] => Too few arguments to function Micro\OpenvpnWebadmin\Core\Database::getInstance(), 0 passed in /srv/www/openvpn-webadmin/src/Core/UserModel.php on line 12 and exactly 1 expected
+    [File] => /srv/www/openvpn-webadmin/src/Core/Database.php
+    [Line] => 25
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(12): Micro\OpenvpnWebadmin\Core\Database::getInstance()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(24): Micro\OpenvpnWebadmin\Core\UserModel->__construct()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-02 18:40:45] Array
+(
+    [Exception] => SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ovpn-admin2.users' doesn't exist
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 29
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(29): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(30): Micro\OpenvpnWebadmin\Core\UserModel->getUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-02 18:41:07] Array
+(
+    [Exception] => SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ovpn-admin2.users' doesn't exist
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 29
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(29): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(30): Micro\OpenvpnWebadmin\Core\UserModel->getUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-02 18:42:24] Array
+(
+    [Exception] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'uname' in 'SELECT'
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 29
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(29): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(30): Micro\OpenvpnWebadmin\Core\UserModel->getUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-02 18:46:20] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\UserModel::getUsers()
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-02 19:17:36] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\UserModel::getUsers()
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-03 04:28:56] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\UserModel::getUsers()
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-03 04:29:02] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\UserModel::getUsers()
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-03 04:30:22] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\UserModel::getUsers()
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-03 04:31:01] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\UserModel::getUsers()
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(14): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-03 04:33:36] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\UserModel::getUsers()
+    [File] => /srv/www/openvpn-webadmin/src/Core/DataController.php
+    [Line] => 32
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/DataController.php(16): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#2 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-03 04:35:13] Array
+(
+    [Exception] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.group_name' in 'SELECT'
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(51): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(32): Micro\OpenvpnWebadmin\Core\UserModel->getAllUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(16): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-03 04:46:57] Array
+(
+    [Exception] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.group_name' in 'WHERE'
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(51): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(32): Micro\OpenvpnWebadmin\Core\UserModel->getAllUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(16): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-03 04:47:01] Array
+(
+    [Exception] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.group_name' in 'WHERE'
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(51): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(32): Micro\OpenvpnWebadmin\Core\UserModel->getAllUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(16): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-03 04:47:24] Array
+(
+    [Exception] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.group_name' in 'WHERE'
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(51): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(32): Micro\OpenvpnWebadmin\Core\UserModel->getAllUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(16): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-03 12:38:45] Array
+(
+    [Exception] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.group_name' in 'WHERE'
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(51): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(32): Micro\OpenvpnWebadmin\Core\UserModel->getAllUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(16): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-03 12:39:06] Array
+(
+    [Exception] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.group_name' in 'WHERE'
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(51): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(32): Micro\OpenvpnWebadmin\Core\UserModel->getAllUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(16): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-03 12:48:04] Array
+(
+    [Exception] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'g.group_name' in 'WHERE'
+    [File] => /srv/www/openvpn-webadmin/src/Core/UserModel.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/UserModel.php(51): PDOStatement->execute()
+#1 /srv/www/openvpn-webadmin/src/Core/DataController.php(32): Micro\OpenvpnWebadmin\Core\UserModel->getAllUsers()
+#2 /srv/www/openvpn-webadmin/src/Core/DataController.php(16): Micro\OpenvpnWebadmin\Core\DataController->getUsers()
+#3 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(56): Micro\OpenvpnWebadmin\Core\DataController->handle()
+#4 /srv/www/openvpn-webadmin/public/index.php(12): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#5 {main}
+)
+
+[2025-10-07 06:58:46] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\LoginController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 110
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-07 06:58:46] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\LoginController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 110
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-07 06:59:06] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\LoginController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 110
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-07 06:59:06] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\LoginController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 110
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-07 06:59:10] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\LoginController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 110
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-07 07:00:46] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\LoginController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 110
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-07 07:00:46] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Controller\LoginController" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 110
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-07 07:01:07] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getAll()
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(110): Micro\OpenvpnWebadmin\Core\LoginController->showLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 07:01:07] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getAll()
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(110): Micro\OpenvpnWebadmin\Core\LoginController->showLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 07:01:30] Array
+(
+    [Exception] => Too few arguments to function Micro\OpenvpnWebadmin\Core\Lang::get(), 0 passed in /srv/www/openvpn-webadmin/src/Core/LoginController.php on line 30 and exactly 1 expected
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 45
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/LoginController.php(30): Micro\OpenvpnWebadmin\Core\Lang::get()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(110): Micro\OpenvpnWebadmin\Core\LoginController->showLogin()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#3 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-07 07:01:31] Array
+(
+    [Exception] => Too few arguments to function Micro\OpenvpnWebadmin\Core\Lang::get(), 0 passed in /srv/www/openvpn-webadmin/src/Core/LoginController.php on line 30 and exactly 1 expected
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 45
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/LoginController.php(30): Micro\OpenvpnWebadmin\Core\Lang::get()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(110): Micro\OpenvpnWebadmin\Core\LoginController->showLogin()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#3 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-07 07:06:02] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getAll()
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(110): Micro\OpenvpnWebadmin\Core\LoginController->showLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 07:06:02] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Lang::getAll()
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 30
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(110): Micro\OpenvpnWebadmin\Core\LoginController->showLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 07:07:07] Array
+(
+    [Exception] => Too few arguments to function Micro\OpenvpnWebadmin\Core\Lang::get(), 0 passed in /srv/www/openvpn-webadmin/src/Core/LoginController.php on line 30 and exactly 1 expected
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 45
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/LoginController.php(30): Micro\OpenvpnWebadmin\Core\Lang::get()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(110): Micro\OpenvpnWebadmin\Core\LoginController->showLogin()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#3 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-07 07:07:07] Array
+(
+    [Exception] => Too few arguments to function Micro\OpenvpnWebadmin\Core\Lang::get(), 0 passed in /srv/www/openvpn-webadmin/src/Core/LoginController.php on line 30 and exactly 1 expected
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 45
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/LoginController.php(30): Micro\OpenvpnWebadmin\Core\Lang::get()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(110): Micro\OpenvpnWebadmin\Core\LoginController->showLogin()
+#2 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(62): Micro\OpenvpnWebadmin\Core\GoRequest->showLogin()
+#3 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#4 {main}
+)
+
+[2025-10-07 08:26:04] Array
+(
+    [Exception] => syntax error, unexpected token "<"
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 115
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/public/index.php(28): Composer\Autoload\ClassLoader->loadClass()
+#2 {main}
+)
+
+[2025-10-07 08:26:04] Array
+(
+    [Exception] => syntax error, unexpected token "<"
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 115
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/public/index.php(28): Composer\Autoload\ClassLoader->loadClass()
+#2 {main}
+)
+
+[2025-10-07 08:26:49] Array
+(
+    [Exception] => syntax error, unexpected identifier "render", expecting variable or "$"
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 115
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/public/index.php(28): Composer\Autoload\ClassLoader->loadClass()
+#2 {main}
+)
+
+[2025-10-07 08:26:49] Array
+(
+    [Exception] => syntax error, unexpected identifier "render", expecting variable or "$"
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 115
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 /srv/www/openvpn-webadmin/public/index.php(28): Composer\Autoload\ClassLoader->loadClass()
+#2 {main}
+)
+
+[2025-10-07 09:02:12] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Session::setVar()
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(128): Micro\OpenvpnWebadmin\Core\LoginController->handleLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(77): Micro\OpenvpnWebadmin\Core\GoRequest->checkLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 09:02:52] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Session::setVar()
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(128): Micro\OpenvpnWebadmin\Core\LoginController->handleLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(77): Micro\OpenvpnWebadmin\Core\GoRequest->checkLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 09:04:16] Array
+(
+    [Exception] => Call to undefined method Micro\OpenvpnWebadmin\Core\Session::setVar()
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(128): Micro\OpenvpnWebadmin\Core\LoginController->handleLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(77): Micro\OpenvpnWebadmin\Core\GoRequest->checkLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 09:04:51] Array
+(
+    [Exception] => Non-static method Micro\OpenvpnWebadmin\Core\Session::setvar() cannot be called statically
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(128): Micro\OpenvpnWebadmin\Core\LoginController->handleLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(77): Micro\OpenvpnWebadmin\Core\GoRequest->checkLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 09:06:05] Array
+(
+    [Exception] => Non-static method Micro\OpenvpnWebadmin\Core\Session::setVar() cannot be called statically
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 51
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(128): Micro\OpenvpnWebadmin\Core\LoginController->handleLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(77): Micro\OpenvpnWebadmin\Core\GoRequest->checkLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2025-10-07 20:47:23] Array
+(
+    [Exception] => Non-static method Micro\OpenvpnWebadmin\Core\Session::destroy() cannot be called statically
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 171
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(87): Micro\OpenvpnWebadmin\Core\GoRequest->logout()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-08 05:41:09] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Core\Log" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 163
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(103): Micro\OpenvpnWebadmin\Core\GoRequest->showLogs()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2025-10-08 05:41:26] Array
+(
+    [Exception] => Class "Micro\OpenvpnWebadmin\Core\Log" not found
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 163
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(103): Micro\OpenvpnWebadmin\Core\GoRequest->showLogs()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2026-02-17 05:23:57] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/login1/error.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 211
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(108): Micro\OpenvpnWebadmin\Core\GoRequest->showError()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2026-02-17 05:23:59] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/login1/error.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 211
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(108): Micro\OpenvpnWebadmin\Core\GoRequest->showError()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2026-02-17 05:24:22] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/login1/error.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 211
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(108): Micro\OpenvpnWebadmin\Core\GoRequest->showError()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2026-02-17 05:26:36] Array
+(
+    [Exception] => Failed opening required '/srv/www/openvpn-webadmin/src/Core/../html/login1/error.php' (include_path='.:/usr/share/php')
+    [File] => /srv/www/openvpn-webadmin/src/Core/GoRequest.php
+    [Line] => 211
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(108): Micro\OpenvpnWebadmin\Core\GoRequest->showError()
+#1 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#2 {main}
+)
+
+[2026-02-21 08:09:47] Array
+(
+    [Exception] => Call to undefined function Micro\OpenvpnWebadmin\Core\debug()
+    [File] => /srv/www/openvpn-webadmin/src/Core/LoginController.php
+    [Line] => 53
+    [Trace] => #0 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(118): Micro\OpenvpnWebadmin\Core\LoginController->handleLogin()
+#1 /srv/www/openvpn-webadmin/src/Core/GoRequest.php(67): Micro\OpenvpnWebadmin\Core\GoRequest->checkLogin()
+#2 /srv/www/openvpn-webadmin/public/index.php(30): Micro\OpenvpnWebadmin\Core\GoRequest->main()
+#3 {main}
+)
+
+[2026-02-21 09:26:54] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:26:54] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:27:19] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:27:19] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:27:59] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:27:59] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:28:00] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:28:01] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:28:01] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:28:01] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:28:12] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:28:12] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:28:28] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:28:28] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:29:02] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:29:02] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:29:56] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:29:56] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:32:26] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:32:26] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:32:51] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:32:51] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:32:56] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:32:56] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:33:00] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:34:28] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:34:28] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:34:33] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:40:33] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:40:33] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:42:46] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:42:46] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:43:11] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
+[2026-02-21 09:43:11] Array
+(
+    [Exception] => syntax error, unexpected identifier "lang", expecting "function" or "const"
+    [File] => /srv/www/openvpn-webadmin/src/Core/Lang.php
+    [Line] => 87
+    [Trace] => #0 /srv/www/openvpn-webadmin/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#1 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#2 /srv/www/openvpn-webadmin/src/load.php(49): class_exists()
+#3 /srv/www/openvpn-webadmin/public/index.php(21): require_once('...')
+#4 {main}
+)
+
