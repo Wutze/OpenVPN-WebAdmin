@@ -17,6 +17,10 @@ $md[] = 'Automatisch generiert am: ' . date('Y-m-d H:i:s');
 $md[] = '';
 
 foreach ($files as $file) {
+    if (shouldSkipFile($file)) {
+        continue;
+    }
+
     if (!is_file($file)) {
         continue;
     }
@@ -59,6 +63,12 @@ foreach ($files as $file) {
 }
 
 file_put_contents($outputFile, implode("\n", $md) . "\n");
+
+function shouldSkipFile(string $file): bool
+{
+    $baseName = strtolower(basename($file));
+    return fnmatch('composer*.php', $baseName);
+}
 
 function extractFunctions(array $tokens): array
 {
