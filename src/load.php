@@ -82,15 +82,20 @@ if ($sitetools !== '') {
     }
 }
 
+$cspNonce = rtrim(strtr(base64_encode(random_bytes(18)), '+/', '-_'), '=');
+define('_CSP_NONCE', $cspNonce);
+
 header('X-Frame-Options: DENY');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
+header('Cross-Origin-Opener-Policy: same-origin');
+header('Cross-Origin-Resource-Policy: same-origin');
 if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
     header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
 }
 
-$cspScriptSrc = ["'self'", "'unsafe-inline'"];
+$cspScriptSrc = ["'self'", "'nonce-{$cspNonce}'"];
 $cspStyleSrc = ["'self'", "'unsafe-inline'"];
 $cspFontSrc = ["'self'", 'data:'];
 $cspImgSrc = ["'self'", 'data:', 'blob:'];

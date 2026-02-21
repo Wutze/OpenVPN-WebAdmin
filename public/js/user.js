@@ -90,7 +90,6 @@ function renderProfiles(rows) {
         <td>${zipName}</td>
         <td>${mtime}</td>
         <td>
-          <button class="btn btn-sm btn-outline-primary js-build-zip" data-system="${encodeURIComponent(String(row.system || ''))}">${t('_ACTION_BUILD_ZIP', 'ZIP erstellen')}</button>
           <a class="btn btn-sm btn-success ${row.zip_exists ? '' : 'disabled'}" href="?op=download&system=${encodeURIComponent(String(row.system || ''))}">${t('_DOWNLOAD', 'Download')}</a>
         </td>
       </tr>
@@ -125,25 +124,6 @@ function initProfiles() {
   if (refreshBtn) {
     refreshBtn.addEventListener('click', refresh);
   }
-
-  document.addEventListener('click', async (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
-    if (!target.classList.contains('js-build-zip')) return;
-
-    const system = decodeURIComponent(target.dataset.system || '');
-    if (!system) return;
-
-    try {
-      await postForm('?op=data&select=profiles', {
-        action: 'build_zip',
-        system,
-      });
-      await refresh();
-    } catch (error) {
-      showAlert('profilesMessage', 'danger', error.message);
-    }
-  });
 
   refresh();
 }

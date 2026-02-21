@@ -20,9 +20,7 @@
 <?php
 $activeOp = $activeOp ?? 'dashboard';
 $user = $user ?? null;
-$isAdmin = (bool)($user['is_admin'] ?? false)
-    || str_contains(strtolower((string)($user['role'] ?? '')), 'admin')
-    || ((int)($user['gid'] ?? 0) === 1);
+$isAdmin = \Micro\OpenvpnWebadmin\Core\Session::isAdmin();
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="?op=dashboard" class="brand-link">

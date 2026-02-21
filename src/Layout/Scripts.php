@@ -26,7 +26,7 @@
     <!-- Optional: bootstrap-table, datepicker lokal -->
     <script src="<?php echo _SITETOOLS ?>/bootstrap-table/dist/bootstrap-table.min.js"></script>
     <script src="<?php echo _SITETOOLS ?>/int/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-    <script>
+    <script nonce="<?= htmlspecialchars(defined('_CSP_NONCE') ? _CSP_NONCE : '', ENT_QUOTES, 'UTF-8') ?>">
       window.I18N = <?= json_encode(Lang::getAll(), JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
       window.CSRF_TOKEN = <?= json_encode(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
     </script>

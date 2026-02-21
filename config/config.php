@@ -22,7 +22,7 @@
 
 return [
     'debug' => filter_var(getenv('DEBUG') ?: 'false', FILTER_VALIDATE_BOOL),
-    'loginpath' => 'login3',
+    'loginpath' => 'login1',
     /**
      * die Variable sitetools gibt an, wo deine ganzen JS und CSS Dateien liegen
      * das hier gibt dir die Möglichkeit sie von einem externen zentralen Server zu laden

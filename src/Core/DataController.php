@@ -106,6 +106,7 @@ private function handlePost(string $select): void
                 $this->handleAccountAction();
                 break;
             case 'profiles':
+                $this->requireAdminJson();
                 $this->handleProfileAction();
                 break;
             case 'config':

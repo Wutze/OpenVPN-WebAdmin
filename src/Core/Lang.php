@@ -124,11 +124,47 @@ public static function getAvailableLanguages(): array
      */
     public static function getLanguageMeta(string $code): array
     {
-        return match ($code) {
-            'de_DE' => ['label' => 'Deutsch', 'flag' => '🇩🇪'],
-            'en_EN' => ['label' => 'English', 'flag' => '🇬🇧'],
-            default => ['label' => $code, 'flag' => '🏳️'],
-        };
+        if (!preg_match('/^([a-z]{2})_([A-Z]{2})$/', $code, $matches)) {
+            return ['label' => $code, 'flag' => '🏳️'];
+        }
+
+        $langCode = strtolower($matches[1]);
+        $countryCode = strtoupper($matches[2]);
+
+        return [
+            'label' => self::buildLocaleLabel($langCode, $countryCode),
+            'flag' => self::countryCodeToFlag($countryCode),
+        ];
+    }
+
+    private static function buildLocaleLabel(string $langCode, string $countryCode): string
+    {
+        if (class_exists('\\Locale')) {
+            $locale = $langCode . '_' . $countryCode;
+            $language = \Locale::getDisplayLanguage($locale, $locale);
+            $region = \Locale::getDisplayRegion($locale, $locale);
+
+            if (is_string($language) && $language !== '' && strcasecmp($language, $langCode) !== 0) {
+                if (is_string($region) && $region !== '' && strcasecmp($region, $countryCode) !== 0) {
+                    return $language . ' (' . $region . ')';
+                }
+                return $language;
+            }
+        }
+
+        return strtoupper($langCode) . ' (' . $countryCode . ')';
+    }
+
+    private static function countryCodeToFlag(string $countryCode): string
+    {
+        if (!preg_match('/^[A-Z]{2}$/', $countryCode)) {
+            return '🏳️';
+        }
+
+        $first = 127397 + ord($countryCode[0]);
+        $second = 127397 + ord($countryCode[1]);
+
+        return html_entity_decode('&#' . $first . ';&#' . $second . ';', ENT_NOQUOTES, 'UTF-8');
     }
 
     private static function sanitizeLangCode(string $lang): string

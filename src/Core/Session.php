@@ -271,16 +271,43 @@ public function gc($max_lifetime): int|false
             return false;
         }
 
-        if (isset($user['is_admin'])) {
-            return (bool)$user['is_admin'];
+        $uid = (int)($user['uid'] ?? 0);
+        if ($uid > 0) {
+            try {
+                $db = Database::getInstance()->getConnection();
+                $stmt = $db->prepare(
+                    'SELECT u.gid, COALESCE(g.name, \'\') AS role_name
+                     FROM user u
+                     LEFT JOIN groupnames g ON u.gid = g.gid
+                     WHERE u.uid = :uid
+                     LIMIT 1'
+                );
+                $stmt->execute([':uid' => $uid]);
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (is_array($row)) {
+                    $gid = (int)($row['gid'] ?? 0);
+                    $roleName = (string)($row['role_name'] ?? '');
+                    $isAdmin = self::isStrictAdminRoleName($roleName);
+
+                    // Keep session in sync with authoritative DB role.
+                    $_SESSION['user']['gid'] = $gid;
+                    $_SESSION['user']['role'] = $roleName;
+                    $_SESSION['user']['is_admin'] = $isAdmin;
+
+                    return $isAdmin;
+                }
+            } catch (\Throwable $e) {
+                if (class_exists(Debug::class)) {
+                    Debug::log('Session::isAdmin DB check failed', $e->getMessage());
+                }
+            }
         }
 
-        $role = strtolower((string)($user['role'] ?? ''));
-        if ($role !== '' && str_contains($role, 'admin')) {
-            return true;
+        if (array_key_exists('is_admin', $user)) {
+            return self::toBool($user['is_admin']);
         }
 
-        return ((int)($user['gid'] ?? 0)) === 1;
+        return false;
     }
 
     /**
@@ -337,7 +364,7 @@ public function gc($max_lifetime): int|false
      * @param mixed $token
      * @return bool
      */
-public static function verifyCsrfToken(?string $token): bool
+    public static function verifyCsrfToken(?string $token): bool
     {
         $sessionToken = $_SESSION['_csrf_token'] ?? '';
         if (!is_string($sessionToken) || $sessionToken === '') {
@@ -349,5 +376,37 @@ public static function verifyCsrfToken(?string $token): bool
         }
 
         return hash_equals($sessionToken, $token);
+    }
+
+    private static function toBool(mixed $value): bool
+    {
+        if (is_bool($value)) {
+            return $value;
+        }
+        if (is_int($value) || is_float($value)) {
+            return ((int)$value) === 1;
+        }
+        if (is_string($value)) {
+            $v = strtolower(trim($value));
+            return in_array($v, ['1', 'true', 'yes', 'on'], true);
+        }
+
+        return false;
+    }
+
+    private static function isStrictAdminRoleName(string $roleName): bool
+    {
+        $role = strtolower(trim($roleName));
+        if ($role === '') {
+            return false;
+        }
+
+        return in_array($role, [
+            'admin',
+            'admins',
+            'administrator',
+            'administrators',
+            'administratoren',
+        ], true);
     }
 }

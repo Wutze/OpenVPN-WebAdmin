@@ -63,10 +63,10 @@ public function handleLogin(): void
         }
 
         if ($this->isLoginRateLimited($username)) {
-            Debug::log('LOGIN blocked rate limit', ['username' => $username, 'ip' => $this->clientIp()]);
+            Debug::log('LOGIN blocked rate limit', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
             $this->redirect('?op=login&error=invalid');
         }
-        Debug::log('LOGIN attempt', ['username' => $username, 'ip' => $this->clientIp()]);
+        Debug::log('LOGIN attempt', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
 
         if (empty($username) || empty($password)) {
             Debug::log("Leere Logindaten");
@@ -84,7 +84,7 @@ public function handleLogin(): void
             ");
             $stmt->execute(['username' => $username]);
             $user = $stmt->fetch();
-            Debug::log('LOGIN user lookup (join)', ['username' => $username, 'found' => (bool)$user]);
+            Debug::log('LOGIN user lookup (join)', ['user_ref' => $this->auditUserRef($username), 'found' => (bool)$user]);
         } catch (PDOException $e) {
             Debug::log('Login JOIN fallback', $e->getMessage());
             try {
@@ -94,7 +94,7 @@ public function handleLogin(): void
                 if ($user) {
                     $user['role_name'] = '';
                 }
-                Debug::log('LOGIN user lookup (fallback)', ['username' => $username, 'found' => (bool)$user]);
+                Debug::log('LOGIN user lookup (fallback)', ['user_ref' => $this->auditUserRef($username), 'found' => (bool)$user]);
             } catch (\Throwable $inner) {
                 Debug::log('Login fallback query failed', $inner->getMessage());
                 $this->registerLoginFailure($username);
@@ -120,7 +120,7 @@ public function handleLogin(): void
                         'pass' => $newHash,
                         'uid' => $user['uid'],
                     ]);
-                    Debug::log('LOGIN legacy password migrated', ['username' => $username, 'uid' => (int)$user['uid']]);
+                    Debug::log('LOGIN legacy password migrated', ['user_ref' => $this->auditUserRef($username), 'uid' => (int)$user['uid']]);
                 }
             }
         }
@@ -129,7 +129,7 @@ public function handleLogin(): void
             $this->clearLoginFailures($username);
             Session::regenerateId();
             $roleName = (string)($user['role_name'] ?? '');
-            $isAdmin = str_contains(strtolower($roleName), 'admin') || ((int)$user['gid'] === 1);
+            $isAdmin = $this->isStrictAdminRoleName($roleName);
             Debug::log('LOGIN session before set', [
                 'session_id' => session_id(),
                 'session_status' => session_status(),
@@ -142,11 +142,11 @@ public function handleLogin(): void
                 'is_admin' => $isAdmin
             ]);
             session_write_close();
-            Debug::log('LOGIN success', ['username' => $username, 'uid' => (int)$user['uid'], 'is_admin' => $isAdmin]);
+            Debug::log('LOGIN success', ['user_ref' => $this->auditUserRef($username), 'uid' => (int)$user['uid'], 'is_admin' => $isAdmin]);
             $this->redirect('?op=dashboard');
         } else {
             $this->registerLoginFailure($username);
-            Debug::log('LOGIN failed', ['username' => $username, 'user_found' => (bool)$user, 'password_ok' => $validPassword]);
+            Debug::log('LOGIN failed', ['user_ref' => $this->auditUserRef($username), 'user_found' => (bool)$user, 'password_ok' => $validPassword, 'ip' => $this->clientIp()]);
             $this->redirect('?op=login&error=invalid');
         }
     }
@@ -167,6 +167,15 @@ private function redirect(string $url): void
     {
         $ip = (string)($_SERVER['REMOTE_ADDR'] ?? '');
         return $ip !== '' ? $ip : 'unknown';
+    }
+
+    private function auditUserRef(string $username): string
+    {
+        $u = strtolower(trim($username));
+        if ($u === '') {
+            return 'empty';
+        }
+        return 'sha256:' . hash('sha256', $u);
     }
 
     private function loginKey(string $username): string
@@ -237,5 +246,22 @@ private function redirect(string $url): void
         if (isset($_SESSION['_login_guard']) && is_array($_SESSION['_login_guard'])) {
             unset($_SESSION['_login_guard'][$key]);
         }
+    }
+
+    private function isStrictAdminRoleName(string $roleName): bool
+    {
+        $role = strtolower(trim($roleName));
+        if ($role === '') {
+            return false;
+        }
+
+        // Only explicit admin role names, no substring matches like "webadmin-user".
+        return in_array($role, [
+            'admin',
+            'admins',
+            'administrator',
+            'administrators',
+            'administratoren',
+        ], true);
     }
 }
