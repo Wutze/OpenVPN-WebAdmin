@@ -203,7 +203,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/DataController.php`
 
@@ -481,7 +481,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/Database.php`
 
@@ -529,7 +529,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/Debug.php`
 
@@ -619,7 +619,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/GoRequest.php`
 
@@ -996,7 +996,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/Lang.php`
 
@@ -1086,7 +1086,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/LogModel.php`
 
@@ -1136,7 +1136,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/LoginController.php`
 
@@ -1183,7 +1183,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/ProfileService.php`
 
@@ -1292,7 +1292,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/ServerSettingsService.php`
 
@@ -1505,7 +1505,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/Session.php`
 
@@ -1751,7 +1751,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/UserController.php`
 
@@ -1769,7 +1769,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Core/UserModel.php`
 
@@ -1992,7 +1992,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Templates/Account.php`
 
@@ -2010,7 +2010,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Templates/Config.php`
 
@@ -2028,7 +2028,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Templates/Dashboard.php`
 
@@ -2046,7 +2046,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Templates/Log.php`
 
@@ -2064,7 +2064,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Templates/Profiles.php`
 
@@ -2082,7 +2082,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Templates/Settings.php`
 
@@ -2100,7 +2100,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Templates/Template.php`
 
@@ -2145,7 +2145,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
 ## `./src/Templates/User.php`
 
@@ -2163,5 +2163,5 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
-<hr style="border:0; height:5px; background:#1e90ff;">
+---
 
