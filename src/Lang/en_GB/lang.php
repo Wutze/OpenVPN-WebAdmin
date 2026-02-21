@@ -73,7 +73,7 @@ return [
     '_USERS_FIXED_IP_ENABLE' => 'Assign fixed network address',
     '_USERS_FIXED_IP' => 'Fixed VPN address',
     '_USERS_FIXED_IP_PLACEHOLDER' => 'e.g. 10.8.0.50',
-    '_USERS_NETWORK_HINT' => 'Note: this setting is currently stored in the browser.',
+    '_USERS_NETWORK_HINT' => 'Note: this setting is stored in the database.',
     '_USERS_DELETE' => 'Delete User',
     '_CLOSE' => 'Close',
     '_SAVE' => 'Save',
@@ -171,6 +171,7 @@ return [
     '_API_STATUS_UPDATED' => 'Status updated.',
     '_API_PASSWORD_UPDATED' => 'Password updated.',
     '_API_LIMITS_UPDATED' => 'Time limits updated.',
+    '_API_NETWORK_UPDATED' => 'Network address updated.',
     '_API_USER_ACTION_UNKNOWN' => 'Unknown user action.',
     '_API_ACCOUNT_ACTION_UNKNOWN' => 'Unknown account action.',
     '_API_ACCOUNT_PASSWORD_FIELDS_REQUIRED' => 'Please fill in both password fields.',
@@ -191,5 +192,7 @@ return [
     '_API_INVALID_ORIGIN' => 'Invalid request origin.',
     '_API_INVALID_CSRF' => 'Security token invalid.',
     '_API_USERNAME_INVALID' => 'Invalid username.',
+    '_API_FIXED_IP_INVALID' => 'Invalid IPv4 address.',
+    '_API_FIXED_IP_IN_USE' => 'This fixed IP address is already assigned to another user.',
 
 ];

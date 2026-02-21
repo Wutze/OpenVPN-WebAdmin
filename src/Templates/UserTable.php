@@ -121,7 +121,8 @@ return <<<HTML
             </div>
             <div>
               <label class="form-label">{$t('_USERS_FIXED_IP')}</label>
-              <input type="text" id="detailFixedIp" class="form-control" placeholder="{$t('_USERS_FIXED_IP_PLACEHOLDER')}">
+              <input type="text" id="detailFixedIp" class="form-control" inputmode="numeric" placeholder="{$t('_USERS_FIXED_IP_PLACEHOLDER')}">
+              <div class="invalid-feedback">{$t('_API_FIXED_IP_INVALID')}</div>
             </div>
             <div class="form-text">{$t('_USERS_NETWORK_HINT')}</div>
           </div>

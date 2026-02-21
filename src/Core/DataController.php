@@ -290,6 +290,35 @@ private function handleUserAction(): void
                     $this->json(['status' => 'ok', 'message' => $this->msg('_API_LIMITS_UPDATED')]);
                     break;
 
+                case 'set_network':
+                    $username = trim((string)($_POST['username'] ?? ''));
+                    $enabled = ((string)($_POST['enabled'] ?? '0')) === '1';
+                    $fixedIp = trim((string)($_POST['fixed_ip'] ?? ''));
+                    $this->assertValidUsername($username);
+
+                    if ($username === '') {
+                        $this->json(['status' => 'error', 'message' => $this->msg('_API_USERNAME_MISSING')], 422);
+                    }
+
+                    if ($fixedIp !== '') {
+                        $enabled = true;
+                    }
+
+                    if ($enabled) {
+                        if (!$this->isValidIpv4($fixedIp)) {
+                            $this->json(['status' => 'error', 'message' => $this->msg('_API_FIXED_IP_INVALID')], 422);
+                        }
+                        if ($model->isFixedIpInUseByOtherUser($username, $fixedIp)) {
+                            $this->json(['status' => 'error', 'message' => $this->msg('_API_FIXED_IP_IN_USE')], 409);
+                        }
+                    } else {
+                        $fixedIp = '';
+                    }
+
+                    $model->setUserFixedIp($username, $fixedIp !== '' ? $fixedIp : null);
+                    $this->json(['status' => 'ok', 'message' => $this->msg('_API_NETWORK_UPDATED')]);
+                    break;
+
                 default:
                     $this->json(['status' => 'error', 'message' => $this->msg('_API_USER_ACTION_UNKNOWN')], 400);
             }
@@ -588,11 +617,16 @@ private function msgf(string $key, string $arg): string
      * @param mixed $username
      * @return void
      */
-private function assertValidUsername(string $username): void
+    private function assertValidUsername(string $username): void
     {
         if ($username === '' || !preg_match('/^[a-zA-Z0-9_.@-]{1,64}$/', $username)) {
             $this->json(['status' => 'error', 'message' => $this->msg('_API_USERNAME_INVALID')], 422);
         }
+    }
+
+    private function isValidIpv4(string $value): bool
+    {
+        return filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false;
     }
 
     /**

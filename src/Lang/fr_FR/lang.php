@@ -73,7 +73,7 @@ return [
     '_USERS_FIXED_IP_ENABLE' => 'Attribuer une adresse reseau fixe',
     '_USERS_FIXED_IP' => 'Adresse VPN fixe',
     '_USERS_FIXED_IP_PLACEHOLDER' => 'par ex. 10.8.0.50',
-    '_USERS_NETWORK_HINT' => 'Remarque: ce reglage est actuellement stocke dans le navigateur.',
+    '_USERS_NETWORK_HINT' => 'Remarque: ce reglage est enregistre dans la base de donnees.',
     '_USERS_DELETE' => 'Supprimer utilisateur',
     '_CLOSE' => 'Fermer',
     '_SAVE' => 'Enregistrer',
@@ -171,6 +171,7 @@ return [
     '_API_STATUS_UPDATED' => 'Statut mis a jour.',
     '_API_PASSWORD_UPDATED' => 'Mot de passe mis a jour.',
     '_API_LIMITS_UPDATED' => 'Limites de temps mises a jour.',
+    '_API_NETWORK_UPDATED' => 'Adresse reseau mise a jour.',
     '_API_USER_ACTION_UNKNOWN' => 'Action utilisateur inconnue.',
     '_API_ACCOUNT_ACTION_UNKNOWN' => 'Action compte inconnue.',
     '_API_ACCOUNT_PASSWORD_FIELDS_REQUIRED' => 'Veuillez remplir les deux champs mot de passe.',
@@ -191,4 +192,6 @@ return [
     '_API_INVALID_ORIGIN' => 'Origine de requete invalide.',
     '_API_INVALID_CSRF' => 'Jeton de securite invalide.',
     '_API_USERNAME_INVALID' => 'Nom d\'utilisateur invalide.',
+    '_API_FIXED_IP_INVALID' => 'Adresse IPv4 invalide.',
+    '_API_FIXED_IP_IN_USE' => 'Cette adresse IP fixe est deja attribuee a un autre utilisateur.',
 ];

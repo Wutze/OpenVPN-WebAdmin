@@ -73,7 +73,7 @@ $message = [
     '_USERS_FIXED_IP_ENABLE' => 'Netzwerkadresse fest vergeben',
     '_USERS_FIXED_IP' => 'Feste VPN-Adresse',
     '_USERS_FIXED_IP_PLACEHOLDER' => 'z.B. 10.8.0.50',
-    '_USERS_NETWORK_HINT' => 'Hinweis: Diese Einstellung wird aktuell im Browser gespeichert.',
+    '_USERS_NETWORK_HINT' => 'Hinweis: Diese Einstellung wird in der Datenbank gespeichert.',
     '_USERS_DELETE' => 'Benutzer loeschen',
     '_CLOSE' => 'Schliessen',
     '_SAVE' => 'Speichern',
@@ -171,6 +171,7 @@ $message = [
     '_API_STATUS_UPDATED' => 'Status aktualisiert.',
     '_API_PASSWORD_UPDATED' => 'Passwort aktualisiert.',
     '_API_LIMITS_UPDATED' => 'Zeitlimits aktualisiert.',
+    '_API_NETWORK_UPDATED' => 'Netzwerkadresse aktualisiert.',
     '_API_USER_ACTION_UNKNOWN' => 'Unbekannte Benutzeraktion.',
     '_API_ACCOUNT_ACTION_UNKNOWN' => 'Unbekannte Account-Aktion.',
     '_API_ACCOUNT_PASSWORD_FIELDS_REQUIRED' => 'Bitte beide Passwort-Felder ausfuellen.',
@@ -191,6 +192,8 @@ $message = [
     '_API_INVALID_ORIGIN' => 'Ungueltige Anfrage-Herkunft.',
     '_API_INVALID_CSRF' => 'Sicherheits-Token ungueltig.',
     '_API_USERNAME_INVALID' => 'Benutzername ungueltig.',
+    '_API_FIXED_IP_INVALID' => 'Ungueltige IPv4-Adresse.',
+    '_API_FIXED_IP_IN_USE' => 'Diese feste IP-Adresse ist bereits einem anderen Benutzer zugewiesen.',
 
 ];
 

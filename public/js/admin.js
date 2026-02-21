@@ -43,6 +43,18 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function isValidIpv4(value) {
+  const input = String(value || '').trim();
+  const parts = input.split('.');
+  if (parts.length !== 4) return false;
+
+  return parts.every((part) => {
+    if (!/^\d{1,3}$/.test(part)) return false;
+    const n = Number(part);
+    return n >= 0 && n <= 255;
+  });
+}
+
 window.userDetailFormatter = function (_index, row) {
   return `
     <div class="d-flex justify-content-between align-items-center py-2">
@@ -135,6 +147,46 @@ function initUserTable() {
   const userDetailModalEl = document.getElementById('userDetailModal');
   const userDetailModal = userDetailModalEl ? new bootstrap.Modal(userDetailModalEl) : null;
   let currentDetailRow = null;
+  const fixedIpEnabledEl = document.getElementById('detailFixedIpEnabled');
+  const fixedIpEl = document.getElementById('detailFixedIp');
+
+  const validateFixedIpInput = () => {
+    if (!fixedIpEnabledEl || !fixedIpEl) return true;
+
+    const value = fixedIpEl.value.trim();
+    if (!fixedIpEnabledEl.checked && value === '') {
+      fixedIpEl.classList.remove('is-invalid');
+      fixedIpEl.setCustomValidity('');
+      return true;
+    }
+
+    if (!isValidIpv4(value)) {
+      fixedIpEl.classList.add('is-invalid');
+      fixedIpEl.setCustomValidity(t('_API_FIXED_IP_INVALID', 'Ungueltige IPv4-Adresse.'));
+      return false;
+    }
+
+    fixedIpEl.classList.remove('is-invalid');
+    fixedIpEl.setCustomValidity('');
+    return true;
+  };
+
+  if (fixedIpEnabledEl) {
+    fixedIpEnabledEl.addEventListener('change', () => {
+      if (!fixedIpEnabledEl.checked && fixedIpEl) {
+        fixedIpEl.value = '';
+      }
+      validateFixedIpInput();
+    });
+  }
+  if (fixedIpEl) {
+    fixedIpEl.addEventListener('input', () => {
+      if (fixedIpEl.value.trim() !== '') {
+        fixedIpEnabledEl.checked = true;
+      }
+      validateFixedIpInput();
+    });
+  }
 
   const createForm = document.getElementById('createUserForm');
   if (createForm) {
@@ -170,13 +222,7 @@ function initUserTable() {
         currentDetailRow = JSON.parse(decodeURIComponent(rowRaw));
 
         const uname = currentDetailRow.uname;
-        const netKey = `ovpn-net-${uname}`;
-        let netCfg = {};
-        try {
-          netCfg = JSON.parse(localStorage.getItem(netKey) || '{}');
-        } catch (_e) {
-          netCfg = {};
-        }
+        const fixedIpCurrent = String(currentDetailRow.fixed_ip || '').trim();
 
         document.getElementById('userDetailModalLabel').textContent = tf('_MSG_USER_DETAILS_FOR', uname);
         document.getElementById('detailUsername').value = uname;
@@ -188,8 +234,9 @@ function initUserTable() {
         document.getElementById('detailPassword').value = '';
         document.getElementById('detailStartDate').value = formatDateForInput(currentDetailRow.user_start_date);
         document.getElementById('detailEndDate').value = formatDateForInput(currentDetailRow.user_end_date);
-        document.getElementById('detailFixedIpEnabled').checked = !!netCfg.enabled;
-        document.getElementById('detailFixedIp').value = netCfg.ip || '';
+        document.getElementById('detailFixedIpEnabled').checked = fixedIpCurrent !== '';
+        document.getElementById('detailFixedIp').value = fixedIpCurrent;
+        validateFixedIpInput();
         showAlert('userDetailMessage', 'secondary', t('_MSG_USER_CHANGE_NOTE', 'Aenderungen vornehmen und speichern.'));
 
         if (userDetailModal) {
@@ -212,6 +259,7 @@ function initUserTable() {
       const enabledCurrent = Number(currentDetailRow.user_enable) === 1;
       const startCurrent = formatDateForInput(currentDetailRow.user_start_date);
       const endCurrent = formatDateForInput(currentDetailRow.user_end_date);
+      const fixedIpCurrent = String(currentDetailRow.fixed_ip || '').trim();
 
       const isAdminNew = document.getElementById('detailIsAdmin').checked;
       const enabledNew = document.getElementById('detailEnabled').checked;
@@ -220,6 +268,13 @@ function initUserTable() {
       const endNew = document.getElementById('detailEndDate').value.trim();
       const fixedIpEnabled = document.getElementById('detailFixedIpEnabled').checked;
       const fixedIp = document.getElementById('detailFixedIp').value.trim();
+      const fixedIpNew = fixedIp;
+      const fixedIpEnabledEffective = fixedIpEnabled || fixedIpNew !== '';
+
+      if (!validateFixedIpInput()) {
+        showAlert('userDetailMessage', 'danger', t('_API_FIXED_IP_INVALID', 'Ungueltige IPv4-Adresse.'));
+        return;
+      }
 
       try {
         if (isAdminNew !== isAdminCurrent) {
@@ -255,11 +310,14 @@ function initUserTable() {
           });
         }
 
-        const netKey = `ovpn-net-${username}`;
-        localStorage.setItem(netKey, JSON.stringify({
-          enabled: fixedIpEnabled,
-          ip: fixedIp,
-        }));
+        if (fixedIpNew !== fixedIpCurrent) {
+          await postForm('?op=data&select=user', {
+            action: 'set_network',
+            username,
+            enabled: fixedIpEnabledEffective ? '1' : '0',
+            fixed_ip: fixedIpNew,
+          });
+        }
 
         showAlert('userDetailMessage', 'success', t('_MSG_USER_SAVED', 'Benutzerdaten gespeichert.'));
         $table.bootstrapTable('refresh');

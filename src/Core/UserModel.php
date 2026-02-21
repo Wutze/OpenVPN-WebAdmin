@@ -53,9 +53,15 @@ public function getAllUsers(int $limit = 50, int $offset = 0, string $search = '
                 u.user_enable,
                 u.user_start_date,
                 u.user_end_date,
-                u.user_online
+                u.user_online,
+                ui.fixed_ip
             FROM user u
             LEFT JOIN groupnames g ON u.gid = g.gid
+            LEFT JOIN (
+                SELECT uid, MIN(user_ip) AS fixed_ip
+                FROM user_ip
+                GROUP BY uid
+            ) ui ON ui.uid = u.uid
             WHERE 1
         ";
 
@@ -227,7 +233,7 @@ public function setUserPasswordById(int $uid, string $newPassword): void
      * @param mixed $endDate
      * @return void
      */
-public function setUserLimits(string $username, ?string $startDate, ?string $endDate): void
+    public function setUserLimits(string $username, ?string $startDate, ?string $endDate): void
     {
         $startDate = $startDate !== null && $startDate !== '' ? $startDate : null;
         $endDate = $endDate !== null && $endDate !== '' ? $endDate : null;
@@ -242,6 +248,67 @@ public function setUserLimits(string $username, ?string $startDate, ?string $end
         $stmt->bindValue(':end_date', $endDate, $endDate === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
         $stmt->bindValue(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
+    }
+
+    public function setUserFixedIp(string $username, ?string $fixedIp): void
+    {
+        $stmt = $this->db->prepare('SELECT uid FROM user WHERE user_name = :username LIMIT 1');
+        $stmt->execute([':username' => $username]);
+        $uid = (int)$stmt->fetchColumn();
+        if ($uid <= 0) {
+            return;
+        }
+
+        $existing = $this->db->prepare('SELECT netmask, server_ip FROM user_ip WHERE uid = :uid ORDER BY ipid ASC LIMIT 1');
+        $existing->execute([':uid' => $uid]);
+        $current = $existing->fetch(PDO::FETCH_ASSOC) ?: [];
+
+        if ($fixedIp === null || $fixedIp === '') {
+            $delete = $this->db->prepare('DELETE FROM user_ip WHERE uid = :uid');
+            $delete->execute([':uid' => $uid]);
+            return;
+        }
+
+        $netmask = (string)($current['netmask'] ?? '');
+        if ($netmask === '') {
+            $netmask = (string)(getenv('OVPN_USER_NETMASK') ?: '255.255.255.0');
+        }
+
+        $serverIp = (string)($current['server_ip'] ?? '');
+        if ($serverIp === '') {
+            $serverIp = (string)(getenv('OVPN_USER_SERVER_IP') ?: '10.8.0.1');
+        }
+
+        $delete = $this->db->prepare('DELETE FROM user_ip WHERE uid = :uid');
+        $delete->execute([':uid' => $uid]);
+
+        $insert = $this->db->prepare(
+            'INSERT INTO user_ip (uid, user_ip, netmask, server_ip) VALUES (:uid, :user_ip, :netmask, :server_ip)'
+        );
+        $insert->execute([
+            ':uid' => $uid,
+            ':user_ip' => $fixedIp,
+            ':netmask' => $netmask,
+            ':server_ip' => $serverIp,
+        ]);
+    }
+
+    public function isFixedIpInUseByOtherUser(string $username, string $fixedIp): bool
+    {
+        $stmt = $this->db->prepare('
+            SELECT 1
+            FROM user_ip ui
+            INNER JOIN user u ON u.uid = ui.uid
+            WHERE ui.user_ip = :fixed_ip
+              AND u.user_name <> :username
+            LIMIT 1
+        ');
+        $stmt->execute([
+            ':fixed_ip' => $fixedIp,
+            ':username' => $username,
+        ]);
+
+        return (bool)$stmt->fetchColumn();
     }
 
     /**
