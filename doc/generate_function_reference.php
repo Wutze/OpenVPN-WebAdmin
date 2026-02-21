@@ -44,7 +44,7 @@ foreach ($files as $file) {
         $static = $entry['static'] ? 'static ' : '';
         $signature = $visibility . $static . $entry['name'] . '(' . implode(', ', $entry['params']) . ')';
         $return = $entry['return'] !== '' ? $entry['return'] : 'mixed|null';
-        $doc = $entry['doc'] !== '' ? trim($entry['doc']) : 'Kein Docblock gefunden.';
+        $doc = $entry['doc'] !== '' ? normalizeDocblockIndent($entry['doc']) : 'Kein Docblock gefunden.';
 
         $md[] = "### `{$signature}`";
         $md[] = '';
@@ -52,7 +52,7 @@ foreach ($files as $file) {
         $md[] = "- Zeile: {$entry['line']}";
         $md[] = "- Rueckgabe: `{$return}`";
         $md[] = '';
-        $md[] = '```code';
+        $md[] = '```';
         $md[] = $doc;
         $md[] = '```';
         $md[] = '';
@@ -254,4 +254,37 @@ function getReturnType(array $tokens, int $index): ?string
 
     $parts = trim($parts);
     return $parts !== '' ? $parts : null;
+}
+
+function normalizeDocblockIndent(string $doc): string
+{
+    $doc = trim($doc);
+    if ($doc === '') {
+        return $doc;
+    }
+
+    $lines = preg_split('/\R/', $doc) ?: [];
+    $out = [];
+
+    foreach ($lines as $line) {
+        $trimmed = ltrim($line);
+
+        if (str_starts_with($trimmed, '/**')) {
+            $out[] = '/**';
+            continue;
+        }
+        if (str_starts_with($trimmed, '*/')) {
+            $out[] = ' */';
+            continue;
+        }
+        if (str_starts_with($trimmed, '*')) {
+            $out[] = ' ' . $trimmed;
+            continue;
+        }
+
+        // Fallback fuer untypische Zeilen im Docblock.
+        $out[] = ' ' . $trimmed;
+    }
+
+    return implode("\n", $out);
 }
