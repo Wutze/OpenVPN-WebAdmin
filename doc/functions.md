@@ -1,15 +1,16 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-02-21 13:28:18
+Automatisch generiert am: 2026-02-21 13:38:07
 
 ## `./composer-setup.php`
 
 ### `setupEnvironment()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 21
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Initializes various values
  *
@@ -19,10 +20,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `process($argv)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 48
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Processes the installer
  */
@@ -30,10 +32,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `displayHelp()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 114
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Displays the help
  */
@@ -41,10 +44,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `setUseAnsi($argv)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 145
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Sets the USE_ANSI define for colorizing output
  *
@@ -54,10 +58,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `outputSupportsColor()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 162
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Returns whether color output is supported
  *
@@ -67,10 +72,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `getOptValue($opt, $argv, $default)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 202
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Returns the value of a command-line option
  *
@@ -84,10 +90,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `checkParams($installDir, $version, $cafile)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 229
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Checks that user-supplied params are valid
  *
@@ -101,10 +108,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `checkPlatform($warnings, $quiet, $disableTls, $install)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 262
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Checks the platform for possible issues running Composer
  *
@@ -121,10 +129,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `getPlatformIssues($errors, $warnings, $install)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 295
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Checks platform configuration for common incompatibility issues
  *
@@ -138,10 +147,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `outputIssues($issues)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 501
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Outputs an array of issues
  *
@@ -151,10 +161,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `showWarnings($warnings)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 514
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Outputs any warnings found
  *
@@ -164,10 +175,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `showSecurityWarning($disableTls)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 528
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Outputs an end of process warning if tls has been bypassed
  *
@@ -177,10 +189,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `out($text, $color, $newLine)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 539
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * colorize output
  */
@@ -188,10 +201,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `getHomeDir()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 565
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Returns the system-dependent Composer home location, which may not exist
  *
@@ -201,10 +215,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `getUserDir()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 609
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Returns the location of the user directory from the environment
  * @throws RuntimeException If the environment value does not exists
@@ -215,10 +230,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `useXdg()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 624
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * @return bool
  */
@@ -226,10 +242,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `validateCaFile($contents)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 645
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Kurzbeschreibung Funktion validateCaFile
  *
@@ -240,10 +257,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `getIniMessage()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 665
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
  * Returns php.ini location information
  *
@@ -253,10 +271,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public __construct($quiet, $disableTls, $caFile)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 715
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Constructor - must not do anything that throws an exception
      *
@@ -268,10 +287,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public run($version, $installDir, $filename, $channel)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 736
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Runs the installer
      *
@@ -287,10 +307,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected initTargets($installDir, $filename)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 777
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Initialization methods to set the required filenames and composer url
      *
@@ -302,10 +323,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected initTls()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 797
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * A wrapper around methods to check tls and write public keys
      * @throws RuntimeException If SHA384 is not supported
@@ -314,10 +336,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected getComposerHome()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 826
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Returns the Composer home directory, creating it if required
      * @throws RuntimeException If the directory cannot be created
@@ -328,10 +351,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected installKey($data, $path, $filename)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 856
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Writes public key data to disc
      *
@@ -346,10 +370,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected install($version, $channel)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 886
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * The main install function
      *
@@ -362,10 +387,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected getVersion($channel, $version, $url, $error)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 941
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Sets the version url, downloading version data if required
      *
@@ -380,10 +406,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected downloadVersionData($data, $error)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 970
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Downloads and json-decodes version data
      *
@@ -396,10 +423,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected downloadToTmp($url, $signature, $error)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 996
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * A wrapper around the methods needed to download and save the phar
      *
@@ -413,10 +441,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected verifyAndSave($version, $signature, $error)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1029
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Verifies the downloaded file and saves it to the target location
      *
@@ -430,10 +459,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected parseVersionData($data, $channel, $version, $url)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1060
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Parses an array of version data to match the required channel
      *
@@ -446,10 +476,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected getSignature($url, $signature)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1090
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Downloads the digital signature of required phar file
      *
@@ -462,10 +493,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected verifySignature($version, $signature, $file)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1114
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Verifies the signature of the downloaded phar
      *
@@ -479,10 +511,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected validatePhar($pharFile, $error)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1144
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Validates the downloaded phar file
      *
@@ -495,10 +528,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected getJsonError()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1172
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Returns a string representation of the last json error
      *
@@ -508,10 +542,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected cleanUp($result)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1186
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Cleans up resources at the end of the installation
      *
@@ -521,10 +556,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected outputErrors($errors)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1209
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Outputs unique errors when in quiet mode
      *
@@ -533,10 +569,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected uninstall()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1225
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Uninstalls newly-created files and directories on failure
      *
@@ -545,10 +582,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getPKDev()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1245
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getPKDev
      *
@@ -558,10 +596,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getPKTags()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1270
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getPKTags
      *
@@ -571,10 +610,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public handleError($code, $msg)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1302
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Handle php errors
      *
@@ -585,10 +625,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public start()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1315
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Starts error-handling if not already active
      *
@@ -598,10 +639,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public stop()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1329
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Stops error-handling if active
      *
@@ -611,10 +653,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public __construct($pattern)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1349
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -625,10 +668,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public test($url)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1372
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Returns true if NO_PROXY contains getcomposer.org
      *
@@ -640,10 +684,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public __construct($disableTls, $cafile)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1407
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -655,10 +700,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public get($url)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1427
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion get
      *
@@ -669,10 +715,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected getStreamContext($url)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1467
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getStreamContext
      *
@@ -683,10 +730,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected getTlsStreamContextDefaults($cafile)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1484
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getTlsStreamContextDefaults
      *
@@ -697,10 +745,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `protected getMergedStreamContext($url)`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1579
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * function copied from Composer\Util\StreamContextFactory::initOptions
      *
@@ -714,10 +763,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getSystemCaRootBundlePath()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1699
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
     * This method was adapted from Sslurp.
     * https://github.com/EvanDotPro/Sslurp
@@ -754,10 +804,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getPackagedCaFile()`
 
+- Datei: `./composer-setup.php`
 - Zeile: 1767
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getPackagedCaFile
      *
@@ -765,14 +816,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/ConfigService.php`
 
 ### `public __construct($basePath)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 16
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -783,10 +837,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public listSystems()`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 27
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion listSystems
      *
@@ -796,10 +851,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getConfig($system)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 57
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getConfig
      *
@@ -810,10 +866,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public saveConfig($system, $content)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 74
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion saveConfig
      *
@@ -825,10 +882,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getHistoryList($system)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 113
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getHistoryList
      *
@@ -839,10 +897,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getDiffStatsAgainstCurrent($system)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 144
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
      *
@@ -853,10 +912,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public diffHistoryFile($system, $historyFile)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 166
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion diffHistoryFile
      *
@@ -868,10 +928,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private getHistoryContent($system, $historyFile)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 181
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getHistoryContent
      *
@@ -883,10 +944,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private buildDiffData($oldText, $newText)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 199
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion buildDiffData
      *
@@ -898,10 +960,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private diffOps($a, $b)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 235
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion diffOps
      *
@@ -913,10 +976,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private clientPath($system)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 288
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion clientPath
      *
@@ -927,10 +991,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private historyDir($system)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 300
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion historyDir
      *
@@ -941,10 +1006,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private sanitizeSystem($system)`
 
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 312
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion sanitizeSystem
      *
@@ -953,14 +1019,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/DataController.php`
 
 ### `public handle()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 28
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handle
      *
@@ -970,10 +1039,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handleGet($select)`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 54
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleGet
      *
@@ -984,10 +1054,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handlePost($select)`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 98
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handlePost
      *
@@ -998,10 +1069,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private getUsers()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 129
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getUsers
      *
@@ -1011,10 +1083,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private getLogs()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 148
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getLogs
      *
@@ -1024,10 +1097,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private getDashboardStats()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 166
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getDashboardStats
      *
@@ -1037,10 +1111,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handleUserAction()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 202
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleUserAction
      *
@@ -1050,10 +1125,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handleAccountAction()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 305
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleAccountAction
      *
@@ -1063,10 +1139,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handleProfileAction()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 343
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleProfileAction
      *
@@ -1076,10 +1153,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handleConfigGet()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 370
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleConfigGet
      *
@@ -1089,10 +1167,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handleConfigPost()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 418
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleConfigPost
      *
@@ -1102,10 +1181,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handleSettingsGet()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 469
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleSettingsGet
      *
@@ -1115,10 +1195,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private handleSettingsPost()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 511
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleSettingsPost
      *
@@ -1128,10 +1209,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private requireAdminJson()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 550
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion requireAdminJson
      *
@@ -1141,10 +1223,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private msg($key)`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 563
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion msg
      *
@@ -1155,10 +1238,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private msgf($key, $arg)`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 575
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion msgf
      *
@@ -1170,10 +1254,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private assertValidUsername($username)`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 586
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion assertValidUsername
      *
@@ -1184,10 +1269,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private getLoginDiagnostics()`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 598
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getLoginDiagnostics
      *
@@ -1197,10 +1283,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private json($data, $status)`
 
+- Datei: `./src/Core/DataController.php`
 - Zeile: 711
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion json
      *
@@ -1210,14 +1297,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/Database.php`
 
 ### `private __construct($config)`
 
+- Datei: `./src/Core/Database.php`
 - Zeile: 35
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1228,10 +1318,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getInstance($config)`
 
+- Datei: `./src/Core/Database.php`
 - Zeile: 54
 - Rueckgabe: `Database`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getInstance
      *
@@ -1242,10 +1333,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getConnection()`
 
+- Datei: `./src/Core/Database.php`
 - Zeile: 70
 - Rueckgabe: `PDO`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getConnection
      *
@@ -1253,14 +1345,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/Debug.php`
 
 ### `public static init($env, $logfile, $debug)`
 
+- Datei: `./src/Core/Debug.php`
 - Zeile: 32
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Initialisiert Debug-Umgebung
      */
@@ -1268,10 +1363,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static debug($vars)`
 
+- Datei: `./src/Core/Debug.php`
 - Zeile: 45
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Debug-Ausgabe auf der Seite (Bootstrap Collapse)
      */
@@ -1279,10 +1375,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static log($vars)`
 
+- Datei: `./src/Core/Debug.php`
 - Zeile: 101
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Debug-Ausgabe in Logfile
      */
@@ -1290,10 +1387,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static dd($vars)`
 
+- Datei: `./src/Core/Debug.php`
 - Zeile: 121
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Debug + exit
      */
@@ -1301,10 +1399,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static handleException($e)`
 
+- Datei: `./src/Core/Debug.php`
 - Zeile: 130
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Exception-Handler
      */
@@ -1312,10 +1411,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static handleError($errno, $errstr, $errfile, $errline)`
 
+- Datei: `./src/Core/Debug.php`
 - Zeile: 156
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Error-Handler
      */
@@ -1323,10 +1423,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static render()`
 
+- Datei: `./src/Core/Debug.php`
 - Zeile: 172
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion render
      *
@@ -1334,14 +1435,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/GoRequest.php`
 
 ### `public set_value($key, $val)`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 42
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion set_value
      *
@@ -1353,10 +1457,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public main()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 52
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion main
      *
@@ -1366,10 +1471,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showLogin()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 130
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showLogin
      *
@@ -1379,10 +1485,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private checkLogin()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 140
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion checkLogin
      *
@@ -1392,10 +1499,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private baseTemplateData($activeOp)`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 151
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion baseTemplateData
      *
@@ -1406,10 +1514,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private renderPage($title, $content, $activeOp)`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 169
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion renderPage
      *
@@ -1422,10 +1531,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showMain()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 180
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showMain
      *
@@ -1435,10 +1545,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showUsers()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 191
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showUsers
      *
@@ -1448,10 +1559,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showLogs()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 202
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showLogs
      *
@@ -1461,10 +1573,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showConfig()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 213
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showConfig
      *
@@ -1474,10 +1587,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showSettings()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 224
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showSettings
      *
@@ -1487,10 +1601,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showProfiles()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 235
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showProfiles
      *
@@ -1500,10 +1615,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showAccount()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 246
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showAccount
      *
@@ -1513,10 +1629,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showLive()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 257
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showLive
      *
@@ -1526,10 +1643,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private logout()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 268
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion logout
      *
@@ -1539,10 +1657,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private ensureAdminOrForbidden()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 295
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion ensureAdminOrForbidden
      *
@@ -1552,10 +1671,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private downloadProfileZip()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 309
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion downloadProfileZip
      *
@@ -1565,10 +1685,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private showError()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 335
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showError
      *
@@ -1578,10 +1699,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private setLanguage()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 351
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion setLanguage
      *
@@ -1591,10 +1713,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private enforceAccessPolicy()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 372
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion enforceAccessPolicy
      *
@@ -1604,10 +1727,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private serveLoginAsset()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 430
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion serveLoginAsset
      *
@@ -1617,10 +1741,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private enforceDataAccessPolicy($method)`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 490
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion enforceDataAccessPolicy
      *
@@ -1631,10 +1756,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private verifyStateChangingRequest()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 508
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion verifyStateChangingRequest
      *
@@ -1644,10 +1770,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private isSameOriginRequest()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 525
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion isSameOriginRequest
      *
@@ -1657,10 +1784,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private denyRequest($status, $message)`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 554
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion denyRequest
      *
@@ -1672,10 +1800,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private getRequestCsrfToken()`
 
+- Datei: `./src/Core/GoRequest.php`
 - Zeile: 574
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getRequestCsrfToken
      *
@@ -1683,14 +1812,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/Lang.php`
 
 ### `public static init($lang)`
 
+- Datei: `./src/Core/Lang.php`
 - Zeile: 29
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Initialisiert die Sprache (Session muss vorher gestartet sein)
      */
@@ -1698,10 +1830,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static get($key, $default)`
 
+- Datei: `./src/Core/Lang.php`
 - Zeile: 55
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Einzeltext holen
      */
@@ -1709,10 +1842,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getAll()`
 
+- Datei: `./src/Core/Lang.php`
 - Zeile: 63
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Komplettes Message-Array (für Templates / Backwards-Compatibility)
      */
@@ -1720,10 +1854,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getCurrent()`
 
+- Datei: `./src/Core/Lang.php`
 - Zeile: 71
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Aktuelle Sprache
      */
@@ -1731,10 +1866,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static setCurrent($lang)`
 
+- Datei: `./src/Core/Lang.php`
 - Zeile: 79
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Sprache setzen und neu laden
      */
@@ -1742,10 +1878,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getAvailableLanguages()`
 
+- Datei: `./src/Core/Lang.php`
 - Zeile: 92
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getAvailableLanguages
      *
@@ -1755,23 +1892,27 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getLanguageMeta($code)`
 
+- Datei: `./src/Core/Lang.php`
 - Zeile: 122
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Liefert Label + Flagge für Sprach-Auswahl.
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/LogModel.php`
 
 ### `public __construct()`
 
+- Datei: `./src/Core/LogModel.php`
 - Zeile: 33
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1781,10 +1922,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getAllLogs($limit, $offset, $search)`
 
+- Datei: `./src/Core/LogModel.php`
 - Zeile: 46
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getAllLogs
      *
@@ -1797,10 +1939,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public countLogs($search)`
 
+- Datei: `./src/Core/LogModel.php`
 - Zeile: 76
 - Rueckgabe: `int`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion countLogs
      *
@@ -1809,14 +1952,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/LoginController.php`
 
 ### `public showLogin()`
 
+- Datei: `./src/Core/LoginController.php`
 - Zeile: 34
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion showLogin
      *
@@ -1826,10 +1972,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public handleLogin()`
 
+- Datei: `./src/Core/LoginController.php`
 - Zeile: 52
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion handleLogin
      *
@@ -1839,10 +1986,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private redirect($url)`
 
+- Datei: `./src/Core/LoginController.php`
 - Zeile: 145
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion redirect
      *
@@ -1851,14 +1999,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/ProfileService.php`
 
 ### `public __construct($basePath)`
 
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 15
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1869,10 +2020,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public listSystems()`
 
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 25
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion listSystems
      *
@@ -1882,10 +2034,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public buildZip($system)`
 
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 76
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion buildZip
      *
@@ -1896,10 +2049,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getZipPath($system)`
 
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 118
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getZipPath
      *
@@ -1910,10 +2064,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private sanitizeSystem($system)`
 
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 136
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion sanitizeSystem
      *
@@ -1924,10 +2079,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private zipPathFor($system)`
 
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 152
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion zipPathFor
      *
@@ -1938,10 +2094,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private isAllowedSystemDir($system, $dir)`
 
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 164
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion isAllowedSystemDir
      *
@@ -1951,14 +2108,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/ServerSettingsService.php`
 
 ### `public __construct($cfg)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 15
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1969,10 +2129,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getCurrent()`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 35
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getCurrent
      *
@@ -1982,10 +2143,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public save($content)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 74
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion save
      *
@@ -1996,10 +2158,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getHistoryList()`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 104
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getHistoryList
      *
@@ -2009,10 +2172,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public diffHistoryFileAgainstCurrent($historyFile, $current)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 135
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion diffHistoryFileAgainstCurrent
      *
@@ -2024,10 +2188,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private getDiffStatsAgainstCurrent($current)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 153
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
      *
@@ -2038,10 +2203,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private fetchFromUrl($url)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 174
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion fetchFromUrl
      *
@@ -2052,10 +2218,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private writeCache($content)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 207
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion writeCache
      *
@@ -2066,10 +2233,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private archiveFile($file)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 228
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion archiveFile
      *
@@ -2080,10 +2248,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private readSavePath()`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 246
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion readSavePath
      *
@@ -2093,10 +2262,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private readFile($path)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 269
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion readFile
      *
@@ -2107,10 +2277,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private ensureSaveFileExists()`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 283
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion ensureSaveFileExists
      *
@@ -2120,10 +2291,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private buildDiffData($oldText, $newText)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 308
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion buildDiffData
      *
@@ -2135,10 +2307,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private diffOps($a, $b)`
 
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 344
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion diffOps
      *
@@ -2148,14 +2321,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/Session.php`
 
 ### `public __construct($db, $lifetime)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 48
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -2167,10 +2343,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public open($savePath, $sessionName)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 77
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion open
      *
@@ -2182,10 +2359,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public close()`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 87
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion close
      *
@@ -2195,10 +2373,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public read($id)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 98
 - Rueckgabe: `string|false`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion read
      *
@@ -2209,10 +2388,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public write($id, $data)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 126
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion write
      *
@@ -2224,10 +2404,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public destroy($id)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 158
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion destroy
      *
@@ -2238,10 +2419,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public gc($max_lifetime)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 178
 - Rueckgabe: `int|false`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion gc
      *
@@ -2252,10 +2434,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static start($db, $lifetime)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 198
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Initialisiert und startet die Session.
      */
@@ -2263,10 +2446,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static setVar($key, $value)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 227
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Setzt eine Session-Variable.
      */
@@ -2274,10 +2458,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getVar($key, $default)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 235
 - Rueckgabe: `mixed`
 
-```php
+```
 /**
      * Holt eine Session-Variable.
      */
@@ -2285,10 +2470,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static removeVar($key)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 243
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Entfernt eine Session-Variable.
      */
@@ -2296,10 +2482,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static isUser()`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 251
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Prüft, ob ein Benutzer angemeldet ist.
      */
@@ -2307,10 +2494,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static isAdmin()`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 259
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Prüft, ob aktueller Benutzer Admin ist.
      */
@@ -2318,10 +2506,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getUser()`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 281
 - Rueckgabe: `?array`
 
-```php
+```
 /**
      * Gibt den aktuellen Benutzer zurück.
      */
@@ -2329,10 +2518,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static setUser($user)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 289
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Setzt den angemeldeten Benutzer.
      */
@@ -2340,10 +2530,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static destroyAll()`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 297
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Zerstört die komplette Session inkl. Cookie.
      */
@@ -2351,10 +2542,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static getCsrfToken()`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 317
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * CSRF token for state-changing requests.
      */
@@ -2362,10 +2554,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public static verifyCsrfToken($token)`
 
+- Datei: `./src/Core/Session.php`
 - Zeile: 332
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion verifyCsrfToken
      *
@@ -2374,14 +2567,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/UserController.php`
 
 ### `public index()`
 
+- Datei: `./src/Core/UserController.php`
 - Zeile: 34
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2389,14 +2585,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/UserModel.php`
 
 ### `public __construct()`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 32
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -2406,10 +2605,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public getAllUsers($limit, $offset, $search)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 45
 - Rueckgabe: `array`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion getAllUsers
      *
@@ -2422,10 +2622,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public countUsers($search)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 87
 - Rueckgabe: `int`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion countUsers
      *
@@ -2436,10 +2637,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public countOnlineUsers()`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 111
 - Rueckgabe: `int`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion countOnlineUsers
      *
@@ -2449,10 +2651,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public userExists($username)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 123
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion userExists
      *
@@ -2463,10 +2666,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public createUser($username, $password, $isAdmin)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 138
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion createUser
      *
@@ -2479,10 +2683,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public setUserEnabled($username, $enabled)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 162
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion setUserEnabled
      *
@@ -2494,10 +2699,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public setUserRole($username, $isAdmin)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 178
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion setUserRole
      *
@@ -2509,10 +2715,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public setUserPasswordByName($username, $newPassword)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 195
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion setUserPasswordByName
      *
@@ -2524,10 +2731,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public setUserPasswordById($uid, $newPassword)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 212
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion setUserPasswordById
      *
@@ -2539,10 +2747,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public setUserLimits($username, $startDate, $endDate)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 230
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion setUserLimits
      *
@@ -2555,10 +2764,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public deleteUser($username)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 253
 - Rueckgabe: `void`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion deleteUser
      *
@@ -2569,10 +2779,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public verifyPassword($uid, $password)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 266
 - Rueckgabe: `bool`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion verifyPassword
      *
@@ -2584,10 +2795,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private resolveGroupId($isAdmin)`
 
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 284
 - Rueckgabe: `int`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion resolveGroupId
      *
@@ -2596,89 +2808,107 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Templates/Account.php`
 
 ### `public index()`
 
+- Datei: `./src/Templates/Account.php`
 - Zeile: 12
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion index
      *
      * @return string
      */
 ```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Config.php`
 
 ### `public index()`
 
+- Datei: `./src/Templates/Config.php`
 - Zeile: 12
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion index
      *
      * @return string
      */
 ```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Dashboard.php`
 
 ### `public index()`
 
+- Datei: `./src/Templates/Dashboard.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion index
      *
      * @return string
      */
 ```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Log.php`
 
 ### `public index()`
 
+- Datei: `./src/Templates/Log.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion index
      *
      * @return string
      */
 ```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Profiles.php`
 
 ### `public index()`
 
+- Datei: `./src/Templates/Profiles.php`
 - Zeile: 12
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion index
      *
      * @return string
      */
 ```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Settings.php`
 
 ### `public index()`
 
+- Datei: `./src/Templates/Settings.php`
 - Zeile: 12
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2686,14 +2916,17 @@ Automatisch generiert am: 2026-02-21 13:28:18
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Templates/Template.php`
 
 ### `public __construct($title, $content, $data)`
 
+- Datei: `./src/Templates/Template.php`
 - Zeile: 37
 - Rueckgabe: `mixed|null`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -2706,10 +2939,11 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `private loadPart($name, $vars)`
 
+- Datei: `./src/Templates/Template.php`
 - Zeile: 47
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Lädt eine Layout-Datei aus /src/Layout/
      */
@@ -2717,27 +2951,33 @@ Automatisch generiert am: 2026-02-21 13:28:18
 
 ### `public render()`
 
+- Datei: `./src/Templates/Template.php`
 - Zeile: 65
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Baut die komplette Seite zusammen
      */
 ```
 
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Templates/User.php`
 
 ### `public index()`
 
+- Datei: `./src/Templates/User.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
-```php
+```
 /**
      * Kurzbeschreibung Funktion index
      *
      * @return string
      */
 ```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 

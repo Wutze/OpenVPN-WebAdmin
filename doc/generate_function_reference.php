@@ -44,14 +44,18 @@ foreach ($files as $file) {
 
         $md[] = "### `{$signature}`";
         $md[] = '';
+        $md[] = "- Datei: `{$file}`";
         $md[] = "- Zeile: {$entry['line']}";
         $md[] = "- Rueckgabe: `{$return}`";
         $md[] = '';
-        $md[] = '```php';
+        $md[] = '```';
         $md[] = $doc;
         $md[] = '```';
         $md[] = '';
     }
+
+    $md[] = '<hr style="border:0; height:5px; background:#1e90ff;">';
+    $md[] = '';
 }
 
 file_put_contents($outputFile, implode("\n", $md) . "\n");
