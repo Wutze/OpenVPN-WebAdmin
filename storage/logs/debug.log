@@ -8562,3 +8562,2546 @@ Array
 )
 
 --------------------------------------------------------------------------------
+[2026-02-21 14:04:35]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:35]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:35]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:35]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:46]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:47]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:47]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:54]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:55]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:04:55]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:36]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:36]
+Argument 1 (string):
+AUTH redirect to login
+Argument 2 (array):
+Array
+(
+    [action] => main
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_present] => 
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:36]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:36]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:45]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:45]
+Argument 1 (string):
+LOGIN attempt
+Argument 2 (array):
+Array
+(
+    [username] => micro
+    [has_password] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:45]
+Argument 1 (string):
+LOGIN user lookup (join)
+Argument 2 (array):
+Array
+(
+    [username] => micro
+    [found] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:45]
+Argument 1 (string):
+LOGIN session before set
+Argument 2 (array):
+Array
+(
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [session_status] => 2
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:45]
+Argument 1 (string):
+LOGIN success
+Argument 2 (array):
+Array
+(
+    [username] => micro
+    [uid] => 1
+    [is_admin] => 1
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:45]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:46]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:55]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:05:55]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:06:01]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:06:01]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:06:04]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:06:20]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:06:28]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:06:28]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:06:31]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:06:31]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => ur1kq92gfn5bqi5dsuvhbmii15
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:37]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:38]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:38]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:41]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:41]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:41]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:44]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:45]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:45]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:47]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:47]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:47]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:47]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:50]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:51]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:51]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:53]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:53]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:08:53]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:27]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:27]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:31]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:31]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:31]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:32]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:33]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:33]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:33]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:35]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:35]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:35]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:40]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:40]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:40]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:41]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:41]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:41]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:52]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:53]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:09:53]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:10:24]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:10:24]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:10:24]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:10:28]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:10:28]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:10:28]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:04]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:05]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:05]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:05]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:07]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:07]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:07]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:18]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:19]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:19]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:19]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:22]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:23]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:25]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:30]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:31]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:11:31]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:13:52]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:13:53]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:13:53]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:13:58]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:13:58]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:13:58]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:13:58]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:19]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:20]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:20]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:23]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:23]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:23]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:32]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:33]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:33]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:47]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:58]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:59]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:14:59]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:15:00]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:15:01]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:15:01]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:15:25]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:15:37]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:22:25]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:22:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:22:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:01]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:02]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:02]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:54]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:55]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:23:55]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:24:25]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:24:25]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:24:25]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:04]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:05]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:05]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:16]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:25]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:32]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:33]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:33]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:39]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:40]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:26:40]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:28:38]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:28:38]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:28:45]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:28:46]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:28:46]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:28:54]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:28:55]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:28:55]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:29:51]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:29:52]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:29:54]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:31:14]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:31:15]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:31:15]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:32:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:32:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => c2fj9ppmpm8vnu255q6vfkeqsc
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:32:17]
+Argument 1 (string):
+AUTH redirect to login
+Argument 2 (array):
+Array
+(
+    [action] => main
+    [session_id] => c2fj9ppmpm8vnu255q6vfkeqsc
+    [cookie_present] => 
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:32:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => jg1q2h9d17pv0rb55l3bfulmk4
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:32:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:32:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:32:26]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:33:48]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:33:49]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:33:49]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:33:59]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:33:59]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:00]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:00]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:03]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:03]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:03]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:07]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:07]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:07]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:07]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:19]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:19]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:34:19]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:35:01]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:35:02]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:35:03]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:35:03]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:36:14]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:36:15]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:36:16]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:36:34]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:36:34]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:36:34]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:36:47]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:05]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:06]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:10]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:11]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:11]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:17]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:18]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:20]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:21]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------
+[2026-02-21 14:37:21]
+Argument 1 (string):
+Session start
+Argument 2 (array):
+Array
+(
+    [driver] => native
+    [session_id] => 670obmhvtrfcg0ouqmqq2v2d7u
+    [cookie_name] => PHPSESSID
+)
+
+--------------------------------------------------------------------------------

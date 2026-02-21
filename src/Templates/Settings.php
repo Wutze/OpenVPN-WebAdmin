@@ -25,6 +25,7 @@ public function index(): string
         return <<<HTML
 <h1>{$title}</h1>
 <p class="text-muted">{$subtitle}</p>
+<div id="settingsMessage" class="mb-3"></div>
 
 <div class="card mb-3">
   <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-2">
@@ -41,9 +42,9 @@ public function index(): string
 
 <div class="row g-3">
   <div class="col-lg-7">
-    <div class="card h-100">
+    <div class="card h-100 config-editor-card">
       <div class="card-header">{$editor}</div>
-      <div class="card-body">
+      <div class="card-body ovpn-editor-body">
         <textarea id="settingsEditor" class="form-control ovpn-editor" spellcheck="false"></textarea>
       </div>
     </div>
@@ -74,8 +75,6 @@ public function index(): string
     </div>
   </div>
 </div>
-
-<div id="settingsMessage" class="mt-3"></div>
 HTML;
     }
 }

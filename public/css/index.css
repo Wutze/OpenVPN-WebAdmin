@@ -15,9 +15,23 @@
  * @version     2.0.0
  */
 
+:root {
+  --ovpn-bg: #f3f7fb;
+  --ovpn-surface: #ffffff;
+  --ovpn-surface-soft: #eef4ff;
+  --ovpn-text: #1a2433;
+  --ovpn-muted: #4d5d73;
+  --ovpn-primary: #0b7285;
+  --ovpn-primary-strong: #0a4f5d;
+  --ovpn-accent: #ff8a3d;
+  --ovpn-border: #d5e1ee;
+}
+
 body {
-  padding-top: 0px;
-  font-family: Arial, Helvetica, sans-serif;
+  padding-top: 0;
+  font-family: "IBM Plex Sans", "Trebuchet MS", "Verdana", sans-serif;
+  color: var(--ovpn-text);
+  background-color: var(--ovpn-bg);
 }
 
 /*
@@ -142,23 +156,109 @@ del{
   background-image: url("../img/bg.png");
 }
 
-.nav-item, .control-sidebar {
-  background-color: #00000065 !important;
+.main-sidebar {
+  background-color: #0d1b2a !important;
+  color: #e6edf7 !important;
+}
+
+.sidebar-dark-primary .nav-item {
+  background-color: transparent !important;
+}
+
+.sidebar-dark-primary .nav-link {
+  color: #dce7f6 !important;
+  border-radius: 0.45rem;
+  margin: 0.1rem 0.45rem;
+}
+
+.sidebar-dark-primary .nav-link:hover,
+.sidebar-dark-primary .nav-link.active {
+  background: linear-gradient(90deg, rgba(11, 114, 133, 0.75), rgba(10, 79, 93, 0.85)) !important;
+  color: #ffffff !important;
+}
+
+.control-sidebar {
+  background-color: rgba(13, 27, 42, 0.86) !important;
   color: #ffffff !important;
 }
 
 .main-header, .main-footer{
-  background-color: #480083;
+  background: linear-gradient(110deg, #083344, #0a4f5d 62%, #0b7285);
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.brand-link, .navbar-nav{
+  background-color: rgba(6, 26, 52, 0.72);
+  text-decoration: none;
   color: #ffffff;
 }
 
-.nav-link, .brand-link{
-  background-color:#ffffff;
+.navbar-light .navbar-nav .nav-link {
+  color: #ffffff !important;
 }
-.brand-link, .navbar-nav{
-  background-color:#2635c0d3;
-  text-decoration: none;
+
+.content-wrapper {
+  background: linear-gradient(180deg, rgba(243, 247, 251, 0.95), rgba(236, 244, 255, 0.9));
+}
+
+.card,
+.dashboard-card,
+.account-card {
+  background: var(--ovpn-surface);
+  border: 1px solid var(--ovpn-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 22px rgba(9, 35, 66, 0.08);
+}
+
+.card-header {
+  background: linear-gradient(90deg, #f3f8ff, #ecf4ff);
+  border-bottom: 1px solid var(--ovpn-border);
+  color: var(--ovpn-primary-strong);
+  font-weight: 600;
+}
+
+.table thead th,
+.thead-dark th {
+  background-color: #0b3b52 !important;
+  color: #f5fbff !important;
+  border-color: #0f4f6f !important;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--ovpn-primary), var(--ovpn-primary-strong));
+  border-color: var(--ovpn-primary-strong);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(90deg, #0d8399, #0b5f71);
+  border-color: #0b5f71;
+}
+
+.btn-outline-primary {
+  color: var(--ovpn-primary-strong);
+  border-color: var(--ovpn-primary-strong);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--ovpn-primary-strong);
   color: #ffffff;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #27a3ba;
+  box-shadow: 0 0 0 0.2rem rgba(39, 163, 186, 0.2);
+}
+
+.page-link {
+  color: var(--ovpn-primary-strong);
+}
+
+.page-item.active .page-link {
+  background-color: var(--ovpn-primary-strong);
+  border-color: var(--ovpn-primary-strong);
 }
 #debug-container {
   position: relative;
@@ -170,6 +270,11 @@ del{
     border-radius: 0 !important;
     margin-bottom: 0.25rem;
     padding: 0.25rem 0.5rem;
+}
+
+.small.text-muted,
+small.text-muted {
+  color: #ffffff !important;
 }
 
 .dashboard-card {
