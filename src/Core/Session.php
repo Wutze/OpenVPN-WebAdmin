@@ -198,6 +198,7 @@ public function gc($max_lifetime): int|false
     public static function start(PDO $db, int $lifetime = 1440): void
     {
         if (session_status() === PHP_SESSION_NONE) {
+            ini_set('session.use_strict_mode', '1');
             // Native PHP session as default for reliable login persistence.
             // The PDO-based session handler can be re-enabled later if needed.
             session_set_save_handler(new \SessionHandler(), true);
@@ -207,7 +208,7 @@ public function gc($max_lifetime): int|false
                 'domain'   => '',
                 'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
                 'httponly' => true,
-                'samesite' => 'Lax',
+                'samesite' => 'Strict',
             ]);
             session_start();
 
@@ -218,6 +219,13 @@ public function gc($max_lifetime): int|false
                     'cookie_name' => session_name(),
                 ]);
             }
+        }
+    }
+
+    public static function regenerateId(): void
+    {
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_regenerate_id(true);
         }
     }
 

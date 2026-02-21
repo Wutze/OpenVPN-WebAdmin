@@ -31,6 +31,7 @@ $error = $_GET['error'] ?? '';
             <?php endif; ?>
 
             <form method="post" action="?op=checklogin">
+                <input type="hidden" name="_csrf" value="<?= htmlspecialchars(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), ENT_QUOTES, 'UTF-8') ?>">
                 <div class="mb-3">
                     <label for="username" class="form-label"><?= Lang::get('_LOGIN_NAME') ?></label>
                     <input type="text" name="username" id="username" class="form-control" autofocus required>

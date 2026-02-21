@@ -18,10 +18,10 @@
 ?>
 <!-- HtmlHead.php -->
 <!DOCTYPE html>
-<html lang="<?= Lang::get('_LANG_CODE') ?>">
+<html lang="<?= htmlspecialchars(Lang::get('_LANG_CODE'), ENT_QUOTES, 'UTF-8') ?>">
 <head>
     <meta charset="UTF-8">
-    <title><?= Lang::get('_SITE_TITLE') ?></title>
+    <title><?= htmlspecialchars(Lang::get('_SITE_TITLE'), ENT_QUOTES, 'UTF-8') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/AdminLTE-3.2.0/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/bootstrap5/css/bootstrap.min.css">

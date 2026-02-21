@@ -28,6 +28,7 @@ $cssVersion = (string) (is_file(__DIR__ . '/login.css') ? filemtime(__DIR__ . '/
             </div>
             <div class="d-flex justify-content-center form_container">
                 <form method="post" action="?op=checklogin" class="w-100">
+                    <input type="hidden" name="_csrf" value="<?= htmlspecialchars(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), ENT_QUOTES, 'UTF-8') ?>">
                     <?php if ($error): ?>
                         <div class="alert alert-danger py-1 px-2 mb-2 text-center">
                             <?= match($error) {

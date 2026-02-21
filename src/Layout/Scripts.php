@@ -30,4 +30,7 @@
       window.I18N = <?= json_encode(Lang::getAll(), JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
       window.CSRF_TOKEN = <?= json_encode(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
     </script>
+    <script src="/js/user.js"></script>
+    <?php if (\Micro\OpenvpnWebadmin\Core\Session::isAdmin()): ?>
     <script src="/js/admin.js"></script>
+    <?php endif; ?>

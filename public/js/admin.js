@@ -34,6 +34,15 @@ function formatDateForInput(value) {
   return String(value).slice(0, 10);
 }
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 window.userDetailFormatter = function (_index, row) {
   return `
     <div class="d-flex justify-content-between align-items-center py-2">
@@ -309,18 +318,19 @@ function renderProfiles(rows) {
   if (!tbody) return;
 
   tbody.innerHTML = rows.map((row) => {
-    const files = (row.files || []).join(', ');
-    const zipName = row.zip_exists ? row.zip_file : `<span class="text-muted">${t('_MSG_NOT_AVAILABLE', 'nicht vorhanden')}</span>`;
-    const mtime = row.zip_mtime || '-';
+    const files = (row.files || []).map((f) => escapeHtml(f)).join(', ');
+    const zipName = row.zip_exists ? escapeHtml(row.zip_file) : `<span class="text-muted">${t('_MSG_NOT_AVAILABLE', 'nicht vorhanden')}</span>`;
+    const mtime = escapeHtml(row.zip_mtime || '-');
+    const safeSystem = escapeHtml(row.system);
 
     return `
       <tr>
-        <td>${row.system}</td>
-        <td>${row.file_count}<div class="small text-muted">${files}</div></td>
+        <td>${safeSystem}</td>
+        <td>${Number(row.file_count || 0)}<div class="small text-muted">${files}</div></td>
         <td>${zipName}</td>
         <td>${mtime}</td>
         <td>
-          <button class="btn btn-sm btn-outline-primary js-build-zip" data-system="${row.system}">${t('_ACTION_BUILD_ZIP', 'ZIP erstellen')}</button>
+          <button class="btn btn-sm btn-outline-primary js-build-zip" data-system="${encodeURIComponent(String(row.system || ''))}">${t('_ACTION_BUILD_ZIP', 'ZIP erstellen')}</button>
           <a class="btn btn-sm btn-success ${row.zip_exists ? '' : 'disabled'}" href="?op=download&system=${encodeURIComponent(row.system)}">${t('_DOWNLOAD', 'Download')}</a>
         </td>
       </tr>
@@ -433,12 +443,12 @@ function renderConfigHistory(rows, system) {
   tbody.innerHTML = rows.map((row) => `
     <tr>
       <td>
-        <div>${row.file}</div>
-        <div class="small text-muted">${row.mtime}</div>
+        <div>${escapeHtml(row.file)}</div>
+        <div class="small text-muted">${escapeHtml(row.mtime)}</div>
       </td>
       <td><span class="text-success">+${row.added || 0}</span> / <span class="text-danger">-${row.removed || 0}</span></td>
       <td class="text-end">
-        <button class="btn btn-sm btn-outline-primary js-show-config-diff" data-system="${system}" data-history-file="${row.file}">
+        <button class="btn btn-sm btn-outline-primary js-show-config-diff" data-system="${encodeURIComponent(String(system || ''))}" data-history-file="${encodeURIComponent(String(row.file || ''))}">
           Diff
         </button>
       </td>
@@ -467,8 +477,8 @@ function initConfigEditor() {
           class="btn btn-outline-primary ${idx === 0 ? 'active' : ''} js-config-system-toggle"
           data-bs-toggle="button"
           aria-pressed="${idx === 0 ? 'true' : 'false'}"
-          data-system="${name}"
-        >${name}</button>
+          data-system="${encodeURIComponent(String(name || ''))}"
+        >${escapeHtml(name)}</button>
       `).join('');
     }
     if (!systems.length) {
@@ -527,8 +537,9 @@ function initConfigEditor() {
     if (target.classList.contains('js-config-system-toggle')) {
       const system = target.dataset.system;
       if (!system) return;
+      const decodedSystem = decodeURIComponent(system);
 
-      currentSystem = system;
+      currentSystem = decodedSystem;
       document.querySelectorAll('.js-config-system-toggle').forEach((btn) => {
         btn.classList.remove('active');
         btn.setAttribute('aria-pressed', 'false');
@@ -537,7 +548,7 @@ function initConfigEditor() {
       target.setAttribute('aria-pressed', 'true');
 
       try {
-        await loadConfig(system);
+        await loadConfig(decodedSystem);
       } catch (error) {
         showAlert('configMessage', 'danger', error.message);
       }
@@ -549,9 +560,11 @@ function initConfigEditor() {
     const system = target.dataset.system;
     const historyFile = target.dataset.historyFile;
     if (!system || !historyFile) return;
+    const decodedSystem = decodeURIComponent(system);
+    const decodedHistoryFile = decodeURIComponent(historyFile);
 
     try {
-      const data = await getJson(`?op=data&select=config&action=diff&system=${encodeURIComponent(system)}&history_file=${encodeURIComponent(historyFile)}`);
+      const data = await getJson(`?op=data&select=config&action=diff&system=${encodeURIComponent(decodedSystem)}&history_file=${encodeURIComponent(decodedHistoryFile)}`);
       if (diffOutput) {
         diffOutput.textContent = data.diff || t('_MSG_NO_DIFF', '(keine Unterschiede)');
       }
@@ -570,12 +583,12 @@ function renderSettingsHistory(rows) {
   tbody.innerHTML = rows.map((row) => `
     <tr>
       <td>
-        <div>${row.file}</div>
-        <div class="small text-muted">${row.mtime}</div>
+        <div>${escapeHtml(row.file)}</div>
+        <div class="small text-muted">${escapeHtml(row.mtime)}</div>
       </td>
       <td><span class="text-success">+${row.added || 0}</span> / <span class="text-danger">-${row.removed || 0}</span></td>
       <td class="text-end">
-        <button class="btn btn-sm btn-outline-primary js-show-settings-diff" data-history-file="${row.file}">Diff</button>
+        <button class="btn btn-sm btn-outline-primary js-show-settings-diff" data-history-file="${encodeURIComponent(String(row.file || ''))}">Diff</button>
       </td>
     </tr>
   `).join('');
@@ -629,9 +642,10 @@ function initSettingsEditor() {
 
     const historyFile = target.dataset.historyFile;
     if (!historyFile) return;
+    const decodedHistoryFile = decodeURIComponent(historyFile);
 
     try {
-      const data = await getJson(`?op=data&select=settings&action=diff&history_file=${encodeURIComponent(historyFile)}`);
+      const data = await getJson(`?op=data&select=settings&action=diff&history_file=${encodeURIComponent(decodedHistoryFile)}`);
       if (diffOutput) diffOutput.textContent = data.diff || t('_MSG_NO_DIFF', '(keine Unterschiede)');
     } catch (error) {
       showAlert('settingsMessage', 'danger', error.message);
@@ -668,13 +682,60 @@ function initDashboardStats() {
   refresh();
 }
 
+function initDebugModal() {
+  const modal = document.getElementById('debugModal');
+  const grid = document.getElementById('debugModalGrid');
+  if (!modal || !grid) return;
+
+  function resetMaximizeState() {
+    document.body.classList.remove('debug-browser-max-open');
+    grid.querySelectorAll('.debug-modal-card').forEach((card) => {
+      card.classList.remove('debug-modal-card-browser-maximized');
+    });
+    grid.querySelectorAll('.js-debug-maximize i').forEach((icon) => {
+      icon.classList.remove('bi-fullscreen-exit');
+      icon.classList.add('bi-arrows-fullscreen');
+    });
+  }
+
+  modal.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const btn = target.closest('.js-debug-maximize');
+    if (!btn) return;
+
+    const cardId = btn.getAttribute('data-target-card');
+    if (!cardId) return;
+    const card = document.getElementById(cardId);
+    if (!card) return;
+
+    const isMaximized = card.classList.contains('debug-modal-card-browser-maximized');
+    resetMaximizeState();
+    if (isMaximized) return;
+
+    document.body.classList.add('debug-browser-max-open');
+    card.classList.add('debug-modal-card-browser-maximized');
+    const icon = btn.querySelector('i');
+    if (icon) {
+      icon.classList.remove('bi-arrows-fullscreen');
+      icon.classList.add('bi-fullscreen-exit');
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      resetMaximizeState();
+    }
+  });
+
+  modal.addEventListener('hidden.bs.modal', resetMaximizeState);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  initLogout();
   initUserTable();
   initLogTable();
-  initProfiles();
-  initAccount();
   initConfigEditor();
   initSettingsEditor();
   initDashboardStats();
+  initDebugModal();
 });

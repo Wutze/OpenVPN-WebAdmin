@@ -29,10 +29,12 @@ class Lang
     public static function init(?string $lang = null): void
     {
         // Sprache aus Parameter, Session oder Config-Fallback
-        self::$currentLang = $lang ?? ($_SESSION['lang'] ?? (defined('DEFAULT_LANG') ? DEFAULT_LANG : 'de_DE'));
+        $requestedLang = $lang ?? ($_SESSION['lang'] ?? (defined('DEFAULT_LANG') ? DEFAULT_LANG : 'de_DE'));
+        self::$currentLang = self::sanitizeLangCode((string)$requestedLang);
 
         // Pfad zur Sprachdatei
-        $langFile = REAL_BASE_DIR . '/../src/Lang/' . self::$currentLang . '/lang.php';
+        $langRoot = realpath(REAL_BASE_DIR . '/../src/Lang');
+        $langFile = ($langRoot ?: (REAL_BASE_DIR . '/../src/Lang')) . '/' . self::$currentLang . '/lang.php';
         if (file_exists($langFile)) {
             $msgs = include $langFile; // erwartet: return $message;
             // falls das Sprachfile $message benutzt aber nicht returned, fangen wir beides ab
@@ -78,9 +80,10 @@ class Lang
      */
     public static function setCurrent(string $lang): void
     {
-        self::init($lang);
+        $safe = self::sanitizeLangCode($lang);
+        self::init($safe);
         // Option: auch in Session speichern
-        $_SESSION['lang'] = $lang;
+        $_SESSION['lang'] = $safe;
     }
 
     // List all available language codes by scanning /src/Lang/*/lang.php
@@ -126,5 +129,20 @@ public static function getAvailableLanguages(): array
             'en_EN' => ['label' => 'English', 'flag' => '🇬🇧'],
             default => ['label' => $code, 'flag' => '🏳️'],
         };
+    }
+
+    private static function sanitizeLangCode(string $lang): string
+    {
+        $lang = trim($lang);
+        if (!preg_match('/^[a-z]{2}_[A-Z]{2}$/', $lang)) {
+            return 'de_DE';
+        }
+
+        $available = self::getAvailableLanguages();
+        if (!in_array($lang, $available, true)) {
+            return 'de_DE';
+        }
+
+        return $lang;
     }
 }

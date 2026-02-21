@@ -70,6 +70,46 @@ Session::start($db, $config['session']['lifetime']);
  */
 Lang::init();
 
+/**
+ * Security headers
+ */
+$sitetoolsHost = '';
+$sitetools = (string)($config['sitetools'] ?? '');
+if ($sitetools !== '') {
+    $parsedHost = parse_url($sitetools, PHP_URL_HOST);
+    if (is_string($parsedHost) && $parsedHost !== '') {
+        $sitetoolsHost = $parsedHost;
+    }
+}
+
+header('X-Frame-Options: DENY');
+header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
+if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+    header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+}
+
+$cspScriptSrc = ["'self'", "'unsafe-inline'"];
+$cspStyleSrc = ["'self'", "'unsafe-inline'"];
+$cspFontSrc = ["'self'", 'data:'];
+$cspImgSrc = ["'self'", 'data:', 'blob:'];
+if ($sitetoolsHost !== '') {
+    $cspScriptSrc[] = 'https://' . $sitetoolsHost;
+    $cspStyleSrc[] = 'https://' . $sitetoolsHost;
+    $cspFontSrc[] = 'https://' . $sitetoolsHost;
+    $cspImgSrc[] = 'https://' . $sitetoolsHost;
+}
+header(
+    'Content-Security-Policy: ' .
+    "default-src 'self'; " .
+    'script-src ' . implode(' ', array_unique($cspScriptSrc)) . '; ' .
+    'style-src ' . implode(' ', array_unique($cspStyleSrc)) . '; ' .
+    'font-src ' . implode(' ', array_unique($cspFontSrc)) . '; ' .
+    'img-src ' . implode(' ', array_unique($cspImgSrc)) . '; ' .
+    "connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+);
+
 
 
 define('_SITETOOLS', $config['sitetools']);

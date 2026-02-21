@@ -69,7 +69,7 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
         $header   = $this->loadPart('Header', $this->data);
         $sidebar  = $this->loadPart('Sidebar', $this->data);
         $footer   = $this->loadPart('Footer');
-        $scripts  = $this->loadPart('Scripts');
+        $scripts  = $this->loadPart('Scripts', $this->data);
         $htmlfoot  = $this->loadPart('HtmlFoot');
 
         return <<<HTML

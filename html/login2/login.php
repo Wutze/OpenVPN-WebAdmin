@@ -40,6 +40,7 @@ $cssVersion = (string) (is_file(__DIR__ . '/login.css') ? filemtime(__DIR__ . '/
 
             <div class="card-body">
                 <form method="post" action="?op=checklogin">
+                    <input type="hidden" name="_csrf" value="<?= htmlspecialchars(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), ENT_QUOTES, 'UTF-8') ?>">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>

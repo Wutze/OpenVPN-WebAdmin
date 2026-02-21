@@ -272,6 +272,41 @@ del{
     padding: 0.25rem 0.5rem;
 }
 
+.debug-modal-pre {
+  max-height: 26rem;
+  overflow: auto;
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #1e293b;
+  border-radius: 0.4rem;
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.25;
+}
+
+.debug-modal-card.debug-modal-card-browser-maximized {
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  margin: 0 !important;
+  border-radius: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.debug-modal-card.debug-modal-card-browser-maximized .card-body {
+  height: calc(100vh - 58px);
+}
+
+.debug-modal-card.debug-modal-card-browser-maximized .debug-modal-pre {
+  max-height: calc(100vh - 90px);
+  height: calc(100vh - 90px);
+}
+
+body.debug-browser-max-open {
+  overflow: hidden;
+}
+
 .small.text-muted,
 small.text-muted {
   color: #ffffff !important;

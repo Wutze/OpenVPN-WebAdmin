@@ -21,7 +21,7 @@
  */
 
 return [
-    'debug' => true,
+    'debug' => filter_var(getenv('DEBUG') ?: 'false', FILTER_VALIDATE_BOOL),
     'loginpath' => 'login3',
     /**
      * die Variable sitetools gibt an, wo deine ganzen JS und CSS Dateien liegen

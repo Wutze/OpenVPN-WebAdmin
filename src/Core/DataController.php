@@ -293,7 +293,7 @@ private function handleUserAction(): void
                     $this->json(['status' => 'error', 'message' => $this->msg('_API_USER_ACTION_UNKNOWN')], 400);
             }
         } catch (\Throwable $e) {
-            $this->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+            $this->internalError('handleUserAction', $e);
         }
     }
 
@@ -304,35 +304,39 @@ private function handleUserAction(): void
      */
 private function handleAccountAction(): void
     {
-        $action = (string)($_POST['action'] ?? '');
-        if ($action !== 'change_password') {
-            $this->json(['status' => 'error', 'message' => $this->msg('_API_ACCOUNT_ACTION_UNKNOWN')], 400);
+        try {
+            $action = (string)($_POST['action'] ?? '');
+            if ($action !== 'change_password') {
+                $this->json(['status' => 'error', 'message' => $this->msg('_API_ACCOUNT_ACTION_UNKNOWN')], 400);
+            }
+
+            $currentPassword = (string)($_POST['current_password'] ?? '');
+            $newPassword = (string)($_POST['new_password'] ?? '');
+
+            if ($currentPassword === '' || $newPassword === '') {
+                $this->json(['status' => 'error', 'message' => $this->msg('_API_ACCOUNT_PASSWORD_FIELDS_REQUIRED')], 422);
+            }
+
+            if (strlen($newPassword) < 8) {
+                $this->json(['status' => 'error', 'message' => $this->msg('_API_ACCOUNT_PASSWORD_TOO_SHORT')], 422);
+            }
+
+            $user = Session::getUser();
+            $uid = (int)($user['uid'] ?? 0);
+            if ($uid <= 0) {
+                $this->json(['status' => 'error', 'message' => $this->msg('_API_SESSION_INVALID')], 401);
+            }
+
+            $model = new UserModel();
+            if (!$model->verifyPassword($uid, $currentPassword)) {
+                $this->json(['status' => 'error', 'message' => $this->msg('_API_ACCOUNT_CURRENT_PASSWORD_INVALID')], 422);
+            }
+
+            $model->setUserPasswordById($uid, $newPassword);
+            $this->json(['status' => 'ok', 'message' => $this->msg('_API_ACCOUNT_PASSWORD_CHANGED')]);
+        } catch (\Throwable $e) {
+            $this->internalError('handleAccountAction', $e);
         }
-
-        $currentPassword = (string)($_POST['current_password'] ?? '');
-        $newPassword = (string)($_POST['new_password'] ?? '');
-
-        if ($currentPassword === '' || $newPassword === '') {
-            $this->json(['status' => 'error', 'message' => $this->msg('_API_ACCOUNT_PASSWORD_FIELDS_REQUIRED')], 422);
-        }
-
-        if (strlen($newPassword) < 8) {
-            $this->json(['status' => 'error', 'message' => $this->msg('_API_ACCOUNT_PASSWORD_TOO_SHORT')], 422);
-        }
-
-        $user = Session::getUser();
-        $uid = (int)($user['uid'] ?? 0);
-        if ($uid <= 0) {
-            $this->json(['status' => 'error', 'message' => $this->msg('_API_SESSION_INVALID')], 401);
-        }
-
-        $model = new UserModel();
-        if (!$model->verifyPassword($uid, $currentPassword)) {
-            $this->json(['status' => 'error', 'message' => $this->msg('_API_ACCOUNT_CURRENT_PASSWORD_INVALID')], 422);
-        }
-
-        $model->setUserPasswordById($uid, $newPassword);
-        $this->json(['status' => 'ok', 'message' => $this->msg('_API_ACCOUNT_PASSWORD_CHANGED')]);
     }
 
     /**
@@ -358,7 +362,7 @@ private function handleProfileAction(): void
                 'zip_file' => basename($zipPath),
             ]);
         } catch (\Throwable $e) {
-            $this->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+            $this->internalError('handleProfileAction', $e);
         }
     }
 
@@ -406,7 +410,7 @@ private function handleConfigGet(): void
                     $this->json(['status' => 'error', 'message' => $this->msg('_API_CONFIG_GET_ACTION_UNKNOWN')], 400);
             }
         } catch (\Throwable $e) {
-            $this->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+            $this->internalError('handleConfigGet', $e);
         }
     }
 
@@ -457,7 +461,7 @@ private function handleConfigPost(): void
                 'history_file' => $result['history_file'],
             ]);
         } catch (\Throwable $e) {
-            $this->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+            $this->internalError('handleConfigPost', $e);
         }
     }
 
@@ -499,7 +503,7 @@ private function handleSettingsGet(): void
                     $this->json(['status' => 'error', 'message' => $this->msg('_API_SETTINGS_GET_ACTION_UNKNOWN')], 400);
             }
         } catch (\Throwable $e) {
-            $this->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+            $this->internalError('handleSettingsGet', $e);
         }
     }
 
@@ -538,7 +542,7 @@ private function handleSettingsPost(): void
                 'path' => $saved['path'],
             ]);
         } catch (\Throwable $e) {
-            $this->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+            $this->internalError('handleSettingsPost', $e);
         }
     }
 
@@ -615,7 +619,7 @@ private function getLoginDiagnostics(): array
                     $cnt = (int)($stmt->fetch()['c'] ?? 0);
                     $out['tables'][$table] = ['ok' => true, 'rows' => $cnt];
                 } catch (\Throwable $e) {
-                    $out['tables'][$table] = ['ok' => false, 'error' => $e->getMessage()];
+                    $out['tables'][$table] = ['ok' => false, 'error' => 'query_failed'];
                 }
             }
 
@@ -641,7 +645,7 @@ private function getLoginDiagnostics(): array
                     ];
                 }, $rows);
             } catch (\Throwable $e) {
-                $out['users_preview_error'] = $e->getMessage();
+                $out['users_preview_error'] = 'query_failed';
             }
 
             $username = trim((string)($_GET['username'] ?? ''));
@@ -693,9 +697,10 @@ private function getLoginDiagnostics(): array
                 }
             }
         } catch (\Throwable $e) {
+            Debug::log('diag_login failed', $e->getMessage());
             $out['status'] = 'error';
             $out['db_connection'] = 'failed';
-            $out['message'] = $e->getMessage();
+            $out['message'] = 'internal_error';
         }
 
         return $out;
@@ -708,11 +713,20 @@ private function getLoginDiagnostics(): array
      * @param mixed $status
      * @return void
      */
-private function json(array $data, int $status = 200): void
+    private function json(array $data, int $status = 200): void
     {
         http_response_code($status);
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($data);
         exit;
+    }
+
+    private function internalError(string $context, \Throwable $e): void
+    {
+        Debug::log($context, $e->getMessage());
+        $this->json([
+            'status' => 'error',
+            'message' => $this->msg('_MSG_GENERIC_ERROR'),
+        ], 500);
     }
 }

@@ -150,12 +150,18 @@ private function checkLogin(): void
      */
 private function baseTemplateData(string $activeOp): array
     {
-        return [
+        $data = [
             'user' => Session::getUser(),
             'activeOp' => $activeOp,
             'currentLang' => Lang::getCurrent(),
             'availableLangs' => Lang::getAvailableLanguages(),
         ];
+
+        if ($this->canUseDebugModal()) {
+            $data['debugModal'] = $this->buildDebugModalData();
+        }
+
+        return $data;
     }
 
     /**
@@ -356,12 +362,31 @@ private function setLanguage(): void
         }
 
         $target = (string)($_SERVER['HTTP_REFERER'] ?? '?op=dashboard');
-        if ($target === '') {
+        if ($target === '' || !$this->isSafeRedirectTarget($target)) {
             $target = '?op=dashboard';
         }
 
         header('Location: ' . $target);
         exit;
+    }
+
+    private function isSafeRedirectTarget(string $target): bool
+    {
+        if (str_starts_with($target, '?') || str_starts_with($target, '/')) {
+            return true;
+        }
+
+        $parts = parse_url($target);
+        if (!is_array($parts)) {
+            return false;
+        }
+        $targetHost = (string)($parts['host'] ?? '');
+        $currentHost = (string)($_SERVER['HTTP_HOST'] ?? '');
+        if ($targetHost === '' || $currentHost === '') {
+            return false;
+        }
+
+        return strcasecmp($targetHost, $currentHost) === 0;
     }
 
     /**
@@ -589,5 +614,124 @@ private function getRequestCsrfToken(): string
         }
 
         return '';
+    }
+
+    /**
+     * Nur Admin mit gesetztem DEBUG=true darf das Debug-Modal sehen.
+     */
+    private function canUseDebugModal(): bool
+    {
+        if (!Session::isAdmin()) {
+            return false;
+        }
+
+        $raw = getenv('DEBUG');
+        if ($raw === false || $raw === null || $raw === '') {
+            $raw = $_ENV['DEBUG'] ?? '';
+        }
+        if ($raw === false || $raw === null || $raw === '') {
+            $raw = $this->readDotEnvValue('DEBUG');
+        }
+
+        return filter_var($raw, FILTER_VALIDATE_BOOL);
+    }
+
+    /**
+     * Liest einen einzelnen Key aus der .env Datei (falls vorhanden).
+     */
+    private function readDotEnvValue(string $key): string
+    {
+        $baseDir = defined('_PROJECT_BASE_DIR') ? _PROJECT_BASE_DIR : dirname(__DIR__, 2);
+        $envPath = $baseDir . '/.env';
+        if (!is_file($envPath) || !is_readable($envPath)) {
+            return '';
+        }
+
+        $lines = @file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if (!is_array($lines)) {
+            return '';
+        }
+
+        foreach ($lines as $line) {
+            $trimmed = trim($line);
+            if ($trimmed === '' || str_starts_with($trimmed, '#')) {
+                continue;
+            }
+            if (!str_contains($trimmed, '=')) {
+                continue;
+            }
+
+            [$k, $v] = array_map('trim', explode('=', $trimmed, 2));
+            if ($k !== $key) {
+                continue;
+            }
+
+            $v = trim($v, "\"'");
+            return $v;
+        }
+
+        return '';
+    }
+
+    /**
+     * Baut die Inhalte für das Debug-Modal.
+     *
+     * @return array<string, mixed>
+     */
+    private function buildDebugModalData(): array
+    {
+        $baseDir = defined('_PROJECT_BASE_DIR') ? _PROJECT_BASE_DIR : dirname(__DIR__, 2);
+        $debugPath = $baseDir . '/storage/logs/debug.log';
+        $exceptionPathPrimary = $baseDir . '/storage/logs/exceptions.log';
+        $exceptionPathLegacy = $baseDir . '/storage/logs/exeptions.log';
+        $exceptionPath = is_file($exceptionPathPrimary) ? $exceptionPathPrimary : $exceptionPathLegacy;
+
+        return [
+            'enabled' => true,
+            'debug_log_path' => $debugPath,
+            'debug_log_content' => $this->readDebugFile($debugPath),
+            'exceptions_log_path' => $exceptionPath,
+            'exceptions_log_content' => $this->readDebugFile($exceptionPath),
+            'go_request_vars' => $this->getGoRequestDebugVars(),
+        ];
+    }
+
+    /**
+     * Liest eine Logdatei robust ein und begrenzt sehr große Inhalte.
+     */
+    private function readDebugFile(string $path): string
+    {
+        if ($path === '' || !is_file($path)) {
+            return 'Datei nicht gefunden.';
+        }
+
+        $content = @file_get_contents($path);
+        if (!is_string($content)) {
+            return 'Datei konnte nicht gelesen werden.';
+        }
+
+        $maxBytes = 200000;
+        if (strlen($content) > $maxBytes) {
+            $content = substr($content, -$maxBytes);
+            return "[Ausgabe gekuerzt auf letzte {$maxBytes} Bytes]\n\n" . $content;
+        }
+
+        return $content === '' ? '(Datei ist leer)' : $content;
+    }
+
+    /**
+     * Liefert die in GoRequest erzeugten/verwalteten Variablen fuer Debug.
+     *
+     * @return array<string, mixed>
+     */
+    private function getGoRequestDebugVars(): array
+    {
+        return [
+            'object_vars' => get_object_vars($this),
+            'request_method' => (string)($_SERVER['REQUEST_METHOD'] ?? 'GET'),
+            'get' => $_GET,
+            'post' => $_POST,
+            'user' => Session::getUser(),
+        ];
     }
 }
