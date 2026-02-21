@@ -52,7 +52,7 @@ foreach ($files as $file) {
         $md[] = "- Zeile: {$entry['line']}";
         $md[] = "- Rueckgabe: `{$return}`";
         $md[] = '';
-        $md[] = '```';
+        $md[] = '```code';
         $md[] = $doc;
         $md[] = '```';
         $md[] = '';

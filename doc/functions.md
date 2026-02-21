@@ -1,6 +1,6 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-02-21 18:45:11
+Automatisch generiert am: 2026-02-21 18:47:55
 
 ## `./src/Core/ConfigService.php`
 
@@ -10,7 +10,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 16
 - Rueckgabe: `mixed|null`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -25,7 +25,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 27
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion listSystems
      *
@@ -39,7 +39,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 57
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getConfig
      *
@@ -54,7 +54,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 74
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion saveConfig
      *
@@ -70,7 +70,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 113
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getHistoryList
      *
@@ -85,7 +85,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 144
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
      *
@@ -100,7 +100,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 166
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion diffHistoryFile
      *
@@ -116,7 +116,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 181
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getHistoryContent
      *
@@ -132,7 +132,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 199
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion buildDiffData
      *
@@ -148,7 +148,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 235
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion diffOps
      *
@@ -164,7 +164,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 288
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion clientPath
      *
@@ -179,7 +179,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 300
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion historyDir
      *
@@ -194,12 +194,60 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 312
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion sanitizeSystem
      *
      * @param mixed $system
      * @return string
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Core/Database.php`
+
+### `private __construct($config)`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 35
+- Rueckgabe: `mixed|null`
+
+```code
+/**
+     * Kurzbeschreibung Funktion __construct
+     *
+     * @param mixed $config
+     * @return mixed|null
+     */
+```
+
+### `public static getInstance($config)`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 57
+- Rueckgabe: `Database`
+
+```code
+/**
+     * Kurzbeschreibung Funktion getInstance
+     *
+     * @param mixed $config
+     * @return Database
+     */
+```
+
+### `public getConnection()`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 73
+- Rueckgabe: `PDO`
+
+```code
+/**
+     * Kurzbeschreibung Funktion getConnection
+     *
+     * @return PDO
      */
 ```
 
@@ -213,7 +261,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 28
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handle
      *
@@ -227,7 +275,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 54
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handleGet
      *
@@ -242,7 +290,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 98
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handlePost
      *
@@ -257,7 +305,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 130
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getUsers
      *
@@ -271,7 +319,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 149
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getLogs
      *
@@ -285,7 +333,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 167
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getDashboardStats
      *
@@ -299,7 +347,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 203
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handleUserAction
      *
@@ -313,7 +361,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 335
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handleAccountAction
      *
@@ -327,7 +375,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 377
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handleProfileAction
      *
@@ -341,7 +389,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 404
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handleConfigGet
      *
@@ -355,7 +403,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 452
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handleConfigPost
      *
@@ -369,7 +417,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 503
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handleSettingsGet
      *
@@ -383,7 +431,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 545
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion handleSettingsPost
      *
@@ -397,7 +445,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 584
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion requireAdminJson
      *
@@ -411,7 +459,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 597
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion msg
      *
@@ -426,7 +474,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 609
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion msgf
      *
@@ -442,7 +490,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 620
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion assertValidUsername
      *
@@ -457,7 +505,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 633
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion isValidIpv4
      *
@@ -472,7 +520,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 643
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getLoginDiagnostics
      *
@@ -486,7 +534,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 757
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion json
      *
@@ -502,61 +550,13 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 772
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion internalError
      *
      * @param mixed $context
      * @param mixed $e
      * @return void
-     */
-```
-
-<hr style="border:0; height:5px; background:#1e90ff;">
-
-## `./src/Core/Database.php`
-
-### `private __construct($config)`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 35
-- Rueckgabe: `mixed|null`
-
-```
-/**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @param mixed $config
-     * @return mixed|null
-     */
-```
-
-### `public static getInstance($config)`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 57
-- Rueckgabe: `Database`
-
-```
-/**
-     * Kurzbeschreibung Funktion getInstance
-     *
-     * @param mixed $config
-     * @return Database
-     */
-```
-
-### `public getConnection()`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 73
-- Rueckgabe: `PDO`
-
-```
-/**
-     * Kurzbeschreibung Funktion getConnection
-     *
-     * @return PDO
      */
 ```
 
@@ -570,7 +570,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 32
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Initialisiert Debug-Umgebung
      */
@@ -582,7 +582,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 45
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Debug-Ausgabe auf der Seite (Bootstrap Collapse)
      */
@@ -594,7 +594,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 101
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Debug-Ausgabe in Logfile
      */
@@ -606,7 +606,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 121
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Debug + exit
      */
@@ -618,7 +618,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 130
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Exception-Handler
      */
@@ -630,7 +630,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 156
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Error-Handler
      */
@@ -642,7 +642,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 172
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion render
      *
@@ -660,7 +660,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 42
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Setzt dynamisch eine Eigenschaft der Klasse auf den uebergebenen Wert.
      *
@@ -676,7 +676,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 55
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Der zentrale handler/router in der Verarbeitung
      * über diese Datei werden alle Anfragen an das System "geroutet"
@@ -693,7 +693,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 133
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt die Login-Seite ueber den LoginController an.
      *
@@ -707,7 +707,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 143
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Verarbeitet den Login-Versuch ueber den LoginController.
      *
@@ -721,7 +721,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 154
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Baut die gemeinsamen Template-Daten fuer Seitenaufrufe auf.
      *
@@ -736,7 +736,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 178
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Rendert eine komplette Seite mit Layout, Header und Inhalt.
      *
@@ -753,7 +753,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 189
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt die Dashboard-Seite an.
      *
@@ -767,7 +767,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 200
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt die Benutzerverwaltung an.
      *
@@ -781,7 +781,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 211
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt die Log-Ansicht an.
      *
@@ -795,7 +795,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 222
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt den Konfigurations-Editor fuer Client-Profile an.
      *
@@ -809,7 +809,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 233
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt den Editor fuer die VPN-Server-Einstellungen an.
      *
@@ -823,7 +823,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 244
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt die Seite fuer Konfigurations-Downloads an.
      *
@@ -837,7 +837,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 255
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt die Seite zum Verwalten des eigenen Accounts an.
      *
@@ -851,7 +851,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 266
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Liefert eine einfache Live-Status-Antwort als JSON.
      *
@@ -865,7 +865,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 277
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Meldet den Benutzer ab und antwortet je nach Request-Typ mit Redirect oder JSON.
      *
@@ -879,7 +879,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 304
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Prueft Adminrechte und zeigt sonst eine Zugriff-verweigert-Seite an.
      *
@@ -893,7 +893,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 318
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Liefert die angeforderte Profil-ZIP zum Download aus.
      *
@@ -907,7 +907,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 344
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zeigt die Fehlerseite aus dem Theme oder einen Text-Fallback an.
      *
@@ -921,7 +921,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 360
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Setzt die gewaehlte Sprache und leitet sicher auf die vorherige Seite zurueck.
      *
@@ -935,7 +935,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 382
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion isSafeRedirectTarget
      *
@@ -950,7 +950,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 427
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Erzwingt zentrale Zugriffsregeln fuer Login, Rollen, Origin und CSRF.
      *
@@ -985,7 +985,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 463
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Liefert erlaubte Login-Assets sicher aus dem Theme-Verzeichnis aus.
      *
@@ -999,7 +999,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 523
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Wendet Zugriffskontrollen fuer data-Requests anhand von select und Methode an.
      *
@@ -1014,7 +1014,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 541
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Prueft zustandsaendernde Requests auf gleiche Herkunft und gueltiges CSRF-Token.
      *
@@ -1028,7 +1028,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 558
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Ermittelt, ob die Anfrage von derselben Origin bzw. demselben Host stammt.
      *
@@ -1042,7 +1042,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 587
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Bricht die Anfrage mit Fehlerstatus ab und gibt JSON oder HTML-Fehler aus.
      *
@@ -1058,7 +1058,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 607
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Liest das CSRF-Token aus POST-Daten oder einem JSON-Body aus.
      *
@@ -1072,7 +1072,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 630
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Nur Admin mit gesetztem DEBUG=true darf das Debug-Modal sehen.
      */
@@ -1084,7 +1084,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 650
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Liest einen einzelnen Key aus der .env Datei (falls vorhanden).
      */
@@ -1096,7 +1096,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 689
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Baut die Inhalte für das Debug-Modal.
      *
@@ -1110,7 +1110,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 710
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Liest eine Logdatei robust ein und begrenzt sehr große Inhalte.
      */
@@ -1122,7 +1122,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 735
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Liefert die in GoRequest erzeugten/verwalteten Variablen fuer Debug.
      *
@@ -1140,7 +1140,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 29
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Initialisiert die Sprache (Session muss vorher gestartet sein)
      */
@@ -1152,7 +1152,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 57
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Einzeltext holen
      */
@@ -1164,7 +1164,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 65
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Komplettes Message-Array (für Templates / Backwards-Compatibility)
      */
@@ -1176,7 +1176,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 73
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Aktuelle Sprache
      */
@@ -1188,7 +1188,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 81
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Sprache setzen und neu laden
      */
@@ -1200,7 +1200,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 95
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getAvailableLanguages
      *
@@ -1214,7 +1214,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 125
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Liefert Label + Flagge für Sprach-Auswahl.
      */
@@ -1226,7 +1226,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 147
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion buildLocaleLabel
      *
@@ -1242,7 +1242,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 171
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion countryCodeToFlag
      *
@@ -1257,12 +1257,163 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 189
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion sanitizeLangCode
      *
      * @param mixed $lang
      * @return string
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Core/LoginController.php`
+
+### `public showLogin()`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 34
+- Rueckgabe: `void`
+
+```code
+/**
+     * Kurzbeschreibung Funktion showLogin
+     *
+     * @return void
+     */
+```
+
+### `public handleLogin()`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 52
+- Rueckgabe: `void`
+
+```code
+/**
+     * Kurzbeschreibung Funktion handleLogin
+     *
+     * @return void
+     */
+```
+
+### `private redirect($url)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 160
+- Rueckgabe: `void`
+
+```code
+/**
+     * Kurzbeschreibung Funktion redirect
+     *
+     * @param mixed $url
+     * @return void
+     */
+```
+
+### `private clientIp()`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 171
+- Rueckgabe: `string`
+
+```code
+/**
+     * Kurzbeschreibung Funktion clientIp
+     *
+     * @return string
+     */
+```
+
+### `private auditUserRef($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 183
+- Rueckgabe: `string`
+
+```code
+/**
+     * Kurzbeschreibung Funktion auditUserRef
+     *
+     * @param mixed $username
+     * @return string
+     */
+```
+
+### `private loginKey($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 198
+- Rueckgabe: `string`
+
+```code
+/**
+     * Kurzbeschreibung Funktion loginKey
+     *
+     * @param mixed $username
+     * @return string
+     */
+```
+
+### `private isLoginRateLimited($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 209
+- Rueckgabe: `bool`
+
+```code
+/**
+     * Kurzbeschreibung Funktion isLoginRateLimited
+     *
+     * @param mixed $username
+     * @return bool
+     */
+```
+
+### `private registerLoginFailure($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 232
+- Rueckgabe: `void`
+
+```code
+/**
+     * Kurzbeschreibung Funktion registerLoginFailure
+     *
+     * @param mixed $username
+     * @return void
+     */
+```
+
+### `private clearLoginFailures($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 274
+- Rueckgabe: `void`
+
+```code
+/**
+     * Kurzbeschreibung Funktion clearLoginFailures
+     *
+     * @param mixed $username
+     * @return void
+     */
+```
+
+### `private isStrictAdminRoleName($roleName)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 292
+- Rueckgabe: `bool`
+
+```code
+/**
+     * Kurzbeschreibung Funktion isStrictAdminRoleName
+     *
+     * @param mixed $roleName
+     * @return bool
      */
 ```
 
@@ -1276,7 +1427,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 33
 - Rueckgabe: `mixed|null`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1290,7 +1441,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 46
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getAllLogs
      *
@@ -1307,163 +1458,12 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 76
 - Rueckgabe: `int`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion countLogs
      *
      * @param mixed $search
      * @return int
-     */
-```
-
-<hr style="border:0; height:5px; background:#1e90ff;">
-
-## `./src/Core/LoginController.php`
-
-### `public showLogin()`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 34
-- Rueckgabe: `void`
-
-```
-/**
-     * Kurzbeschreibung Funktion showLogin
-     *
-     * @return void
-     */
-```
-
-### `public handleLogin()`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 52
-- Rueckgabe: `void`
-
-```
-/**
-     * Kurzbeschreibung Funktion handleLogin
-     *
-     * @return void
-     */
-```
-
-### `private redirect($url)`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 160
-- Rueckgabe: `void`
-
-```
-/**
-     * Kurzbeschreibung Funktion redirect
-     *
-     * @param mixed $url
-     * @return void
-     */
-```
-
-### `private clientIp()`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 171
-- Rueckgabe: `string`
-
-```
-/**
-     * Kurzbeschreibung Funktion clientIp
-     *
-     * @return string
-     */
-```
-
-### `private auditUserRef($username)`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 183
-- Rueckgabe: `string`
-
-```
-/**
-     * Kurzbeschreibung Funktion auditUserRef
-     *
-     * @param mixed $username
-     * @return string
-     */
-```
-
-### `private loginKey($username)`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 198
-- Rueckgabe: `string`
-
-```
-/**
-     * Kurzbeschreibung Funktion loginKey
-     *
-     * @param mixed $username
-     * @return string
-     */
-```
-
-### `private isLoginRateLimited($username)`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 209
-- Rueckgabe: `bool`
-
-```
-/**
-     * Kurzbeschreibung Funktion isLoginRateLimited
-     *
-     * @param mixed $username
-     * @return bool
-     */
-```
-
-### `private registerLoginFailure($username)`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 232
-- Rueckgabe: `void`
-
-```
-/**
-     * Kurzbeschreibung Funktion registerLoginFailure
-     *
-     * @param mixed $username
-     * @return void
-     */
-```
-
-### `private clearLoginFailures($username)`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 274
-- Rueckgabe: `void`
-
-```
-/**
-     * Kurzbeschreibung Funktion clearLoginFailures
-     *
-     * @param mixed $username
-     * @return void
-     */
-```
-
-### `private isStrictAdminRoleName($roleName)`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 292
-- Rueckgabe: `bool`
-
-```
-/**
-     * Kurzbeschreibung Funktion isStrictAdminRoleName
-     *
-     * @param mixed $roleName
-     * @return bool
      */
 ```
 
@@ -1477,7 +1477,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 15
 - Rueckgabe: `mixed|null`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1492,7 +1492,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 25
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion listSystems
      *
@@ -1506,7 +1506,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 76
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion buildZip
      *
@@ -1521,7 +1521,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 118
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getZipPath
      *
@@ -1536,7 +1536,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 136
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion sanitizeSystem
      *
@@ -1551,7 +1551,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 152
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion zipPathFor
      *
@@ -1566,7 +1566,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 164
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion isAllowedSystemDir
      *
@@ -1586,7 +1586,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 15
 - Rueckgabe: `mixed|null`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1601,7 +1601,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 35
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getCurrent
      *
@@ -1615,7 +1615,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 74
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion save
      *
@@ -1630,7 +1630,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 104
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getHistoryList
      *
@@ -1644,7 +1644,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 135
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion diffHistoryFileAgainstCurrent
      *
@@ -1660,7 +1660,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 153
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
      *
@@ -1675,7 +1675,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 174
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion fetchFromUrl
      *
@@ -1690,7 +1690,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 207
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion writeCache
      *
@@ -1705,7 +1705,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 228
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion archiveFile
      *
@@ -1720,7 +1720,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 246
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion readSavePath
      *
@@ -1734,7 +1734,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 269
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion readFile
      *
@@ -1749,7 +1749,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 283
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion ensureSaveFileExists
      *
@@ -1763,7 +1763,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 308
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion buildDiffData
      *
@@ -1779,7 +1779,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 344
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion diffOps
      *
@@ -1799,7 +1799,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 48
 - Rueckgabe: `mixed|null`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1815,7 +1815,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 77
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion open
      *
@@ -1831,7 +1831,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 87
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion close
      *
@@ -1845,7 +1845,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 98
 - Rueckgabe: `string|false`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion read
      *
@@ -1860,7 +1860,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 126
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion write
      *
@@ -1876,7 +1876,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 158
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion destroy
      *
@@ -1891,7 +1891,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 178
 - Rueckgabe: `int|false`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion gc
      *
@@ -1906,7 +1906,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 198
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Initialisiert und startet die Session.
      */
@@ -1918,7 +1918,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 230
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion regenerateId
      *
@@ -1932,7 +1932,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 240
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Setzt eine Session-Variable.
      */
@@ -1944,7 +1944,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 248
 - Rueckgabe: `mixed`
 
-```
+```code
 /**
      * Holt eine Session-Variable.
      */
@@ -1956,7 +1956,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 256
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Entfernt eine Session-Variable.
      */
@@ -1968,7 +1968,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 264
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Prüft, ob ein Benutzer angemeldet ist.
      */
@@ -1980,7 +1980,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 272
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Prüft, ob aktueller Benutzer Admin ist.
      */
@@ -1992,7 +1992,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 321
 - Rueckgabe: `?array`
 
-```
+```code
 /**
      * Gibt den aktuellen Benutzer zurück.
      */
@@ -2004,7 +2004,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 329
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Setzt den angemeldeten Benutzer.
      */
@@ -2016,7 +2016,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 337
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Zerstört die komplette Session inkl. Cookie.
      */
@@ -2028,7 +2028,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 357
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * CSRF token for state-changing requests.
      */
@@ -2040,7 +2040,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 372
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion verifyCsrfToken
      *
@@ -2055,7 +2055,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 392
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion toBool
      *
@@ -2070,7 +2070,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 414
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion isStrictAdminRoleName
      *
@@ -2089,7 +2089,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 34
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2107,7 +2107,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 32
 - Rueckgabe: `mixed|null`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -2121,7 +2121,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 45
 - Rueckgabe: `array`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion getAllUsers
      *
@@ -2138,7 +2138,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 93
 - Rueckgabe: `int`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion countUsers
      *
@@ -2153,7 +2153,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 117
 - Rueckgabe: `int`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion countOnlineUsers
      *
@@ -2167,7 +2167,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 129
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion userExists
      *
@@ -2182,7 +2182,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 144
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion createUser
      *
@@ -2199,7 +2199,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 168
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion setUserEnabled
      *
@@ -2215,7 +2215,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 184
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion setUserRole
      *
@@ -2231,7 +2231,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 201
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion setUserPasswordByName
      *
@@ -2247,7 +2247,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 218
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion setUserPasswordById
      *
@@ -2263,7 +2263,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 236
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion setUserLimits
      *
@@ -2280,7 +2280,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 260
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion setUserFixedIp
      *
@@ -2296,7 +2296,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 310
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion isFixedIpInUseByOtherUser
      *
@@ -2312,7 +2312,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 334
 - Rueckgabe: `void`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion deleteUser
      *
@@ -2327,7 +2327,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 347
 - Rueckgabe: `bool`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion verifyPassword
      *
@@ -2343,7 +2343,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 365
 - Rueckgabe: `int`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion resolveGroupId
      *
@@ -2362,7 +2362,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 12
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2380,7 +2380,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 12
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2398,7 +2398,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 28
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2416,7 +2416,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 28
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2434,7 +2434,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 12
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2452,7 +2452,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 12
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2470,7 +2470,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 37
 - Rueckgabe: `mixed|null`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -2487,7 +2487,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 47
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Lädt eine Layout-Datei aus /src/Layout/
      */
@@ -2499,7 +2499,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 65
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Baut die komplette Seite zusammen
      */
@@ -2515,7 +2515,7 @@ Automatisch generiert am: 2026-02-21 18:45:11
 - Zeile: 28
 - Rueckgabe: `string`
 
-```
+```code
 /**
      * Kurzbeschreibung Funktion index
      *
