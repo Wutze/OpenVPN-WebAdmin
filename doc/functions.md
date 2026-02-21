@@ -1,6 +1,6 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-02-21 13:41:34
+Automatisch generiert am: 2026-02-21 18:24:10
 
 ## `./src/Core/ConfigService.php`
 
@@ -203,7 +203,55 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Core/Database.php`
+
+### `private __construct($config)`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 35
+- Rueckgabe: `mixed|null`
+
+```
+/**
+     * Kurzbeschreibung Funktion __construct
+     *
+     * @param mixed $config
+     * @return mixed|null
+     */
+```
+
+### `public static getInstance($config)`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 57
+- Rueckgabe: `Database`
+
+```
+/**
+     * Kurzbeschreibung Funktion getInstance
+     *
+     * @param mixed $config
+     * @return Database
+     */
+```
+
+### `public getConnection()`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 73
+- Rueckgabe: `PDO`
+
+```
+/**
+     * Kurzbeschreibung Funktion getConnection
+     *
+     * @return PDO
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/DataController.php`
 
@@ -254,7 +302,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private getUsers()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 129
+- Zeile: 130
 - Rueckgabe: `array`
 
 ```
@@ -268,7 +316,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private getLogs()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 148
+- Zeile: 149
 - Rueckgabe: `array`
 
 ```
@@ -282,7 +330,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private getDashboardStats()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 166
+- Zeile: 167
 - Rueckgabe: `array`
 
 ```
@@ -296,7 +344,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private handleUserAction()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 202
+- Zeile: 203
 - Rueckgabe: `void`
 
 ```
@@ -310,7 +358,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private handleAccountAction()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 305
+- Zeile: 335
 - Rueckgabe: `void`
 
 ```
@@ -324,7 +372,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private handleProfileAction()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 343
+- Zeile: 377
 - Rueckgabe: `void`
 
 ```
@@ -338,7 +386,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private handleConfigGet()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 370
+- Zeile: 404
 - Rueckgabe: `void`
 
 ```
@@ -352,7 +400,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private handleConfigPost()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 418
+- Zeile: 452
 - Rueckgabe: `void`
 
 ```
@@ -366,7 +414,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private handleSettingsGet()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 469
+- Zeile: 503
 - Rueckgabe: `void`
 
 ```
@@ -380,7 +428,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private handleSettingsPost()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 511
+- Zeile: 545
 - Rueckgabe: `void`
 
 ```
@@ -394,7 +442,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private requireAdminJson()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 550
+- Zeile: 584
 - Rueckgabe: `void`
 
 ```
@@ -408,7 +456,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private msg($key)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 563
+- Zeile: 597
 - Rueckgabe: `string`
 
 ```
@@ -423,7 +471,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private msgf($key, $arg)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 575
+- Zeile: 609
 - Rueckgabe: `string`
 
 ```
@@ -439,7 +487,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private assertValidUsername($username)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 586
+- Zeile: 620
 - Rueckgabe: `void`
 
 ```
@@ -451,10 +499,25 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
+### `private isValidIpv4($value)`
+
+- Datei: `./src/Core/DataController.php`
+- Zeile: 633
+- Rueckgabe: `bool`
+
+```
+/**
+     * Kurzbeschreibung Funktion isValidIpv4
+     *
+     * @param mixed $value
+     * @return bool
+     */
+```
+
 ### `private getLoginDiagnostics()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 598
+- Zeile: 643
 - Rueckgabe: `array`
 
 ```
@@ -468,7 +531,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private json($data, $status)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 711
+- Zeile: 757
 - Rueckgabe: `void`
 
 ```
@@ -481,55 +544,23 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+### `private internalError($context, $e)`
 
-## `./src/Core/Database.php`
-
-### `private __construct($config)`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 35
-- Rueckgabe: `mixed|null`
+- Datei: `./src/Core/DataController.php`
+- Zeile: 772
+- Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion __construct
+     * Kurzbeschreibung Funktion internalError
      *
-     * @param mixed $config
-     * @return mixed|null
+     * @param mixed $context
+     * @param mixed $e
+     * @return void
      */
 ```
 
-### `public static getInstance($config)`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 54
-- Rueckgabe: `Database`
-
-```
-/**
-     * Kurzbeschreibung Funktion getInstance
-     *
-     * @param mixed $config
-     * @return Database
-     */
-```
-
-### `public getConnection()`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 70
-- Rueckgabe: `PDO`
-
-```
-/**
-     * Kurzbeschreibung Funktion getConnection
-     *
-     * @return PDO
-     */
-```
-
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/Debug.php`
 
@@ -619,7 +650,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/GoRequest.php`
 
@@ -631,7 +662,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 
 ```
 /**
-     * Kurzbeschreibung Funktion set_value
+     * Setzt dynamisch eine Eigenschaft der Klasse auf den uebergebenen Wert.
      *
      * @param mixed $key
      * @param mixed $val
@@ -642,12 +673,15 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public main()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 52
+- Zeile: 55
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion main
+     * Der zentrale handler/router in der Verarbeitung
+     * über diese Datei werden alle Anfragen an das System "geroutet"
+     * und entsprechend auf die erlaubten "Operationen" (op) hin überprüft
+     * Verteilt dann auf die entsprechenden Klassen und Funktionen
      *
      * @return void
      */
@@ -656,12 +690,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showLogin()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 130
+- Zeile: 133
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showLogin
+     * Zeigt die Login-Seite ueber den LoginController an.
      *
      * @return void
      */
@@ -670,12 +704,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private checkLogin()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 140
+- Zeile: 143
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion checkLogin
+     * Verarbeitet den Login-Versuch ueber den LoginController.
      *
      * @return void
      */
@@ -684,12 +718,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private baseTemplateData($activeOp)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 151
+- Zeile: 154
 - Rueckgabe: `array`
 
 ```
 /**
-     * Kurzbeschreibung Funktion baseTemplateData
+     * Baut die gemeinsamen Template-Daten fuer Seitenaufrufe auf.
      *
      * @param mixed $activeOp
      * @return array
@@ -699,12 +733,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private renderPage($title, $content, $activeOp)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 169
+- Zeile: 178
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion renderPage
+     * Rendert eine komplette Seite mit Layout, Header und Inhalt.
      *
      * @param mixed $title
      * @param mixed $content
@@ -716,12 +750,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showMain()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 180
+- Zeile: 189
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showMain
+     * Zeigt die Dashboard-Seite an.
      *
      * @return void
      */
@@ -730,12 +764,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showUsers()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 191
+- Zeile: 200
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showUsers
+     * Zeigt die Benutzerverwaltung an.
      *
      * @return void
      */
@@ -744,12 +778,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showLogs()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 202
+- Zeile: 211
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showLogs
+     * Zeigt die Log-Ansicht an.
      *
      * @return void
      */
@@ -758,12 +792,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showConfig()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 213
+- Zeile: 222
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showConfig
+     * Zeigt den Konfigurations-Editor fuer Client-Profile an.
      *
      * @return void
      */
@@ -772,12 +806,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showSettings()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 224
+- Zeile: 233
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showSettings
+     * Zeigt den Editor fuer die VPN-Server-Einstellungen an.
      *
      * @return void
      */
@@ -786,12 +820,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showProfiles()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 235
+- Zeile: 244
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showProfiles
+     * Zeigt die Seite fuer Konfigurations-Downloads an.
      *
      * @return void
      */
@@ -800,12 +834,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showAccount()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 246
+- Zeile: 255
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showAccount
+     * Zeigt die Seite zum Verwalten des eigenen Accounts an.
      *
      * @return void
      */
@@ -814,12 +848,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showLive()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 257
+- Zeile: 266
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showLive
+     * Liefert eine einfache Live-Status-Antwort als JSON.
      *
      * @return void
      */
@@ -828,12 +862,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private logout()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 268
+- Zeile: 277
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion logout
+     * Meldet den Benutzer ab und antwortet je nach Request-Typ mit Redirect oder JSON.
      *
      * @return void
      */
@@ -842,12 +876,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private ensureAdminOrForbidden()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 295
+- Zeile: 304
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion ensureAdminOrForbidden
+     * Prueft Adminrechte und zeigt sonst eine Zugriff-verweigert-Seite an.
      *
      * @return void
      */
@@ -856,12 +890,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private downloadProfileZip()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 309
+- Zeile: 318
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion downloadProfileZip
+     * Liefert die angeforderte Profil-ZIP zum Download aus.
      *
      * @return void
      */
@@ -870,12 +904,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private showError()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 335
+- Zeile: 344
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion showError
+     * Zeigt die Fehlerseite aus dem Theme oder einen Text-Fallback an.
      *
      * @return void
      */
@@ -884,26 +918,62 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private setLanguage()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 351
+- Zeile: 360
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion setLanguage
+     * Setzt die gewaehlte Sprache und leitet sicher auf die vorherige Seite zurueck.
      *
      * @return void
+     */
+```
+
+### `private isSafeRedirectTarget($target)`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 382
+- Rueckgabe: `bool`
+
+```
+/**
+     * Kurzbeschreibung Funktion isSafeRedirectTarget
+     *
+     * @param mixed $target
+     * @return bool
      */
 ```
 
 ### `private enforceAccessPolicy()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 372
+- Zeile: 427
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion enforceAccessPolicy
+     * Erzwingt zentrale Zugriffsregeln fuer Login, Rollen, Origin und CSRF.
+     *
+     * Security-Matrix (Single Source of Truth):
+     *
+     * OP               Login required   Admin required   CSRF+Origin on POST
+     * ----------------------------------------------------------------------
+     * login            no               no               no
+     * checklogin       no               no               no
+     * setlang          yes              no               no (GET only)
+     * logout           yes              no               yes
+     * dashboard/main   yes              no               n/a
+     * account          yes              no               n/a
+     * profiles         yes              no               n/a
+     * download         yes              no               n/a
+     * users            yes              yes              n/a
+     * logs             yes              yes              n/a
+     * config           yes              yes              n/a
+     * settings         yes              yes              n/a
+     * data(select=*)   yes              depends          yes for POST
+     *
+     * data-select admin-only:
+     * user, log, config, settings, dashboard_stats, diag_login
      *
      * @return void
      */
@@ -912,12 +982,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private serveLoginAsset()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 430
+- Zeile: 463
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion serveLoginAsset
+     * Liefert erlaubte Login-Assets sicher aus dem Theme-Verzeichnis aus.
      *
      * @return void
      */
@@ -926,12 +996,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private enforceDataAccessPolicy($method)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 490
+- Zeile: 523
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion enforceDataAccessPolicy
+     * Wendet Zugriffskontrollen fuer data-Requests anhand von select und Methode an.
      *
      * @param mixed $method
      * @return void
@@ -941,12 +1011,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private verifyStateChangingRequest()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 508
+- Zeile: 541
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion verifyStateChangingRequest
+     * Prueft zustandsaendernde Requests auf gleiche Herkunft und gueltiges CSRF-Token.
      *
      * @return void
      */
@@ -955,12 +1025,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private isSameOriginRequest()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 525
+- Zeile: 558
 - Rueckgabe: `bool`
 
 ```
 /**
-     * Kurzbeschreibung Funktion isSameOriginRequest
+     * Ermittelt, ob die Anfrage von derselben Origin bzw. demselben Host stammt.
      *
      * @return bool
      */
@@ -969,12 +1039,12 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private denyRequest($status, $message)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 554
+- Zeile: 587
 - Rueckgabe: `void`
 
 ```
 /**
-     * Kurzbeschreibung Funktion denyRequest
+     * Bricht die Anfrage mit Fehlerstatus ab und gibt JSON oder HTML-Fehler aus.
      *
      * @param mixed $status
      * @param mixed $message
@@ -985,18 +1055,82 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private getRequestCsrfToken()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 574
+- Zeile: 607
 - Rueckgabe: `string`
 
 ```
 /**
-     * Kurzbeschreibung Funktion getRequestCsrfToken
+     * Liest das CSRF-Token aus POST-Daten oder einem JSON-Body aus.
      *
      * @return string
      */
 ```
 
----
+### `private canUseDebugModal()`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 630
+- Rueckgabe: `bool`
+
+```
+/**
+     * Nur Admin mit gesetztem DEBUG=true darf das Debug-Modal sehen.
+     */
+```
+
+### `private readDotEnvValue($key)`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 650
+- Rueckgabe: `string`
+
+```
+/**
+     * Liest einen einzelnen Key aus der .env Datei (falls vorhanden).
+     */
+```
+
+### `private buildDebugModalData()`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 689
+- Rueckgabe: `array`
+
+```
+/**
+     * Baut die Inhalte für das Debug-Modal.
+     *
+     * @return array<string, mixed>
+     */
+```
+
+### `private readDebugFile($path)`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 710
+- Rueckgabe: `string`
+
+```
+/**
+     * Liest eine Logdatei robust ein und begrenzt sehr große Inhalte.
+     */
+```
+
+### `private getGoRequestDebugVars()`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 735
+- Rueckgabe: `array`
+
+```
+/**
+     * Liefert die in GoRequest erzeugten/verwalteten Variablen fuer Debug.
+     *
+     * @return array<string, mixed>
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/Lang.php`
 
@@ -1015,7 +1149,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static get($key, $default)`
 
 - Datei: `./src/Core/Lang.php`
-- Zeile: 55
+- Zeile: 57
 - Rueckgabe: `string`
 
 ```
@@ -1027,7 +1161,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static getAll()`
 
 - Datei: `./src/Core/Lang.php`
-- Zeile: 63
+- Zeile: 65
 - Rueckgabe: `array`
 
 ```
@@ -1039,7 +1173,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static getCurrent()`
 
 - Datei: `./src/Core/Lang.php`
-- Zeile: 71
+- Zeile: 73
 - Rueckgabe: `string`
 
 ```
@@ -1051,7 +1185,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static setCurrent($lang)`
 
 - Datei: `./src/Core/Lang.php`
-- Zeile: 79
+- Zeile: 81
 - Rueckgabe: `void`
 
 ```
@@ -1063,7 +1197,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static getAvailableLanguages()`
 
 - Datei: `./src/Core/Lang.php`
-- Zeile: 92
+- Zeile: 95
 - Rueckgabe: `array`
 
 ```
@@ -1077,7 +1211,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static getLanguageMeta($code)`
 
 - Datei: `./src/Core/Lang.php`
-- Zeile: 122
+- Zeile: 125
 - Rueckgabe: `array`
 
 ```
@@ -1086,7 +1220,204 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+### `private static buildLocaleLabel($langCode, $countryCode)`
+
+- Datei: `./src/Core/Lang.php`
+- Zeile: 147
+- Rueckgabe: `string`
+
+```
+/**
+     * Kurzbeschreibung Funktion buildLocaleLabel
+     *
+     * @param mixed $langCode
+     * @param mixed $countryCode
+     * @return string
+     */
+```
+
+### `private static countryCodeToFlag($countryCode)`
+
+- Datei: `./src/Core/Lang.php`
+- Zeile: 171
+- Rueckgabe: `string`
+
+```
+/**
+     * Kurzbeschreibung Funktion countryCodeToFlag
+     *
+     * @param mixed $countryCode
+     * @return string
+     */
+```
+
+### `private static sanitizeLangCode($lang)`
+
+- Datei: `./src/Core/Lang.php`
+- Zeile: 189
+- Rueckgabe: `string`
+
+```
+/**
+     * Kurzbeschreibung Funktion sanitizeLangCode
+     *
+     * @param mixed $lang
+     * @return string
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Core/LoginController.php`
+
+### `public showLogin()`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 34
+- Rueckgabe: `void`
+
+```
+/**
+     * Kurzbeschreibung Funktion showLogin
+     *
+     * @return void
+     */
+```
+
+### `public handleLogin()`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 52
+- Rueckgabe: `void`
+
+```
+/**
+     * Kurzbeschreibung Funktion handleLogin
+     *
+     * @return void
+     */
+```
+
+### `private redirect($url)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 160
+- Rueckgabe: `void`
+
+```
+/**
+     * Kurzbeschreibung Funktion redirect
+     *
+     * @param mixed $url
+     * @return void
+     */
+```
+
+### `private clientIp()`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 171
+- Rueckgabe: `string`
+
+```
+/**
+     * Kurzbeschreibung Funktion clientIp
+     *
+     * @return string
+     */
+```
+
+### `private auditUserRef($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 183
+- Rueckgabe: `string`
+
+```
+/**
+     * Kurzbeschreibung Funktion auditUserRef
+     *
+     * @param mixed $username
+     * @return string
+     */
+```
+
+### `private loginKey($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 198
+- Rueckgabe: `string`
+
+```
+/**
+     * Kurzbeschreibung Funktion loginKey
+     *
+     * @param mixed $username
+     * @return string
+     */
+```
+
+### `private isLoginRateLimited($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 209
+- Rueckgabe: `bool`
+
+```
+/**
+     * Kurzbeschreibung Funktion isLoginRateLimited
+     *
+     * @param mixed $username
+     * @return bool
+     */
+```
+
+### `private registerLoginFailure($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 232
+- Rueckgabe: `void`
+
+```
+/**
+     * Kurzbeschreibung Funktion registerLoginFailure
+     *
+     * @param mixed $username
+     * @return void
+     */
+```
+
+### `private clearLoginFailures($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 274
+- Rueckgabe: `void`
+
+```
+/**
+     * Kurzbeschreibung Funktion clearLoginFailures
+     *
+     * @param mixed $username
+     * @return void
+     */
+```
+
+### `private isStrictAdminRoleName($roleName)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 292
+- Rueckgabe: `bool`
+
+```
+/**
+     * Kurzbeschreibung Funktion isStrictAdminRoleName
+     *
+     * @param mixed $roleName
+     * @return bool
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/LogModel.php`
 
@@ -1136,54 +1467,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
-
-## `./src/Core/LoginController.php`
-
-### `public showLogin()`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 34
-- Rueckgabe: `void`
-
-```
-/**
-     * Kurzbeschreibung Funktion showLogin
-     *
-     * @return void
-     */
-```
-
-### `public handleLogin()`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 52
-- Rueckgabe: `void`
-
-```
-/**
-     * Kurzbeschreibung Funktion handleLogin
-     *
-     * @return void
-     */
-```
-
-### `private redirect($url)`
-
-- Datei: `./src/Core/LoginController.php`
-- Zeile: 145
-- Rueckgabe: `void`
-
-```
-/**
-     * Kurzbeschreibung Funktion redirect
-     *
-     * @param mixed $url
-     * @return void
-     */
-```
-
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/ProfileService.php`
 
@@ -1292,7 +1576,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/ServerSettingsService.php`
 
@@ -1505,7 +1789,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/Session.php`
 
@@ -1628,10 +1912,24 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
+### `public static regenerateId()`
+
+- Datei: `./src/Core/Session.php`
+- Zeile: 230
+- Rueckgabe: `void`
+
+```
+/**
+     * Kurzbeschreibung Funktion regenerateId
+     *
+     * @return void
+     */
+```
+
 ### `public static setVar($key, $value)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 227
+- Zeile: 240
 - Rueckgabe: `void`
 
 ```
@@ -1643,7 +1941,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static getVar($key, $default)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 235
+- Zeile: 248
 - Rueckgabe: `mixed`
 
 ```
@@ -1655,7 +1953,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static removeVar($key)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 243
+- Zeile: 256
 - Rueckgabe: `void`
 
 ```
@@ -1667,7 +1965,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static isUser()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 251
+- Zeile: 264
 - Rueckgabe: `bool`
 
 ```
@@ -1679,7 +1977,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static isAdmin()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 259
+- Zeile: 272
 - Rueckgabe: `bool`
 
 ```
@@ -1691,7 +1989,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static getUser()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 281
+- Zeile: 321
 - Rueckgabe: `?array`
 
 ```
@@ -1703,7 +2001,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static setUser($user)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 289
+- Zeile: 329
 - Rueckgabe: `void`
 
 ```
@@ -1715,7 +2013,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static destroyAll()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 297
+- Zeile: 337
 - Rueckgabe: `void`
 
 ```
@@ -1727,7 +2025,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static getCsrfToken()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 317
+- Zeile: 357
 - Rueckgabe: `string`
 
 ```
@@ -1739,7 +2037,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public static verifyCsrfToken($token)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 332
+- Zeile: 372
 - Rueckgabe: `bool`
 
 ```
@@ -1751,7 +2049,37 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+### `private static toBool($value)`
+
+- Datei: `./src/Core/Session.php`
+- Zeile: 392
+- Rueckgabe: `bool`
+
+```
+/**
+     * Kurzbeschreibung Funktion toBool
+     *
+     * @param mixed $value
+     * @return bool
+     */
+```
+
+### `private static isStrictAdminRoleName($roleName)`
+
+- Datei: `./src/Core/Session.php`
+- Zeile: 414
+- Rueckgabe: `bool`
+
+```
+/**
+     * Kurzbeschreibung Funktion isStrictAdminRoleName
+     *
+     * @param mixed $roleName
+     * @return bool
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/UserController.php`
 
@@ -1769,7 +2097,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Core/UserModel.php`
 
@@ -1807,7 +2135,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public countUsers($search)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 87
+- Zeile: 93
 - Rueckgabe: `int`
 
 ```
@@ -1822,7 +2150,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public countOnlineUsers()`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 111
+- Zeile: 117
 - Rueckgabe: `int`
 
 ```
@@ -1836,7 +2164,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public userExists($username)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 123
+- Zeile: 129
 - Rueckgabe: `bool`
 
 ```
@@ -1851,7 +2179,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public createUser($username, $password, $isAdmin)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 138
+- Zeile: 144
 - Rueckgabe: `void`
 
 ```
@@ -1868,7 +2196,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public setUserEnabled($username, $enabled)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 162
+- Zeile: 168
 - Rueckgabe: `void`
 
 ```
@@ -1884,7 +2212,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public setUserRole($username, $isAdmin)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 178
+- Zeile: 184
 - Rueckgabe: `void`
 
 ```
@@ -1900,7 +2228,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public setUserPasswordByName($username, $newPassword)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 195
+- Zeile: 201
 - Rueckgabe: `void`
 
 ```
@@ -1916,7 +2244,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public setUserPasswordById($uid, $newPassword)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 212
+- Zeile: 218
 - Rueckgabe: `void`
 
 ```
@@ -1932,7 +2260,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public setUserLimits($username, $startDate, $endDate)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 230
+- Zeile: 236
 - Rueckgabe: `void`
 
 ```
@@ -1946,10 +2274,42 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
+### `public setUserFixedIp($username, $fixedIp)`
+
+- Datei: `./src/Core/UserModel.php`
+- Zeile: 260
+- Rueckgabe: `void`
+
+```
+/**
+     * Kurzbeschreibung Funktion setUserFixedIp
+     *
+     * @param mixed $username
+     * @param mixed $fixedIp
+     * @return void
+     */
+```
+
+### `public isFixedIpInUseByOtherUser($username, $fixedIp)`
+
+- Datei: `./src/Core/UserModel.php`
+- Zeile: 310
+- Rueckgabe: `bool`
+
+```
+/**
+     * Kurzbeschreibung Funktion isFixedIpInUseByOtherUser
+     *
+     * @param mixed $username
+     * @param mixed $fixedIp
+     * @return bool
+     */
+```
+
 ### `public deleteUser($username)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 253
+- Zeile: 334
 - Rueckgabe: `void`
 
 ```
@@ -1964,7 +2324,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `public verifyPassword($uid, $password)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 266
+- Zeile: 347
 - Rueckgabe: `bool`
 
 ```
@@ -1980,7 +2340,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
 ### `private resolveGroupId($isAdmin)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 284
+- Zeile: 365
 - Rueckgabe: `int`
 
 ```
@@ -1992,7 +2352,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Account.php`
 
@@ -2010,7 +2370,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Config.php`
 
@@ -2028,7 +2388,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Dashboard.php`
 
@@ -2046,7 +2406,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Log.php`
 
@@ -2064,7 +2424,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Profiles.php`
 
@@ -2082,7 +2442,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Settings.php`
 
@@ -2100,7 +2460,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/Template.php`
 
@@ -2145,7 +2505,7 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `./src/Templates/User.php`
 
@@ -2163,5 +2523,5 @@ Automatisch generiert am: 2026-02-21 13:41:34
      */
 ```
 
----
+<hr style="border:0; height:5px; background:#1e90ff;">
 

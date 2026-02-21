@@ -163,13 +163,24 @@ private function redirect(string $url): void
         exit;
     }
 
-    private function clientIp(): string
+    /**
+     * Kurzbeschreibung Funktion clientIp
+     *
+     * @return string
+     */
+private function clientIp(): string
     {
         $ip = (string)($_SERVER['REMOTE_ADDR'] ?? '');
         return $ip !== '' ? $ip : 'unknown';
     }
 
-    private function auditUserRef(string $username): string
+    /**
+     * Kurzbeschreibung Funktion auditUserRef
+     *
+     * @param mixed $username
+     * @return string
+     */
+private function auditUserRef(string $username): string
     {
         $u = strtolower(trim($username));
         if ($u === '') {
@@ -178,12 +189,24 @@ private function redirect(string $url): void
         return 'sha256:' . hash('sha256', $u);
     }
 
-    private function loginKey(string $username): string
+    /**
+     * Kurzbeschreibung Funktion loginKey
+     *
+     * @param mixed $username
+     * @return string
+     */
+private function loginKey(string $username): string
     {
         return hash('sha256', strtolower(trim($username)) . '|' . $this->clientIp());
     }
 
-    private function isLoginRateLimited(string $username): bool
+    /**
+     * Kurzbeschreibung Funktion isLoginRateLimited
+     *
+     * @param mixed $username
+     * @return bool
+     */
+private function isLoginRateLimited(string $username): bool
     {
         $store = $_SESSION['_login_guard'] ?? [];
         if (!is_array($store)) {
@@ -200,7 +223,13 @@ private function redirect(string $url): void
         return $lockUntil > time();
     }
 
-    private function registerLoginFailure(string $username): void
+    /**
+     * Kurzbeschreibung Funktion registerLoginFailure
+     *
+     * @param mixed $username
+     * @return void
+     */
+private function registerLoginFailure(string $username): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             return;
@@ -236,7 +265,13 @@ private function redirect(string $url): void
         usleep(300000);
     }
 
-    private function clearLoginFailures(string $username): void
+    /**
+     * Kurzbeschreibung Funktion clearLoginFailures
+     *
+     * @param mixed $username
+     * @return void
+     */
+private function clearLoginFailures(string $username): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             return;
@@ -248,7 +283,13 @@ private function redirect(string $url): void
         }
     }
 
-    private function isStrictAdminRoleName(string $roleName): bool
+    /**
+     * Kurzbeschreibung Funktion isStrictAdminRoleName
+     *
+     * @param mixed $roleName
+     * @return bool
+     */
+private function isStrictAdminRoleName(string $roleName): bool
     {
         $role = strtolower(trim($roleName));
         if ($role === '') {

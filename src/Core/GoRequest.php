@@ -33,7 +33,7 @@ class GoRequest
     private array $values = [];
 
     /**
-     * Kurzbeschreibung Funktion set_value
+     * Setzt dynamisch eine Eigenschaft der Klasse auf den uebergebenen Wert.
      *
      * @param mixed $key
      * @param mixed $val
@@ -45,7 +45,10 @@ public function set_value(string $key, $val): void
     }
 
     /**
-     * Kurzbeschreibung Funktion main
+     * Der zentrale handler/router in der Verarbeitung
+     * über diese Datei werden alle Anfragen an das System "geroutet"
+     * und entsprechend auf die erlaubten "Operationen" (op) hin überprüft
+     * Verteilt dann auf die entsprechenden Klassen und Funktionen
      *
      * @return void
      */
@@ -123,7 +126,7 @@ public function main(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showLogin
+     * Zeigt die Login-Seite ueber den LoginController an.
      *
      * @return void
      */
@@ -133,7 +136,7 @@ private function showLogin(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion checkLogin
+     * Verarbeitet den Login-Versuch ueber den LoginController.
      *
      * @return void
      */
@@ -143,7 +146,7 @@ private function checkLogin(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion baseTemplateData
+     * Baut die gemeinsamen Template-Daten fuer Seitenaufrufe auf.
      *
      * @param mixed $activeOp
      * @return array
@@ -165,7 +168,7 @@ private function baseTemplateData(string $activeOp): array
     }
 
     /**
-     * Kurzbeschreibung Funktion renderPage
+     * Rendert eine komplette Seite mit Layout, Header und Inhalt.
      *
      * @param mixed $title
      * @param mixed $content
@@ -179,7 +182,7 @@ private function renderPage(string $title, string $content, string $activeOp): v
     }
 
     /**
-     * Kurzbeschreibung Funktion showMain
+     * Zeigt die Dashboard-Seite an.
      *
      * @return void
      */
@@ -190,7 +193,7 @@ private function showMain(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showUsers
+     * Zeigt die Benutzerverwaltung an.
      *
      * @return void
      */
@@ -201,7 +204,7 @@ private function showUsers(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showLogs
+     * Zeigt die Log-Ansicht an.
      *
      * @return void
      */
@@ -212,7 +215,7 @@ private function showLogs(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showConfig
+     * Zeigt den Konfigurations-Editor fuer Client-Profile an.
      *
      * @return void
      */
@@ -223,7 +226,7 @@ private function showConfig(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showSettings
+     * Zeigt den Editor fuer die VPN-Server-Einstellungen an.
      *
      * @return void
      */
@@ -234,7 +237,7 @@ private function showSettings(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showProfiles
+     * Zeigt die Seite fuer Konfigurations-Downloads an.
      *
      * @return void
      */
@@ -245,7 +248,7 @@ private function showProfiles(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showAccount
+     * Zeigt die Seite zum Verwalten des eigenen Accounts an.
      *
      * @return void
      */
@@ -256,7 +259,7 @@ private function showAccount(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showLive
+     * Liefert eine einfache Live-Status-Antwort als JSON.
      *
      * @return void
      */
@@ -267,7 +270,7 @@ private function showLive(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion logout
+     * Meldet den Benutzer ab und antwortet je nach Request-Typ mit Redirect oder JSON.
      *
      * @return void
      */
@@ -294,7 +297,7 @@ private function logout(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion ensureAdminOrForbidden
+     * Prueft Adminrechte und zeigt sonst eine Zugriff-verweigert-Seite an.
      *
      * @return void
      */
@@ -308,7 +311,7 @@ private function ensureAdminOrForbidden(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion downloadProfileZip
+     * Liefert die angeforderte Profil-ZIP zum Download aus.
      *
      * @return void
      */
@@ -334,7 +337,7 @@ private function downloadProfileZip(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion showError
+     * Zeigt die Fehlerseite aus dem Theme oder einen Text-Fallback an.
      *
      * @return void
      */
@@ -350,7 +353,7 @@ private function showError(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion setLanguage
+     * Setzt die gewaehlte Sprache und leitet sicher auf die vorherige Seite zurueck.
      *
      * @return void
      */
@@ -370,7 +373,13 @@ private function setLanguage(): void
         exit;
     }
 
-    private function isSafeRedirectTarget(string $target): bool
+    /**
+     * Kurzbeschreibung Funktion isSafeRedirectTarget
+     *
+     * @param mixed $target
+     * @return bool
+     */
+private function isSafeRedirectTarget(string $target): bool
     {
         if (str_starts_with($target, '?') || str_starts_with($target, '/')) {
             return true;
@@ -390,34 +399,33 @@ private function setLanguage(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion enforceAccessPolicy
+     * Erzwingt zentrale Zugriffsregeln fuer Login, Rollen, Origin und CSRF.
+     *
+     * Security-Matrix (Single Source of Truth):
+     *
+     * OP               Login required   Admin required   CSRF+Origin on POST
+     * ----------------------------------------------------------------------
+     * login            no               no               no
+     * checklogin       no               no               no
+     * setlang          yes              no               no (GET only)
+     * logout           yes              no               yes
+     * dashboard/main   yes              no               n/a
+     * account          yes              no               n/a
+     * profiles         yes              no               n/a
+     * download         yes              no               n/a
+     * users            yes              yes              n/a
+     * logs             yes              yes              n/a
+     * config           yes              yes              n/a
+     * settings         yes              yes              n/a
+     * data(select=*)   yes              depends          yes for POST
+     *
+     * data-select admin-only:
+     * user, log, config, settings, dashboard_stats, diag_login
      *
      * @return void
      */
 private function enforceAccessPolicy(): void
     {
-        /*
-         * Security matrix (single source of truth):
-         *
-         * OP               Login required   Admin required   CSRF+Origin on POST
-         * ----------------------------------------------------------------------
-         * login            no               no               no
-         * checklogin       no               no               no
-         * setlang          yes              no               no (GET only)
-         * logout           yes              no               yes
-         * dashboard/main   yes              no               n/a
-         * account          yes              no               n/a
-         * profiles         yes              no               n/a
-         * download         yes              no               n/a
-         * users            yes              yes              n/a
-         * logs             yes              yes              n/a
-         * config           yes              yes              n/a
-         * settings         yes              yes              n/a
-         * data(select=*)   yes              depends          yes for POST
-         *
-         * data select admin-only:
-         * user, log, config, settings, dashboard_stats, diag_login
-         */
         $method = strtoupper((string)($_SERVER['REQUEST_METHOD'] ?? 'GET'));
         $isAuthFree = in_array($this->action, ['login', 'checklogin', 'loginasset'], true);
 
@@ -448,7 +456,7 @@ private function enforceAccessPolicy(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion serveLoginAsset
+     * Liefert erlaubte Login-Assets sicher aus dem Theme-Verzeichnis aus.
      *
      * @return void
      */
@@ -507,7 +515,7 @@ private function serveLoginAsset(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion enforceDataAccessPolicy
+     * Wendet Zugriffskontrollen fuer data-Requests anhand von select und Methode an.
      *
      * @param mixed $method
      * @return void
@@ -526,7 +534,7 @@ private function enforceDataAccessPolicy(string $method): void
     }
 
     /**
-     * Kurzbeschreibung Funktion verifyStateChangingRequest
+     * Prueft zustandsaendernde Requests auf gleiche Herkunft und gueltiges CSRF-Token.
      *
      * @return void
      */
@@ -543,7 +551,7 @@ private function verifyStateChangingRequest(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion isSameOriginRequest
+     * Ermittelt, ob die Anfrage von derselben Origin bzw. demselben Host stammt.
      *
      * @return bool
      */
@@ -570,7 +578,7 @@ private function isSameOriginRequest(): bool
     }
 
     /**
-     * Kurzbeschreibung Funktion denyRequest
+     * Bricht die Anfrage mit Fehlerstatus ab und gibt JSON oder HTML-Fehler aus.
      *
      * @param mixed $status
      * @param mixed $message
@@ -592,7 +600,7 @@ private function denyRequest(int $status, string $message): void
     }
 
     /**
-     * Kurzbeschreibung Funktion getRequestCsrfToken
+     * Liest das CSRF-Token aus POST-Daten oder einem JSON-Body aus.
      *
      * @return string
      */

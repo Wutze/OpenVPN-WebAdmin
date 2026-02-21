@@ -250,7 +250,14 @@ public function setUserPasswordById(int $uid, string $newPassword): void
         $stmt->execute();
     }
 
-    public function setUserFixedIp(string $username, ?string $fixedIp): void
+    /**
+     * Kurzbeschreibung Funktion setUserFixedIp
+     *
+     * @param mixed $username
+     * @param mixed $fixedIp
+     * @return void
+     */
+public function setUserFixedIp(string $username, ?string $fixedIp): void
     {
         $stmt = $this->db->prepare('SELECT uid FROM user WHERE user_name = :username LIMIT 1');
         $stmt->execute([':username' => $username]);
@@ -293,7 +300,14 @@ public function setUserPasswordById(int $uid, string $newPassword): void
         ]);
     }
 
-    public function isFixedIpInUseByOtherUser(string $username, string $fixedIp): bool
+    /**
+     * Kurzbeschreibung Funktion isFixedIpInUseByOtherUser
+     *
+     * @param mixed $username
+     * @param mixed $fixedIp
+     * @return bool
+     */
+public function isFixedIpInUseByOtherUser(string $username, string $fixedIp): bool
     {
         $stmt = $this->db->prepare('
             SELECT 1

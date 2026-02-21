@@ -222,7 +222,12 @@ public function gc($max_lifetime): int|false
         }
     }
 
-    public static function regenerateId(): void
+    /**
+     * Kurzbeschreibung Funktion regenerateId
+     *
+     * @return void
+     */
+public static function regenerateId(): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_regenerate_id(true);
@@ -378,7 +383,13 @@ public function gc($max_lifetime): int|false
         return hash_equals($sessionToken, $token);
     }
 
-    private static function toBool(mixed $value): bool
+    /**
+     * Kurzbeschreibung Funktion toBool
+     *
+     * @param mixed $value
+     * @return bool
+     */
+private static function toBool(mixed $value): bool
     {
         if (is_bool($value)) {
             return $value;
@@ -394,7 +405,13 @@ public function gc($max_lifetime): int|false
         return false;
     }
 
-    private static function isStrictAdminRoleName(string $roleName): bool
+    /**
+     * Kurzbeschreibung Funktion isStrictAdminRoleName
+     *
+     * @param mixed $roleName
+     * @return bool
+     */
+private static function isStrictAdminRoleName(string $roleName): bool
     {
         $role = strtolower(trim($roleName));
         if ($role === '') {

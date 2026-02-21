@@ -624,7 +624,13 @@ private function msgf(string $key, string $arg): string
         }
     }
 
-    private function isValidIpv4(string $value): bool
+    /**
+     * Kurzbeschreibung Funktion isValidIpv4
+     *
+     * @param mixed $value
+     * @return bool
+     */
+private function isValidIpv4(string $value): bool
     {
         return filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false;
     }
@@ -756,7 +762,14 @@ private function getLoginDiagnostics(): array
         exit;
     }
 
-    private function internalError(string $context, \Throwable $e): void
+    /**
+     * Kurzbeschreibung Funktion internalError
+     *
+     * @param mixed $context
+     * @param mixed $e
+     * @return void
+     */
+private function internalError(string $context, \Throwable $e): void
     {
         Debug::log($context, $e->getMessage());
         $this->json([

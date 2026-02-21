@@ -137,7 +137,14 @@ public static function getAvailableLanguages(): array
         ];
     }
 
-    private static function buildLocaleLabel(string $langCode, string $countryCode): string
+    /**
+     * Kurzbeschreibung Funktion buildLocaleLabel
+     *
+     * @param mixed $langCode
+     * @param mixed $countryCode
+     * @return string
+     */
+private static function buildLocaleLabel(string $langCode, string $countryCode): string
     {
         if (class_exists('\\Locale')) {
             $locale = $langCode . '_' . $countryCode;
@@ -155,7 +162,13 @@ public static function getAvailableLanguages(): array
         return strtoupper($langCode) . ' (' . $countryCode . ')';
     }
 
-    private static function countryCodeToFlag(string $countryCode): string
+    /**
+     * Kurzbeschreibung Funktion countryCodeToFlag
+     *
+     * @param mixed $countryCode
+     * @return string
+     */
+private static function countryCodeToFlag(string $countryCode): string
     {
         if (!preg_match('/^[A-Z]{2}$/', $countryCode)) {
             return '🏳️';
@@ -167,7 +180,13 @@ public static function getAvailableLanguages(): array
         return html_entity_decode('&#' . $first . ';&#' . $second . ';', ENT_NOQUOTES, 'UTF-8');
     }
 
-    private static function sanitizeLangCode(string $lang): string
+    /**
+     * Kurzbeschreibung Funktion sanitizeLangCode
+     *
+     * @param mixed $lang
+     * @return string
+     */
+private static function sanitizeLangCode(string $lang): string
     {
         $lang = trim($lang);
         if (!preg_match('/^[a-z]{2}_[A-Z]{2}$/', $lang)) {
