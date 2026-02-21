@@ -1,6 +1,6 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-02-21 18:24:10
+Automatisch generiert am: 2026-02-21 18:45:11
 
 ## `./src/Core/ConfigService.php`
 
@@ -200,54 +200,6 @@ Automatisch generiert am: 2026-02-21 18:24:10
      *
      * @param mixed $system
      * @return string
-     */
-```
-
-<hr style="border:0; height:5px; background:#1e90ff;">
-
-## `./src/Core/Database.php`
-
-### `private __construct($config)`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 35
-- Rueckgabe: `mixed|null`
-
-```
-/**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @param mixed $config
-     * @return mixed|null
-     */
-```
-
-### `public static getInstance($config)`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 57
-- Rueckgabe: `Database`
-
-```
-/**
-     * Kurzbeschreibung Funktion getInstance
-     *
-     * @param mixed $config
-     * @return Database
-     */
-```
-
-### `public getConnection()`
-
-- Datei: `./src/Core/Database.php`
-- Zeile: 73
-- Rueckgabe: `PDO`
-
-```
-/**
-     * Kurzbeschreibung Funktion getConnection
-     *
-     * @return PDO
      */
 ```
 
@@ -557,6 +509,54 @@ Automatisch generiert am: 2026-02-21 18:24:10
      * @param mixed $context
      * @param mixed $e
      * @return void
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Core/Database.php`
+
+### `private __construct($config)`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 35
+- Rueckgabe: `mixed|null`
+
+```
+/**
+     * Kurzbeschreibung Funktion __construct
+     *
+     * @param mixed $config
+     * @return mixed|null
+     */
+```
+
+### `public static getInstance($config)`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 57
+- Rueckgabe: `Database`
+
+```
+/**
+     * Kurzbeschreibung Funktion getInstance
+     *
+     * @param mixed $config
+     * @return Database
+     */
+```
+
+### `public getConnection()`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 73
+- Rueckgabe: `PDO`
+
+```
+/**
+     * Kurzbeschreibung Funktion getConnection
+     *
+     * @return PDO
      */
 ```
 
@@ -1268,6 +1268,56 @@ Automatisch generiert am: 2026-02-21 18:24:10
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
+## `./src/Core/LogModel.php`
+
+### `public __construct()`
+
+- Datei: `./src/Core/LogModel.php`
+- Zeile: 33
+- Rueckgabe: `mixed|null`
+
+```
+/**
+     * Kurzbeschreibung Funktion __construct
+     *
+     * @return mixed|null
+     */
+```
+
+### `public getAllLogs($limit, $offset, $search)`
+
+- Datei: `./src/Core/LogModel.php`
+- Zeile: 46
+- Rueckgabe: `array`
+
+```
+/**
+     * Kurzbeschreibung Funktion getAllLogs
+     *
+     * @param mixed $limit
+     * @param mixed $offset
+     * @param mixed $search
+     * @return array
+     */
+```
+
+### `public countLogs($search)`
+
+- Datei: `./src/Core/LogModel.php`
+- Zeile: 76
+- Rueckgabe: `int`
+
+```
+/**
+     * Kurzbeschreibung Funktion countLogs
+     *
+     * @param mixed $search
+     * @return int
+     */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
 ## `./src/Core/LoginController.php`
 
 ### `public showLogin()`
@@ -1414,56 +1464,6 @@ Automatisch generiert am: 2026-02-21 18:24:10
      *
      * @param mixed $roleName
      * @return bool
-     */
-```
-
-<hr style="border:0; height:5px; background:#1e90ff;">
-
-## `./src/Core/LogModel.php`
-
-### `public __construct()`
-
-- Datei: `./src/Core/LogModel.php`
-- Zeile: 33
-- Rueckgabe: `mixed|null`
-
-```
-/**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @return mixed|null
-     */
-```
-
-### `public getAllLogs($limit, $offset, $search)`
-
-- Datei: `./src/Core/LogModel.php`
-- Zeile: 46
-- Rueckgabe: `array`
-
-```
-/**
-     * Kurzbeschreibung Funktion getAllLogs
-     *
-     * @param mixed $limit
-     * @param mixed $offset
-     * @param mixed $search
-     * @return array
-     */
-```
-
-### `public countLogs($search)`
-
-- Datei: `./src/Core/LogModel.php`
-- Zeile: 76
-- Rueckgabe: `int`
-
-```
-/**
-     * Kurzbeschreibung Funktion countLogs
-     *
-     * @param mixed $search
-     * @return int
      */
 ```
 
