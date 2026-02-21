@@ -29,7 +29,6 @@ $_end = \Lang::get('_LOG_COL_END');
 return <<<HTML
             <table class="table-sm"
               id="log-table"
-              data-toggle="table"
               data-side-pagination="server"
               data-pagination="true"
               data-search="true"

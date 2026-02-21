@@ -289,7 +289,12 @@ function initLogTable() {
   const tableEl = document.getElementById('log-table');
   if (!tableEl || !window.jQuery) return;
 
-  window.jQuery('#log-table').bootstrapTable({
+  const $table = window.jQuery('#log-table');
+  if ($table.data('bootstrap.table')) {
+    return;
+  }
+
+  $table.bootstrapTable({
     sidePagination: 'server',
     pagination: true,
     search: true,
