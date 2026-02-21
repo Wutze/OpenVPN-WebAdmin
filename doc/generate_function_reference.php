@@ -47,7 +47,7 @@ foreach ($files as $file) {
         $md[] = "- Zeile: {$entry['line']}";
         $md[] = "- Rueckgabe: `{$return}`";
         $md[] = '';
-        $md[] = '```text';
+        $md[] = '```php';
         $md[] = $doc;
         $md[] = '```';
         $md[] = '';
@@ -241,4 +241,3 @@ function getReturnType(array $tokens, int $index): ?string
     $parts = trim($parts);
     return $parts !== '' ? $parts : null;
 }
-

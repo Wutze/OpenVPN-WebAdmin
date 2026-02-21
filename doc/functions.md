@@ -1,6 +1,6 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-02-21 12:50:01
+Automatisch generiert am: 2026-02-21 13:28:18
 
 ## `./composer-setup.php`
 
@@ -9,7 +9,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 21
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Initializes various values
  *
@@ -22,7 +22,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 48
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Processes the installer
  */
@@ -33,7 +33,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 114
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Displays the help
  */
@@ -44,7 +44,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 145
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Sets the USE_ANSI define for colorizing output
  *
@@ -57,7 +57,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 162
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Returns whether color output is supported
  *
@@ -70,7 +70,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 202
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Returns the value of a command-line option
  *
@@ -87,7 +87,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 229
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Checks that user-supplied params are valid
  *
@@ -104,7 +104,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 262
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Checks the platform for possible issues running Composer
  *
@@ -124,7 +124,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 295
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Checks platform configuration for common incompatibility issues
  *
@@ -141,7 +141,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 501
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Outputs an array of issues
  *
@@ -154,7 +154,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 514
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Outputs any warnings found
  *
@@ -167,7 +167,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 528
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Outputs an end of process warning if tls has been bypassed
  *
@@ -180,7 +180,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 539
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * colorize output
  */
@@ -191,7 +191,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 565
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Returns the system-dependent Composer home location, which may not exist
  *
@@ -204,7 +204,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 609
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Returns the location of the user directory from the environment
  * @throws RuntimeException If the environment value does not exists
@@ -218,7 +218,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 624
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * @return bool
  */
@@ -229,7 +229,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 645
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Kurzbeschreibung Funktion validateCaFile
  *
@@ -243,7 +243,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 665
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
  * Returns php.ini location information
  *
@@ -256,7 +256,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 715
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Constructor - must not do anything that throws an exception
      *
@@ -271,7 +271,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 736
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Runs the installer
      *
@@ -290,7 +290,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 777
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Initialization methods to set the required filenames and composer url
      *
@@ -305,7 +305,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 797
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * A wrapper around methods to check tls and write public keys
      * @throws RuntimeException If SHA384 is not supported
@@ -317,7 +317,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 826
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Returns the Composer home directory, creating it if required
      * @throws RuntimeException If the directory cannot be created
@@ -331,7 +331,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 856
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Writes public key data to disc
      *
@@ -349,7 +349,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 886
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * The main install function
      *
@@ -365,7 +365,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 941
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Sets the version url, downloading version data if required
      *
@@ -383,7 +383,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 970
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Downloads and json-decodes version data
      *
@@ -399,7 +399,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 996
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * A wrapper around the methods needed to download and save the phar
      *
@@ -416,7 +416,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1029
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Verifies the downloaded file and saves it to the target location
      *
@@ -433,7 +433,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1060
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Parses an array of version data to match the required channel
      *
@@ -449,7 +449,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1090
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Downloads the digital signature of required phar file
      *
@@ -465,7 +465,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1114
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Verifies the signature of the downloaded phar
      *
@@ -482,7 +482,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1144
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Validates the downloaded phar file
      *
@@ -498,7 +498,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1172
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Returns a string representation of the last json error
      *
@@ -511,7 +511,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1186
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Cleans up resources at the end of the installation
      *
@@ -524,7 +524,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1209
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Outputs unique errors when in quiet mode
      *
@@ -536,7 +536,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1225
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Uninstalls newly-created files and directories on failure
      *
@@ -548,7 +548,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1245
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getPKDev
      *
@@ -561,7 +561,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1270
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getPKTags
      *
@@ -574,7 +574,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1302
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Handle php errors
      *
@@ -588,7 +588,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1315
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Starts error-handling if not already active
      *
@@ -601,7 +601,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1329
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Stops error-handling if active
      *
@@ -614,7 +614,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1349
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -628,7 +628,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1372
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Returns true if NO_PROXY contains getcomposer.org
      *
@@ -643,7 +643,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1407
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -658,7 +658,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1427
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion get
      *
@@ -672,7 +672,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1467
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getStreamContext
      *
@@ -686,7 +686,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1484
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getTlsStreamContextDefaults
      *
@@ -700,7 +700,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1579
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * function copied from Composer\Util\StreamContextFactory::initOptions
      *
@@ -717,7 +717,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1699
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
     * This method was adapted from Sslurp.
     * https://github.com/EvanDotPro/Sslurp
@@ -757,7 +757,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 1767
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getPackagedCaFile
      *
@@ -772,7 +772,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 16
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -786,7 +786,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 27
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion listSystems
      *
@@ -799,7 +799,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 57
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getConfig
      *
@@ -813,7 +813,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 74
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion saveConfig
      *
@@ -828,7 +828,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 113
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getHistoryList
      *
@@ -842,7 +842,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 144
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
      *
@@ -856,7 +856,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 166
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion diffHistoryFile
      *
@@ -871,7 +871,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 181
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getHistoryContent
      *
@@ -886,7 +886,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 199
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion buildDiffData
      *
@@ -901,7 +901,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 235
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion diffOps
      *
@@ -916,7 +916,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 288
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion clientPath
      *
@@ -930,7 +930,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 300
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion historyDir
      *
@@ -944,7 +944,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 312
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion sanitizeSystem
      *
@@ -960,7 +960,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 28
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handle
      *
@@ -973,7 +973,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 54
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleGet
      *
@@ -987,7 +987,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 98
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handlePost
      *
@@ -1001,7 +1001,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 129
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getUsers
      *
@@ -1014,7 +1014,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 148
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getLogs
      *
@@ -1027,7 +1027,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 166
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getDashboardStats
      *
@@ -1040,7 +1040,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 202
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleUserAction
      *
@@ -1053,7 +1053,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 305
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleAccountAction
      *
@@ -1066,7 +1066,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 343
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleProfileAction
      *
@@ -1079,7 +1079,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 370
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleConfigGet
      *
@@ -1092,7 +1092,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 418
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleConfigPost
      *
@@ -1105,7 +1105,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 469
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleSettingsGet
      *
@@ -1118,7 +1118,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 511
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleSettingsPost
      *
@@ -1131,7 +1131,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 550
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion requireAdminJson
      *
@@ -1144,7 +1144,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 563
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion msg
      *
@@ -1158,7 +1158,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 575
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion msgf
      *
@@ -1173,7 +1173,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 586
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion assertValidUsername
      *
@@ -1187,7 +1187,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 598
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getLoginDiagnostics
      *
@@ -1200,7 +1200,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 711
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion json
      *
@@ -1217,7 +1217,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 35
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1231,7 +1231,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 54
 - Rueckgabe: `Database`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getInstance
      *
@@ -1245,7 +1245,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 70
 - Rueckgabe: `PDO`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getConnection
      *
@@ -1260,7 +1260,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 32
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Initialisiert Debug-Umgebung
      */
@@ -1271,7 +1271,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 45
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Debug-Ausgabe auf der Seite (Bootstrap Collapse)
      */
@@ -1282,7 +1282,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 101
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Debug-Ausgabe in Logfile
      */
@@ -1293,7 +1293,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 121
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Debug + exit
      */
@@ -1304,7 +1304,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 130
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Exception-Handler
      */
@@ -1315,7 +1315,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 156
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Error-Handler
      */
@@ -1326,7 +1326,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 172
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion render
      *
@@ -1341,7 +1341,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 42
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion set_value
      *
@@ -1356,7 +1356,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 52
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion main
      *
@@ -1369,7 +1369,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 130
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showLogin
      *
@@ -1382,7 +1382,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 140
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion checkLogin
      *
@@ -1395,7 +1395,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 151
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion baseTemplateData
      *
@@ -1409,7 +1409,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 169
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion renderPage
      *
@@ -1425,7 +1425,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 180
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showMain
      *
@@ -1438,7 +1438,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 191
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showUsers
      *
@@ -1451,7 +1451,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 202
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showLogs
      *
@@ -1464,7 +1464,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 213
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showConfig
      *
@@ -1477,7 +1477,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 224
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showSettings
      *
@@ -1490,7 +1490,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 235
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showProfiles
      *
@@ -1503,7 +1503,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 246
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showAccount
      *
@@ -1516,7 +1516,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 257
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showLive
      *
@@ -1529,7 +1529,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 268
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion logout
      *
@@ -1542,7 +1542,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 295
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion ensureAdminOrForbidden
      *
@@ -1555,7 +1555,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 309
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion downloadProfileZip
      *
@@ -1568,7 +1568,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 335
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showError
      *
@@ -1581,7 +1581,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 351
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion setLanguage
      *
@@ -1594,7 +1594,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 372
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion enforceAccessPolicy
      *
@@ -1607,7 +1607,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 430
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion serveLoginAsset
      *
@@ -1620,7 +1620,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 490
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion enforceDataAccessPolicy
      *
@@ -1634,7 +1634,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 508
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion verifyStateChangingRequest
      *
@@ -1647,7 +1647,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 525
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion isSameOriginRequest
      *
@@ -1660,7 +1660,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 554
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion denyRequest
      *
@@ -1675,7 +1675,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 574
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getRequestCsrfToken
      *
@@ -1690,7 +1690,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 29
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Initialisiert die Sprache (Session muss vorher gestartet sein)
      */
@@ -1701,7 +1701,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 55
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Einzeltext holen
      */
@@ -1712,7 +1712,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 63
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Komplettes Message-Array (für Templates / Backwards-Compatibility)
      */
@@ -1723,7 +1723,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 71
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Aktuelle Sprache
      */
@@ -1734,7 +1734,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 79
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Sprache setzen und neu laden
      */
@@ -1745,7 +1745,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 92
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getAvailableLanguages
      *
@@ -1758,7 +1758,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 122
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Liefert Label + Flagge für Sprach-Auswahl.
      */
@@ -1771,7 +1771,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 33
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1784,7 +1784,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 46
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getAllLogs
      *
@@ -1800,7 +1800,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 76
 - Rueckgabe: `int`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion countLogs
      *
@@ -1816,7 +1816,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 34
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion showLogin
      *
@@ -1829,7 +1829,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 52
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion handleLogin
      *
@@ -1842,7 +1842,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 145
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion redirect
      *
@@ -1858,7 +1858,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 15
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1872,7 +1872,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 25
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion listSystems
      *
@@ -1885,7 +1885,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 76
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion buildZip
      *
@@ -1899,7 +1899,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 118
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getZipPath
      *
@@ -1913,7 +1913,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 136
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion sanitizeSystem
      *
@@ -1927,7 +1927,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 152
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion zipPathFor
      *
@@ -1941,7 +1941,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 164
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion isAllowedSystemDir
      *
@@ -1958,7 +1958,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 15
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -1972,7 +1972,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 35
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getCurrent
      *
@@ -1985,7 +1985,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 74
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion save
      *
@@ -1999,7 +1999,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 104
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getHistoryList
      *
@@ -2012,7 +2012,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 135
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion diffHistoryFileAgainstCurrent
      *
@@ -2027,7 +2027,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 153
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
      *
@@ -2041,7 +2041,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 174
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion fetchFromUrl
      *
@@ -2055,7 +2055,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 207
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion writeCache
      *
@@ -2069,7 +2069,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 228
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion archiveFile
      *
@@ -2083,7 +2083,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 246
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion readSavePath
      *
@@ -2096,7 +2096,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 269
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion readFile
      *
@@ -2110,7 +2110,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 283
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion ensureSaveFileExists
      *
@@ -2123,7 +2123,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 308
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion buildDiffData
      *
@@ -2138,7 +2138,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 344
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion diffOps
      *
@@ -2155,7 +2155,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 48
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -2170,7 +2170,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 77
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion open
      *
@@ -2185,7 +2185,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 87
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion close
      *
@@ -2198,7 +2198,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 98
 - Rueckgabe: `string|false`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion read
      *
@@ -2212,7 +2212,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 126
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion write
      *
@@ -2227,7 +2227,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 158
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion destroy
      *
@@ -2241,7 +2241,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 178
 - Rueckgabe: `int|false`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion gc
      *
@@ -2255,7 +2255,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 198
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Initialisiert und startet die Session.
      */
@@ -2266,7 +2266,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 227
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Setzt eine Session-Variable.
      */
@@ -2277,7 +2277,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 235
 - Rueckgabe: `mixed`
 
-```text
+```php
 /**
      * Holt eine Session-Variable.
      */
@@ -2288,7 +2288,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 243
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Entfernt eine Session-Variable.
      */
@@ -2299,7 +2299,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 251
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Prüft, ob ein Benutzer angemeldet ist.
      */
@@ -2310,7 +2310,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 259
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Prüft, ob aktueller Benutzer Admin ist.
      */
@@ -2321,7 +2321,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 281
 - Rueckgabe: `?array`
 
-```text
+```php
 /**
      * Gibt den aktuellen Benutzer zurück.
      */
@@ -2332,7 +2332,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 289
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Setzt den angemeldeten Benutzer.
      */
@@ -2343,7 +2343,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 297
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Zerstört die komplette Session inkl. Cookie.
      */
@@ -2354,7 +2354,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 317
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * CSRF token for state-changing requests.
      */
@@ -2365,7 +2365,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 332
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion verifyCsrfToken
      *
@@ -2381,7 +2381,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 34
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2396,7 +2396,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 32
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -2409,7 +2409,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 45
 - Rueckgabe: `array`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion getAllUsers
      *
@@ -2425,7 +2425,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 87
 - Rueckgabe: `int`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion countUsers
      *
@@ -2439,7 +2439,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 111
 - Rueckgabe: `int`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion countOnlineUsers
      *
@@ -2452,7 +2452,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 123
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion userExists
      *
@@ -2466,7 +2466,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 138
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion createUser
      *
@@ -2482,7 +2482,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 162
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion setUserEnabled
      *
@@ -2497,7 +2497,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 178
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion setUserRole
      *
@@ -2512,7 +2512,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 195
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion setUserPasswordByName
      *
@@ -2527,7 +2527,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 212
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion setUserPasswordById
      *
@@ -2542,7 +2542,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 230
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion setUserLimits
      *
@@ -2558,7 +2558,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 253
 - Rueckgabe: `void`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion deleteUser
      *
@@ -2572,7 +2572,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 266
 - Rueckgabe: `bool`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion verifyPassword
      *
@@ -2587,7 +2587,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 284
 - Rueckgabe: `int`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion resolveGroupId
      *
@@ -2603,7 +2603,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 12
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2618,7 +2618,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 12
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2633,7 +2633,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 28
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2648,7 +2648,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 28
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2663,7 +2663,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 12
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2678,7 +2678,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 12
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion index
      *
@@ -2693,7 +2693,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 37
 - Rueckgabe: `mixed|null`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion __construct
      *
@@ -2709,7 +2709,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 47
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Lädt eine Layout-Datei aus /src/Layout/
      */
@@ -2720,7 +2720,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 65
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Baut die komplette Seite zusammen
      */
@@ -2733,7 +2733,7 @@ Automatisch generiert am: 2026-02-21 12:50:01
 - Zeile: 28
 - Rueckgabe: `string`
 
-```text
+```php
 /**
      * Kurzbeschreibung Funktion index
      *
