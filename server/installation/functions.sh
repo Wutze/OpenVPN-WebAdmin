@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
 CONFIG_FILE="${SCRIPT_DIR}/config.sh"
 LANG_DIR="${SCRIPT_DIR}/lang"
@@ -11,6 +10,17 @@ OS_ID=""
 OS_VERSION_ID=""
 OS_CODENAME=""
 LANG_CHOICE=""
+
+COL_NC='\033[0m'
+COL_BLUE='\033[1;34m'
+COL_GREEN='\033[1;32m'
+COL_RED='\033[1;31m'
+COL_YELLOW='\033[1;33m'
+
+TICK="[${COL_GREEN}OK${COL_NC}]"
+CROSS="[${COL_RED}!!${COL_NC}]"
+INFO_TAG="[${COL_BLUE}..${COL_NC}]"
+WARN_TAG="[${COL_YELLOW}??${COL_NC}]"
 
 init_log() {
   LOG_FILE="${LOG_FILE:-${LOG_FILE_DEFAULT:-/var/log/openvpn-webadmin-setup.log}}"
@@ -22,16 +32,56 @@ log_line() {
   local level="$1"
   shift
   local msg="$*"
-  printf '%s [%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "${level}" "${msg}" | tee -a "${LOG_FILE}" >/dev/null
+  printf '%s [%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "${level}" "${msg}" >> "${LOG_FILE}"
 }
 
-info() { log_line INFO "$*"; }
-warn() { log_line WARN "$*"; }
-error() { log_line ERROR "$*"; }
+info() {
+  echo -e " ${INFO_TAG} $*"
+  log_line INFO "$*"
+}
+
+warn() {
+  echo -e " ${WARN_TAG} $*"
+  log_line WARN "$*"
+}
+
+ok() {
+  echo -e " ${TICK} $*"
+  log_line INFO "$*"
+}
+
+error() {
+  echo -e " ${CROSS} $*"
+  log_line ERROR "$*"
+}
 
 fatal() {
   error "$*"
   exit 1
+}
+
+print_line() {
+  printf '%*s\n' "${1:-78}" '' | tr ' ' '-'
+}
+
+show_header() {
+  clear
+  print_line 78
+  echo " OpenVPN-WebAdmin Setup"
+  echo " $(date '+%Y-%m-%d %H:%M:%S')"
+  print_line 78
+}
+
+show_section() {
+  echo
+  print_line 78
+  echo " $*"
+  print_line 78
+  log_line INFO "SECTION: $*"
+}
+
+prompt_continue() {
+  read -r -p "${1:-Press ENTER to continue}: " _unused
 }
 
 load_install_config() {
@@ -55,10 +105,10 @@ choose_language() {
     en_*) auto_lang="en_GB" ;;
   esac
 
-  echo
-  echo "1) Deutsch"
-  echo "2) English"
-  echo "3) Francais"
+  show_section "${MSG_SECTION_LANGUAGE:-Language}"
+  echo " 1) Deutsch"
+  echo " 2) English"
+  echo " 3) Francais"
   read -r -p "${MSG_LANGUAGE_SELECT:-Select language} [1-3, Enter=AUTO]: " lang_num
 
   case "${lang_num}" in
@@ -69,7 +119,7 @@ choose_language() {
   esac
 
   load_language "${LANG_CHOICE}"
-  info "${MSG_LANGUAGE_SET:-Language set}: ${LANG_CHOICE}"
+  ok "${MSG_LANGUAGE_SET:-Language set}: ${LANG_CHOICE}"
 }
 
 require_root() {
@@ -83,7 +133,7 @@ detect_os() {
   OS_ID="${ID:-}"
   OS_VERSION_ID="${VERSION_ID:-}"
   OS_CODENAME="${VERSION_CODENAME:-}"
-  info "${MSG_OS_DETECTED:-Detected OS}: ${OS_ID} ${OS_VERSION_ID} ${OS_CODENAME}"
+  ok "${MSG_OS_DETECTED:-Detected OS}: ${OS_ID} ${OS_VERSION_ID} ${OS_CODENAME}"
 }
 
 version_in_list() {
@@ -180,13 +230,7 @@ backup_file() {
   [ -f "${file}" ] || return 0
   local backup="${file}.bak.$(date '+%Y%m%d%H%M%S')"
   cp -a "${file}" "${backup}"
-  info "${MSG_BACKUP_CREATED:-Backup created}: ${backup}"
-}
-
-append_if_missing() {
-  local file="$1"
-  local line="$2"
-  grep -Fqx "${line}" "${file}" 2>/dev/null || echo "${line}" >> "${file}"
+  ok "${MSG_BACKUP_CREATED:-Backup created}: ${backup}"
 }
 
 set_or_append_openvpn_line() {
