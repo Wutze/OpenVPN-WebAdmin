@@ -41,7 +41,7 @@ setup_prelude() {
   require_root
   detect_os
   assert_supported_os
-  ensure_cmd apt-get
+  ensure_cmd apt
   ensure_cmd sed
   ensure_cmd grep
 }
@@ -180,8 +180,8 @@ install_required_packages() {
   show_section "${MSG_SECTION_PACKAGES:-Install packages}"
   info "${MSG_INSTALL_PACKAGES:-Installing required packages}"
 
-  apt-get update -y >>"${LOG_FILE}" 2>&1
-  DEBIAN_FRONTEND=noninteractive apt-get install -y "${PACKAGES[@]}" >>"${LOG_FILE}" 2>&1
+  apt update >>"${LOG_FILE}" 2>&1
+  DEBIAN_FRONTEND=noninteractive apt install -y "${PACKAGES[@]}" >>"${LOG_FILE}" 2>&1
 
   if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
     systemctl enable --now mariadb >>"${LOG_FILE}" 2>&1 || systemctl enable --now mysql >>"${LOG_FILE}" 2>&1
