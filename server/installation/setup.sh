@@ -122,6 +122,7 @@ build_package_list() {
     gawk
     grep
     openvpn
+    easy-rsa
     mariadb-client
     php-cli
     php-common
@@ -344,8 +345,14 @@ deploy_openvpn_scripts() {
   show_section "${MSG_SECTION_OPENVPN:-OpenVPN integration}"
 
   local scripts_source_dir="${SOURCE_DIR}/server/scripte"
+  local server_conf_template="${SOURCE_DIR}/storage/conf/server/server.conf"
 
-  [ -f "${OPENVPN_SERVER_CONF}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${OPENVPN_SERVER_CONF}"
+  if [ ! -f "${OPENVPN_SERVER_CONF}" ]; then
+    [ -f "${server_conf_template}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${OPENVPN_SERVER_CONF}"
+    mkdir -p "$(dirname "${OPENVPN_SERVER_CONF}")"
+    install -m 0644 "${server_conf_template}" "${OPENVPN_SERVER_CONF}"
+    ok "${MSG_OPENVPN_CONF_BOOTSTRAP:-OpenVPN server.conf created from template.}"
+  fi
 
   install -d -m 0750 "${OPENVPN_SCRIPTS_DIR}"
   install -m 0750 "${scripts_source_dir}/connect.sh" "${OPENVPN_SCRIPTS_DIR}/connect.sh"
@@ -373,6 +380,20 @@ deploy_openvpn_scripts() {
 
   chown -R root:root "${OPENVPN_SCRIPTS_DIR}"
   chmod 0750 "${OPENVPN_SCRIPTS_DIR}"/*.sh
+  mkdir -p /etc/openvpn/ccd
+
+  if systemctl list-unit-files | grep -q '^openvpn-server@.service'; then
+    systemctl enable --now openvpn-server@server.service >>"${LOG_FILE}" 2>&1
+    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn-server@server.service"
+  elif systemctl list-unit-files | grep -q '^openvpn@.service'; then
+    systemctl enable --now openvpn@server.service >>"${LOG_FILE}" 2>&1
+    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn@server.service"
+  elif systemctl list-unit-files | grep -q '^openvpn.service'; then
+    systemctl enable --now openvpn.service >>"${LOG_FILE}" 2>&1
+    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn.service"
+  else
+    warn "${MSG_OPENVPN_SERVICE_UNKNOWN:-OpenVPN service unit not found. Please enable the service manually.}"
+  fi
 
   ok "${MSG_OPENVPN_DONE:-OpenVPN integration done.}"
 }

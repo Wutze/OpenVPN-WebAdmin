@@ -79,3 +79,7 @@ MSG_PERMS_DONE="Berechtigungen aktualisiert."
 MSG_DONE="Setup erfolgreich abgeschlossen."
 MSG_DONE_NEXT="Bitte OpenVPN und Webserver neu starten."
 MSG_LOG_HINT="Setup Logdatei"
+
+MSG_OPENVPN_CONF_BOOTSTRAP="OpenVPN server.conf from Vorlage erstellt."
+MSG_OPENVPN_SERVICE_ENABLED="OpenVPN Serverdienst aktiviert"
+MSG_OPENVPN_SERVICE_UNKNOWN="OpenVPN Dienstdatei nicht gefunden. Bitte manuell aktivieren."

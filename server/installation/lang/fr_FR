@@ -79,3 +79,7 @@ MSG_PERMS_DONE="Permissions mises a jour."
 MSG_DONE="Installation terminee avec succes."
 MSG_DONE_NEXT="Veuillez redemarrer OpenVPN et votre webserver."
 MSG_LOG_HINT="Fichier log du setup"
+
+MSG_OPENVPN_CONF_BOOTSTRAP="OpenVPN server.conf cree depuis le modele."
+MSG_OPENVPN_SERVICE_ENABLED="Service OpenVPN serveur active"
+MSG_OPENVPN_SERVICE_UNKNOWN="Service OpenVPN introuvable. Veuillez l'activer manuellement."
