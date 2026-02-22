@@ -404,6 +404,65 @@ finalize_permissions() {
   ok "${MSG_PERMS_DONE:-Permissions updated.}"
 }
 
+check_runtime_permissions() {
+  show_section "${MSG_SECTION_PERMS_CHECK:-Permission check}"
+
+  local target
+  local failed=0
+  local -a must_write=(
+    "${DEPLOY_DIR}/storage"
+    "${DEPLOY_DIR}/storage/conf"
+    "${DEPLOY_DIR}/storage/conf/history"
+    "${DEPLOY_DIR}/storage/logs"
+  )
+
+  while IFS= read -r target; do
+    [ -n "${target}" ] || continue
+    must_write+=("$(dirname "${target}")")
+    must_write+=("${target}")
+  done < <(find "${DEPLOY_DIR}/storage/conf" -mindepth 2 -maxdepth 2 -type f -name 'client.ovpn' 2>/dev/null)
+
+  for target in "${must_write[@]}"; do
+    if [ ! -e "${target}" ]; then
+      warn "${MSG_PERMS_MISSING:-Path missing for permission check}: ${target}"
+      failed=1
+      continue
+    fi
+
+    if su -s /bin/sh -c "test -w \"$target\"" "${WEB_OWNER}" >/dev/null 2>&1; then
+      ok "${MSG_PERMS_OK:-Writable for web user}: ${target}"
+    else
+      warn "${MSG_PERMS_FAIL:-Not writable for web user}: ${target}"
+      failed=1
+    fi
+  done
+
+  if [ "${failed}" -eq 0 ]; then
+    ok "${MSG_PERMS_CHECK_OK:-Permission check passed.}"
+    return
+  fi
+
+  warn "${MSG_PERMS_FIX:-Attempting permission fix...}"
+  chown -R "${WEB_OWNER}:${WEB_GROUP}" "${DEPLOY_DIR}/storage"
+  find "${DEPLOY_DIR}/storage" -type d -exec chmod 0775 {} +
+  find "${DEPLOY_DIR}/storage" -type f -exec chmod 0664 {} +
+
+  failed=0
+  for target in "${must_write[@]}"; do
+    [ -e "${target}" ] || continue
+    if ! su -s /bin/sh -c "test -w \"$target\"" "${WEB_OWNER}" >/dev/null 2>&1; then
+      failed=1
+      warn "${MSG_PERMS_STILL_FAIL:-Still not writable after fix}: ${target}"
+    fi
+  done
+
+  if [ "${failed}" -ne 0 ]; then
+    fatal "${MSG_PERMS_CHECK_FATAL:-Permission check failed after fix. Please adjust ownership/ACL manually.}"
+  fi
+
+  ok "${MSG_PERMS_CHECK_FIXED:-Permission check passed after automatic fix.}"
+}
+
 finish_message() {
   show_section "${MSG_SECTION_DONE:-Finished}"
   ok "${MSG_DONE:-Setup finished successfully.}"
@@ -424,6 +483,7 @@ main() {
   setup_database
   deploy_openvpn_scripts
   finalize_permissions
+  check_runtime_permissions
   finish_message
 }
 

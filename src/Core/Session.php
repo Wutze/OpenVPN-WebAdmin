@@ -23,28 +23,28 @@ use SessionHandlerInterface;
 use Throwable;
 
 /**
- * Session-Handler mit PDO-Backend für Tabelle `sessions2`
- * Kompatibel mit Struktur:
- *   sesskey   varchar(64)
- *   expiry    datetime
- *   expireref varchar(250)
- *   created   datetime
- *   modified  datetime
- *   sessdata  longtext
- */
+Session-Handler mit PDO-Backend für Tabelle `sessions2`
+Kompatibel mit Struktur:
+  sesskey   varchar(64)
+  expiry    datetime
+  expireref varchar(250)
+  created   datetime
+  modified  datetime
+  sessdata  longtext
+*/
 class Session implements SessionHandlerInterface
 {
-    private PDO $db;
-    private string $table = 'sessions2';
-    private int $lifetime;
+private PDO $db;
+private string $table = 'sessions2';
+private int $lifetime;
 
-    /**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @param mixed $db
-     * @param mixed $lifetime
-     * @return mixed|null
-     */
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @param mixed $db Eingabewert fuer db.
+ * @param mixed $lifetime Eingabewert fuer lifetime.
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
 public function __construct(PDO $db, int $lifetime = 1440)
     {
         $this->db = $db;
@@ -67,34 +67,34 @@ public function __construct(PDO $db, int $lifetime = 1440)
     // SessionHandlerInterface Implementierung
     // ---------------------------------------------------------------------
 
-    /**
-     * Kurzbeschreibung Funktion open
-     *
-     * @param mixed $savePath
-     * @param mixed $sessionName
-     * @return bool
-     */
+/**
+ * Fuehrt open entsprechend der internen Logik aus.
+ *
+ * @param mixed $savePath Eingabewert fuer savePath.
+ * @param mixed $sessionName Eingabewert fuer sessionName.
+ * @return bool True bei Erfolg, sonst false.
+ */
 public function open($savePath, $sessionName): bool
     {
         return true;
     }
 
-    /**
-     * Kurzbeschreibung Funktion close
-     *
-     * @return bool
-     */
+/**
+ * Fuehrt close entsprechend der internen Logik aus.
+ *
+ * @return bool True bei Erfolg, sonst false.
+ */
 public function close(): bool
     {
         return true;
     }
 
-    /**
-     * Kurzbeschreibung Funktion read
-     *
-     * @param mixed $id
-     * @return string|false
-     */
+/**
+ * Laedt Daten aus der Quelle.
+ *
+ * @param mixed $id Eingabewert fuer id.
+ * @return string|false Rueckgabewert der Funktion.
+ */
 public function read($id): string|false
     {
         try {
@@ -116,13 +116,13 @@ public function read($id): string|false
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion write
-     *
-     * @param mixed $id
-     * @param mixed $data
-     * @return bool
-     */
+/**
+ * Schreibt Daten in das Zielsystem.
+ *
+ * @param mixed $id Eingabewert fuer id.
+ * @param mixed $data Eingabewert fuer data.
+ * @return bool True bei Erfolg, sonst false.
+ */
 public function write($id, $data): bool
     {
         try {
@@ -149,12 +149,12 @@ public function write($id, $data): bool
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion destroy
-     *
-     * @param mixed $id
-     * @return bool
-     */
+/**
+ * Fuehrt destroy entsprechend der internen Logik aus.
+ *
+ * @param mixed $id Eingabewert fuer id.
+ * @return bool True bei Erfolg, sonst false.
+ */
 public function destroy($id): bool
     {
         try {
@@ -169,12 +169,12 @@ public function destroy($id): bool
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion gc
-     *
-     * @param mixed $max_lifetime
-     * @return int|false
-     */
+/**
+ * Fuehrt gc entsprechend der internen Logik aus.
+ *
+ * @param mixed $max_lifetime Eingabewert fuer max_lifetime.
+ * @return int|false Rueckgabewert der Funktion.
+ */
 public function gc($max_lifetime): int|false
     {
         try {
@@ -222,11 +222,11 @@ public function gc($max_lifetime): int|false
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion regenerateId
-     *
-     * @return void
-     */
+/**
+ * Fuehrt regenerate id entsprechend der internen Logik aus.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 public static function regenerateId(): void
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
@@ -364,10 +364,10 @@ public static function regenerateId(): void
     }
 
     /**
-     * Kurzbeschreibung Funktion verifyCsrfToken
+     * Fuehrt verify csrf token entsprechend der internen Logik aus.
      *
-     * @param mixed $token
-     * @return bool
+     * @param mixed $token Eingabewert fuer token.
+     * @return bool True bei Erfolg, sonst false.
      */
     public static function verifyCsrfToken(?string $token): bool
     {
@@ -383,12 +383,12 @@ public static function regenerateId(): void
         return hash_equals($sessionToken, $token);
     }
 
-    /**
-     * Kurzbeschreibung Funktion toBool
-     *
-     * @param mixed $value
-     * @return bool
-     */
+/**
+ * Fuehrt to bool entsprechend der internen Logik aus.
+ *
+ * @param mixed $value Eingabewert fuer value.
+ * @return bool True bei Erfolg, sonst false.
+ */
 private static function toBool(mixed $value): bool
     {
         if (is_bool($value)) {
@@ -405,12 +405,12 @@ private static function toBool(mixed $value): bool
         return false;
     }
 
-    /**
-     * Kurzbeschreibung Funktion isStrictAdminRoleName
-     *
-     * @param mixed $roleName
-     * @return bool
-     */
+/**
+ * Prueft, ob strict admin role name zutrifft.
+ *
+ * @param mixed $roleName Eingabewert fuer roleName.
+ * @return bool True bei Erfolg, sonst false.
+ */
 private static function isStrictAdminRoleName(string $roleName): bool
     {
         $role = strtolower(trim($roleName));

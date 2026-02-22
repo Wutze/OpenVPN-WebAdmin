@@ -20,24 +20,24 @@ namespace Micro\OpenvpnWebadmin\Core;
 
 class ProfileService
 {
-    private string $basePath;
+private string $basePath;
 
-    /**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @param mixed $basePath
-     * @return mixed|null
-     */
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @param mixed $basePath Eingabewert fuer basePath.
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
 public function __construct(?string $basePath = null)
     {
         $this->basePath = $basePath ?? dirname(__DIR__, 2) . '/storage/conf';
     }
 
-    /**
-     * Kurzbeschreibung Funktion listSystems
-     *
-     * @return array
-     */
+/**
+ * Liefert eine Liste von systems.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function listSystems(): array
     {
         if (!is_dir($this->basePath)) {
@@ -83,12 +83,12 @@ public function listSystems(): array
         return $systems;
     }
 
-    /**
-     * Kurzbeschreibung Funktion buildZip
-     *
-     * @param mixed $system
-     * @return string
-     */
+/**
+ * Erzeugt zip auf Basis der Eingabedaten.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
 public function buildZip(string $system): string
     {
         $system = $this->sanitizeSystem($system);
@@ -117,7 +117,12 @@ public function buildZip(string $system): string
 
             $fullPath = $sourceDir . '/' . $entry;
             if (is_file($fullPath)) {
-                $zip->addFile($fullPath, $entry);
+                if ($entry === 'client.ovpn') {
+                    $content = (string)file_get_contents($fullPath);
+                    $zip->addFromString($entry, $this->injectCaTlsBlocks($content));
+                } else {
+                    $zip->addFile($fullPath, $entry);
+                }
             }
         }
 
@@ -125,12 +130,12 @@ public function buildZip(string $system): string
         return $zipPath;
     }
 
-    /**
-     * Kurzbeschreibung Funktion getZipPath
-     *
-     * @param mixed $system
-     * @return string
-     */
+/**
+ * Liest zip path und gibt den Wert zurueck.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
 public function getZipPath(string $system): string
     {
         $system = $this->sanitizeSystem($system);
@@ -143,12 +148,12 @@ public function getZipPath(string $system): string
         return $zipPath;
     }
 
-    /**
-     * Kurzbeschreibung Funktion sanitizeSystem
-     *
-     * @param mixed $system
-     * @return string
-     */
+/**
+ * Fuehrt sanitize system entsprechend der internen Logik aus.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
 private function sanitizeSystem(string $system): string
     {
         $system = trim($system);
@@ -159,25 +164,25 @@ private function sanitizeSystem(string $system): string
         return $system;
     }
 
-    /**
-     * Kurzbeschreibung Funktion zipPathFor
-     *
-     * @param mixed $system
-     * @return string
-     */
+/**
+ * Fuehrt zip path for entsprechend der internen Logik aus.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
 private function zipPathFor(string $system): string
     {
         return $this->basePath . '/' . $system . '.zip';
     }
 
     /**
-     * Kurzbeschreibung Funktion isAllowedSystemDir
+     * Prueft, ob allowed system dir zutrifft.
      *
-     * @param mixed $system
-     * @param mixed $dir
-     * @return bool
+     * @param mixed $system Eingabewert fuer system.
+     * @param mixed $dir Eingabewert fuer dir.
+     * @return bool True bei Erfolg, sonst false.
      */
-private function isAllowedSystemDir(string $system, string $dir): bool
+    private function isAllowedSystemDir(string $system, string $dir): bool
     {
         if (!is_dir($dir)) {
             return false;
@@ -188,5 +193,52 @@ private function isAllowedSystemDir(string $system, string $dir): bool
         }
 
         return is_file($dir . '/client.ovpn');
+    }
+
+/**
+ * Fuehrt inject ca tls blocks entsprechend der internen Logik aus.
+ *
+ * @param mixed $content Eingabewert fuer content.
+ * @return string Rueckgabe als Text.
+ */
+private function injectCaTlsBlocks(string $content): string
+    {
+        try {
+            $service = new CaTlsService();
+            $data = $service->getCurrent();
+            $ca = trim((string)($data['ca'] ?? ''));
+            $tls = trim((string)($data['tls'] ?? ''));
+
+            if ($ca !== '') {
+                $content = $this->replaceOvpnBlock($content, 'ca', $ca);
+            }
+            if ($tls !== '') {
+                $content = $this->replaceOvpnBlock($content, 'tls-auth', $tls);
+            }
+        } catch (\Throwable $e) {
+            // CA/TLS ist optional: ZIP-Build darf bei fehlenden Daten nicht abbrechen.
+        }
+
+        return $content;
+    }
+
+/**
+ * Fuehrt replace ovpn block entsprechend der internen Logik aus.
+ *
+ * @param mixed $content Eingabewert fuer content.
+ * @param mixed $tag Eingabewert fuer tag.
+ * @param mixed $blockContent Eingabewert fuer blockContent.
+ * @return string Rueckgabe als Text.
+ */
+private function replaceOvpnBlock(string $content, string $tag, string $blockContent): string
+    {
+        $block = "<{$tag}>\n{$blockContent}\n</{$tag}>";
+        $pattern = '/<' . preg_quote($tag, '/') . '>\s*[\s\S]*?\s*<\/' . preg_quote($tag, '/') . '>/i';
+
+        if (preg_match($pattern, $content) === 1) {
+            return (string)preg_replace($pattern, $block, $content, 1);
+        }
+
+        return rtrim($content) . "\n\n" . $block . "\n";
     }
 }

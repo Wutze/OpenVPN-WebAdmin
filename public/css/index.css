@@ -359,3 +359,37 @@ small.text-muted {
   font-family: "Cascadia Mono", "Consolas", monospace;
   font-size: 0.82rem;
 }
+
+.doc-pre {
+  max-height: 320px;
+  overflow: auto;
+  background: #0b1020;
+  color: #d6e4ff;
+  padding: 0.75rem;
+  border-radius: 0.4rem;
+  border: 1px solid #202c49;
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+.doc-file-item .accordion-button code {
+  color: inherit;
+}
+
+.nav-sidebar .nav-link.nav-link-debug {
+  color: #ffc107;
+  border: 1px solid #ffc107;
+  margin: 0.2rem 0.5rem;
+}
+
+.nav-sidebar .nav-link.nav-link-debug:hover {
+  background-color: #ffc107;
+  color: #1f2d3d;
+}
+
+.nav-sidebar .nav-link.nav-link-debug.active {
+  background-color: #ffc107;
+  color: #1f2d3d;
+  border-color: #ffc107;
+}

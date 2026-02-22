@@ -26,11 +26,11 @@ use PDOException;
 
 class LoginController
 {
-    /**
-     * Kurzbeschreibung Funktion showLogin
-     *
-     * @return void
-     */
+/**
+ * Stellt login fuer die Ausgabe dar.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 public function showLogin(): void
     {
         $lang = Lang::getAll();
@@ -44,11 +44,11 @@ public function showLogin(): void
         include __DIR__ . '/../Templates/Login/login.php';
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleLogin
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet login entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 public function handleLogin(): void
     {
         $db = Database::getInstance()->getConnection();
@@ -151,35 +151,35 @@ public function handleLogin(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion redirect
-     *
-     * @param mixed $url
-     * @return void
-     */
+/**
+ * Fuehrt redirect entsprechend der internen Logik aus.
+ *
+ * @param mixed $url Eingabewert fuer url.
+ * @return void Kein Rueckgabewert.
+ */
 private function redirect(string $url): void
     {
         header("Location: $url");
         exit;
     }
 
-    /**
-     * Kurzbeschreibung Funktion clientIp
-     *
-     * @return string
-     */
+/**
+ * Fuehrt client ip entsprechend der internen Logik aus.
+ *
+ * @return string Rueckgabe als Text.
+ */
 private function clientIp(): string
     {
         $ip = (string)($_SERVER['REMOTE_ADDR'] ?? '');
         return $ip !== '' ? $ip : 'unknown';
     }
 
-    /**
-     * Kurzbeschreibung Funktion auditUserRef
-     *
-     * @param mixed $username
-     * @return string
-     */
+/**
+ * Fuehrt audit user ref entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return string Rueckgabe als Text.
+ */
 private function auditUserRef(string $username): string
     {
         $u = strtolower(trim($username));
@@ -189,23 +189,23 @@ private function auditUserRef(string $username): string
         return 'sha256:' . hash('sha256', $u);
     }
 
-    /**
-     * Kurzbeschreibung Funktion loginKey
-     *
-     * @param mixed $username
-     * @return string
-     */
+/**
+ * Fuehrt login key entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return string Rueckgabe als Text.
+ */
 private function loginKey(string $username): string
     {
         return hash('sha256', strtolower(trim($username)) . '|' . $this->clientIp());
     }
 
-    /**
-     * Kurzbeschreibung Funktion isLoginRateLimited
-     *
-     * @param mixed $username
-     * @return bool
-     */
+/**
+ * Prueft, ob login rate limited zutrifft.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return bool True bei Erfolg, sonst false.
+ */
 private function isLoginRateLimited(string $username): bool
     {
         $store = $_SESSION['_login_guard'] ?? [];
@@ -223,12 +223,12 @@ private function isLoginRateLimited(string $username): bool
         return $lockUntil > time();
     }
 
-    /**
-     * Kurzbeschreibung Funktion registerLoginFailure
-     *
-     * @param mixed $username
-     * @return void
-     */
+/**
+ * Fuehrt register login failure entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
+ */
 private function registerLoginFailure(string $username): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -265,12 +265,12 @@ private function registerLoginFailure(string $username): void
         usleep(300000);
     }
 
-    /**
-     * Kurzbeschreibung Funktion clearLoginFailures
-     *
-     * @param mixed $username
-     * @return void
-     */
+/**
+ * Fuehrt clear login failures entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
+ */
 private function clearLoginFailures(string $username): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -283,12 +283,12 @@ private function clearLoginFailures(string $username): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion isStrictAdminRoleName
-     *
-     * @param mixed $roleName
-     * @return bool
-     */
+/**
+ * Prueft, ob strict admin role name zutrifft.
+ *
+ * @param mixed $roleName Eingabewert fuer roleName.
+ * @return bool True bei Erfolg, sonst false.
+ */
 private function isStrictAdminRoleName(string $roleName): bool
     {
         $role = strtolower(trim($roleName));

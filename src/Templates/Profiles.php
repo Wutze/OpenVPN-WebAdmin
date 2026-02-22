@@ -20,11 +20,11 @@ namespace Micro\OpenvpnWebadmin\Templates;
 
 class Profiles
 {
-    /**
-     * Kurzbeschreibung Funktion index
-     *
-     * @return string
-     */
+/**
+ * Fuehrt index entsprechend der internen Logik aus.
+ *
+ * @return string Rueckgabe als Text.
+ */
 public function index(): string
     {
         $title = \Lang::get('_PROFILES_TITLE');

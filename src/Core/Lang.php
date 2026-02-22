@@ -1,27 +1,27 @@
 <?php
-/**
- * this File is part of OpenVPN-WebAdmin - (c) 2020/2025 OpenVPN-WebAdmin
- *
- * NOTICE OF LICENSE
- *
- * GNU AFFERO GENERAL PUBLIC LICENSE V3
- * that is bundled with this package in the file LICENSE.md.
- * It is also available through the world-wide-web at this URL:
- * https://www.gnu.org/licenses/agpl-3.0.en.html
- *
- * @author      Wutze
- * @copyright   2025 OpenVPN-WebAdmin
- * @link        https://github.com/Wutze/OpenVPN-WebAdmin
- * @see         Internal Documentation ~/doc/
- * @version     2.0.0
- */
+    /**
+     * this File is part of OpenVPN-WebAdmin - (c) 2020/2025 OpenVPN-WebAdmin
+     *
+     * NOTICE OF LICENSE
+     *
+     * GNU AFFERO GENERAL PUBLIC LICENSE V3
+     * that is bundled with this package in the file LICENSE.md.
+     * It is also available through the world-wide-web at this URL:
+     * https://www.gnu.org/licenses/agpl-3.0.en.html
+     *
+     * @author      Wutze
+     * @copyright   2025 OpenVPN-WebAdmin
+     * @link        https://github.com/Wutze/OpenVPN-WebAdmin
+     * @see         Internal Documentation ~/doc/
+     * @version     2.0.0
+     */
 
 namespace Micro\OpenvpnWebadmin\Core;
 
 class Lang
 {
-    private static array $messages = [];
-    private static string $currentLang = 'de_DE';
+private static array $messages = [];
+private static string $currentLang = 'de_DE';
 
     /**
      * Initialisiert die Sprache (Session muss vorher gestartet sein)
@@ -87,11 +87,11 @@ class Lang
     }
 
     // List all available language codes by scanning /src/Lang/*/lang.php
-    /**
-     * Kurzbeschreibung Funktion getAvailableLanguages
-     *
-     * @return array
-     */
+/**
+ * Liest available languages und gibt den Wert zurueck.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public static function getAvailableLanguages(): array
     {
         $langRoot = REAL_BASE_DIR . '/../src/Lang';
@@ -137,13 +137,13 @@ public static function getAvailableLanguages(): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion buildLocaleLabel
-     *
-     * @param mixed $langCode
-     * @param mixed $countryCode
-     * @return string
-     */
+/**
+ * Erzeugt locale label auf Basis der Eingabedaten.
+ *
+ * @param mixed $langCode Eingabewert fuer langCode.
+ * @param mixed $countryCode Eingabewert fuer countryCode.
+ * @return string Rueckgabe als Text.
+ */
 private static function buildLocaleLabel(string $langCode, string $countryCode): string
     {
         if (class_exists('\\Locale')) {
@@ -162,12 +162,12 @@ private static function buildLocaleLabel(string $langCode, string $countryCode):
         return strtoupper($langCode) . ' (' . $countryCode . ')';
     }
 
-    /**
-     * Kurzbeschreibung Funktion countryCodeToFlag
-     *
-     * @param mixed $countryCode
-     * @return string
-     */
+/**
+ * Fuehrt country code to flag entsprechend der internen Logik aus.
+ *
+ * @param mixed $countryCode Eingabewert fuer countryCode.
+ * @return string Rueckgabe als Text.
+ */
 private static function countryCodeToFlag(string $countryCode): string
     {
         if (!preg_match('/^[A-Z]{2}$/', $countryCode)) {
@@ -180,12 +180,12 @@ private static function countryCodeToFlag(string $countryCode): string
         return html_entity_decode('&#' . $first . ';&#' . $second . ';', ENT_NOQUOTES, 'UTF-8');
     }
 
-    /**
-     * Kurzbeschreibung Funktion sanitizeLangCode
-     *
-     * @param mixed $lang
-     * @return string
-     */
+/**
+ * Fuehrt sanitize lang code entsprechend der internen Logik aus.
+ *
+ * @param mixed $lang Eingabewert fuer lang.
+ * @return string Rueckgabe als Text.
+ */
 private static function sanitizeLangCode(string $lang): string
     {
         $lang = trim($lang);

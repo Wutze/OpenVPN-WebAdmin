@@ -20,26 +20,26 @@ namespace Micro\OpenvpnWebadmin\Core;
 
 class ConfigService
 {
-    private string $basePath;
-    private string $historyBasePath;
+private string $basePath;
+private string $historyBasePath;
 
-    /**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @param mixed $basePath
-     * @return mixed|null
-     */
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @param mixed $basePath Eingabewert fuer basePath.
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
 public function __construct(?string $basePath = null)
     {
         $this->basePath = $basePath ?? dirname(__DIR__, 2) . '/storage/conf';
         $this->historyBasePath = $this->basePath . '/history';
     }
 
-    /**
-     * Kurzbeschreibung Funktion listSystems
-     *
-     * @return array
-     */
+/**
+ * Liefert eine Liste von systems.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function listSystems(): array
     {
         if (!is_dir($this->basePath)) {
@@ -64,12 +64,12 @@ public function listSystems(): array
         return $systems;
     }
 
-    /**
-     * Kurzbeschreibung Funktion getConfig
-     *
-     * @param mixed $system
-     * @return string
-     */
+/**
+ * Liest config und gibt den Wert zurueck.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
 public function getConfig(string $system): string
     {
         $path = $this->clientPath($system);
@@ -80,13 +80,13 @@ public function getConfig(string $system): string
         return (string)file_get_contents($path);
     }
 
-    /**
-     * Kurzbeschreibung Funktion saveConfig
-     *
-     * @param mixed $system
-     * @param mixed $content
-     * @return array
-     */
+/**
+ * Speichert config persistent.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @param mixed $content Eingabewert fuer content.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function saveConfig(string $system, string $content): array
     {
         $path = $this->clientPath($system);
@@ -98,21 +98,25 @@ public function saveConfig(string $system, string $content): array
 
         $historyFile = null;
         if (is_file($path)) {
-            $historyDir = $this->historyDir($system);
-            if (!is_dir($historyDir) && !mkdir($historyDir, 0775, true) && !is_dir($historyDir)) {
-                throw new \RuntimeException('Historienordner konnte nicht erstellt werden.');
-            }
+            try {
+                $historyDir = $this->historyDir($system);
+                if (!is_dir($historyDir) && !mkdir($historyDir, 0775, true) && !is_dir($historyDir)) {
+                    throw new \RuntimeException('Historienordner konnte nicht erstellt werden.');
+                }
 
-            $historyFile = date('Ymd_His') . '_client.ovpn';
-            $snapshotPath = $historyDir . '/' . $historyFile;
-            if (!copy($path, $snapshotPath)) {
-                throw new \RuntimeException('Vorherige Konfiguration konnte nicht archiviert werden.');
+                $historyFile = date('Ymd_His') . '_client.ovpn';
+                $snapshotPath = $historyDir . '/' . $historyFile;
+                if (!copy($path, $snapshotPath)) {
+                    throw new \RuntimeException('Vorherige Konfiguration konnte nicht archiviert werden.');
+                }
+            } catch (\Throwable $e) {
+                // Historie ist hilfreich, darf aber das Speichern der aktuellen Konfiguration nicht blockieren.
+                Debug::log('saveConfig history archive failed', $e->getMessage(), ['system' => $system, 'path' => $path]);
+                $historyFile = null;
             }
         }
 
-        if (file_put_contents($path, $content) === false) {
-            throw new \RuntimeException('client.ovpn konnte nicht gespeichert werden.');
-        }
+        $this->writeAtomic($path, $content);
 
         return [
             'history_file' => $historyFile,
@@ -120,12 +124,12 @@ public function saveConfig(string $system, string $content): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion getHistoryList
-     *
-     * @param mixed $system
-     * @return array
-     */
+/**
+ * Liest history list und gibt den Wert zurueck.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function getHistoryList(string $system): array
     {
         $historyDir = $this->historyDir($system);
@@ -151,12 +155,12 @@ public function getHistoryList(string $system): array
         return $rows;
     }
 
-    /**
-     * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
-     *
-     * @param mixed $system
-     * @return array
-     */
+/**
+ * Liest diff stats against current und gibt den Wert zurueck.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function getDiffStatsAgainstCurrent(string $system): array
     {
         $current = $this->getConfig($system);
@@ -172,13 +176,13 @@ public function getDiffStatsAgainstCurrent(string $system): array
         return $rows;
     }
 
-    /**
-     * Kurzbeschreibung Funktion diffHistoryFile
-     *
-     * @param mixed $system
-     * @param mixed $historyFile
-     * @return array
-     */
+/**
+ * Vergleicht history file und liefert die Unterschiede.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @param mixed $historyFile Eingabewert fuer historyFile.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function diffHistoryFile(string $system, string $historyFile): array
     {
         $old = $this->getHistoryContent($system, $historyFile);
@@ -187,13 +191,13 @@ public function diffHistoryFile(string $system, string $historyFile): array
         return $this->buildDiffData($old, $current);
     }
 
-    /**
-     * Kurzbeschreibung Funktion getHistoryContent
-     *
-     * @param mixed $system
-     * @param mixed $historyFile
-     * @return string
-     */
+/**
+ * Liest history content und gibt den Wert zurueck.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @param mixed $historyFile Eingabewert fuer historyFile.
+ * @return string Rueckgabe als Text.
+ */
 private function getHistoryContent(string $system, string $historyFile): string
     {
         $safe = basename($historyFile);
@@ -205,13 +209,13 @@ private function getHistoryContent(string $system, string $historyFile): string
         return (string)file_get_contents($path);
     }
 
-    /**
-     * Kurzbeschreibung Funktion buildDiffData
-     *
-     * @param mixed $oldText
-     * @param mixed $newText
-     * @return array
-     */
+/**
+ * Erzeugt diff data auf Basis der Eingabedaten.
+ *
+ * @param mixed $oldText Eingabewert fuer oldText.
+ * @param mixed $newText Eingabewert fuer newText.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function buildDiffData(string $oldText, string $newText): array
     {
         $oldLines = preg_split('/\R/', $oldText) ?: [];
@@ -241,13 +245,13 @@ private function buildDiffData(string $oldText, string $newText): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion diffOps
-     *
-     * @param mixed $a
-     * @param mixed $b
-     * @return array
-     */
+/**
+ * Vergleicht ops und liefert die Unterschiede.
+ *
+ * @param mixed $a Eingabewert fuer a.
+ * @param mixed $b Eingabewert fuer b.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function diffOps(array $a, array $b): array
     {
         $n = count($a);
@@ -295,36 +299,36 @@ private function diffOps(array $a, array $b): array
         return $ops;
     }
 
-    /**
-     * Kurzbeschreibung Funktion clientPath
-     *
-     * @param mixed $system
-     * @return string
-     */
+/**
+ * Fuehrt client path entsprechend der internen Logik aus.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
 private function clientPath(string $system): string
     {
         $system = $this->sanitizeSystem($system);
         return $this->basePath . '/' . $system . '/client.ovpn';
     }
 
-    /**
-     * Kurzbeschreibung Funktion historyDir
-     *
-     * @param mixed $system
-     * @return string
-     */
+/**
+ * Fuehrt history dir entsprechend der internen Logik aus.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
 private function historyDir(string $system): string
     {
         $system = $this->sanitizeSystem($system);
         return $this->historyBasePath . '/' . $system;
     }
 
-    /**
-     * Kurzbeschreibung Funktion sanitizeSystem
-     *
-     * @param mixed $system
-     * @return string
-     */
+/**
+ * Fuehrt sanitize system entsprechend der internen Logik aus.
+ *
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
 private function sanitizeSystem(string $system): string
     {
         $system = trim($system);
@@ -333,5 +337,47 @@ private function sanitizeSystem(string $system): string
         }
 
         return $system;
+    }
+
+/**
+ * Schreibt atomar in die Zieldatei (tmp + rename).
+ * Dadurch funktionieren Saves auch dann, wenn die bestehende Datei restriktive Rechte hat,
+ * aber das Verzeichnis beschreibbar ist.
+ *
+ * @param mixed $path
+ * @param mixed $content
+ * @return void
+ */
+private function writeAtomic(string $path, string $content): void
+    {
+        $dir = dirname($path);
+        if (!is_dir($dir)) {
+            throw new \RuntimeException('Zielordner existiert nicht: ' . $dir);
+        }
+
+        $tmp = @tempnam($dir, 'ovpn_');
+        if ($tmp === false) {
+            throw new \RuntimeException('Temporäre Datei konnte nicht erstellt werden: ' . $dir);
+        }
+
+        if (@file_put_contents($tmp, $content) === false) {
+            @unlink($tmp);
+            throw new \RuntimeException('Temporäre Konfiguration konnte nicht geschrieben werden: ' . $tmp);
+        }
+
+        @chmod($tmp, 0664);
+
+        if (@rename($tmp, $path)) {
+            return;
+        }
+
+        // Fallback fuer einige Mounts/FS-Kombinationen
+        if (@copy($tmp, $path)) {
+            @unlink($tmp);
+            return;
+        }
+
+        @unlink($tmp);
+        throw new \RuntimeException('client.ovpn konnte nicht gespeichert werden: ' . $path);
     }
 }

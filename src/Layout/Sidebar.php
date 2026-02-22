@@ -21,6 +21,7 @@
 $activeOp = $activeOp ?? 'dashboard';
 $user = $user ?? null;
 $isAdmin = \Micro\OpenvpnWebadmin\Core\Session::isAdmin();
+$debugEnabled = !empty($debugEnabled);
 ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="?op=dashboard" class="brand-link">
@@ -69,11 +70,25 @@ $isAdmin = \Micro\OpenvpnWebadmin\Core\Session::isAdmin();
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="?op=catls" class="nav-link <?= $activeOp === 'catls' ? 'active' : '' ?>">
+                            <i class="nav-icon bi bi-shield-lock"></i>
+                            <p><?= Lang::get('_MENU_CATLS') ?></p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="?op=settings" class="nav-link <?= $activeOp === 'settings' ? 'active' : '' ?>">
                             <i class="nav-icon bi bi-gear-wide-connected"></i>
                             <p><?= Lang::get('_MENU_SETTINGS') ?></p>
                         </a>
                     </li>
+                    <?php if ($debugEnabled): ?>
+                    <li class="nav-item">
+                        <a href="?op=documentation" class="nav-link nav-link-debug <?= $activeOp === 'documentation' ? 'active' : '' ?>">
+                            <i class="nav-icon bi bi-journal-code"></i>
+                            <p><?= Lang::get('_MENU_DOCUMENTATION') ?></p>
+                        </a>
+                    </li>
+                    <?php endif; ?>
                 <?php endif; ?>
             </ul>
         </nav>

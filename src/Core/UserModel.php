@@ -22,26 +22,26 @@ use PDO;
 
 class UserModel
 {
-    private PDO $db;
+private PDO $db;
 
-    /**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @return mixed|null
-     */
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
 public function __construct()
     {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    /**
-     * Kurzbeschreibung Funktion getAllUsers
-     *
-     * @param mixed $limit
-     * @param mixed $offset
-     * @param mixed $search
-     * @return array
-     */
+/**
+ * Liest all users und gibt den Wert zurueck.
+ *
+ * @param mixed $limit Eingabewert fuer limit.
+ * @param mixed $offset Eingabewert fuer offset.
+ * @param mixed $search Eingabewert fuer search.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function getAllUsers(int $limit = 50, int $offset = 0, string $search = ''): array
     {
         $sql = "
@@ -84,12 +84,12 @@ public function getAllUsers(int $limit = 50, int $offset = 0, string $search = '
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Kurzbeschreibung Funktion countUsers
-     *
-     * @param mixed $search
-     * @return int
-     */
+/**
+ * Fuehrt count users entsprechend der internen Logik aus.
+ *
+ * @param mixed $search Eingabewert fuer search.
+ * @return int Rueckgabewert der Funktion.
+ */
 public function countUsers(string $search = ''): int
     {
         $sql = 'SELECT COUNT(*) FROM user u LEFT JOIN groupnames g ON u.gid = g.gid WHERE 1';
@@ -109,23 +109,23 @@ public function countUsers(string $search = ''): int
         return (int)$stmt->fetchColumn();
     }
 
-    /**
-     * Kurzbeschreibung Funktion countOnlineUsers
-     *
-     * @return int
-     */
+/**
+ * Fuehrt count online users entsprechend der internen Logik aus.
+ *
+ * @return int Rueckgabewert der Funktion.
+ */
 public function countOnlineUsers(): int
     {
         $stmt = $this->db->query('SELECT COUNT(*) FROM user WHERE user_online = 1');
         return (int)$stmt->fetchColumn();
     }
 
-    /**
-     * Kurzbeschreibung Funktion userExists
-     *
-     * @param mixed $username
-     * @return bool
-     */
+/**
+ * Fuehrt user exists entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return bool True bei Erfolg, sonst false.
+ */
 public function userExists(string $username): bool
     {
         $stmt = $this->db->prepare('SELECT 1 FROM user WHERE user_name = :username LIMIT 1');
@@ -133,14 +133,14 @@ public function userExists(string $username): bool
         return (bool)$stmt->fetchColumn();
     }
 
-    /**
-     * Kurzbeschreibung Funktion createUser
-     *
-     * @param mixed $username
-     * @param mixed $password
-     * @param mixed $isAdmin
-     * @return void
-     */
+/**
+ * Erzeugt user auf Basis der Eingabedaten.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $password Eingabewert fuer password.
+ * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @return void Kein Rueckgabewert.
+ */
 public function createUser(string $username, string $password, bool $isAdmin = false): void
     {
         $gid = $this->resolveGroupId($isAdmin);
@@ -158,13 +158,13 @@ public function createUser(string $username, string $password, bool $isAdmin = f
         ]);
     }
 
-    /**
-     * Kurzbeschreibung Funktion setUserEnabled
-     *
-     * @param mixed $username
-     * @param mixed $enabled
-     * @return void
-     */
+/**
+ * Setzt user enabled auf den uebergebenen Wert.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $enabled Eingabewert fuer enabled.
+ * @return void Kein Rueckgabewert.
+ */
 public function setUserEnabled(string $username, bool $enabled): void
     {
         $stmt = $this->db->prepare('UPDATE user SET user_enable = :enabled WHERE user_name = :username');
@@ -174,13 +174,13 @@ public function setUserEnabled(string $username, bool $enabled): void
         ]);
     }
 
-    /**
-     * Kurzbeschreibung Funktion setUserRole
-     *
-     * @param mixed $username
-     * @param mixed $isAdmin
-     * @return void
-     */
+/**
+ * Setzt user role auf den uebergebenen Wert.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @return void Kein Rueckgabewert.
+ */
 public function setUserRole(string $username, bool $isAdmin): void
     {
         $gid = $this->resolveGroupId($isAdmin);
@@ -191,13 +191,13 @@ public function setUserRole(string $username, bool $isAdmin): void
         ]);
     }
 
-    /**
-     * Kurzbeschreibung Funktion setUserPasswordByName
-     *
-     * @param mixed $username
-     * @param mixed $newPassword
-     * @return void
-     */
+/**
+ * Setzt user password by name auf den uebergebenen Wert.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $newPassword Eingabewert fuer newPassword.
+ * @return void Kein Rueckgabewert.
+ */
 public function setUserPasswordByName(string $username, string $newPassword): void
     {
         $hash = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -208,13 +208,13 @@ public function setUserPasswordByName(string $username, string $newPassword): vo
         ]);
     }
 
-    /**
-     * Kurzbeschreibung Funktion setUserPasswordById
-     *
-     * @param mixed $uid
-     * @param mixed $newPassword
-     * @return void
-     */
+/**
+ * Setzt user password by id auf den uebergebenen Wert.
+ *
+ * @param mixed $uid Eingabewert fuer uid.
+ * @param mixed $newPassword Eingabewert fuer newPassword.
+ * @return void Kein Rueckgabewert.
+ */
 public function setUserPasswordById(int $uid, string $newPassword): void
     {
         $hash = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -226,12 +226,12 @@ public function setUserPasswordById(int $uid, string $newPassword): void
     }
 
     /**
-     * Kurzbeschreibung Funktion setUserLimits
+     * Setzt user limits auf den uebergebenen Wert.
      *
-     * @param mixed $username
-     * @param mixed $startDate
-     * @param mixed $endDate
-     * @return void
+     * @param mixed $username Eingabewert fuer username.
+     * @param mixed $startDate Eingabewert fuer startDate.
+     * @param mixed $endDate Eingabewert fuer endDate.
+     * @return void Kein Rueckgabewert.
      */
     public function setUserLimits(string $username, ?string $startDate, ?string $endDate): void
     {
@@ -250,13 +250,13 @@ public function setUserPasswordById(int $uid, string $newPassword): void
         $stmt->execute();
     }
 
-    /**
-     * Kurzbeschreibung Funktion setUserFixedIp
-     *
-     * @param mixed $username
-     * @param mixed $fixedIp
-     * @return void
-     */
+/**
+ * Setzt user fixed ip auf den uebergebenen Wert.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $fixedIp Eingabewert fuer fixedIp.
+ * @return void Kein Rueckgabewert.
+ */
 public function setUserFixedIp(string $username, ?string $fixedIp): void
     {
         $stmt = $this->db->prepare('SELECT uid FROM user WHERE user_name = :username LIMIT 1');
@@ -300,13 +300,13 @@ public function setUserFixedIp(string $username, ?string $fixedIp): void
         ]);
     }
 
-    /**
-     * Kurzbeschreibung Funktion isFixedIpInUseByOtherUser
-     *
-     * @param mixed $username
-     * @param mixed $fixedIp
-     * @return bool
-     */
+/**
+ * Prueft, ob fixed ip in use by other user zutrifft.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $fixedIp Eingabewert fuer fixedIp.
+ * @return bool True bei Erfolg, sonst false.
+ */
 public function isFixedIpInUseByOtherUser(string $username, string $fixedIp): bool
     {
         $stmt = $this->db->prepare('
@@ -325,25 +325,25 @@ public function isFixedIpInUseByOtherUser(string $username, string $fixedIp): bo
         return (bool)$stmt->fetchColumn();
     }
 
-    /**
-     * Kurzbeschreibung Funktion deleteUser
-     *
-     * @param mixed $username
-     * @return void
-     */
+/**
+ * Entfernt user.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
+ */
 public function deleteUser(string $username): void
     {
         $stmt = $this->db->prepare('DELETE FROM user WHERE user_name = :username');
         $stmt->execute([':username' => $username]);
     }
 
-    /**
-     * Kurzbeschreibung Funktion verifyPassword
-     *
-     * @param mixed $uid
-     * @param mixed $password
-     * @return bool
-     */
+/**
+ * Fuehrt verify password entsprechend der internen Logik aus.
+ *
+ * @param mixed $uid Eingabewert fuer uid.
+ * @param mixed $password Eingabewert fuer password.
+ * @return bool True bei Erfolg, sonst false.
+ */
 public function verifyPassword(int $uid, string $password): bool
     {
         $stmt = $this->db->prepare('SELECT user_pass FROM user WHERE uid = :uid LIMIT 1');
@@ -356,12 +356,12 @@ public function verifyPassword(int $uid, string $password): bool
         return password_verify($password, (string)$hash);
     }
 
-    /**
-     * Kurzbeschreibung Funktion resolveGroupId
-     *
-     * @param mixed $isAdmin
-     * @return int
-     */
+/**
+ * Fuehrt resolve group id entsprechend der internen Logik aus.
+ *
+ * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @return int Rueckgabewert der Funktion.
+ */
 private function resolveGroupId(bool $isAdmin): int
     {
         $groups = $this->db->query('SELECT gid, name FROM groupnames ORDER BY gid ASC')->fetchAll(PDO::FETCH_ASSOC);

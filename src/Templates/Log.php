@@ -20,11 +20,11 @@ namespace Micro\OpenvpnWebadmin\Templates;
 
 class Log
 {
-    /**
-     * Kurzbeschreibung Funktion index
-     *
-     * @return string
-     */
+/**
+ * Fuehrt index entsprechend der internen Logik aus.
+ *
+ * @return string Rueckgabe als Text.
+ */
 public function index(): string
     {
         $table = include __DIR__ . "/LogTable.php";

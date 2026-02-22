@@ -19,8 +19,10 @@
 namespace Micro\OpenvpnWebadmin\Core;
 
 use Micro\OpenvpnWebadmin\Templates\Account;
+use Micro\OpenvpnWebadmin\Templates\CaTls;
 use Micro\OpenvpnWebadmin\Templates\Config;
 use Micro\OpenvpnWebadmin\Templates\Dashboard;
+use Micro\OpenvpnWebadmin\Templates\Documentation;
 use Micro\OpenvpnWebadmin\Templates\Log;
 use Micro\OpenvpnWebadmin\Templates\Profiles;
 use Micro\OpenvpnWebadmin\Templates\Settings;
@@ -29,34 +31,34 @@ use Micro\OpenvpnWebadmin\Templates\User;
 
 class GoRequest
 {
-    private string $action = 'main';
-    private array $values = [];
+private string $action = 'main';
+private array $values = [];
 
-    /**
-     * Setzt dynamisch eine Eigenschaft der Klasse auf den uebergebenen Wert.
-     *
-     * @param mixed $key
-     * @param mixed $val
-     * @return void
-     */
+/**
+ * Setzt dynamisch eine Eigenschaft der Klasse auf den uebergebenen Wert.
+ *
+ * @param mixed $key
+ * @param mixed $val
+ * @return void
+ */
 public function set_value(string $key, $val): void
     {
         $this->$key = $val;
     }
 
-    /**
-     * Der zentrale handler/router in der Verarbeitung
-     * über diese Datei werden alle Anfragen an das System "geroutet"
-     * und entsprechend auf die erlaubten "Operationen" (op) hin überprüft
-     * Verteilt dann auf die entsprechenden Klassen und Funktionen
-     *
-     * @return void
-     */
+/**
+ * Der zentrale handler/router in der Verarbeitung
+ * über diese Datei werden alle Anfragen an das System "geroutet"
+ * und entsprechend auf die erlaubten "Operationen" (op) hin überprüft
+ * Verteilt dann auf die entsprechenden Klassen und Funktionen
+ *
+ * @return void
+ */
 public function main(): void
     {
         $allowedOps = [
             'login', 'checklogin', 'logout', 'main', 'data', 'live',
-            'users', 'dashboard', 'logs', 'account', 'config', 'settings',
+            'users', 'dashboard', 'logs', 'account', 'config', 'catls', 'settings', 'documentation',
             'profiles', 'download', 'setlang', 'loginasset'
         ];
 
@@ -105,6 +107,14 @@ public function main(): void
                 $this->ensureAdminOrForbidden();
                 $this->showSettings();
                 break;
+            case 'catls':
+                $this->ensureAdminOrForbidden();
+                $this->showCaTls();
+                break;
+            case 'documentation':
+                $this->ensureAdminOrForbidden();
+                $this->showDocumentation();
+                break;
             case 'account':
                 $this->showAccount();
                 break;
@@ -125,32 +135,32 @@ public function main(): void
         }
     }
 
-    /**
-     * Zeigt die Login-Seite ueber den LoginController an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt die Login-Seite ueber den LoginController an.
+ *
+ * @return void
+ */
 private function showLogin(): void
     {
         (new LoginController())->showLogin();
     }
 
-    /**
-     * Verarbeitet den Login-Versuch ueber den LoginController.
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet den Login-Versuch ueber den LoginController.
+ *
+ * @return void
+ */
 private function checkLogin(): void
     {
         (new LoginController())->handleLogin();
     }
 
-    /**
-     * Baut die gemeinsamen Template-Daten fuer Seitenaufrufe auf.
-     *
-     * @param mixed $activeOp
-     * @return array
-     */
+/**
+ * Baut die gemeinsamen Template-Daten fuer Seitenaufrufe auf.
+ *
+ * @param mixed $activeOp
+ * @return array
+ */
 private function baseTemplateData(string $activeOp): array
     {
         $data = [
@@ -158,6 +168,7 @@ private function baseTemplateData(string $activeOp): array
             'activeOp' => $activeOp,
             'currentLang' => Lang::getCurrent(),
             'availableLangs' => Lang::getAvailableLanguages(),
+            'debugEnabled' => $this->canUseDebugModal(),
         ];
 
         if ($this->canUseDebugModal()) {
@@ -167,113 +178,140 @@ private function baseTemplateData(string $activeOp): array
         return $data;
     }
 
-    /**
-     * Rendert eine komplette Seite mit Layout, Header und Inhalt.
-     *
-     * @param mixed $title
-     * @param mixed $content
-     * @param mixed $activeOp
-     * @return void
-     */
+/**
+ * Rendert eine komplette Seite mit Layout, Header und Inhalt.
+ *
+ * @param mixed $title
+ * @param mixed $content
+ * @param mixed $activeOp
+ * @return void
+ */
 private function renderPage(string $title, string $content, string $activeOp): void
     {
         $tpl = new Template($title, $content, $this->baseTemplateData($activeOp));
         echo $tpl->render();
     }
 
-    /**
-     * Zeigt die Dashboard-Seite an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt die Dashboard-Seite an.
+ *
+ * @return void
+ */
 private function showMain(): void
     {
         $content = (new Dashboard())->index();
         $this->renderPage('OpenVPN WebAdmin - Dashboard', $content, 'dashboard');
     }
 
-    /**
-     * Zeigt die Benutzerverwaltung an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt die Benutzerverwaltung an.
+ *
+ * @return void
+ */
 private function showUsers(): void
     {
         $content = (new User())->index();
         $this->renderPage('OpenVPN WebAdmin - Benutzer', $content, 'users');
     }
 
-    /**
-     * Zeigt die Log-Ansicht an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt die Log-Ansicht an.
+ *
+ * @return void
+ */
 private function showLogs(): void
     {
         $content = (new Log())->index();
         $this->renderPage('OpenVPN WebAdmin - Logs', $content, 'logs');
     }
 
-    /**
-     * Zeigt den Konfigurations-Editor fuer Client-Profile an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt den Konfigurations-Editor fuer Client-Profile an.
+ *
+ * @return void
+ */
 private function showConfig(): void
     {
         $content = (new Config())->index();
         $this->renderPage('OpenVPN WebAdmin - Konfiguration', $content, 'config');
     }
 
-    /**
-     * Zeigt den Editor fuer die VPN-Server-Einstellungen an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt den Editor fuer die VPN-Server-Einstellungen an.
+ *
+ * @return void
+ */
 private function showSettings(): void
     {
         $content = (new Settings())->index();
         $this->renderPage('OpenVPN WebAdmin - Settings', $content, 'settings');
     }
 
-    /**
-     * Zeigt die Seite fuer Konfigurations-Downloads an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt die Seite fuer CA/TLS Inhalte an.
+ *
+ * @return void
+ */
+private function showCaTls(): void
+    {
+        $content = (new CaTls())->index();
+        $this->renderPage('OpenVPN WebAdmin - CA/TLS', $content, 'catls');
+    }
+
+/**
+ * Zeigt die durchsuchbare Funktionsdokumentation an.
+ *
+ * @return void
+ */
+private function showDocumentation(): void
+    {
+        if (!$this->canUseDebugModal()) {
+            $this->denyRequest(403, Lang::get('_ACCESS_DENIED_TEXT'));
+            return;
+        }
+
+        $content = (new Documentation())->index();
+        $this->renderPage('OpenVPN WebAdmin - Dokumentation', $content, 'documentation');
+    }
+
+/**
+ * Zeigt die Seite fuer Konfigurations-Downloads an.
+ *
+ * @return void
+ */
 private function showProfiles(): void
     {
         $content = (new Profiles())->index();
         $this->renderPage('OpenVPN WebAdmin - Konfigurationsdateien', $content, 'profiles');
     }
 
-    /**
-     * Zeigt die Seite zum Verwalten des eigenen Accounts an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt die Seite zum Verwalten des eigenen Accounts an.
+ *
+ * @return void
+ */
 private function showAccount(): void
     {
         $content = (new Account())->index();
         $this->renderPage('OpenVPN WebAdmin - Mein Account', $content, 'account');
     }
 
-    /**
-     * Liefert eine einfache Live-Status-Antwort als JSON.
-     *
-     * @return void
-     */
+/**
+ * Liefert eine einfache Live-Status-Antwort als JSON.
+ *
+ * @return void
+ */
 private function showLive(): void
     {
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode(['online' => rand(0, 10)]);
     }
 
-    /**
-     * Meldet den Benutzer ab und antwortet je nach Request-Typ mit Redirect oder JSON.
-     *
-     * @return void
-     */
+/**
+ * Meldet den Benutzer ab und antwortet je nach Request-Typ mit Redirect oder JSON.
+ *
+ * @return void
+ */
 private function logout(): void
     {
         $isAjax = (
@@ -296,11 +334,11 @@ private function logout(): void
         exit;
     }
 
-    /**
-     * Prueft Adminrechte und zeigt sonst eine Zugriff-verweigert-Seite an.
-     *
-     * @return void
-     */
+/**
+ * Prueft Adminrechte und zeigt sonst eine Zugriff-verweigert-Seite an.
+ *
+ * @return void
+ */
 private function ensureAdminOrForbidden(): void
     {
         if (!Session::isAdmin()) {
@@ -310,11 +348,11 @@ private function ensureAdminOrForbidden(): void
         }
     }
 
-    /**
-     * Liefert die angeforderte Profil-ZIP zum Download aus.
-     *
-     * @return void
-     */
+/**
+ * Liefert die angeforderte Profil-ZIP zum Download aus.
+ *
+ * @return void
+ */
 private function downloadProfileZip(): void
     {
         $system = (string)($_GET['system'] ?? '');
@@ -336,11 +374,11 @@ private function downloadProfileZip(): void
         exit;
     }
 
-    /**
-     * Zeigt die Fehlerseite aus dem Theme oder einen Text-Fallback an.
-     *
-     * @return void
-     */
+/**
+ * Zeigt die Fehlerseite aus dem Theme oder einen Text-Fallback an.
+ *
+ * @return void
+ */
 private function showError(): void
     {
         $errorFile = (defined('_LOGIN_THEME_DIR') ? _LOGIN_THEME_DIR : dirname(__DIR__, 2) . '/html/login1') . '/error.php';
@@ -352,11 +390,11 @@ private function showError(): void
         echo Lang::get('_ERROR_PAGE_NOT_FOUND');
     }
 
-    /**
-     * Setzt die gewaehlte Sprache und leitet sicher auf die vorherige Seite zurueck.
-     *
-     * @return void
-     */
+/**
+ * Setzt die gewaehlte Sprache und leitet sicher auf die vorherige Seite zurueck.
+ *
+ * @return void
+ */
 private function setLanguage(): void
     {
         $lang = (string)($_GET['lang'] ?? '');
@@ -373,12 +411,12 @@ private function setLanguage(): void
         exit;
     }
 
-    /**
-     * Kurzbeschreibung Funktion isSafeRedirectTarget
-     *
-     * @param mixed $target
-     * @return bool
-     */
+/**
+ * Prueft, ob safe redirect target zutrifft.
+ *
+ * @param mixed $target Eingabewert fuer target.
+ * @return bool True bei Erfolg, sonst false.
+ */
 private function isSafeRedirectTarget(string $target): bool
     {
         if (str_starts_with($target, '?') || str_starts_with($target, '/')) {
@@ -398,32 +436,32 @@ private function isSafeRedirectTarget(string $target): bool
         return strcasecmp($targetHost, $currentHost) === 0;
     }
 
-    /**
-     * Erzwingt zentrale Zugriffsregeln fuer Login, Rollen, Origin und CSRF.
-     *
-     * Security-Matrix (Single Source of Truth):
-     *
-     * OP               Login required   Admin required   CSRF+Origin on POST
-     * ----------------------------------------------------------------------
-     * login            no               no               no
-     * checklogin       no               no               no
-     * setlang          yes              no               no (GET only)
-     * logout           yes              no               yes
-     * dashboard/main   yes              no               n/a
-     * account          yes              no               n/a
-     * profiles         yes              no               n/a
-     * download         yes              no               n/a
-     * users            yes              yes              n/a
-     * logs             yes              yes              n/a
-     * config           yes              yes              n/a
-     * settings         yes              yes              n/a
-     * data(select=*)   yes              depends          yes for POST
-     *
-     * data-select admin-only:
-     * user, log, config, settings, dashboard_stats, diag_login
-     *
-     * @return void
-     */
+/**
+ * Erzwingt zentrale Zugriffsregeln fuer Login, Rollen, Origin und CSRF.
+ *
+ * Security-Matrix (Single Source of Truth):
+ *
+ * OP               Login required   Admin required   CSRF+Origin on POST
+ * ----------------------------------------------------------------------
+ * login            no               no               no
+ * checklogin       no               no               no
+ * setlang          yes              no               no (GET only)
+ * logout           yes              no               yes
+ * dashboard/main   yes              no               n/a
+ * account          yes              no               n/a
+ * profiles         yes              no               n/a
+ * download         yes              no               n/a
+ * users            yes              yes              n/a
+ * logs             yes              yes              n/a
+ * config           yes              yes              n/a
+ * settings         yes              yes              n/a
+ * data(select=*)   yes              depends          yes for POST
+ *
+ * data-select admin-only:
+ * user, log, config, settings, dashboard_stats, diag_login
+ *
+ * @return void
+ */
 private function enforceAccessPolicy(): void
     {
         $method = strtoupper((string)($_SERVER['REQUEST_METHOD'] ?? 'GET'));
@@ -450,16 +488,16 @@ private function enforceAccessPolicy(): void
             $this->verifyStateChangingRequest();
         }
 
-        if (in_array($this->action, ['users', 'logs', 'config', 'settings'], true)) {
+        if (in_array($this->action, ['users', 'logs', 'config', 'settings', 'documentation'], true)) {
             $this->ensureAdminOrForbidden();
         }
     }
 
-    /**
-     * Liefert erlaubte Login-Assets sicher aus dem Theme-Verzeichnis aus.
-     *
-     * @return void
-     */
+/**
+ * Liefert erlaubte Login-Assets sicher aus dem Theme-Verzeichnis aus.
+ *
+ * @return void
+ */
 private function serveLoginAsset(): void
     {
         $file = (string)($_GET['file'] ?? '');
@@ -514,12 +552,12 @@ private function serveLoginAsset(): void
         exit;
     }
 
-    /**
-     * Wendet Zugriffskontrollen fuer data-Requests anhand von select und Methode an.
-     *
-     * @param mixed $method
-     * @return void
-     */
+/**
+ * Wendet Zugriffskontrollen fuer data-Requests anhand von select und Methode an.
+ *
+ * @param mixed $method
+ * @return void
+ */
 private function enforceDataAccessPolicy(string $method): void
     {
         $select = (string)($_GET['select'] ?? '');
@@ -533,11 +571,11 @@ private function enforceDataAccessPolicy(string $method): void
         }
     }
 
-    /**
-     * Prueft zustandsaendernde Requests auf gleiche Herkunft und gueltiges CSRF-Token.
-     *
-     * @return void
-     */
+/**
+ * Prueft zustandsaendernde Requests auf gleiche Herkunft und gueltiges CSRF-Token.
+ *
+ * @return void
+ */
 private function verifyStateChangingRequest(): void
     {
         if (!$this->isSameOriginRequest()) {
@@ -550,11 +588,11 @@ private function verifyStateChangingRequest(): void
         }
     }
 
-    /**
-     * Ermittelt, ob die Anfrage von derselben Origin bzw. demselben Host stammt.
-     *
-     * @return bool
-     */
+/**
+ * Ermittelt, ob die Anfrage von derselben Origin bzw. demselben Host stammt.
+ *
+ * @return bool
+ */
 private function isSameOriginRequest(): bool
     {
         $host = (string)($_SERVER['HTTP_HOST'] ?? '');
@@ -577,13 +615,13 @@ private function isSameOriginRequest(): bool
         return false;
     }
 
-    /**
-     * Bricht die Anfrage mit Fehlerstatus ab und gibt JSON oder HTML-Fehler aus.
-     *
-     * @param mixed $status
-     * @param mixed $message
-     * @return void
-     */
+/**
+ * Bricht die Anfrage mit Fehlerstatus ab und gibt JSON oder HTML-Fehler aus.
+ *
+ * @param mixed $status
+ * @param mixed $message
+ * @return void
+ */
 private function denyRequest(int $status, string $message): void
     {
         http_response_code($status);
@@ -599,11 +637,11 @@ private function denyRequest(int $status, string $message): void
         exit;
     }
 
-    /**
-     * Liest das CSRF-Token aus POST-Daten oder einem JSON-Body aus.
-     *
-     * @return string
-     */
+/**
+ * Liest das CSRF-Token aus POST-Daten oder einem JSON-Body aus.
+ *
+ * @return string
+ */
 private function getRequestCsrfToken(): string
     {
         if (isset($_POST['_csrf']) && is_string($_POST['_csrf'])) {

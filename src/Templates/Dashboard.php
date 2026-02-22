@@ -20,11 +20,11 @@ namespace Micro\OpenvpnWebadmin\Templates;
 
 class Dashboard
 {
-    /**
-     * Kurzbeschreibung Funktion index
-     *
-     * @return string
-     */
+/**
+ * Fuehrt index entsprechend der internen Logik aus.
+ *
+ * @return string Rueckgabe als Text.
+ */
 public function index(): string
     {
         $t = fn(string $key): string => \Lang::get($key);

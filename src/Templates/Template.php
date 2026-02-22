@@ -22,18 +22,18 @@ use Debug;
 
 class Template
 {
-    private string $title;
-    private string $content;
-    private array $data;
+private string $title;
+private string $content;
+private array $data;
 
-    /**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @param mixed $title
-     * @param mixed $content
-     * @param mixed $data
-     * @return mixed|null
-     */
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @param mixed $title Eingabewert fuer title.
+ * @param mixed $content Eingabewert fuer content.
+ * @param mixed $data Eingabewert fuer data.
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
 public function __construct(string $title = 'WebAdmin', string $content = '', array $data = [])
     {
         $this->title   = $title;
