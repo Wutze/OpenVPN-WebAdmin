@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+MSG_LANGUAGE_SELECT="Sprache auswaehlen"
+MSG_LANGUAGE_SET="Sprache gesetzt"
+MSG_SETUP_START="Setup wird gestartet"
+MSG_NEED_ROOT="Bitte als root ausfuehren."
+MSG_OS_NOT_FOUND="/etc/os-release wurde nicht gefunden."
+MSG_OS_DETECTED="Erkanntes Betriebssystem"
+MSG_OS_UNSUPPORTED="Nicht unterstuetztes Betriebssystem oder Version. Erlaubt: Debian 12/13, Ubuntu 22.04 LTS/24.04 LTS."
+MSG_EMPTY_NOT_ALLOWED="Dieser Wert darf nicht leer sein."
+MSG_ANSWER_YES_NO="Bitte mit yes oder no antworten."
+MSG_BACKUP_CREATED="Backup erstellt"
+MSG_MISSING_COMMAND="Fehlender Befehl"
+
+MSG_REPO_URL="Repository URL"
+MSG_REPO_BRANCH="Repository Branch"
+MSG_SOURCE_DIR="Lokales Quellverzeichnis"
+MSG_DEPLOY_DIR="Zielverzeichnis fuer WebAdmin"
+MSG_WEB_OWNER="Besitzer Benutzer fuer Webverzeichnis"
+MSG_WEB_GROUP="Besitzer Gruppe fuer Webverzeichnis"
+MSG_LOGIN_THEME="Login Theme (login1/login2/login3)"
+MSG_SITETOOLS="Lokaler sitetools Pfad (keine externe URL)"
+MSG_SITETOOLS_EXTERNAL_FORBIDDEN="Externe sitetools URLs sind aus Datenschutzgruenden nicht erlaubt."
+
+MSG_DB_HOST="Datenbank Host"
+MSG_DB_PORT="Datenbank Port"
+MSG_DB_NAME="Datenbank Name"
+MSG_DB_USER="Datenbank Benutzer"
+MSG_DB_PASS="Datenbank Passwort"
+MSG_DB_CREATE_LOCAL="Lokale MariaDB Datenbank und Benutzer anlegen"
+MSG_DB_ROOT_PASS_OPTIONAL="MariaDB root Passwort (leer fuer Socket Auth)"
+
+MSG_ADMIN_USER="Initialer Admin Benutzername"
+MSG_ADMIN_PASS="Initiales Admin Passwort"
+
+MSG_OPENVPN_CONF="Pfad zur OpenVPN server.conf"
+MSG_OPENVPN_SCRIPTS_DIR="OpenVPN Skriptverzeichnis"
+MSG_WEBSERVER_PACKAGE="Optionales Webserver Paket (none/apache2/nginx)"
+MSG_INVALID_WEBSERVER="Ungueltige Webserver Auswahl."
+
+MSG_PATH_ABSOLUTE_REQUIRED="Pfad muss absolut sein"
+MSG_USER_NOT_FOUND="Benutzer nicht gefunden"
+MSG_GROUP_NOT_FOUND="Gruppe nicht gefunden"
+
+MSG_INSTALL_PACKAGES="Installiere benoetigte Pakete"
+MSG_REPO_UPDATE="Aktualisiere vorhandenes Quell-Repository"
+MSG_SOURCE_NOT_EMPTY="Quellverzeichnis existiert bereits und ist nicht leer"
+MSG_REPO_CLONE="Klone Repository"
+MSG_MISSING_FILE="Erforderliche Datei fehlt"
+MSG_MISSING_DIR="Erforderliches Verzeichnis fehlt"
+MSG_DEPLOY_FILES="Kopiere Anwendungsdateien"
+
+MSG_DB_PREPARE_LOCAL="Bereite lokale Datenbank vor"
+MSG_DB_IMPORT="Importiere Datenbankschema"
+MSG_OPENVPN_SCRIPTS_DEPLOY="Installiere OpenVPN Skripte"
+
+MSG_DONE="Setup erfolgreich abgeschlossen."
+MSG_DONE_NEXT="Bitte OpenVPN und Webserver neu starten."

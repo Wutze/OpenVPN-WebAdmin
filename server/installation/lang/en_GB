@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+MSG_LANGUAGE_SELECT="Select language"
+MSG_LANGUAGE_SET="Language set"
+MSG_SETUP_START="Starting setup"
+MSG_NEED_ROOT="Please run this setup as root."
+MSG_OS_NOT_FOUND="/etc/os-release was not found."
+MSG_OS_DETECTED="Detected operating system"
+MSG_OS_UNSUPPORTED="Unsupported operating system or version. Allowed: Debian 12/13, Ubuntu 22.04 LTS/24.04 LTS."
+MSG_EMPTY_NOT_ALLOWED="This value must not be empty."
+MSG_ANSWER_YES_NO="Please answer yes or no."
+MSG_BACKUP_CREATED="Backup created"
+MSG_MISSING_COMMAND="Missing command"
+
+MSG_REPO_URL="Repository URL"
+MSG_REPO_BRANCH="Repository branch"
+MSG_SOURCE_DIR="Local source directory"
+MSG_DEPLOY_DIR="Target directory for WebAdmin"
+MSG_WEB_OWNER="Owner user for web directory"
+MSG_WEB_GROUP="Owner group for web directory"
+MSG_LOGIN_THEME="Login theme (login1/login2/login3)"
+MSG_SITETOOLS="Local sitetools path (no external URL)"
+MSG_SITETOOLS_EXTERNAL_FORBIDDEN="External sitetools URLs are blocked for privacy reasons."
+
+MSG_DB_HOST="Database host"
+MSG_DB_PORT="Database port"
+MSG_DB_NAME="Database name"
+MSG_DB_USER="Database user"
+MSG_DB_PASS="Database password"
+MSG_DB_CREATE_LOCAL="Create local MariaDB database and user"
+MSG_DB_ROOT_PASS_OPTIONAL="MariaDB root password (leave empty for socket auth)"
+
+MSG_ADMIN_USER="Initial admin username"
+MSG_ADMIN_PASS="Initial admin password"
+
+MSG_OPENVPN_CONF="Path to OpenVPN server.conf"
+MSG_OPENVPN_SCRIPTS_DIR="OpenVPN scripts directory"
+MSG_WEBSERVER_PACKAGE="Optional webserver package (none/apache2/nginx)"
+MSG_INVALID_WEBSERVER="Invalid webserver option."
+
+MSG_PATH_ABSOLUTE_REQUIRED="Path must be absolute"
+MSG_USER_NOT_FOUND="User not found"
+MSG_GROUP_NOT_FOUND="Group not found"
+
+MSG_INSTALL_PACKAGES="Installing required packages"
+MSG_REPO_UPDATE="Updating existing source repository"
+MSG_SOURCE_NOT_EMPTY="Source directory exists and is not empty"
+MSG_REPO_CLONE="Cloning repository"
+MSG_MISSING_FILE="Missing required file"
+MSG_MISSING_DIR="Missing required directory"
+MSG_DEPLOY_FILES="Deploying application files"
+
+MSG_DB_PREPARE_LOCAL="Preparing local database"
+MSG_DB_IMPORT="Importing database schema"
+MSG_OPENVPN_SCRIPTS_DEPLOY="Deploying OpenVPN scripts"
+
+MSG_DONE="Setup finished successfully."
+MSG_DONE_NEXT="Please restart OpenVPN and your webserver."

@@ -26,16 +26,9 @@ $config = require dirname(__DIR__) . '/config/config.php';
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-
-
-
-
 use Micro\OpenvpnWebadmin\Core\Database;
 use Micro\OpenvpnWebadmin\Core\Session;
 use Micro\OpenvpnWebadmin\Core\Lang;
-
-
-
 
 /**
  * damit das Debugging überall verfügbar ist
