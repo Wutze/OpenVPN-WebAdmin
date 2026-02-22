@@ -181,7 +181,16 @@ install_required_packages() {
   info "${MSG_INSTALL_PACKAGES:-Installing required packages}"
 
   apt update >>"${LOG_FILE}" 2>&1
-  DEBIAN_FRONTEND=noninteractive apt install -y "${PACKAGES[@]}" >>"${LOG_FILE}" 2>&1
+  local total count pkg
+  total="${#PACKAGES[@]}"
+  count=0
+
+  for pkg in "${PACKAGES[@]}"; do
+    count=$((count + 1))
+    render_progress_bar "${count}" "${total}" "${MSG_INSTALL_PACKAGES:-Installing required packages}"
+    DEBIAN_FRONTEND=noninteractive apt install -y "${pkg}" >>"${LOG_FILE}" 2>&1
+  done
+  echo
 
   if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
     systemctl enable --now mariadb >>"${LOG_FILE}" 2>&1 || systemctl enable --now mysql >>"${LOG_FILE}" 2>&1

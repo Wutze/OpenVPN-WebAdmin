@@ -248,3 +248,32 @@ set_or_append_openvpn_line() {
 ensure_cmd() {
   command -v "$1" >/dev/null 2>&1 || fatal "${MSG_MISSING_COMMAND:-Missing command}: $1"
 }
+
+render_progress_bar() {
+  local current="$1"
+  local total="$2"
+  local label="${3:-}"
+  local width=40
+  local percent=0
+  local filled=0
+  local empty=0
+
+  if [ "${total}" -le 0 ]; then
+    total=1
+  fi
+  if [ "${current}" -lt 0 ]; then
+    current=0
+  fi
+  if [ "${current}" -gt "${total}" ]; then
+    current="${total}"
+  fi
+
+  percent=$(( current * 100 / total ))
+  filled=$(( current * width / total ))
+  empty=$(( width - filled ))
+
+  printf "\r %s [" "${label}"
+  printf "%${filled}s" '' | tr ' ' '#'
+  printf "%${empty}s" '' | tr ' ' '-'
+  printf "] %3d%% (%d/%d)" "${percent}" "${current}" "${total}"
+}
