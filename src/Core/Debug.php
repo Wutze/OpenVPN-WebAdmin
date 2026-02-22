@@ -52,6 +52,10 @@ private static array $buffer = [];
     {
         if (!self::$debug || self::$env !== 'development') return;
 
+        if (count($vars) === 1 && is_object($vars[0])) {
+            $vars[] = self::buildAutoContextForObject($vars[0]);
+        }
+
         self::$counter++;
         $counter = self::$counter;
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0] ?? [];
@@ -61,8 +65,8 @@ private static array $buffer = [];
         $HTML = <<<HTML
 <div class="container mt-1 p-0" style="font-family: monospace; font-size: 0.85rem;">
     <div class="card border-dark mb-1">
-        <div class="card-header bg-dark text-white py-1 px-2">
-            <a class="text-white text-decoration-none" data-bs-toggle="collapse" href="#$mainId" role="button" aria-expanded="true" aria-controls="$mainId">
+        <div class="card-header py-1 px-2">
+            <a class="text-decoration-none" data-bs-toggle="collapse" href="#$mainId" role="button" aria-expanded="true" aria-controls="$mainId">
                 <i class="bi bi-crosshair mini-led-green"></i> Debug #$counter – $callerInfo
             </a>
         </div>
@@ -99,6 +103,53 @@ HTML;
 HTML;
 self::$buffer[] = $HTML;
 
+    }
+
+    /**
+     * Baut automatisch einen zweiten Debug-Kontext fuer Objekt-Calls auf.
+     *
+     * @param object $object
+     * @return array<string,mixed>
+     */
+    private static function buildAutoContextForObject(object $object): array
+    {
+        return [
+            'class' => get_class($object),
+            'object_properties' => self::extractObjectProperties($object),
+            'request_method' => (string)($_SERVER['REQUEST_METHOD'] ?? 'GET'),
+            'get' => $_GET,
+            'post' => $_POST,
+            'session' => $_SESSION ?? [],
+        ];
+    }
+
+    /**
+     * Extrahiert alle Objekt-Properties inklusive private/protected per Reflection.
+     *
+     * @param object $object
+     * @return array<string,mixed>
+     */
+    private static function extractObjectProperties(object $object): array
+    {
+        $result = [];
+        $ref = new \ReflectionObject($object);
+
+        do {
+            foreach ($ref->getProperties() as $property) {
+                if ($property->isStatic()) {
+                    continue;
+                }
+                $property->setAccessible(true);
+                $key = $property->getName();
+                if (array_key_exists($key, $result)) {
+                    continue;
+                }
+                $result[$key] = $property->getValue($object);
+            }
+            $ref = $ref->getParentClass();
+        } while ($ref instanceof \ReflectionClass);
+
+        return $result;
     }
 
     /**
@@ -208,12 +259,7 @@ self::$buffer[] = $HTML;
             );
         }
 
-        self::debug([
-            'Error' => $errstr,
-            'File' => $errfile,
-            'Line' => $errline,
-            'Code' => $errno
-        ]);
+        // PHP-Fehler nur in exceptions.log schreiben, nicht im Runtime-Debug-Modal anzeigen.
         return true; // Fehler wurde behandelt
     }
 
@@ -227,6 +273,26 @@ public static function render(): void
         // Sichtbare Debug-Ausgabe im Frontend ist deaktiviert.
         // Logging in Dateien bleibt unverändert aktiv.
         return;
+    }
+
+    /**
+     * Liefert die gesammelte HTML-Debug-Ausgabe für das Debug-Modal.
+     *
+     * @return string
+     */
+    public static function getBufferedOutput(): string
+    {
+        if (!self::$debug || self::$env !== 'development') {
+            return '';
+        }
+
+        if (self::$buffer === []) {
+            return '';
+        }
+
+        $maxItems = 50;
+        $chunks = array_slice(self::$buffer, -$maxItems);
+        return implode("\n", $chunks);
     }
 
     /**

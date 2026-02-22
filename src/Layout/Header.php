@@ -79,6 +79,7 @@
 <?php
 $debugLogContent = (string)($debugModal['debug_log_content'] ?? '');
 $exceptionsLogContent = (string)($debugModal['exceptions_log_content'] ?? '');
+$runtimeDebugHtml = \Micro\OpenvpnWebadmin\Core\Debug::getBufferedOutput();
 $goRequestVars = $debugModal['go_request_vars'] ?? [];
 if (!is_array($goRequestVars)) {
     $goRequestVars = [];
@@ -93,6 +94,29 @@ if (!is_array($goRequestVars)) {
             </div>
             <div class="modal-body">
                 <div class="row g-3 debug-modal-grid" id="debugModalGrid">
+                    <?php if ($runtimeDebugHtml !== ''): ?>
+                    <div class="col-12">
+                        <div class="card mb-0 debug-modal-card" id="debugCardRuntime">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span>Runtime Debug (Debug::debug)</span>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-secondary js-debug-maximize" type="button" data-target-card="debugCardRuntime" aria-label="Maximize">
+                                        <i class="bi bi-arrows-fullscreen"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#runtimeDebugCollapse" aria-expanded="true" aria-controls="runtimeDebugCollapse">
+                                        <i class="bi bi-chevron-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="runtimeDebugCollapse" class="collapse show">
+                                <div class="card-body debug-runtime-body">
+                                    <?= $runtimeDebugHtml ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
                     <div class="col-lg-4">
                         <div class="card mb-0 debug-modal-card" id="debugCardLog">
                             <div class="card-header d-flex justify-content-between align-items-center">

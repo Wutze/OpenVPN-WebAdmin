@@ -71,7 +71,7 @@ public function main(): void
             $this->values[$k] = $v;
         }
         $this->enforceAccessPolicy();
-
+//Debug::debug($this);
         switch ($this->action) {
             case 'login':
                 $this->showLogin();
@@ -734,6 +734,7 @@ private function getRequestCsrfToken(): string
 
         return [
             'enabled' => true,
+            'runtime_debug_html' => Debug::getBufferedOutput(),
             'debug_log_path' => $debugPath,
             'debug_log_content' => $this->readDebugFile($debugPath),
             'exceptions_log_path' => $exceptionPath,

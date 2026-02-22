@@ -284,6 +284,12 @@ del{
   line-height: 1.25;
 }
 
+.debug-runtime-body {
+  max-height: 22rem;
+  overflow: auto;
+  background: #f8fafc;
+}
+
 .debug-modal-card.debug-modal-card-browser-maximized {
   position: fixed;
   inset: 0;

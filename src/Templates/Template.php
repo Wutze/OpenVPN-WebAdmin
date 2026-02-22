@@ -50,7 +50,14 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
         if (!file_exists($file)) {
             return "<!-- Layout-Part {$name} nicht gefunden -->";
         }
-//Debug::debug($name,$vars);
+        $debugVars = $vars;
+        if (isset($debugVars['debugModal']) && is_array($debugVars['debugModal'])) {
+            unset(
+                $debugVars['debugModal']['debug_log_content'],
+                $debugVars['debugModal']['exceptions_log_content']
+            );
+        }
+        //Debug::debug("war was?", $name, $debugVars);
         // Variablen extrahieren
         extract($vars, EXTR_SKIP);
 
