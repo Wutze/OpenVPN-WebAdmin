@@ -35,6 +35,8 @@ WEBSERVER_SUBDIR="/openvpnwebadmin"
 WEBSERVER_SERVER_NAME="_"
 ENABLE_REWRITE="no"
 ASSETS_ALLOW_NPM_FALLBACK="yes"
+EFFECTIVE_WEB_OWNER=""
+EFFECTIVE_WEB_GROUP=""
 
 PACKAGES=()
 
@@ -844,21 +846,48 @@ configure_nginx_webadmin() {
   php_upstream="$(detect_php_fpm_upstream)"
 
   if [ "${WEBSERVER_MODE}" = "standalone" ]; then
-    local site_file="/etc/nginx/sites-available/openvpn-webadmin.conf"
-    cat > "${site_file}" <<EOF
+    local nginx_target
+    local listen_ipv4="listen 80;"
+    local listen_ipv6="listen [::]:80;"
+    nginx_target="$(detect_nginx_site_file)"
+    if [ -e "${nginx_target}" ]; then
+      nginx_target="$(readlink -f "${nginx_target}")"
+      backup_file "${nginx_target}"
+    fi
+
+    if [ "${WEBSERVER_SERVER_NAME}" = "_" ]; then
+      listen_ipv4="listen 80 default_server;"
+      listen_ipv6="listen [::]:80 default_server;"
+    fi
+
+    cat > "${nginx_target}" <<EOF
 server {
-    listen 80;
+    ${listen_ipv4}
+    ${listen_ipv6}
+
     server_name ${WEBSERVER_SERVER_NAME};
     root ${DEPLOY_DIR}/public;
-    index index.php;
+    index index.php index.html index.htm index.nginx-debian.html;
 
     location / {
+EOF
+    if [ "${ENABLE_REWRITE}" = "yes" ]; then
+      cat >> "${nginx_target}" <<EOF
         try_files \$uri \$uri/ /index.php?\$query_string;
+EOF
+    else
+      cat >> "${nginx_target}" <<EOF
+        try_files \$uri \$uri/ =404;
+EOF
+    fi
+    cat >> "${nginx_target}" <<EOF
     }
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass ${php_upstream};
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
     }
 
     location ~ /\. {
@@ -866,7 +895,6 @@ server {
     }
 }
 EOF
-    ln -sfn "${site_file}" /etc/nginx/sites-enabled/openvpn-webadmin.conf
   else
     local snippet_file="/etc/nginx/snippets/openvpn-webadmin-location.conf"
     local nginx_target
@@ -931,14 +959,63 @@ configure_webserver() {
   ok "${MSG_WEBSERVER_CONFIG_DONE:-Webserver configuration installed and enabled.}"
 }
 
+resolve_runtime_web_identity() {
+  EFFECTIVE_WEB_OWNER="${WEB_OWNER}"
+  EFFECTIVE_WEB_GROUP="${WEB_GROUP}"
+
+  if [ "${WEBSERVER_CONFIGURE}" != "yes" ]; then
+    return 0
+  fi
+
+  if [ "${WEBSERVER_TARGET}" = "apache2" ] && [ -f /etc/apache2/envvars ]; then
+    # shellcheck disable=SC1091
+    . /etc/apache2/envvars
+    if [ -n "${APACHE_RUN_USER:-}" ] && id -u "${APACHE_RUN_USER}" >/dev/null 2>&1; then
+      EFFECTIVE_WEB_OWNER="${APACHE_RUN_USER}"
+    fi
+    if [ -n "${APACHE_RUN_GROUP:-}" ] && getent group "${APACHE_RUN_GROUP}" >/dev/null 2>&1; then
+      EFFECTIVE_WEB_GROUP="${APACHE_RUN_GROUP}"
+    fi
+    return 0
+  fi
+
+  if [ "${WEBSERVER_TARGET}" = "nginx" ] && [ -f /etc/nginx/nginx.conf ]; then
+    local nginx_user_line nginx_user nginx_group
+    nginx_user_line="$(awk '/^[[:space:]]*user[[:space:]]+/ {print; exit}' /etc/nginx/nginx.conf 2>/dev/null || true)"
+    if [ -n "${nginx_user_line}" ]; then
+      # "user www-data;" or "user nginx nginx;"
+      set -- ${nginx_user_line}
+      nginx_user="${2:-}"
+      nginx_group="${3:-}"
+      nginx_user="${nginx_user%;}"
+      nginx_group="${nginx_group%;}"
+
+      if [ -n "${nginx_user}" ] && id -u "${nginx_user}" >/dev/null 2>&1; then
+        EFFECTIVE_WEB_OWNER="${nginx_user}"
+      fi
+      if [ -n "${nginx_group}" ] && getent group "${nginx_group}" >/dev/null 2>&1; then
+        EFFECTIVE_WEB_GROUP="${nginx_group}"
+      elif [ -n "${nginx_user}" ] && id -u "${nginx_user}" >/dev/null 2>&1; then
+        local user_group
+        user_group="$(id -gn "${nginx_user}" 2>/dev/null || true)"
+        if [ -n "${user_group}" ] && getent group "${user_group}" >/dev/null 2>&1; then
+          EFFECTIVE_WEB_GROUP="${user_group}"
+        fi
+      fi
+    fi
+  fi
+}
+
 finalize_permissions() {
   show_section "${MSG_SECTION_PERMS:-Permissions}"
-  chown -R "${WEB_OWNER}:${WEB_GROUP}" "${DEPLOY_DIR}"
-  ok "${MSG_PERMS_DONE:-Permissions updated.}"
+  resolve_runtime_web_identity
+  chown -R "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" "${DEPLOY_DIR}"
+  ok "${MSG_PERMS_DONE:-Permissions updated.} (${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP})"
 }
 
 check_runtime_permissions() {
   show_section "${MSG_SECTION_PERMS_CHECK:-Permission check}"
+  resolve_runtime_web_identity
 
   local target
   local failed=0
@@ -962,7 +1039,7 @@ check_runtime_permissions() {
       continue
     fi
 
-    if su -s /bin/sh -c "test -w \"$target\"" "${WEB_OWNER}" >/dev/null 2>&1; then
+    if su -s /bin/sh -c "test -w \"$target\"" "${EFFECTIVE_WEB_OWNER}" >/dev/null 2>&1; then
       ok "${MSG_PERMS_OK:-Writable for web user}: ${target}"
     else
       warn "${MSG_PERMS_FAIL:-Not writable for web user}: ${target}"
@@ -976,14 +1053,14 @@ check_runtime_permissions() {
   fi
 
   warn "${MSG_PERMS_FIX:-Attempting permission fix...}"
-  chown -R "${WEB_OWNER}:${WEB_GROUP}" "${DEPLOY_DIR}/storage"
+  chown -R "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" "${DEPLOY_DIR}/storage"
   find "${DEPLOY_DIR}/storage" -type d -exec chmod 0775 {} +
   find "${DEPLOY_DIR}/storage" -type f -exec chmod 0664 {} +
 
   failed=0
   for target in "${must_write[@]}"; do
     [ -e "${target}" ] || continue
-    if ! su -s /bin/sh -c "test -w \"$target\"" "${WEB_OWNER}" >/dev/null 2>&1; then
+    if ! su -s /bin/sh -c "test -w \"$target\"" "${EFFECTIVE_WEB_OWNER}" >/dev/null 2>&1; then
       failed=1
       warn "${MSG_PERMS_STILL_FAIL:-Still not writable after fix}: ${target}"
     fi
