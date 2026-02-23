@@ -497,10 +497,10 @@ deploy_application_files() {
 
   local db_sql_file="${SOURCE_DIR}/server/installation/database.sql"
   local scripts_source_dir="${SOURCE_DIR}/server/scripte"
-  local app_config_file="${SOURCE_DIR}/config/config.php"
+  local app_config_template_file="${SOURCE_DIR}/config/config.conf"
 
   [ -f "${db_sql_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${db_sql_file}"
-  [ -f "${app_config_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${app_config_file}"
+  [ -f "${app_config_template_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${app_config_template_file}"
   [ -d "${scripts_source_dir}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${scripts_source_dir}"
 
   mkdir -p "${DEPLOY_DIR}"
@@ -514,7 +514,10 @@ write_app_config() {
   show_section "${MSG_SECTION_CONFIG:-Application config}"
 
   local target_config_file="${DEPLOY_DIR}/config/config.php"
+  local target_template_file="${DEPLOY_DIR}/config/config.conf"
   backup_file "${target_config_file}"
+
+  [ -f "${target_template_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${target_template_file}"
 
   local cfg_db_host cfg_db_port cfg_db_name cfg_db_user cfg_db_pass cfg_sitetools cfg_login_theme cfg_rewrite
   cfg_db_host="$(printf '%s' "${DB_HOST}" | sed "s/'/\\\\'/g")"
@@ -530,36 +533,32 @@ write_app_config() {
     cfg_rewrite="false"
   fi
 
-  cat > "${target_config_file}" <<PHP
-<?php
-return [
-    'debug' => filter_var(getenv('DEBUG') ?: 'false', FILTER_VALIDATE_BOOL),
-    'rewrite' => ${cfg_rewrite},
-    'loginpath' => '${cfg_login_theme}',
-    'sitetools' => '${cfg_sitetools}',
-    'db' => [
-        'host' => '${cfg_db_host}',
-        'port' => (int)'${cfg_db_port}',
-        'dbname' => '${cfg_db_name}',
-        'user' => '${cfg_db_user}',
-        'pass' => '${cfg_db_pass}',
-        'charset' => 'utf8mb4',
-    ],
-    'session' => [
-        'table'    => 'sessions2',
-        'lifetime' => 3600,
-    ],
-    'lang' => 'de_DE',
-    'vpn_server_config' => [
-        'source_url' => getenv('OVPN_SERVER_CONFIG_URL') ?: '',
-        'source_path' => getenv('OVPN_SERVER_CONFIG_PATH') ?: (dirname(__DIR__) . '/storage/conf/server/server.conf'),
-        'save_path' => getenv('OVPN_SERVER_CONFIG_SAVE_PATH') ?: (dirname(__DIR__) . '/storage/conf/server/server.conf'),
-        'history_path' => getenv('OVPN_SERVER_CONFIG_HISTORY_PATH') ?: (dirname(__DIR__) . '/storage/conf/history/server'),
-        'auth_header' => getenv('OVPN_SERVER_CONFIG_AUTH_HEADER') ?: '',
-        'timeout' => 6,
-    ],
-];
-PHP
+  cp "${target_template_file}" "${target_config_file}"
+
+  sed_escape_repl() {
+    printf '%s' "$1" | sed -e 's/[\/&|]/\\&/g'
+  }
+
+  local repl_db_host repl_db_port repl_db_name repl_db_user repl_db_pass repl_sitetools repl_login_theme repl_rewrite
+  repl_db_host="$(sed_escape_repl "${cfg_db_host}")"
+  repl_db_port="$(sed_escape_repl "${cfg_db_port}")"
+  repl_db_name="$(sed_escape_repl "${cfg_db_name}")"
+  repl_db_user="$(sed_escape_repl "${cfg_db_user}")"
+  repl_db_pass="$(sed_escape_repl "${cfg_db_pass}")"
+  repl_sitetools="$(sed_escape_repl "${cfg_sitetools}")"
+  repl_login_theme="$(sed_escape_repl "${cfg_login_theme}")"
+  repl_rewrite="$(sed_escape_repl "${cfg_rewrite}")"
+
+  sed -i \
+    -e "s|__CFG_REWRITE__|${repl_rewrite}|g" \
+    -e "s|__CFG_LOGIN_THEME__|${repl_login_theme}|g" \
+    -e "s|__CFG_SITETOOLS__|${repl_sitetools}|g" \
+    -e "s|__CFG_DB_HOST__|${repl_db_host}|g" \
+    -e "s|__CFG_DB_PORT__|${repl_db_port}|g" \
+    -e "s|__CFG_DB_NAME__|${repl_db_name}|g" \
+    -e "s|__CFG_DB_USER__|${repl_db_user}|g" \
+    -e "s|__CFG_DB_PASS__|${repl_db_pass}|g" \
+    "${target_config_file}"
 
   ok "${MSG_CONFIG_WRITTEN:-Application config written.}"
 }
