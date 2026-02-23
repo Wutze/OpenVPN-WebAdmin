@@ -292,7 +292,7 @@ public static function regenerateId(): void
                 if (is_array($row)) {
                     $gid = (int)($row['gid'] ?? 0);
                     $roleName = (string)($row['role_name'] ?? '');
-                    $isAdmin = self::isStrictAdminRoleName($roleName);
+                    $isAdmin = ($gid === 1) || self::isStrictAdminRoleName($roleName);
 
                     // Keep session in sync with authoritative DB role.
                     $_SESSION['user']['gid'] = $gid;

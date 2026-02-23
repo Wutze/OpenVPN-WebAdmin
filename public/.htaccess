@@ -3,8 +3,6 @@ DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
-
     RewriteRule "(^|/)\." - [F,L]
 
     RewriteCond %{REQUEST_FILENAME} -f [OR]

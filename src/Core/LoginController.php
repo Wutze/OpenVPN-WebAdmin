@@ -129,7 +129,7 @@ public function handleLogin(): void
             $this->clearLoginFailures($username);
             Session::regenerateId();
             $roleName = (string)($user['role_name'] ?? '');
-            $isAdmin = $this->isStrictAdminRoleName($roleName);
+            $isAdmin = ((int)($user['gid'] ?? 0) === 1) || $this->isStrictAdminRoleName($roleName);
             Debug::log('LOGIN session before set', [
                 'session_id' => session_id(),
                 'session_status' => session_status(),
