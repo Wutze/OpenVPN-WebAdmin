@@ -270,9 +270,16 @@ self::$buffer[] = $HTML;
  */
 public static function render(): void
     {
-        // Sichtbare Debug-Ausgabe im Frontend ist deaktiviert.
-        // Logging in Dateien bleibt unverändert aktiv.
-        return;
+        if (!self::$debug || self::$env !== 'development') {
+            return;
+        }
+
+        echo '<div style="position:fixed;right:10px;bottom:10px;z-index:99999;padding:6px 10px;border-radius:6px;background:#111;color:#fff;font:12px/1.2 monospace;opacity:.9">DEBUG=true (development)</div>';
+
+        $buffered = self::getBufferedOutput();
+        if ($buffered !== '') {
+            echo $buffered;
+        }
     }
 
     /**

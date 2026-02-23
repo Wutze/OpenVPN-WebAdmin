@@ -229,7 +229,7 @@ collect_webserver_options() {
         WEBSERVER_MODE="standalone"
         ask_input WEBSERVER_SERVER_NAME "${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}" "_"
       fi
-      ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "yes"
+      ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "no"
     fi
     return
   fi
@@ -244,7 +244,7 @@ collect_webserver_options() {
       WEBSERVER_MODE="standalone"
       ask_input WEBSERVER_SERVER_NAME "${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}" "_"
     fi
-    ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "yes"
+    ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "no"
   fi
 }
 
