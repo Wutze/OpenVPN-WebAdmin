@@ -28,6 +28,12 @@ ADMIN_PASS=""
 OPENVPN_SERVER_CONF=""
 OPENVPN_SCRIPTS_DIR=""
 WEBSERVER_PACKAGE=""
+WEBSERVER_CONFIGURE="no"
+WEBSERVER_TARGET=""
+WEBSERVER_MODE="standalone"
+WEBSERVER_SUBDIR="/openvpnwebadmin"
+WEBSERVER_SERVER_NAME="_"
+ENABLE_REWRITE="no"
 
 PACKAGES=()
 
@@ -97,6 +103,29 @@ edit_single_input() {
         "none" "none" \
         "apache2" "apache2" \
         "nginx" "nginx"
+      collect_webserver_options
+      ;;
+    WEBSERVER_CONFIGURE)
+      ask_yes_no WEBSERVER_CONFIGURE "${MSG_WEBSERVER_CONFIGURE:-Configure webserver automatically now}" "${WEBSERVER_CONFIGURE}"
+      ;;
+    WEBSERVER_TARGET)
+      ask_choice WEBSERVER_TARGET "${MSG_WEBSERVER_TARGET:-Webserver type for configuration}" "${WEBSERVER_TARGET}" \
+        "apache2" "apache2" \
+        "nginx" "nginx"
+      ;;
+    WEBSERVER_MODE)
+      ask_choice WEBSERVER_MODE "${MSG_WEBSERVER_USE_SUBDIR:-Expose app under /openvpnwebadmin path instead of standalone site}" "${WEBSERVER_MODE}" \
+        "subdir" "${MSG_MODE_SUBDIR:-Subdirectory (/openvpnwebadmin)}" \
+        "standalone" "${MSG_MODE_STANDALONE:-Standalone site}"
+      ;;
+    WEBSERVER_SUBDIR)
+      ask_input WEBSERVER_SUBDIR "${MSG_WEBSERVER_SUBDIR:-Subdirectory path}" "${WEBSERVER_SUBDIR}"
+      ;;
+    WEBSERVER_SERVER_NAME)
+      ask_input WEBSERVER_SERVER_NAME "${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}" "${WEBSERVER_SERVER_NAME}"
+      ;;
+    ENABLE_REWRITE)
+      ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "${ENABLE_REWRITE}"
       ;;
   esac
 }
@@ -130,6 +159,12 @@ review_inputs_menu() {
       "OPENVPN_SERVER_CONF" "$(input_preview OPENVPN_SERVER_CONF)" \
       "OPENVPN_SCRIPTS_DIR" "$(input_preview OPENVPN_SCRIPTS_DIR)" \
       "WEBSERVER_PACKAGE" "$(input_preview WEBSERVER_PACKAGE)" \
+      "WEBSERVER_CONFIGURE" "$(input_preview WEBSERVER_CONFIGURE)" \
+      "WEBSERVER_TARGET" "$(input_preview WEBSERVER_TARGET)" \
+      "WEBSERVER_MODE" "$(input_preview WEBSERVER_MODE)" \
+      "WEBSERVER_SUBDIR" "$(input_preview WEBSERVER_SUBDIR)" \
+      "WEBSERVER_SERVER_NAME" "$(input_preview WEBSERVER_SERVER_NAME)" \
+      "ENABLE_REWRITE" "$(input_preview ENABLE_REWRITE)" \
       3>&1 1>&2 2>&3)" || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
 
     [ "${choice}" = "continue" ] && break
@@ -151,6 +186,59 @@ setup_prelude() {
   ensure_cmd apt
   ensure_cmd sed
   ensure_cmd grep
+}
+
+normalize_subdir_path() {
+  local value="$1"
+  value="${value%/}"
+  if [ -z "${value}" ]; then
+    value="/openvpnwebadmin"
+  fi
+  case "${value}" in
+    /*) ;;
+    *) value="/${value}" ;;
+  esac
+  printf '%s' "${value}"
+}
+
+collect_webserver_options() {
+  WEBSERVER_TARGET="${WEBSERVER_PACKAGE}"
+  WEBSERVER_MODE="standalone"
+  WEBSERVER_SUBDIR="/openvpnwebadmin"
+  WEBSERVER_SERVER_NAME="_"
+  ENABLE_REWRITE="no"
+
+  if [ "${WEBSERVER_PACKAGE}" = "none" ]; then
+    ask_yes_no WEBSERVER_CONFIGURE "${MSG_WEBSERVER_CONFIGURE_EXISTING:-Configure an existing webserver now}" "no"
+    if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
+      ask_choice WEBSERVER_TARGET "${MSG_WEBSERVER_TARGET:-Webserver type for configuration}" "apache2" \
+        "apache2" "apache2" \
+        "nginx" "nginx"
+      ask_yes_no WEBSERVER_MODE_SUBDIR "${MSG_WEBSERVER_USE_SUBDIR_EXISTING:-Expose app under /openvpnwebadmin path (like phpMyAdmin)}" "yes"
+      if [ "${WEBSERVER_MODE_SUBDIR}" = "yes" ]; then
+        WEBSERVER_MODE="subdir"
+        ask_input WEBSERVER_SUBDIR "${MSG_WEBSERVER_SUBDIR:-Subdirectory path}" "/openvpnwebadmin"
+      else
+        WEBSERVER_MODE="standalone"
+        ask_input WEBSERVER_SERVER_NAME "${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}" "_"
+      fi
+      ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "yes"
+    fi
+    return
+  fi
+
+  ask_yes_no WEBSERVER_CONFIGURE "${MSG_WEBSERVER_CONFIGURE:-Configure webserver automatically now}" "yes"
+  if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
+    ask_yes_no WEBSERVER_MODE_SUBDIR "${MSG_WEBSERVER_USE_SUBDIR:-Expose app under /openvpnwebadmin path instead of standalone site}" "no"
+    if [ "${WEBSERVER_MODE_SUBDIR}" = "yes" ]; then
+      WEBSERVER_MODE="subdir"
+      ask_input WEBSERVER_SUBDIR "${MSG_WEBSERVER_SUBDIR:-Subdirectory path}" "/openvpnwebadmin"
+    else
+      WEBSERVER_MODE="standalone"
+      ask_input WEBSERVER_SERVER_NAME "${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}" "_"
+    fi
+    ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "yes"
+  fi
 }
 
 collect_inputs() {
@@ -200,6 +288,8 @@ collect_inputs() {
     "apache2" "apache2" \
     "nginx" "nginx"
 
+  collect_webserver_options
+
   review_inputs_menu
 }
 
@@ -210,6 +300,37 @@ validate_inputs() {
     none|apache2|nginx) ;;
     *) fatal "${MSG_INVALID_WEBSERVER:-Invalid webserver package option.}" ;;
   esac
+
+  case "${WEBSERVER_CONFIGURE}" in
+    yes|no) ;;
+    *) fatal "${MSG_INVALID_WEBSERVER_CONFIG:-Invalid webserver configuration option.}" ;;
+  esac
+
+  if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
+    case "${WEBSERVER_TARGET}" in
+      apache2|nginx) ;;
+      *) fatal "${MSG_INVALID_WEBSERVER:-Invalid webserver package option.}" ;;
+    esac
+
+    case "${WEBSERVER_MODE}" in
+      standalone|subdir) ;;
+      *) fatal "${MSG_INVALID_WEBSERVER_MODE:-Invalid webserver mode.}" ;;
+    esac
+
+    case "${ENABLE_REWRITE}" in
+      yes|no) ;;
+      *) fatal "${MSG_INVALID_REWRITE_OPTION:-Invalid rewrite option.}" ;;
+    esac
+
+    if [ "${WEBSERVER_MODE}" = "subdir" ]; then
+      WEBSERVER_SUBDIR="$(normalize_subdir_path "${WEBSERVER_SUBDIR}")"
+      if ! [[ "${WEBSERVER_SUBDIR}" =~ ^/[A-Za-z0-9._/-]+$ ]]; then
+        fatal "${MSG_INVALID_SUBDIR:-Invalid subdirectory path}: ${WEBSERVER_SUBDIR}"
+      fi
+    else
+      [ -n "${WEBSERVER_SERVER_NAME}" ] || fatal "${MSG_INVALID_SERVER_NAME:-ServerName must not be empty.}"
+    fi
+  fi
 
   if [[ "${SITETOOLS}" =~ ^https?:// ]]; then
     fatal "${MSG_SITETOOLS_EXTERNAL_FORBIDDEN:-External sitetools URLs are not allowed.}"
@@ -305,6 +426,17 @@ show_summary() {
   echo " ${MSG_OPENVPN_CONF:-OpenVPN server.conf path}: ${OPENVPN_SERVER_CONF}"
   echo " ${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}: ${OPENVPN_SCRIPTS_DIR}"
   echo " ${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}: ${WEBSERVER_PACKAGE}"
+  echo " ${MSG_WEBSERVER_CONFIGURE:-Configure webserver automatically now}: ${WEBSERVER_CONFIGURE}"
+  if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
+    echo " ${MSG_WEBSERVER_TARGET:-Webserver type for configuration}: ${WEBSERVER_TARGET}"
+    echo " ${MSG_WEBSERVER_MODE:-Webserver mode}: ${WEBSERVER_MODE}"
+    if [ "${WEBSERVER_MODE}" = "subdir" ]; then
+      echo " ${MSG_WEBSERVER_SUBDIR:-Subdirectory path}: ${WEBSERVER_SUBDIR}"
+    else
+      echo " ${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}: ${WEBSERVER_SERVER_NAME}"
+    fi
+    echo " ${MSG_USE_REWRITE:-Enable rewrite mode}: ${ENABLE_REWRITE}"
+  fi
 
   echo
   echo " ${MSG_REQUIRED_PACKAGES:-Required packages}:"
@@ -384,7 +516,7 @@ write_app_config() {
   local target_config_file="${DEPLOY_DIR}/config/config.php"
   backup_file "${target_config_file}"
 
-  local cfg_db_host cfg_db_port cfg_db_name cfg_db_user cfg_db_pass cfg_sitetools cfg_login_theme
+  local cfg_db_host cfg_db_port cfg_db_name cfg_db_user cfg_db_pass cfg_sitetools cfg_login_theme cfg_rewrite
   cfg_db_host="$(printf '%s' "${DB_HOST}" | sed "s/'/\\\\'/g")"
   cfg_db_port="$(printf '%s' "${DB_PORT}" | sed "s/'/\\\\'/g")"
   cfg_db_name="$(printf '%s' "${DB_NAME}" | sed "s/'/\\\\'/g")"
@@ -392,11 +524,17 @@ write_app_config() {
   cfg_db_pass="$(printf '%s' "${DB_PASS}" | sed "s/'/\\\\'/g")"
   cfg_sitetools="$(printf '%s' "${SITETOOLS}" | sed "s/'/\\\\'/g")"
   cfg_login_theme="$(printf '%s' "${LOGIN_THEME}" | sed "s/'/\\\\'/g")"
+  if [ "${ENABLE_REWRITE}" = "yes" ]; then
+    cfg_rewrite="true"
+  else
+    cfg_rewrite="false"
+  fi
 
   cat > "${target_config_file}" <<PHP
 <?php
 return [
     'debug' => filter_var(getenv('DEBUG') ?: 'false', FILTER_VALIDATE_BOOL),
+    'rewrite' => ${cfg_rewrite},
     'loginpath' => '${cfg_login_theme}',
     'sitetools' => '${cfg_sitetools}',
     'db' => [
@@ -481,11 +619,57 @@ ON DUPLICATE KEY UPDATE
   ok "${MSG_DATABASE_DONE:-Database setup done.}"
 }
 
+write_default_openvpn_server_conf() {
+  local target_file="/etc/openvpn/server.conf"
+  [ -f "${target_file}" ] && return 0
+
+  mkdir -p /etc/openvpn
+  cat > "${target_file}" <<'EOF'
+# OpenVPN server default configuration generated by OpenVPN-WebAdmin setup
+# Adjust certificate/key paths for your environment before starting the service.
+
+port 1194
+proto udp
+dev tun
+
+ca /etc/openvpn/ca.crt
+cert /etc/openvpn/server.crt
+key /etc/openvpn/server.key
+dh /etc/openvpn/dh.pem
+tls-auth /etc/openvpn/ta.key 0
+
+server 10.8.0.0 255.255.255.0
+topology subnet
+
+ifconfig-pool-persist /var/log/openvpn/ipp.txt
+status /var/log/openvpn/openvpn-status.log
+log-append /var/log/openvpn/openvpn.log
+verb 3
+
+keepalive 10 120
+persist-key
+persist-tun
+explicit-exit-notify 1
+
+script-security 2
+client-config-dir /etc/openvpn/ccd
+
+# OpenVPN-WebAdmin hooks (installed by setup)
+client-connect /etc/openvpn/scripts/connect.sh
+client-disconnect /etc/openvpn/scripts/disconnect.sh
+EOF
+
+  chmod 0644 "${target_file}"
+  ok "${MSG_OPENVPN_DEFAULT_CONF_CREATED:-Created default OpenVPN config}: ${target_file}"
+}
+
 deploy_openvpn_scripts() {
   show_section "${MSG_SECTION_OPENVPN:-OpenVPN integration}"
 
   local scripts_source_dir="${SOURCE_DIR}/server/scripte"
   local server_conf_template="${SOURCE_DIR}/storage/conf/server/server.conf"
+
+  write_default_openvpn_server_conf
 
   if [ ! -f "${OPENVPN_SERVER_CONF}" ]; then
     [ -f "${server_conf_template}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${OPENVPN_SERVER_CONF}"
@@ -536,6 +720,176 @@ deploy_openvpn_scripts() {
   fi
 
   ok "${MSG_OPENVPN_DONE:-OpenVPN integration done.}"
+}
+
+detect_php_fpm_upstream() {
+  local sock
+  for sock in /run/php/php*-fpm.sock /run/php-fpm/www.sock /run/php/php-fpm.sock; do
+    if [ -S "${sock}" ]; then
+      printf 'unix:%s' "${sock}"
+      return
+    fi
+  done
+  printf '127.0.0.1:9000'
+}
+
+configure_apache_webadmin() {
+  local allow_override="None"
+  [ "${ENABLE_REWRITE}" = "yes" ] && allow_override="All"
+
+  if [ "${WEBSERVER_MODE}" = "standalone" ]; then
+    local site_file="/etc/apache2/sites-available/openvpn-webadmin.conf"
+    cat > "${site_file}" <<EOF
+<VirtualHost *:80>
+    ServerName ${WEBSERVER_SERVER_NAME}
+    DocumentRoot ${DEPLOY_DIR}/public
+
+    <Directory ${DEPLOY_DIR}/public>
+        Options FollowSymLinks
+        AllowOverride ${allow_override}
+        Require all granted
+        DirectoryIndex index.php
+    </Directory>
+
+    ErrorLog \${APACHE_LOG_DIR}/openvpn-webadmin-error.log
+    CustomLog \${APACHE_LOG_DIR}/openvpn-webadmin-access.log combined
+</VirtualHost>
+EOF
+    a2ensite openvpn-webadmin.conf >>"${LOG_FILE}" 2>&1
+  else
+    local conf_file="/etc/apache2/conf-available/openvpn-webadmin.conf"
+    cat > "${conf_file}" <<EOF
+Alias ${WEBSERVER_SUBDIR} ${DEPLOY_DIR}/public
+Alias ${WEBSERVER_SUBDIR}/ ${DEPLOY_DIR}/public/
+
+<Directory ${DEPLOY_DIR}/public>
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
+    DirectoryIndex index.php
+EOF
+    if [ "${ENABLE_REWRITE}" = "yes" ]; then
+      cat >> "${conf_file}" <<EOF
+    FallbackResource ${WEBSERVER_SUBDIR}/index.php
+EOF
+    fi
+    cat >> "${conf_file}" <<EOF
+</Directory>
+EOF
+    a2enconf openvpn-webadmin.conf >>"${LOG_FILE}" 2>&1
+  fi
+
+  if [ "${ENABLE_REWRITE}" = "yes" ]; then
+    a2enmod rewrite >>"${LOG_FILE}" 2>&1
+  fi
+
+  apache2ctl configtest >>"${LOG_FILE}" 2>&1
+  systemctl enable --now apache2 >>"${LOG_FILE}" 2>&1
+  systemctl reload apache2 >>"${LOG_FILE}" 2>&1
+}
+
+detect_nginx_site_file() {
+  if [ -f /etc/nginx/sites-available/default ]; then
+    printf '%s' "/etc/nginx/sites-available/default"
+    return
+  fi
+
+  local first_enabled
+  first_enabled="$(find /etc/nginx/sites-enabled -maxdepth 1 -type f 2>/dev/null | head -n1 || true)"
+  if [ -n "${first_enabled}" ]; then
+    printf '%s' "${first_enabled}"
+    return
+  fi
+
+  printf '%s' "/etc/nginx/conf.d/default.conf"
+}
+
+configure_nginx_webadmin() {
+  local php_upstream
+  php_upstream="$(detect_php_fpm_upstream)"
+
+  if [ "${WEBSERVER_MODE}" = "standalone" ]; then
+    local site_file="/etc/nginx/sites-available/openvpn-webadmin.conf"
+    cat > "${site_file}" <<EOF
+server {
+    listen 80;
+    server_name ${WEBSERVER_SERVER_NAME};
+    root ${DEPLOY_DIR}/public;
+    index index.php;
+
+    location / {
+        try_files \$uri \$uri/ /index.php?\$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass ${php_upstream};
+    }
+
+    location ~ /\. {
+        deny all;
+    }
+}
+EOF
+    ln -sfn "${site_file}" /etc/nginx/sites-enabled/openvpn-webadmin.conf
+  else
+    local snippet_file="/etc/nginx/snippets/openvpn-webadmin-location.conf"
+    local nginx_target
+    nginx_target="$(detect_nginx_site_file)"
+    mkdir -p /etc/nginx/snippets
+
+    cat > "${snippet_file}" <<EOF
+location = ${WEBSERVER_SUBDIR} {
+    return 301 ${WEBSERVER_SUBDIR}/;
+}
+
+location ^~ ${WEBSERVER_SUBDIR}/ {
+    alias ${DEPLOY_DIR}/public/;
+    index index.php;
+    try_files \$uri \$uri/ ${WEBSERVER_SUBDIR}/index.php?\$query_string;
+}
+
+location ~ ^${WEBSERVER_SUBDIR}/(.+\.php)$ {
+    alias ${DEPLOY_DIR}/public/\$1;
+    include snippets/fastcgi-php.conf;
+    fastcgi_param SCRIPT_FILENAME \$request_filename;
+    fastcgi_pass ${php_upstream};
+}
+EOF
+
+    touch "${nginx_target}"
+    if ! grep -q "include /etc/nginx/snippets/openvpn-webadmin-location.conf;" "${nginx_target}"; then
+      if grep -q "server_name" "${nginx_target}"; then
+        sed -i '/server_name/a\    include /etc/nginx/snippets/openvpn-webadmin-location.conf;' "${nginx_target}"
+      else
+        sed -i '$i\    include /etc/nginx/snippets/openvpn-webadmin-location.conf;' "${nginx_target}"
+      fi
+    fi
+  fi
+
+  nginx -t >>"${LOG_FILE}" 2>&1
+  systemctl enable --now nginx >>"${LOG_FILE}" 2>&1
+  systemctl reload nginx >>"${LOG_FILE}" 2>&1
+}
+
+configure_webserver() {
+  show_section "${MSG_SECTION_WEBSERVER:-Webserver setup}"
+
+  if [ "${WEBSERVER_CONFIGURE}" != "yes" ]; then
+    info "${MSG_WEBSERVER_SKIP:-Skipping automatic webserver configuration.}"
+    return
+  fi
+
+  if [ "${WEBSERVER_TARGET}" = "apache2" ]; then
+    ensure_cmd apache2ctl
+    ensure_cmd a2enmod
+    configure_apache_webadmin
+  else
+    ensure_cmd nginx
+    configure_nginx_webadmin
+  fi
+
+  ok "${MSG_WEBSERVER_CONFIG_DONE:-Webserver configuration installed and enabled.}"
 }
 
 finalize_permissions() {
@@ -621,6 +975,7 @@ main() {
   deploy_application_files
   build_and_deploy_tools_assets
   write_app_config
+  configure_webserver
   setup_database
   deploy_openvpn_scripts
   finalize_permissions
