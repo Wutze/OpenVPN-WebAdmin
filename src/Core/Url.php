@@ -88,6 +88,10 @@ class Url
         }
 
         if (str_starts_with($url, '/')) {
+            $base = self::basePath();
+            if ($base !== '' && ($url === $base || str_starts_with($url, $base . '/'))) {
+                return $url;
+            }
             return self::appPath($url);
         }
 

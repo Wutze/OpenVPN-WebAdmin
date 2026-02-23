@@ -557,7 +557,7 @@ write_app_config() {
 
   [ -f "${target_template_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${target_template_file}"
 
-  local cfg_db_host cfg_db_port cfg_db_name cfg_db_user cfg_db_pass cfg_sitetools cfg_login_theme cfg_rewrite
+  local cfg_db_host cfg_db_port cfg_db_name cfg_db_user cfg_db_pass cfg_sitetools cfg_login_theme
   cfg_db_host="$(printf '%s' "${DB_HOST}" | sed "s/'/\\\\'/g")"
   cfg_db_port="$(printf '%s' "${DB_PORT}" | sed "s/'/\\\\'/g")"
   cfg_db_name="$(printf '%s' "${DB_NAME}" | sed "s/'/\\\\'/g")"
@@ -565,11 +565,6 @@ write_app_config() {
   cfg_db_pass="$(printf '%s' "${DB_PASS}" | sed "s/'/\\\\'/g")"
   cfg_sitetools="$(printf '%s' "${SITETOOLS}" | sed "s/'/\\\\'/g")"
   cfg_login_theme="$(printf '%s' "${LOGIN_THEME}" | sed "s/'/\\\\'/g")"
-  if [ "${ENABLE_REWRITE}" = "yes" ]; then
-    cfg_rewrite="true"
-  else
-    cfg_rewrite="false"
-  fi
 
   cp "${target_template_file}" "${target_config_file}"
 
@@ -577,7 +572,7 @@ write_app_config() {
     printf '%s' "$1" | sed -e 's/[\/&|]/\\&/g'
   }
 
-  local repl_db_host repl_db_port repl_db_name repl_db_user repl_db_pass repl_sitetools repl_login_theme repl_rewrite
+  local repl_db_host repl_db_port repl_db_name repl_db_user repl_db_pass repl_sitetools repl_login_theme
   repl_db_host="$(sed_escape_repl "${cfg_db_host}")"
   repl_db_port="$(sed_escape_repl "${cfg_db_port}")"
   repl_db_name="$(sed_escape_repl "${cfg_db_name}")"
@@ -585,10 +580,8 @@ write_app_config() {
   repl_db_pass="$(sed_escape_repl "${cfg_db_pass}")"
   repl_sitetools="$(sed_escape_repl "${cfg_sitetools}")"
   repl_login_theme="$(sed_escape_repl "${cfg_login_theme}")"
-  repl_rewrite="$(sed_escape_repl "${cfg_rewrite}")"
 
   sed -i \
-    -e "s|__CFG_REWRITE__|${repl_rewrite}|g" \
     -e "s|__CFG_LOGIN_THEME__|${repl_login_theme}|g" \
     -e "s|__CFG_SITETOOLS__|${repl_sitetools}|g" \
     -e "s|__CFG_DB_HOST__|${repl_db_host}|g" \
@@ -599,6 +592,30 @@ write_app_config() {
     "${target_config_file}"
 
   ok "${MSG_CONFIG_WRITTEN:-Application config written.}"
+}
+
+write_runtime_env() {
+  show_section "${MSG_SECTION_ENV:-Environment config}"
+
+  local env_file="${DEPLOY_DIR}/.env"
+  local rewrite_value="false"
+  if [ "${ENABLE_REWRITE}" = "yes" ]; then
+    rewrite_value="true"
+  fi
+
+  [ -f "${env_file}" ] || touch "${env_file}"
+
+  if grep -q '^REWRITE=' "${env_file}"; then
+    sed -i "s/^REWRITE=.*/REWRITE=${rewrite_value}/" "${env_file}"
+  else
+    echo "REWRITE=${rewrite_value}" >> "${env_file}"
+  fi
+
+  if ! grep -q '^DEBUG=' "${env_file}"; then
+    echo "DEBUG=false" >> "${env_file}"
+  fi
+
+  ok "${MSG_ENV_WRITTEN:-Environment file updated.}: ${env_file}"
 }
 
 setup_database() {
@@ -798,6 +815,8 @@ EOF
     cat > "${conf_file}" <<EOF
 Alias ${WEBSERVER_SUBDIR} ${DEPLOY_DIR}/public
 Alias ${WEBSERVER_SUBDIR}/ ${DEPLOY_DIR}/public/
+Alias /tools ${DEPLOY_DIR}/public/tools
+Alias /tools/ ${DEPLOY_DIR}/public/tools/
 
 <Directory ${DEPLOY_DIR}/public>
     Options FollowSymLinks
@@ -811,6 +830,12 @@ EOF
 EOF
     fi
     cat >> "${conf_file}" <<EOF
+</Directory>
+
+<Directory ${DEPLOY_DIR}/public/tools>
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
 </Directory>
 EOF
     a2enconf openvpn-webadmin.conf >>"${LOG_FILE}" 2>&1
@@ -907,6 +932,12 @@ EOF
     cat > "${snippet_file}" <<EOF
 location = ${WEBSERVER_SUBDIR} {
     return 301 ${WEBSERVER_SUBDIR}/;
+}
+
+location /tools/ {
+    alias ${DEPLOY_DIR}/public/tools/;
+    index index.html;
+    try_files \$uri \$uri/ =404;
 }
 
 location ~ ^${WEBSERVER_SUBDIR}/index\.php$ {
@@ -1099,6 +1130,7 @@ main() {
   deploy_application_files
   build_and_deploy_tools_assets
   write_app_config
+  write_runtime_env
   configure_webserver
   setup_database
   deploy_openvpn_scripts

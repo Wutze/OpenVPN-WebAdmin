@@ -22,7 +22,7 @@
  */
 
 /**
- * .env frueh laden, damit config/config.php getenv('DEBUG') korrekt auswerten kann.
+ * .env frueh laden, damit Runtime-Flags (z.B. DEBUG/REWRITE) zentral verfuegbar sind.
  */
 $envPath = dirname(__DIR__) . '/.env';
 if (is_file($envPath) && is_readable($envPath)) {
@@ -49,6 +49,11 @@ if (is_file($envPath) && is_readable($envPath)) {
 // Konfiguration laden
 $config = require dirname(__DIR__) . '/config/config.php';
 
+$envDebugRaw = getenv('DEBUG');
+$envDebug = filter_var($envDebugRaw === false ? 'false' : $envDebugRaw, FILTER_VALIDATE_BOOL);
+$envRewriteRaw = getenv('REWRITE');
+$envRewrite = filter_var($envRewriteRaw === false ? 'false' : $envRewriteRaw, FILTER_VALIDATE_BOOL);
+
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Micro\OpenvpnWebadmin\Core\Database;
@@ -60,7 +65,7 @@ use Micro\OpenvpnWebadmin\Core\Url;
  * damit das Debugging überall verfügbar ist
  */
 class_alias(\Micro\OpenvpnWebadmin\Core\Debug::class, 'Debug');
-Debug::init($config['debug'] ? 'development' : 'production');
+Debug::init($envDebug ? 'development' : 'production', null, $envDebug);
 
 /**
  * alle anderen notwendigen Klassen zentral verfügbar
@@ -138,7 +143,7 @@ header(
 
 
 define('_SITETOOLS', $config['sitetools']);
-define('_URL_REWRITE', !empty($config['rewrite']));
+define('_URL_REWRITE', $envRewrite);
 define(
     '_APP_BASE_PATH',
     (($scriptDir = rtrim(str_replace('\\', '/', dirname((string)($_SERVER['SCRIPT_NAME'] ?? '/'))), '/')) === '' || $scriptDir === '/')
