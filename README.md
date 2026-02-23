@@ -27,3 +27,17 @@ bash <(wget -qO- 'https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/maste
 '''
 
 Alles andere wird dann automatisch abgefragt und installiert.
+
+## Update (PHP only, keep server config)
+
+Use the update script to refresh application PHP files without touching runtime configuration files.
+
+```bash
+sudo ./update.sh
+```
+
+The updater:
+- copies only `*.php` files from source to deploy target
+- keeps `config/config.php` unchanged
+- keeps `.env` unchanged
+- does not run database migrations
