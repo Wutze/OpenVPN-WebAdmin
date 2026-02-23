@@ -54,6 +54,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 use Micro\OpenvpnWebadmin\Core\Database;
 use Micro\OpenvpnWebadmin\Core\Session;
 use Micro\OpenvpnWebadmin\Core\Lang;
+use Micro\OpenvpnWebadmin\Core\Url;
 
 /**
  * damit das Debugging überall verfügbar ist
@@ -67,6 +68,7 @@ Debug::init($config['debug'] ? 'development' : 'production');
 if (class_exists(Lang::class))     class_alias(Lang::class, 'Lang');
 if (class_exists(Database::class)) class_alias(Database::class, 'DB');
 if (class_exists(Session::class))  class_alias(Session::class, 'Session');
+if (class_exists(Url::class))      class_alias(Url::class, 'Url');
 
 
 /**
@@ -136,6 +138,7 @@ header(
 
 
 define('_SITETOOLS', $config['sitetools']);
+define('_URL_REWRITE', !empty($config['rewrite']));
 define('_PROJECT_BASE_DIR', dirname(__DIR__));
 define('_HTML_BASE_DIR', _PROJECT_BASE_DIR . '/html');
 

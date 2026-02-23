@@ -59,19 +59,19 @@ public function handleLogin(): void
         $csrf = (string)($_POST['_csrf'] ?? '');
         if (!Session::verifyCsrfToken($csrf)) {
             Debug::log('LOGIN blocked invalid csrf');
-            $this->redirect('?op=login&error=invalid');
+            $this->redirect(\Url::op('login', ['error' => 'invalid']));
         }
 
         if ($this->isLoginRateLimited($username)) {
             Debug::log('LOGIN blocked rate limit', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
-            $this->redirect('?op=login&error=invalid');
+            $this->redirect(\Url::op('login', ['error' => 'invalid']));
         }
         Debug::log('LOGIN attempt', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
 
         if (empty($username) || empty($password)) {
             Debug::log("Leere Logindaten");
             $this->registerLoginFailure($username);
-            $this->redirect('?op=login&error=empty');
+            $this->redirect(\Url::op('login', ['error' => 'empty']));
         }
 
         try {
@@ -98,7 +98,7 @@ public function handleLogin(): void
             } catch (\Throwable $inner) {
                 Debug::log('Login fallback query failed', $inner->getMessage());
                 $this->registerLoginFailure($username);
-                $this->redirect('?op=login&error=invalid');
+                $this->redirect(\Url::op('login', ['error' => 'invalid']));
             }
         }
 
@@ -143,11 +143,11 @@ public function handleLogin(): void
             ]);
             session_write_close();
             Debug::log('LOGIN success', ['user_ref' => $this->auditUserRef($username), 'uid' => (int)$user['uid'], 'is_admin' => $isAdmin]);
-            $this->redirect('?op=dashboard');
+            $this->redirect(\Url::op('dashboard'));
         } else {
             $this->registerLoginFailure($username);
             Debug::log('LOGIN failed', ['user_ref' => $this->auditUserRef($username), 'user_found' => (bool)$user, 'password_ok' => $validPassword, 'ip' => $this->clientIp()]);
-            $this->redirect('?op=login&error=invalid');
+            $this->redirect(\Url::op('login', ['error' => 'invalid']));
         }
     }
 
@@ -159,8 +159,53 @@ public function handleLogin(): void
  */
 private function redirect(string $url): void
     {
-        header("Location: $url");
+        header('Location: ' . $this->buildRedirectUrl($url));
         exit;
+    }
+
+    /**
+     * Baut eine absolute Redirect-URL aus Legacy-?op Links.
+     *
+     * @param string $url
+     * @return string
+     */
+    private function buildRedirectUrl(string $url): string
+    {
+        if (str_starts_with($url, '?op=')) {
+            parse_str(ltrim($url, '?'), $params);
+            $op = (string)($params['op'] ?? 'main');
+            unset($params['op']);
+
+            if (defined('_URL_REWRITE') && _URL_REWRITE === true) {
+                if ($op === 'dashboard' || $op === 'main') {
+                    $query = $params === [] ? '' : '?' . http_build_query($params);
+                    return '/' . ltrim($query, '/');
+                }
+
+                if ($op === 'setlang' && isset($params['lang']) && is_string($params['lang']) && $params['lang'] !== '') {
+                    $lang = rawurlencode($params['lang']);
+                    unset($params['lang']);
+                    $query = $params === [] ? '' : '?' . http_build_query($params);
+                    return '/setlang/' . $lang . $query;
+                }
+
+                $query = $params === [] ? '' : '?' . http_build_query($params);
+                return '/' . rawurlencode($op) . $query;
+            }
+
+            $query = http_build_query(array_merge(['op' => $op], $params));
+            return '/?' . $query;
+        }
+
+        if (str_starts_with($url, '?')) {
+            return '/?' . ltrim($url, '?');
+        }
+
+        if (str_starts_with($url, '/')) {
+            return $url;
+        }
+
+        return '/' . ltrim($url, '/');
     }
 
 /**

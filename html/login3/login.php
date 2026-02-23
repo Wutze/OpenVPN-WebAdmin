@@ -13,7 +13,7 @@ $cssVersion = (string) (is_file(__DIR__ . '/login.css') ? filemtime(__DIR__ . '/
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/bootstrap5/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/fontawesome-free-7.0.1-web/css/all.min.css">
-    <link rel="stylesheet" href="?op=loginasset&amp;file=login.css&amp;v=<?= htmlspecialchars($cssVersion, ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(Url::op('loginasset', ['file' => 'login.css', 'v' => $cssVersion]), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body>
 <div class="container h-100">
@@ -27,7 +27,7 @@ $cssVersion = (string) (is_file(__DIR__ . '/login.css') ? filemtime(__DIR__ . '/
                 </div>
             </div>
             <div class="d-flex justify-content-center form_container">
-                <form method="post" action="?op=checklogin" class="w-100">
+                <form method="post" action="<?= htmlspecialchars(Url::op('checklogin'), ENT_QUOTES, 'UTF-8') ?>" class="w-100">
                     <input type="hidden" name="_csrf" value="<?= htmlspecialchars(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), ENT_QUOTES, 'UTF-8') ?>">
                     <?php if ($error): ?>
                         <div class="alert alert-danger py-1 px-2 mb-2 text-center">

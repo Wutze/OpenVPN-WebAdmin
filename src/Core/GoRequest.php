@@ -35,15 +35,14 @@ private string $action = 'main';
 private array $values = [];
 
 /**
- * Setzt dynamisch eine Eigenschaft der Klasse auf den uebergebenen Wert.
+ * Initialisiert den Request-Handler mit der gewuenschten Operation.
  *
- * @param mixed $key
- * @param mixed $val
- * @return void
+ * @param mixed $action
+ * @return mixed|null
  */
-public function set_value(string $key, $val): void
+public function __construct(?string $action = null)
     {
-        $this->$key = $val;
+        $this->action = is_string($action) && $action !== '' ? $action : 'main';
     }
 
 /**
@@ -330,7 +329,7 @@ private function logout(): void
             return;
         }
 
-        header('Location: ?op=login');
+        header('Location: ' . \Url::op('login'));
         exit;
     }
 
@@ -402,9 +401,13 @@ private function setLanguage(): void
             Lang::setCurrent($lang);
         }
 
-        $target = (string)($_SERVER['HTTP_REFERER'] ?? '?op=dashboard');
+        $target = (string)($_SERVER['HTTP_REFERER'] ?? \Url::op('dashboard'));
         if ($target === '' || !$this->isSafeRedirectTarget($target)) {
-            $target = '?op=dashboard';
+            $target = \Url::op('dashboard');
+        }
+
+        if (str_starts_with($target, '?op=')) {
+            $target = $this->buildInternalUrl($target);
         }
 
         header('Location: ' . $target);
@@ -474,7 +477,7 @@ private function enforceAccessPolicy(): void
                 'cookie_present' => isset($_COOKIE[session_name()]),
                 'cookie_name' => session_name(),
             ]);
-            header('Location: ?op=login');
+            header('Location: ' . \Url::op('login'));
             exit;
         }
 
@@ -764,6 +767,43 @@ private function getRequestCsrfToken(): string
         }
 
         return $content === '' ? '(Datei ist leer)' : $content;
+    }
+
+    /**
+     * Baut interne Ziel-URLs aus Legacy-?op Links.
+     *
+     * @param string $url
+     * @return string
+     */
+    private function buildInternalUrl(string $url): string
+    {
+        if (str_starts_with($url, '?op=')) {
+            parse_str(ltrim($url, '?'), $params);
+            $op = (string)($params['op'] ?? 'main');
+            unset($params['op']);
+
+            if (defined('_URL_REWRITE') && _URL_REWRITE === true) {
+                if ($op === 'dashboard' || $op === 'main') {
+                    $query = $params === [] ? '' : '?' . http_build_query($params);
+                    return '/' . ltrim($query, '/');
+                }
+
+                if ($op === 'setlang' && isset($params['lang']) && is_string($params['lang']) && $params['lang'] !== '') {
+                    $lang = rawurlencode($params['lang']);
+                    unset($params['lang']);
+                    $query = $params === [] ? '' : '?' . http_build_query($params);
+                    return '/setlang/' . $lang . $query;
+                }
+
+                $query = $params === [] ? '' : '?' . http_build_query($params);
+                return '/' . rawurlencode($op) . $query;
+            }
+
+            $query = http_build_query(array_merge(['op' => $op], $params));
+            return '/?' . $query;
+        }
+
+        return str_starts_with($url, '/') ? $url : '/' . ltrim($url, '/');
     }
 
     /**

@@ -28,6 +28,7 @@ class Dashboard
 public function index(): string
     {
         $t = fn(string $key): string => \Lang::get($key);
+        $url = fn(string $op): string => htmlspecialchars(\Url::op($op), ENT_QUOTES, 'UTF-8');
         $adminStats = '';
         if (\Micro\OpenvpnWebadmin\Core\Session::isAdmin()) {
             $adminStats = <<<HTML
@@ -80,7 +81,7 @@ HTML;
         <div class="card-body">
           <h5 class="card-title">{$t('_DASH_ACCOUNT_TITLE')}</h5>
           <p class="card-text">{$t('_DASH_ACCOUNT_TEXT')}</p>
-          <a href="?op=account" class="btn btn-outline-primary btn-sm">{$t('_DASH_OPEN')}</a>
+          <a href="{$url('account')}" class="btn btn-outline-primary btn-sm">{$t('_DASH_OPEN')}</a>
         </div>
       </div>
     </div>
@@ -89,7 +90,7 @@ HTML;
         <div class="card-body">
           <h5 class="card-title">{$t('_DASH_PROFILES_TITLE')}</h5>
           <p class="card-text">{$t('_DASH_PROFILES_TEXT')}</p>
-          <a href="?op=profiles" class="btn btn-outline-primary btn-sm">{$t('_DASH_OPEN')}</a>
+          <a href="{$url('profiles')}" class="btn btn-outline-primary btn-sm">{$t('_DASH_OPEN')}</a>
         </div>
       </div>
     </div>
@@ -98,7 +99,7 @@ HTML;
         <div class="card-body">
           <h5 class="card-title">{$t('_DASH_USERS_TITLE')}</h5>
           <p class="card-text">{$t('_DASH_USERS_TEXT')}</p>
-          <a href="?op=users" class="btn btn-outline-primary btn-sm">{$t('_DASH_OPEN')}</a>
+          <a href="{$url('users')}" class="btn btn-outline-primary btn-sm">{$t('_DASH_OPEN')}</a>
         </div>
       </div>
     </div>
@@ -107,7 +108,7 @@ HTML;
         <div class="card-body">
           <h5 class="card-title">{$t('_DASH_LOGS_TITLE')}</h5>
           <p class="card-text">{$t('_DASH_LOGS_TEXT')}</p>
-          <a href="?op=logs" class="btn btn-outline-primary btn-sm">{$t('_DASH_OPEN')}</a>
+          <a href="{$url('logs')}" class="btn btn-outline-primary btn-sm">{$t('_DASH_OPEN')}</a>
         </div>
       </div>
     </div>

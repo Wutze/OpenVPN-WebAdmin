@@ -79,7 +79,7 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
         $scripts  = $this->loadPart('Scripts', $this->data);
         $htmlfoot  = $this->loadPart('HtmlFoot');
 
-        return <<<HTML
+        $html = <<<HTML
 {$htmlHead}
     <div class="wrapper">
         {$header}
@@ -98,5 +98,48 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
 {$htmlfoot}
 HTML;
 
+        if (defined('_URL_REWRITE') && _URL_REWRITE === true) {
+            $html = $this->rewriteOpUrls($html);
+        }
+
+        return $html;
+    }
+
+    /**
+     * Schreibt ?op=... Links in "sprechende" Pfade um.
+     *
+     * @param string $html
+     * @return string
+     */
+    private function rewriteOpUrls(string $html): string
+    {
+        return (string)preg_replace_callback(
+            '/\?op=([a-zA-Z0-9_-]+)((?:&(?:amp;)?[^"\'<\s]*)*)/',
+            static function (array $m): string {
+                $op = (string)$m[1];
+                $tail = (string)($m[2] ?? '');
+
+                $queryRaw = str_replace('&amp;', '&', ltrim($tail, '&'));
+                $params = [];
+                if ($queryRaw !== '') {
+                    parse_str($queryRaw, $params);
+                }
+
+                if ($op === 'setlang' && isset($params['lang']) && is_string($params['lang']) && $params['lang'] !== '') {
+                    $lang = rawurlencode($params['lang']);
+                    unset($params['lang']);
+                    $query = $params === [] ? '' : '?' . htmlspecialchars(http_build_query($params), ENT_QUOTES, 'UTF-8');
+                    return '/setlang/' . $lang . $query;
+                }
+
+                if ($op === 'dashboard' || $op === 'main') {
+                    return $params === [] ? '/' : '/?' . htmlspecialchars(http_build_query($params), ENT_QUOTES, 'UTF-8');
+                }
+
+                $query = $params === [] ? '' : '?' . htmlspecialchars(http_build_query($params), ENT_QUOTES, 'UTF-8');
+                return '/' . rawurlencode($op) . $query;
+            },
+            $html
+        );
     }
 }

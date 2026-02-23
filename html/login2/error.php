@@ -12,7 +12,7 @@ $cssVersion = (string) (is_file(__DIR__ . '/login.css') ? filemtime(__DIR__ . '/
     <title><?= Lang::get('_SITE_TITLE') ?> - <?= Lang::get('_ERROR') ?></title>
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/bootstrap5/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/fontawesome-free-7.0.1-web/css/all.min.css">
-    <link rel="stylesheet" href="?op=loginasset&amp;file=login.css&amp;v=<?= htmlspecialchars($cssVersion, ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(Url::op('loginasset', ['file' => 'login.css', 'v' => $cssVersion]), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body>
 <div class="container">
@@ -27,7 +27,7 @@ $cssVersion = (string) (is_file(__DIR__ . '/login.css') ? filemtime(__DIR__ . '/
             </div>
             <div class="card-body text-center">
                 <p class="login-box-msg"><?= Lang::get('_ERROR') ?></p>
-                <p class="login-box-msg"><a href="?op=login"><?= Lang::get('_BACK_TO_LOGIN') ?></a></p>
+                <p class="login-box-msg"><a href="<?= htmlspecialchars(Url::op('login'), ENT_QUOTES, 'UTF-8') ?>"><?= Lang::get('_BACK_TO_LOGIN') ?></a></p>
             </div>
         </div>
     </div>

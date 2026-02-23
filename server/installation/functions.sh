@@ -21,6 +21,10 @@ TICK="[${COL_GREEN}OK${COL_NC}]"
 CROSS="[${COL_RED}!!${COL_NC}]"
 INFO_TAG="[${COL_BLUE}..${COL_NC}]"
 WARN_TAG="[${COL_YELLOW}??${COL_NC}]"
+WHIPTAIL_BIN="${WHIPTAIL_BIN:-$(command -v whiptail || true)}"
+WHIPTAIL_HEIGHT=16
+WHIPTAIL_WIDTH=84
+WHIPTAIL_MENU_HEIGHT=10
 
 init_log() {
   LOG_FILE="${LOG_FILE:-${LOG_FILE_DEFAULT:-/var/log/openvpn-webadmin-setup.log}}"
@@ -60,6 +64,10 @@ fatal() {
   exit 1
 }
 
+abort_by_user() {
+  fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
+}
+
 print_line() {
   printf '%*s\n' "${1:-78}" '' | tr ' ' '-'
 }
@@ -81,7 +89,11 @@ show_section() {
 }
 
 prompt_continue() {
-  read -r -p "${1:-Press ENTER to continue}: " _unused
+  local message="${1:-Press ENTER to continue.}"
+  "${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    --msgbox "${message}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}"
 }
 
 load_install_config() {
@@ -105,16 +117,25 @@ choose_language() {
     en_*) auto_lang="en_GB" ;;
   esac
 
+  local lang_num=""
   show_section "${MSG_SECTION_LANGUAGE:-Language}"
-  echo " 1) Deutsch"
-  echo " 2) English"
-  echo " 3) Francais"
-  read -r -p "${MSG_LANGUAGE_SELECT:-Select language} [1-3, Enter=AUTO]: " lang_num
+
+  if [ -z "${WHIPTAIL_BIN}" ]; then
+    fatal "${MSG_MISSING_WHIPTAIL:-whiptail is required. Please install it first.}"
+  fi
+
+  lang_num="$("${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    --menu "${MSG_LANGUAGE_SELECT:-Select language}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" "${WHIPTAIL_MENU_HEIGHT}" \
+    "auto" "Auto (${auto_lang})" \
+    "de_DE" "Deutsch" \
+    "en_GB" "English" \
+    "fr_FR" "Francais" \
+    3>&1 1>&2 2>&3)" || abort_by_user
 
   case "${lang_num}" in
-    1) LANG_CHOICE="de_DE" ;;
-    2) LANG_CHOICE="en_GB" ;;
-    3) LANG_CHOICE="fr_FR" ;;
+    de_DE|en_GB|fr_FR) LANG_CHOICE="${lang_num}" ;;
     *) LANG_CHOICE="${auto_lang}" ;;
   esac
 
@@ -168,11 +189,14 @@ ask_input() {
   local default_value="${3:-}"
   local value=""
 
-  if [ -n "${default_value}" ]; then
-    read -r -p "${prompt} [${default_value}]: " value
-    value="${value:-${default_value}}"
-  else
-    read -r -p "${prompt}: " value
+  value="$("${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    --inputbox "${prompt}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" "${default_value}" \
+    3>&1 1>&2 2>&3)" || abort_by_user
+
+  if [ -n "${default_value}" ] && [ -z "${value}" ]; then
+    value="${default_value}"
   fi
 
   printf -v "${var_name}" '%s' "${value}"
@@ -184,8 +208,11 @@ ask_secret() {
   local value=""
 
   while true; do
-    read -r -s -p "${prompt}: " value
-    echo
+    value="$("${WHIPTAIL_BIN}" \
+      --title "OpenVPN-WebAdmin Setup" \
+      --passwordbox "${prompt}" \
+      "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" \
+      3>&1 1>&2 2>&3)" || abort_by_user
     [ -n "${value}" ] && break
     warn "${MSG_EMPTY_NOT_ALLOWED:-This value must not be empty.}"
   done
@@ -197,25 +224,65 @@ ask_yes_no() {
   local var_name="$1"
   local prompt="$2"
   local default_value="${3:-yes}"
-  local answer=""
 
-  while true; do
-    read -r -p "${prompt} [yes/no, default=${default_value}]: " answer
-    answer="${answer:-${default_value}}"
-    case "${answer}" in
-      yes|YES|y|Y)
-        printf -v "${var_name}" '%s' "yes"
-        return 0
-        ;;
-      no|NO|n|N)
-        printf -v "${var_name}" '%s' "no"
-        return 0
-        ;;
-      *)
-        warn "${MSG_ANSWER_YES_NO:-Please answer yes or no.}"
-        ;;
-    esac
+  local status=1
+  local yesno_flag="--yesno"
+  case "${default_value}" in
+    no|NO|n|N) yesno_flag="--defaultno --yesno" ;;
+  esac
+
+  "${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    ${yesno_flag} "${prompt}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}"
+  status=$?
+
+  case "${status}" in
+    0) printf -v "${var_name}" '%s' "yes" ;;
+    1) printf -v "${var_name}" '%s' "no" ;;
+    *) abort_by_user ;;
+  esac
+}
+
+ask_choice() {
+  local var_name="$1"
+  local prompt="$2"
+  local default_value="$3"
+  shift 3
+
+  local value=""
+  local -a options=("$@")
+  local default_tag="${default_value}"
+  local has_default=0
+  local i=0
+
+  if [ "${#options[@]}" -lt 2 ] || [ $(( ${#options[@]} % 2 )) -ne 0 ]; then
+    fatal "ask_choice requires tag/label option pairs."
+  fi
+
+  for ((i = 0; i < ${#options[@]}; i += 2)); do
+    if [ "${options[$i]}" = "${default_tag}" ]; then
+      has_default=1
+      break
+    fi
   done
+
+  if [ "${has_default}" -eq 0 ]; then
+    default_tag="${options[0]}"
+  fi
+
+  value="$("${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    --menu "${prompt}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" "${WHIPTAIL_MENU_HEIGHT}" \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)" || abort_by_user
+
+  if [ -z "${value}" ]; then
+    value="${default_tag}"
+  fi
+
+  printf -v "${var_name}" '%s' "${value}"
 }
 
 ensure_absolute_path() {

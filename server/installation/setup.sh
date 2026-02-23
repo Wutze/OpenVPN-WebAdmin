@@ -31,10 +31,117 @@ WEBSERVER_PACKAGE=""
 
 PACKAGES=()
 
+input_preview() {
+  local key="$1"
+  case "${key}" in
+    DB_PASS|ADMIN_PASS)
+      printf '%s' "********"
+      ;;
+    DB_ROOT_PASSWORD)
+      if [ -n "${DB_ROOT_PASSWORD}" ]; then
+        printf '%s' "********"
+      else
+        printf '%s' "(empty)"
+      fi
+      ;;
+    *)
+      local value="${!key-}"
+      if [ -n "${value}" ]; then
+        printf '%.46s' "${value}"
+      else
+        printf '%s' "(empty)"
+      fi
+      ;;
+  esac
+}
+
+edit_single_input() {
+  local key="$1"
+
+  case "${key}" in
+    REPO_URL) ask_input REPO_URL "${MSG_REPO_URL:-Repository URL}" "${REPO_URL}" ;;
+    REPO_BRANCH) ask_input REPO_BRANCH "${MSG_REPO_BRANCH:-Repository branch}" "${REPO_BRANCH}" ;;
+    SOURCE_DIR) ask_input SOURCE_DIR "${MSG_SOURCE_DIR:-Local source directory}" "${SOURCE_DIR}" ;;
+    DEPLOY_DIR) ask_input DEPLOY_DIR "${MSG_DEPLOY_DIR:-WebAdmin target directory}" "${DEPLOY_DIR}" ;;
+    WEB_OWNER) ask_input WEB_OWNER "${MSG_WEB_OWNER:-Web owner user}" "${WEB_OWNER}" ;;
+    WEB_GROUP) ask_input WEB_GROUP "${MSG_WEB_GROUP:-Web owner group}" "${WEB_GROUP}" ;;
+    LOGIN_THEME)
+      ask_choice LOGIN_THEME "${MSG_LOGIN_THEME:-Login theme (login1/login2/login3)}" "${LOGIN_THEME}" \
+        "login1" "login1" \
+        "login2" "login2" \
+        "login3" "login3"
+      ;;
+    SITETOOLS) ask_input SITETOOLS "${MSG_SITETOOLS:-Local sitetools path (no external URL)}" "${SITETOOLS}" ;;
+    DB_HOST) ask_input DB_HOST "${MSG_DB_HOST:-Database host}" "${DB_HOST}" ;;
+    DB_PORT) ask_input DB_PORT "${MSG_DB_PORT:-Database port}" "${DB_PORT}" ;;
+    DB_NAME) ask_input DB_NAME "${MSG_DB_NAME:-Database name}" "${DB_NAME}" ;;
+    DB_USER) ask_input DB_USER "${MSG_DB_USER:-Database user}" "${DB_USER}" ;;
+    DB_PASS) ask_secret DB_PASS "${MSG_DB_PASS:-Database password}" ;;
+    DB_CREATE_LOCAL)
+      ask_yes_no DB_CREATE_LOCAL "${MSG_DB_CREATE_LOCAL:-Create local MariaDB database and user}" "${DB_CREATE_LOCAL}"
+      if [ "${DB_CREATE_LOCAL}" = "no" ]; then
+        DB_ROOT_PASSWORD=""
+      fi
+      ;;
+    DB_ROOT_PASSWORD)
+      if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
+        ask_input DB_ROOT_PASSWORD "${MSG_DB_ROOT_PASS_OPTIONAL:-MariaDB root password (leave empty for socket auth)}" "${DB_ROOT_PASSWORD}"
+      fi
+      ;;
+    ADMIN_USER) ask_input ADMIN_USER "${MSG_ADMIN_USER:-Initial admin username}" "${ADMIN_USER}" ;;
+    ADMIN_PASS) ask_secret ADMIN_PASS "${MSG_ADMIN_PASS:-Initial admin password}" ;;
+    OPENVPN_SERVER_CONF) ask_input OPENVPN_SERVER_CONF "${MSG_OPENVPN_CONF:-OpenVPN server.conf path}" "${OPENVPN_SERVER_CONF}" ;;
+    OPENVPN_SCRIPTS_DIR) ask_input OPENVPN_SCRIPTS_DIR "${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}" "${OPENVPN_SCRIPTS_DIR}" ;;
+    WEBSERVER_PACKAGE)
+      ask_choice WEBSERVER_PACKAGE "${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}" "${WEBSERVER_PACKAGE}" \
+        "none" "none" \
+        "apache2" "apache2" \
+        "nginx" "nginx"
+      ;;
+  esac
+}
+
+review_inputs_menu() {
+  local choice=""
+
+  while true; do
+    choice="$("${WHIPTAIL_BIN}" \
+      --title "OpenVPN-WebAdmin Setup" \
+      --menu "${MSG_EDIT_MENU_PROMPT:-Select a field to edit or continue}" \
+      24 96 16 \
+      "continue" "${MSG_EDIT_CONTINUE:-Continue with these values}" \
+      "REPO_URL" "$(input_preview REPO_URL)" \
+      "REPO_BRANCH" "$(input_preview REPO_BRANCH)" \
+      "SOURCE_DIR" "$(input_preview SOURCE_DIR)" \
+      "DEPLOY_DIR" "$(input_preview DEPLOY_DIR)" \
+      "WEB_OWNER" "$(input_preview WEB_OWNER)" \
+      "WEB_GROUP" "$(input_preview WEB_GROUP)" \
+      "LOGIN_THEME" "$(input_preview LOGIN_THEME)" \
+      "SITETOOLS" "$(input_preview SITETOOLS)" \
+      "DB_HOST" "$(input_preview DB_HOST)" \
+      "DB_PORT" "$(input_preview DB_PORT)" \
+      "DB_NAME" "$(input_preview DB_NAME)" \
+      "DB_USER" "$(input_preview DB_USER)" \
+      "DB_PASS" "$(input_preview DB_PASS)" \
+      "DB_CREATE_LOCAL" "$(input_preview DB_CREATE_LOCAL)" \
+      "DB_ROOT_PASSWORD" "$(input_preview DB_ROOT_PASSWORD)" \
+      "ADMIN_USER" "$(input_preview ADMIN_USER)" \
+      "ADMIN_PASS" "$(input_preview ADMIN_PASS)" \
+      "OPENVPN_SERVER_CONF" "$(input_preview OPENVPN_SERVER_CONF)" \
+      "OPENVPN_SCRIPTS_DIR" "$(input_preview OPENVPN_SCRIPTS_DIR)" \
+      "WEBSERVER_PACKAGE" "$(input_preview WEBSERVER_PACKAGE)" \
+      3>&1 1>&2 2>&3)" || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
+
+    [ "${choice}" = "continue" ] && break
+    edit_single_input "${choice}"
+  done
+}
+
 setup_prelude() {
   load_install_config
   init_log
   show_header
+  ensure_cmd whiptail
   choose_language
 
   show_section "${MSG_SECTION_SYSTEM_CHECK:-System check}"
@@ -55,7 +162,10 @@ collect_inputs() {
   ask_input DEPLOY_DIR "${MSG_DEPLOY_DIR:-WebAdmin target directory}" "${DEFAULT_DEPLOY_DIR}"
   ask_input WEB_OWNER "${MSG_WEB_OWNER:-Web owner user}" "${DEFAULT_WEB_OWNER}"
   ask_input WEB_GROUP "${MSG_WEB_GROUP:-Web owner group}" "${DEFAULT_WEB_GROUP}"
-  ask_input LOGIN_THEME "${MSG_LOGIN_THEME:-Login theme (login1/login2/login3)}" "${DEFAULT_LOGIN_THEME}"
+  ask_choice LOGIN_THEME "${MSG_LOGIN_THEME:-Login theme (login1/login2/login3)}" "${DEFAULT_LOGIN_THEME}" \
+    "login1" "login1" \
+    "login2" "login2" \
+    "login3" "login3"
   ask_input SITETOOLS "${MSG_SITETOOLS:-Local sitetools path (no external URL)}" "${DEFAULT_SITETOOLS}"
 
   ask_input DB_HOST "${MSG_DB_HOST:-Database host}" "${DEFAULT_DB_HOST}"
@@ -85,7 +195,12 @@ collect_inputs() {
   ask_input OPENVPN_SERVER_CONF "${MSG_OPENVPN_CONF:-OpenVPN server.conf path}" "${default_conf_path}"
   ask_input OPENVPN_SCRIPTS_DIR "${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}" "${DEFAULT_OPENVPN_SCRIPTS_DIR}"
 
-  ask_input WEBSERVER_PACKAGE "${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}" "none"
+  ask_choice WEBSERVER_PACKAGE "${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}" "none" \
+    "none" "none" \
+    "apache2" "apache2" \
+    "nginx" "nginx"
+
+  review_inputs_menu
 }
 
 validate_inputs() {

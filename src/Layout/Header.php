@@ -26,7 +26,7 @@
             </a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="?op=dashboard" class="nav-link"><?= Lang::get('_HOME') ?></a>
+            <a href="<?= htmlspecialchars(Url::op('dashboard'), ENT_QUOTES, 'UTF-8') ?>" class="nav-link"><?= Lang::get('_HOME') ?></a>
         </li>
         <?php if (is_array($debugModal) && !empty($debugModal['enabled'])): ?>
         <li class="nav-item d-none d-sm-inline-block">
@@ -53,7 +53,7 @@
                     <?php $langMeta = Lang::getLanguageMeta($langCode); ?>
                     <li>
                         <a class="dropdown-item<?= $langCode === $currentLang ? ' active' : '' ?>"
-                           href="?op=setlang&amp;lang=<?= urlencode($langCode) ?>">
+                           href="<?= htmlspecialchars(Url::op('setlang', ['lang' => $langCode]), ENT_QUOTES, 'UTF-8') ?>">
                             <?= htmlspecialchars($langMeta['flag'], ENT_QUOTES, 'UTF-8') ?>
                             <?= htmlspecialchars($langMeta['label'], ENT_QUOTES, 'UTF-8') ?>
                         </a>
