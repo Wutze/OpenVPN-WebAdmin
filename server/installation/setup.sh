@@ -910,7 +910,7 @@ location = ${WEBSERVER_SUBDIR} {
 }
 
 location ~ ^${WEBSERVER_SUBDIR}/index\.php$ {
-    include snippets/fastcgi-php.conf;
+    include fastcgi_params;
     fastcgi_param SCRIPT_FILENAME ${DEPLOY_DIR}/public/index.php;
     fastcgi_param SCRIPT_NAME ${WEBSERVER_SUBDIR}/index.php;
     fastcgi_pass ${php_upstream};
@@ -919,6 +919,14 @@ location ~ ^${WEBSERVER_SUBDIR}/index\.php$ {
 location ${WEBSERVER_SUBDIR}/ {
     alias ${DEPLOY_DIR}/public/;
     index index.php;
+EOF
+    if [ "${ENABLE_REWRITE}" = "yes" ]; then
+      cat >> "${snippet_file}" <<EOF
+    rewrite ^${WEBSERVER_SUBDIR}/setlang/([A-Za-z_]+)$ ${WEBSERVER_SUBDIR}/index.php?op=setlang&lang=\$1 last;
+    rewrite ^${WEBSERVER_SUBDIR}/([A-Za-z0-9_-]+)/?$ ${WEBSERVER_SUBDIR}/index.php?op=\$1 last;
+EOF
+    fi
+    cat >> "${snippet_file}" <<EOF
     try_files \$uri \$uri/ ${WEBSERVER_SUBDIR}/index.php?\$query_string;
 }
 EOF

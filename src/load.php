@@ -139,6 +139,12 @@ header(
 
 define('_SITETOOLS', $config['sitetools']);
 define('_URL_REWRITE', !empty($config['rewrite']));
+define(
+    '_APP_BASE_PATH',
+    (($scriptDir = rtrim(str_replace('\\', '/', dirname((string)($_SERVER['SCRIPT_NAME'] ?? '/'))), '/')) === '' || $scriptDir === '/')
+        ? ''
+        : $scriptDir
+);
 define('_PROJECT_BASE_DIR', dirname(__DIR__));
 define('_HTML_BASE_DIR', _PROJECT_BASE_DIR . '/html');
 

@@ -171,41 +171,7 @@ private function redirect(string $url): void
      */
     private function buildRedirectUrl(string $url): string
     {
-        if (str_starts_with($url, '?op=')) {
-            parse_str(ltrim($url, '?'), $params);
-            $op = (string)($params['op'] ?? 'main');
-            unset($params['op']);
-
-            if (defined('_URL_REWRITE') && _URL_REWRITE === true) {
-                if ($op === 'dashboard' || $op === 'main') {
-                    $query = $params === [] ? '' : '?' . http_build_query($params);
-                    return '/' . ltrim($query, '/');
-                }
-
-                if ($op === 'setlang' && isset($params['lang']) && is_string($params['lang']) && $params['lang'] !== '') {
-                    $lang = rawurlencode($params['lang']);
-                    unset($params['lang']);
-                    $query = $params === [] ? '' : '?' . http_build_query($params);
-                    return '/setlang/' . $lang . $query;
-                }
-
-                $query = $params === [] ? '' : '?' . http_build_query($params);
-                return '/' . rawurlencode($op) . $query;
-            }
-
-            $query = http_build_query(array_merge(['op' => $op], $params));
-            return '/?' . $query;
-        }
-
-        if (str_starts_with($url, '?')) {
-            return '/?' . ltrim($url, '?');
-        }
-
-        if (str_starts_with($url, '/')) {
-            return $url;
-        }
-
-        return '/' . ltrim($url, '/');
+        return Url::normalizeInternal($url);
     }
 
 /**

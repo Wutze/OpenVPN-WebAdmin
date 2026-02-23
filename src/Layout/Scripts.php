@@ -30,6 +30,7 @@
       window.I18N = <?= json_encode(Lang::getAll(), JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
       window.CSRF_TOKEN = <?= json_encode(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
       window.URL_REWRITE = <?= json_encode(defined('_URL_REWRITE') && _URL_REWRITE === true, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+      window.APP_BASE_PATH = <?= json_encode(defined('_APP_BASE_PATH') ? (string)_APP_BASE_PATH : '', JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
 
       (function () {
         if (!window.URL_REWRITE) return;
@@ -46,16 +47,16 @@
             var lang = params.get('lang') || '';
             params.delete('lang');
             var tailLang = params.toString();
-            return '/setlang/' + encodeURIComponent(lang) + (tailLang ? '?' + tailLang : '');
+            return (window.APP_BASE_PATH || '') + '/setlang/' + encodeURIComponent(lang) + (tailLang ? '?' + tailLang : '');
           }
 
           if (op === 'dashboard' || op === 'main') {
             var rootTail = params.toString();
-            return '/' + (rootTail ? '?' + rootTail : '');
+            return (window.APP_BASE_PATH || '') + '/' + (rootTail ? '?' + rootTail : '');
           }
 
           var tail = params.toString();
-          return '/' + encodeURIComponent(op) + (tail ? '?' + tail : '');
+          return (window.APP_BASE_PATH || '') + '/' + encodeURIComponent(op) + (tail ? '?' + tail : '');
         }
 
         function rewriteStaticLinks() {
@@ -90,7 +91,7 @@
         }
       })();
     </script>
-    <script src="/js/user.js"></script>
+    <script src="<?= htmlspecialchars((defined('_APP_BASE_PATH') ? _APP_BASE_PATH : '') . '/js/user.js', ENT_QUOTES, 'UTF-8') ?>"></script>
     <?php if (\Micro\OpenvpnWebadmin\Core\Session::isAdmin()): ?>
-    <script src="/js/admin.js"></script>
+    <script src="<?= htmlspecialchars((defined('_APP_BASE_PATH') ? _APP_BASE_PATH : '') . '/js/admin.js', ENT_QUOTES, 'UTF-8') ?>"></script>
     <?php endif; ?>
