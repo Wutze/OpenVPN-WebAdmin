@@ -71,6 +71,7 @@ MSG_INVALID_WEBSERVER_MODE="Ungueltiger Webserver-Modus."
 MSG_INVALID_REWRITE_OPTION="Ungueltige Rewrite-Auswahl."
 MSG_INVALID_SUBDIR="Ungueltiger Unterpfad"
 MSG_INVALID_SERVER_NAME="ServerName darf nicht leer sein."
+MSG_NGINX_SERVER_BLOCK_MISSING="Kein server-Block in der nginx Zielkonfiguration gefunden"
 
 MSG_PATH_ABSOLUTE_REQUIRED="Pfad muss absolut sein"
 MSG_USER_NOT_FOUND="Benutzer nicht gefunden"

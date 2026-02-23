@@ -71,6 +71,7 @@ MSG_INVALID_WEBSERVER_MODE="Invalid webserver mode."
 MSG_INVALID_REWRITE_OPTION="Invalid rewrite option."
 MSG_INVALID_SUBDIR="Invalid subdirectory path"
 MSG_INVALID_SERVER_NAME="ServerName must not be empty."
+MSG_NGINX_SERVER_BLOCK_MISSING="No server block found in nginx target config"
 
 MSG_PATH_ABSOLUTE_REQUIRED="Path must be absolute"
 MSG_USER_NOT_FOUND="User not found"

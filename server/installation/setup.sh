@@ -835,6 +835,9 @@ EOF
     local snippet_file="/etc/nginx/snippets/openvpn-webadmin-location.conf"
     local nginx_target
     nginx_target="$(detect_nginx_site_file)"
+    if [ -e "${nginx_target}" ]; then
+      nginx_target="$(readlink -f "${nginx_target}")"
+    fi
     mkdir -p /etc/nginx/snippets
 
     cat > "${snippet_file}" <<EOF
@@ -857,12 +860,13 @@ location ~ ^${WEBSERVER_SUBDIR}/(.+\.php)$ {
 EOF
 
     touch "${nginx_target}"
+    if ! grep -Eq "server[[:space:]]*\\{" "${nginx_target}"; then
+      fatal "${MSG_NGINX_SERVER_BLOCK_MISSING:-No server block found in nginx target config}: ${nginx_target}"
+    fi
+
     if ! grep -q "include /etc/nginx/snippets/openvpn-webadmin-location.conf;" "${nginx_target}"; then
-      if grep -q "server_name" "${nginx_target}"; then
-        sed -i '/server_name/a\    include /etc/nginx/snippets/openvpn-webadmin-location.conf;' "${nginx_target}"
-      else
-        sed -i '$i\    include /etc/nginx/snippets/openvpn-webadmin-location.conf;' "${nginx_target}"
-      fi
+      sed -i '0,/server[[:space:]]*{/s|server[[:space:]]*{|&\
+    include /etc/nginx/snippets/openvpn-webadmin-location.conf;|' "${nginx_target}"
     fi
   fi
 

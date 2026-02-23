@@ -71,6 +71,7 @@ MSG_INVALID_WEBSERVER_MODE="Mode webserver invalide."
 MSG_INVALID_REWRITE_OPTION="Option rewrite invalide."
 MSG_INVALID_SUBDIR="Chemin de sous-repertoire invalide"
 MSG_INVALID_SERVER_NAME="ServerName ne doit pas etre vide."
+MSG_NGINX_SERVER_BLOCK_MISSING="Aucun bloc server trouve dans la configuration nginx cible"
 
 MSG_PATH_ABSOLUTE_REQUIRED="Le chemin doit etre absolu"
 MSG_USER_NOT_FOUND="Utilisateur introuvable"
