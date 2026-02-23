@@ -34,6 +34,7 @@ WEBSERVER_MODE="standalone"
 WEBSERVER_SUBDIR="/openvpnwebadmin"
 WEBSERVER_SERVER_NAME="_"
 ENABLE_REWRITE="no"
+ASSETS_ALLOW_NPM_FALLBACK="yes"
 
 PACKAGES=()
 
@@ -127,6 +128,9 @@ edit_single_input() {
     ENABLE_REWRITE)
       ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "${ENABLE_REWRITE}"
       ;;
+    ASSETS_ALLOW_NPM_FALLBACK)
+      ask_yes_no ASSETS_ALLOW_NPM_FALLBACK "${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}" "${ASSETS_ALLOW_NPM_FALLBACK}"
+      ;;
   esac
 }
 
@@ -165,6 +169,7 @@ review_inputs_menu() {
       "WEBSERVER_SUBDIR" "$(input_preview WEBSERVER_SUBDIR)" \
       "WEBSERVER_SERVER_NAME" "$(input_preview WEBSERVER_SERVER_NAME)" \
       "ENABLE_REWRITE" "$(input_preview ENABLE_REWRITE)" \
+      "ASSETS_ALLOW_NPM_FALLBACK" "$(input_preview ASSETS_ALLOW_NPM_FALLBACK)" \
       3>&1 1>&2 2>&3)" || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
 
     [ "${choice}" = "continue" ] && break
@@ -183,7 +188,7 @@ setup_prelude() {
   require_root
   detect_os
   assert_supported_os
-  ensure_cmd apt
+  ensure_cmd apt-get
   ensure_cmd sed
   ensure_cmd grep
 }
@@ -289,6 +294,7 @@ collect_inputs() {
     "nginx" "nginx"
 
   collect_webserver_options
+  ask_yes_no ASSETS_ALLOW_NPM_FALLBACK "${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}" "yes"
 
   review_inputs_menu
 }
@@ -304,6 +310,11 @@ validate_inputs() {
   case "${WEBSERVER_CONFIGURE}" in
     yes|no) ;;
     *) fatal "${MSG_INVALID_WEBSERVER_CONFIG:-Invalid webserver configuration option.}" ;;
+  esac
+
+  case "${ASSETS_ALLOW_NPM_FALLBACK}" in
+    yes|no) ;;
+    *) fatal "${MSG_INVALID_ASSETS_FALLBACK:-Invalid assets fallback option.}" ;;
   esac
 
   if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
@@ -370,8 +381,6 @@ build_package_list() {
     php-intl
     php-gd
     php-fpm
-    nodejs
-    npm
   )
 
   if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
@@ -388,23 +397,49 @@ build_package_list() {
   esac
 }
 
+ensure_npm_runtime() {
+  if command -v npm >/dev/null 2>&1 && command -v node >/dev/null 2>&1; then
+    return 0
+  fi
+
+  info "${MSG_ASSETS_INSTALL_NPM:-Installing npm/nodejs for fallback asset build}"
+  apt-get update >>"${LOG_FILE}" 2>&1
+  DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm >>"${LOG_FILE}" 2>&1
+}
+
 build_and_deploy_tools_assets() {
   show_section "${MSG_SECTION_ASSETS:-Frontend assets}"
 
   local assets_dir="${DEPLOY_DIR}/assets-build"
   local build_script="${assets_dir}/scripts/build-tools-assets.sh"
   local deploy_script="${assets_dir}/scripts/deploy-tools-assets.sh"
+  local archive_path="${assets_dir}/release/tools-assets.tar.gz"
+  local archive_sha="${assets_dir}/release/tools-assets.tar.gz.sha256"
 
   [ -d "${assets_dir}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${assets_dir}"
-  [ -f "${build_script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${build_script}"
   [ -f "${deploy_script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${deploy_script}"
 
+  if [ -f "${archive_path}" ]; then
+    info "${MSG_ASSETS_USE_ARCHIVE:-Using prebuilt frontend asset archive}"
+    if [ -f "${archive_sha}" ]; then
+      bash "${deploy_script}" "${DEPLOY_DIR}/public" "${archive_path}" "${archive_sha}" >>"${LOG_FILE}" 2>&1
+    else
+      bash "${deploy_script}" "${DEPLOY_DIR}/public" "${archive_path}" >>"${LOG_FILE}" 2>&1
+    fi
+    ok "${MSG_ASSETS_DONE:-Frontend assets are ready in /tools.}"
+    return 0
+  fi
+
+  [ -f "${build_script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${build_script}"
+  [ "${ASSETS_ALLOW_NPM_FALLBACK}" = "yes" ] || fatal "${MSG_ASSETS_ARCHIVE_MISSING:-Prebuilt asset archive missing and npm fallback is disabled.}"
+
+  warn "${MSG_ASSETS_ARCHIVE_MISSING_FALLBACK:-Prebuilt asset archive missing. Using npm fallback build.}"
+  ensure_npm_runtime
   info "${MSG_ASSETS_BUILD:-Building local frontend asset package}"
   (
     cd "${assets_dir}"
     bash "${build_script}"
   ) >>"${LOG_FILE}" 2>&1
-
   info "${MSG_ASSETS_DEPLOY:-Deploying frontend assets to public/tools}"
   bash "${deploy_script}" "${DEPLOY_DIR}/public" >>"${LOG_FILE}" 2>&1
 
@@ -437,6 +472,7 @@ show_summary() {
     fi
     echo " ${MSG_USE_REWRITE:-Enable rewrite mode}: ${ENABLE_REWRITE}"
   fi
+  echo " ${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}: ${ASSETS_ALLOW_NPM_FALLBACK}"
 
   echo
   echo " ${MSG_REQUIRED_PACKAGES:-Required packages}:"
@@ -453,7 +489,7 @@ install_required_packages() {
   show_section "${MSG_SECTION_PACKAGES:-Install packages}"
   info "${MSG_INSTALL_PACKAGES:-Installing required packages}"
 
-  apt update >>"${LOG_FILE}" 2>&1
+  apt-get update >>"${LOG_FILE}" 2>&1
   local total count pkg
   total="${#PACKAGES[@]}"
   count=0
@@ -461,7 +497,7 @@ install_required_packages() {
   for pkg in "${PACKAGES[@]}"; do
     count=$((count + 1))
     render_progress_bar "${count}" "${total}" "${MSG_INSTALL_PACKAGES:-Installing required packages}"
-    DEBIAN_FRONTEND=noninteractive apt install -y "${pkg}" >>"${LOG_FILE}" 2>&1
+    DEBIAN_FRONTEND=noninteractive apt-get install -y "${pkg}" >>"${LOG_FILE}" 2>&1
   done
   echo
 
@@ -845,17 +881,22 @@ location = ${WEBSERVER_SUBDIR} {
     return 301 ${WEBSERVER_SUBDIR}/;
 }
 
-location ^~ ${WEBSERVER_SUBDIR}/ {
+location ${WEBSERVER_SUBDIR}/ {
     alias ${DEPLOY_DIR}/public/;
     index index.php;
-    try_files \$uri \$uri/ ${WEBSERVER_SUBDIR}/index.php?\$query_string;
+    try_files \$uri \$uri/ @openvpnwebadmin_index;
 }
 
 location ~ ^${WEBSERVER_SUBDIR}/(.+\.php)$ {
     alias ${DEPLOY_DIR}/public/\$1;
     include snippets/fastcgi-php.conf;
     fastcgi_param SCRIPT_FILENAME \$request_filename;
+    fastcgi_param SCRIPT_NAME ${WEBSERVER_SUBDIR}/\$1;
     fastcgi_pass ${php_upstream};
+}
+
+location @openvpnwebadmin_index {
+    rewrite ^ ${WEBSERVER_SUBDIR}/index.php?\$query_string last;
 }
 EOF
 
