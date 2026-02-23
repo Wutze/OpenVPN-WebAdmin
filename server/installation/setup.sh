@@ -881,22 +881,17 @@ location = ${WEBSERVER_SUBDIR} {
     return 301 ${WEBSERVER_SUBDIR}/;
 }
 
-location ${WEBSERVER_SUBDIR}/ {
-    alias ${DEPLOY_DIR}/public/;
-    index index.php;
-    try_files \$uri \$uri/ @openvpnwebadmin_index;
-}
-
-location ~ ^${WEBSERVER_SUBDIR}/(.+\.php)$ {
-    alias ${DEPLOY_DIR}/public/\$1;
+location ~ ^${WEBSERVER_SUBDIR}/index\.php$ {
     include snippets/fastcgi-php.conf;
-    fastcgi_param SCRIPT_FILENAME \$request_filename;
-    fastcgi_param SCRIPT_NAME ${WEBSERVER_SUBDIR}/\$1;
+    fastcgi_param SCRIPT_FILENAME ${DEPLOY_DIR}/public/index.php;
+    fastcgi_param SCRIPT_NAME ${WEBSERVER_SUBDIR}/index.php;
     fastcgi_pass ${php_upstream};
 }
 
-location @openvpnwebadmin_index {
-    rewrite ^ ${WEBSERVER_SUBDIR}/index.php?\$query_string last;
+location ${WEBSERVER_SUBDIR}/ {
+    alias ${DEPLOY_DIR}/public/;
+    index index.php;
+    try_files \$uri \$uri/ ${WEBSERVER_SUBDIR}/index.php?\$query_string;
 }
 EOF
 
