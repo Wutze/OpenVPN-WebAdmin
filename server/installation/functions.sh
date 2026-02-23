@@ -226,16 +226,19 @@ ask_yes_no() {
   local default_value="${3:-yes}"
 
   local status=1
-  local yesno_flag="--yesno"
+  local -a yesno_args=(--yesno)
   case "${default_value}" in
-    no|NO|n|N) yesno_flag="--defaultno --yesno" ;;
+    no|NO|n|N) yesno_args=(--defaultno --yesno) ;;
   esac
 
-  "${WHIPTAIL_BIN}" \
+  if "${WHIPTAIL_BIN}" \
     --title "OpenVPN-WebAdmin Setup" \
-    ${yesno_flag} "${prompt}" \
-    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}"
-  status=$?
+    "${yesno_args[@]}" "${prompt}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}"; then
+    status=0
+  else
+    status=$?
+  fi
 
   case "${status}" in
     0) printf -v "${var_name}" '%s' "yes" ;;
