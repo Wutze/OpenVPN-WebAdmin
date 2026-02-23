@@ -1,0 +1,19 @@
+{
+  "name": "openvpn-webadmin-assets-build",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build and package local frontend assets for OpenVPN-WebAdmin",
+  "scripts": {
+    "build:tools": "bash ./scripts/build-tools-assets.sh",
+    "package:tools": "bash ./scripts/build-tools-assets.sh"
+  },
+  "dependencies": {
+    "admin-lte": "3.2.0",
+    "bootstrap": "5.3.3",
+    "bootstrap-datepicker": "1.10.1",
+    "bootstrap-icons": "1.13.1",
+    "bootstrap-table": "1.25.0",
+    "flatpickr": "4.6.13",
+    "jquery": "3.7.1"
+  }
+}

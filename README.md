@@ -22,6 +22,20 @@ Create and manage your virtual private network via web browser and OpenVPN. This
 
 [![Update Doku OpenVPN-WebAdmin](https://img.shields.io/badge/Update--Doku--1.3.0-DE/EN/FR/RU-%230034F0?style=plastic)](doc/update-to-1.x.x.info.md)
 
+## Offline assets for `/tools`
+
+If you do not want external CDNs and do not want to run `npm` on the webserver:
+
+1. Build static frontend assets in a trusted build environment:
+   `assets-build/scripts/build-tools-assets.sh`
+2. Copy `assets-build/release/tools-assets.tar.gz` (+ `.sha256`) to the target server.
+3. Deploy static files only:
+   `assets-build/scripts/deploy-tools-assets.sh /srv/www/openvpn-webadmin/public`
+4. Use local sitetools path in config:
+   `'sitetools' => '/tools'`
+
+See `assets-build/README.md` for details.
+
 ## Webfrontend Übersetzungen vorhanden in
 
 ## Webfrontend translations available in

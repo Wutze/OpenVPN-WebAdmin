@@ -249,6 +249,8 @@ build_package_list() {
     php-intl
     php-gd
     php-fpm
+    nodejs
+    npm
   )
 
   if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
@@ -263,6 +265,29 @@ build_package_list() {
       PACKAGES+=(nginx)
       ;;
   esac
+}
+
+build_and_deploy_tools_assets() {
+  show_section "${MSG_SECTION_ASSETS:-Frontend assets}"
+
+  local assets_dir="${DEPLOY_DIR}/assets-build"
+  local build_script="${assets_dir}/scripts/build-tools-assets.sh"
+  local deploy_script="${assets_dir}/scripts/deploy-tools-assets.sh"
+
+  [ -d "${assets_dir}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${assets_dir}"
+  [ -f "${build_script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${build_script}"
+  [ -f "${deploy_script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${deploy_script}"
+
+  info "${MSG_ASSETS_BUILD:-Building local frontend asset package}"
+  (
+    cd "${assets_dir}"
+    bash "${build_script}"
+  ) >>"${LOG_FILE}" 2>&1
+
+  info "${MSG_ASSETS_DEPLOY:-Deploying frontend assets to public/tools}"
+  bash "${deploy_script}" "${DEPLOY_DIR}/public" >>"${LOG_FILE}" 2>&1
+
+  ok "${MSG_ASSETS_DONE:-Frontend assets are ready in /tools.}"
 }
 
 show_summary() {
@@ -594,6 +619,7 @@ main() {
   install_required_packages
   sync_source_repo
   deploy_application_files
+  build_and_deploy_tools_assets
   write_app_config
   setup_database
   deploy_openvpn_scripts
