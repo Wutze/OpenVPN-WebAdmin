@@ -1,0 +1,361 @@
+/**
+ * this File is part of OpenVPN-WebAdmin - (c) 2020/2025 OpenVPN-WebAdmin
+ *
+ * NOTICE OF LICENSE
+ *
+ * GNU AFFERO GENERAL PUBLIC LICENSE V3
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * @author      Wutze
+ * @copyright   2025 OpenVPN-WebAdmin
+ * @link        https://github.com/Wutze/OpenVPN-WebAdmin
+ * @see         Internal Documentation ~/doc/
+ * @version     2.0.0
+ */
+
+:root {
+  --ovpn-bg: #f3f7fb;
+  --ovpn-surface: #ffffff;
+  --ovpn-surface-soft: #eef4ff;
+  --ovpn-text: #1a2433;
+  --ovpn-muted: #4d5d73;
+  --ovpn-primary: #0b7285;
+  --ovpn-primary-strong: #0a4f5d;
+  --ovpn-accent: #ff8a3d;
+  --ovpn-border: #d5e1ee;
+}
+
+body {
+  padding-top: 0;
+  font-family: "IBM Plex Sans", "Trebuchet MS", "Verdana", sans-serif;
+  color: var(--ovpn-text);
+  background-color: var(--ovpn-bg);
+}
+
+/*
+https://bootsnipp.com/snippets/jvP6z
+*/
+.mini-led-green, .mini-led-green-blink {
+    background-color: #80FF00;
+    box-shadow: #7D7B80 0 -1px 6px 1px, inset #460 0 -1px 8px, #80FF00 0 3px 11px;
+}
+.mini-led-red, .mini-led-red-blink {
+    background-color: #F00;
+    box-shadow: #7D7B80 0 -1px 6px 1px, inset #600 0 -1px 8px, #F00 0 3px 11px;
+}
+.mini-led-gray, .mini-led-gray-blink {
+  background-color: #aab2bd;
+  box-shadow: #aab2bd 0 -1px 6px 1px, inset #656d78 0 -1px 8px, #656d78 0 1px 6px;
+}
+.mini-led-gray,
+.mini-led-red,
+.mini-led-red-blink,
+.mini-led-green,
+.mini-led-green-blink {
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.mini-led-green-blink {
+  -webkit-animation: blinkGreen 0.7s infinite;
+  -moz-animation: blinkGreen 0.7s infinite;
+  -ms-animation: blinkGreen 0.7s infinite;
+  -o-animation: blinkGreen 0.7s infinite;
+  animation: blinkGreen 0.7s infinite;
+}
+
+.mini-led-red-blink {
+  -webkit-animation: blinkRed 0.7s infinite;
+  -moz-animation: blinkRed 0.7s infinite;
+  -ms-animation: blinkRed 0.7s infinite;
+  -o-animation: blinkRed 0.7s infinite;
+  animation: blinkRed 0.7s infinite;
+}
+
+@-webkit-keyframes blinkGreen {
+  0% {
+    background-color: #80FF00;
+  }
+  50% {
+    background-color: #6cff82;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #80FF00 0 1px 0;
+  }
+  100% {
+    background-color: #80FF00;
+  }
+}
+@keyframes blinkGreen {
+  0% {
+    background-color: #80FF00;
+  }
+  50% {
+    background-color: #6cff82;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #80FF00 0 1px 0;
+  }
+  100% {
+    background-color: #80FF00;
+  }
+}
+
+@-moz-keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+@-webkit-keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+@keyframes blinkRed {
+  0% {
+    background-color: #db212b;
+  }
+  50% {
+    background-color: #db212b;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px, inset #441313 0 -1px 8px, #db212b 0 1px 0;
+  }
+  100% {
+    background-color: #db212b;
+  }
+}
+
+ins, del{
+  vertical-align : top;
+  white-space    : pre;
+  white-space    : pre-wrap;
+  font-family    : monospace;
+}
+ins{
+  color: #ccff00;
+}
+del{
+  color: #ff0000;
+}
+
+.sidebar-dark-primary, .login-box {
+  background-image: url("../img/bg.png");
+}
+
+.main-sidebar {
+  background-color: #0d1b2a !important;
+  color: #e6edf7 !important;
+}
+
+.sidebar-dark-primary .nav-item {
+  background-color: transparent !important;
+}
+
+.sidebar-dark-primary .nav-link {
+  color: #dce7f6 !important;
+  border-radius: 0.45rem;
+  margin: 0.1rem 0.45rem;
+}
+
+.sidebar-dark-primary .nav-link:hover,
+.sidebar-dark-primary .nav-link.active {
+  background: linear-gradient(90deg, rgba(11, 114, 133, 0.75), rgba(10, 79, 93, 0.85)) !important;
+  color: #ffffff !important;
+}
+
+.control-sidebar {
+  background-color: rgba(13, 27, 42, 0.86) !important;
+  color: #ffffff !important;
+}
+
+.main-header, .main-footer{
+  background: linear-gradient(110deg, #083344, #0a4f5d 62%, #0b7285);
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.brand-link, .navbar-nav{
+  background-color: rgba(6, 26, 52, 0.72);
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #ffffff !important;
+}
+
+.content-wrapper {
+  background: linear-gradient(180deg, rgba(243, 247, 251, 0.95), rgba(236, 244, 255, 0.9));
+}
+
+.card,
+.dashboard-card,
+.account-card {
+  background: var(--ovpn-surface);
+  border: 1px solid var(--ovpn-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 22px rgba(9, 35, 66, 0.08);
+}
+
+.card-header {
+  background: linear-gradient(90deg, #f3f8ff, #ecf4ff);
+  border-bottom: 1px solid var(--ovpn-border);
+  color: var(--ovpn-primary-strong);
+  font-weight: 600;
+}
+
+.table thead th,
+.thead-dark th {
+  background-color: #0b3b52 !important;
+  color: #f5fbff !important;
+  border-color: #0f4f6f !important;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--ovpn-primary), var(--ovpn-primary-strong));
+  border-color: var(--ovpn-primary-strong);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(90deg, #0d8399, #0b5f71);
+  border-color: #0b5f71;
+}
+
+.btn-outline-primary {
+  color: var(--ovpn-primary-strong);
+  border-color: var(--ovpn-primary-strong);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--ovpn-primary-strong);
+  color: #ffffff;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #27a3ba;
+  box-shadow: 0 0 0 0.2rem rgba(39, 163, 186, 0.2);
+}
+
+.page-link {
+  color: var(--ovpn-primary-strong);
+}
+
+.page-item.active .page-link {
+  background-color: var(--ovpn-primary-strong);
+  border-color: var(--ovpn-primary-strong);
+}
+#debug-container {
+  position: relative;
+  z-index: 9999;
+}
+.debug-card {
+    font-family: monospace;
+    font-size: 0.85rem;
+    border-radius: 0 !important;
+    margin-bottom: 0.25rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.debug-modal-pre {
+  max-height: 26rem;
+  overflow: auto;
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #1e293b;
+  border-radius: 0.4rem;
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.25;
+}
+
+.debug-modal-card.debug-modal-card-browser-maximized {
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  margin: 0 !important;
+  border-radius: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.debug-modal-card.debug-modal-card-browser-maximized .card-body {
+  height: calc(100vh - 58px);
+}
+
+.debug-modal-card.debug-modal-card-browser-maximized .debug-modal-pre {
+  max-height: calc(100vh - 90px);
+  height: calc(100vh - 90px);
+}
+
+body.debug-browser-max-open {
+  overflow: hidden;
+}
+
+.small.text-muted,
+small.text-muted {
+  color: #ffffff !important;
+}
+
+.dashboard-card {
+  border: 1px solid #dbe1f1;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .08);
+}
+
+.account-card {
+  border: 1px solid #dbe1f1;
+}
+
+.ovpn-editor {
+  min-height: 0;
+  height: auto;
+  flex: 1 1 auto;
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.9rem;
+  white-space: pre;
+  resize: vertical;
+}
+
+.ovpn-editor-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+}
+
+.config-editor-card {
+  height: calc(100vh - 260px);
+  min-height: 520px;
+}
+
+.config-diff {
+  min-height: 420px;
+  max-height: 420px;
+  overflow: auto;
+  background: #0b1020;
+  color: #d6e4ff;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: 0.82rem;
+}

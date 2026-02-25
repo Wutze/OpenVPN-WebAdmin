@@ -1,0 +1,17 @@
+{
+    "name": "micro/openvpn-webadmin",
+    "description": "OpenVPN Webadmin 2",
+    "type": "project",
+    "license": "AGPL-3.0",
+    "autoload": {
+        "psr-4": {
+            "Micro\\OpenvpnWebadmin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "micro aka wutze"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+#
+# NOTICE OF LICENSE
+#
+# GNU AFFERO GENERAL PUBLIC LICENSE V3
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
+#
+# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+#
+# @author    Wutze
+# @copyright 2020 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		1.4.1
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+
+ATTENTION="ACHTUNG!
+Dein VPN-Server sollte keinesfalls direkt mit dem Internet verbunden sein, da der Server sonst angreifbar ist und im schlimmsten Fall einen direkten Zugriff in Dein Netzwerk bietet.
+
+Außerdem musst Du Deine Firewall unter /usr/sbin/firewall.sh entsprechend anpassen, damit das System ausreichend geschützt wird.
+
+Um immer über Fehler im System informiert zu sein, empfehle ich die Installation von \"logwatch\" und \"fail2ban\". Entsprechende Informationen dazu findest Du im Internet."
+
+CONFIG01="Keine Konfigurationsdatei"
+CONFIG02="Kopiere zuerst die config.conf.example nach config.conf und editiere die Datei"
+CONFIG03="Beispiel: cp config.conf.example config.conf"
+CONFIG04="zum editieren: nano config.conf"
+
+PLSWAIT1="Bitte warten, Update/Installation des Systems ..."
+
+USER01="Rechteproblem!"
+USER02="Die Installation kann nur als root durchgeführt werden"
+USER03="Installation abgebrochen"
+
+BREAK="Script abgebrochen"
+BEFOR="Drücke ENTER um die Installation zu beginnen oder strg+c um abzubrechen"
+
+SELECT_A="Auswahl Installationsoptionen"
+SELECT_B="Installation mit folgenden Optionen (Bitte lese Dir zuvor das Manual durch!):"
+
+SELECT01="config.conf.sample nach config.conf kopieren?"
+SELECT02="Automatische Installation fehlender Pakete"
+SELECT03="MySQL-Server lokal (Neu!)"
+SELECT04="MySQL-Server remote (oder bestehend)"
+SELECT05="Apache"
+SELECT06="Nginx"
+SELECT07="Webverzeichnis /srv/www/openvpn-admin"
+SELECT08="eigenes Webverzeichnis eingeben"
+SELECT09="Eigentümer des Verzeichnisses www-data"
+SELECT10="einen anderer Eigentümer"
+SELECT11="Debug Funkionen installieren?"
+SELECT12="Firewalleditor installieren?"
+SELECT13="Aktiviere CLient Download?"
+SELECT20="Alle Erweiterungen installieren?"
+
+MISSING="Ich vermisse:"
+INSTALL="Nutze doch einfach die Automatische Installation von fehlenden Paketen."
+ONEONLY="Nur eine Auswahl möglich!"
+FEHLER01="Du versuchst gleichzeitig zu installieren:"
+FEHLER03="und"
+INSTMESS="Du denkst Du brauchst mysql nicht? Falsch! Noch mal von vorn! Eine MySQL Auswahl musst Du treffen!"
+
+CENTOSME="Eine Nachricht nur für CentOS Benutzer.
+
+Du hast gehört eine Firewall schützt Dich?
+
+Du hast Angst vor Crackern, weil Du so viele Berichte darüber gelesen hast. Niemand kann etwas auf Deinem Server tun, ohne das ein Ansatzpunkt dafür existiert. Das können Sicherheitslücken, Fehlkonfigurationen oder absichtlich installierte Hintertüren sein.
+
+Sorge dafür das Du weißt, was auf Deinem System passiert, eine Firewall wird Dir nicht dabei helfen das System abzusichern!
+
+Wenn Du das System installieren möchtest, dann wird das Script Deine Firewall deaktivieren. Stimme bitte mit \"Ja\" zu. Lehnst Du ab, wird die Installation des Systems abgebrochen."
+
+MYSQL01="Vergebe bitte ein Root-Passwort für den MySQL-Server"
+MYSQL02="Erzeuge Datenbank Passwort"
+
+SETVPN01="Server Hostname/IP\n\nVerwende den Namen so, wie der Server aus dem Internet erreicht werden soll!\n(IP or FQDN)"
+SETVPN02="OpenVPN protocol (tcp or udp)\nWenn die Installation in einer VM stattfindet, nutze bitte udp:"
+SETVPN03="OpenVPN Server Port\nDefault Port tcp or udp 1194:"
+SETVPN04="MySQL Host\n(localhost, IP or FQDN)\n\nWenn Du einen externen Datenbankserver nutzen möchtest,\nkonfiguriere dort zuerst Benutzername und Passwort."
+SETVPN05="MySQL Root Password:\n\nDas Passwort sollte nicht leer sein und muss vor der Installation gesetzt bzw. Dir bekannt sein. (Du benötigst das Passwort nur zur Installation)"
+SETVPN06="Datenbankinformationen für die Installation:\n\nMySQL Benutzername für die OpenVPN Datenbank.  (frei wählbar)"
+SETVPN07="Datenbankinformationen für die Installation:\n\nMySQL Benutzerpasswort für die OpenVPN Datenbank"
+SETVPN08="Logindaten für das Webfrontend:\n\nAdmin Benutzername für das Webfrontend des OpenVPN-Admin. (frei wählbar)"
+SETVPN09="Logindaten für das Webfrontend:\n\nAdmin Benutzerpasswort für das Webfrontend des OpenVPN-Admin."
+SETVPN10="Datenbankinformationen für die Installation:\n\nDatenbankname für die OVPN Datenbank (remote oder lokal)"
+SETVPN11="Rootverzeichnis des Webservers"
+SETVPN12="Korrektur Webverzeichnis OpenVPN-WebAdmin! (ohne /)"
+
+SETFIN01="Grundinstallation OpenVPN-Admin abgeschlossen."
+SETFIN02="Um die Installation zu beenden, konfiguriere bitte Deinen Webserver (Apache, NGinx...)"
+SETFIN03="Du musst den Server neu starten, da OpenVPN sonst nicht korrekt funktioniert!"
+SETFIN04="Fragen, Antworten, Wünsche, Fehler bitte da mitteilen: https://github.com/Wutze/OpenVPN-WebAdmin/issues"
+
+### Update Variablen
+UPSEL00="Update Informationen"
+UPSEL01="Update von Version 0.8 zu 1.1.0"
+UPSEL02="Generelles Update System 1.2.x"
+UPSEL03=""
+UPSEL04="Fragen zur Installation"
+
+UPVERSIO="Installierte Version       "
+NEVERSIO="Neue Version               "
+UPDBHOST="Datenbankhost *            "
+UPDBUSER="Datenbank Benutzer *       "
+UPDBPASS="Datenbankpasswort *        "
+UPDBNAME="Datenbank Name *           "
+UPWEBDIR="Webverzeichnis *           "
+UPWEBROO="Webroot *                  "
+UPPATHOW="Eigentümer                 "
+UPMASHID="Installiert auf Machine-ID "
+INSTALLD="Installiert am             "
+UPDATAOK="* Angaben erforderlich!
+
+Alle Angaben korrekt?"
+
+UPDATEINF01="Bitte mache VOR Beginn dieses Updates von Deinem Server ein Backup. Trotz aller Tests die ich durchführen kann, 
+kann ich keine Fehler auf Deinem Server sehen um darauf entsprechend reagieren.
+
+Mit diesem Update werden jedoch einige Funktionalitäten eingeführt, die ein späteres wiederherstellen der alten Installation aus einem Backup möglich machen.
+
+Weiter machen?"
+
+AUPDATE01="Nach dem Update bitte Browsercache leeren!"
+
+MOENABLE0="Du hast Module installiert. Zum einschalten dieser Module übertrage bitte die folgenden Informationen"
+MOENABLE1="aus der /include/module.config.php in /include/config.php"
+
+
+INFO001="Bitte warten, die Installation kann bis zu 10 Minuten andauern."
+INFO002="Du kannst den Fortgang der Installation mit tail -f /opt/[ovpn-git]/loginstall.log"
+INFO003="in einer eigenen SSH Session betrachten"
+
