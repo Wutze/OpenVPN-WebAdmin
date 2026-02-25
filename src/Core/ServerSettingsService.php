@@ -20,14 +20,14 @@ namespace Micro\OpenvpnWebadmin\Core;
 
 class ServerSettingsService
 {
-    private array $cfg;
+private array $cfg;
 
-    /**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @param mixed $cfg
-     * @return mixed|null
-     */
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @param mixed $cfg Eingabewert fuer cfg.
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
 public function __construct(?array $cfg = null)
     {
         $all = $cfg ?? require dirname(__DIR__, 2) . '/config/config.php';
@@ -43,11 +43,11 @@ public function __construct(?array $cfg = null)
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion getCurrent
-     *
-     * @return array
-     */
+/**
+ * Liest current und gibt den Wert zurueck.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function getCurrent(): array
     {
         $content = '';
@@ -81,12 +81,12 @@ public function getCurrent(): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion save
-     *
-     * @param mixed $content
-     * @return array
-     */
+/**
+ * Speichert Daten persistent.
+ *
+ * @param mixed $content Eingabewert fuer content.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function save(string $content): array
     {
         if ($this->cfg['save_path'] === '') {
@@ -112,11 +112,11 @@ public function save(string $content): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion getHistoryList
-     *
-     * @return array
-     */
+/**
+ * Liest history list und gibt den Wert zurueck.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function getHistoryList(): array
     {
         $historyDir = $this->cfg['history_path'];
@@ -141,13 +141,13 @@ public function getHistoryList(): array
         return $rows;
     }
 
-    /**
-     * Kurzbeschreibung Funktion diffHistoryFileAgainstCurrent
-     *
-     * @param mixed $historyFile
-     * @param mixed $current
-     * @return array
-     */
+/**
+ * Vergleicht history file against current und liefert die Unterschiede.
+ *
+ * @param mixed $historyFile Eingabewert fuer historyFile.
+ * @param mixed $current Eingabewert fuer current.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function diffHistoryFileAgainstCurrent(string $historyFile, string $current): array
     {
         $safe = basename($historyFile);
@@ -160,12 +160,12 @@ public function diffHistoryFileAgainstCurrent(string $historyFile, string $curre
         return $this->buildDiffData($old, $current);
     }
 
-    /**
-     * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
-     *
-     * @param mixed $current
-     * @return array
-     */
+/**
+ * Liest diff stats against current und gibt den Wert zurueck.
+ *
+ * @param mixed $current Eingabewert fuer current.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function getDiffStatsAgainstCurrent(string $current): array
     {
         $rows = $this->getHistoryList();
@@ -181,12 +181,12 @@ private function getDiffStatsAgainstCurrent(string $current): array
         return $rows;
     }
 
-    /**
-     * Kurzbeschreibung Funktion fetchFromUrl
-     *
-     * @param mixed $url
-     * @return string
-     */
+/**
+ * Fuehrt fetch from url entsprechend der internen Logik aus.
+ *
+ * @param mixed $url Eingabewert fuer url.
+ * @return string Rueckgabe als Text.
+ */
 private function fetchFromUrl(string $url): string
     {
         if (!preg_match('#^https?://#i', $url)) {
@@ -214,12 +214,12 @@ private function fetchFromUrl(string $url): string
         return (string)$data;
     }
 
-    /**
-     * Kurzbeschreibung Funktion writeCache
-     *
-     * @param mixed $content
-     * @return void
-     */
+/**
+ * Schreibt cache in das Zielsystem.
+ *
+ * @param mixed $content Eingabewert fuer content.
+ * @return void Kein Rueckgabewert.
+ */
 private function writeCache(string $content): void
     {
         $savePath = $this->cfg['save_path'];
@@ -235,12 +235,12 @@ private function writeCache(string $content): void
         @file_put_contents($savePath, $content);
     }
 
-    /**
-     * Kurzbeschreibung Funktion archiveFile
-     *
-     * @param mixed $file
-     * @return void
-     */
+/**
+ * Fuehrt archive file entsprechend der internen Logik aus.
+ *
+ * @param mixed $file Eingabewert fuer file.
+ * @return void Kein Rueckgabewert.
+ */
 private function archiveFile(string $file): void
     {
         $historyDir = $this->cfg['history_path'];
@@ -254,11 +254,11 @@ private function archiveFile(string $file): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion readSavePath
-     *
-     * @return string
-     */
+/**
+ * Laedt save path aus der Quelle.
+ *
+ * @return string Rueckgabe als Text.
+ */
 private function readSavePath(): string
     {
         if ($this->cfg['save_path'] === '') {
@@ -276,12 +276,12 @@ private function readSavePath(): string
         return $this->readFile($this->cfg['save_path']);
     }
 
-    /**
-     * Kurzbeschreibung Funktion readFile
-     *
-     * @param mixed $path
-     * @return string
-     */
+/**
+ * Laedt file aus der Quelle.
+ *
+ * @param mixed $path Eingabewert fuer path.
+ * @return string Rueckgabe als Text.
+ */
 private function readFile(string $path): string
     {
         if (!is_file($path)) {
@@ -291,11 +291,11 @@ private function readFile(string $path): string
         return (string)file_get_contents($path);
     }
 
-    /**
-     * Kurzbeschreibung Funktion ensureSaveFileExists
-     *
-     * @return void
-     */
+/**
+ * Fuehrt ensure save file exists entsprechend der internen Logik aus.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function ensureSaveFileExists(): void
     {
         $savePath = $this->cfg['save_path'];
@@ -314,13 +314,13 @@ private function ensureSaveFileExists(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion buildDiffData
-     *
-     * @param mixed $oldText
-     * @param mixed $newText
-     * @return array
-     */
+/**
+ * Erzeugt diff data auf Basis der Eingabedaten.
+ *
+ * @param mixed $oldText Eingabewert fuer oldText.
+ * @param mixed $newText Eingabewert fuer newText.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function buildDiffData(string $oldText, string $newText): array
     {
         $oldLines = preg_split('/\R/', $oldText) ?: [];
@@ -350,13 +350,13 @@ private function buildDiffData(string $oldText, string $newText): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion diffOps
-     *
-     * @param mixed $a
-     * @param mixed $b
-     * @return array
-     */
+/**
+ * Vergleicht ops und liefert die Unterschiede.
+ *
+ * @param mixed $a Eingabewert fuer a.
+ * @param mixed $b Eingabewert fuer b.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function diffOps(array $a, array $b): array
     {
         $n = count($a);

@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/bootstrap-table/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/int/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/int/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars((defined('_APP_BASE_PATH') ? _APP_BASE_PATH : '') . '/css/index.css', ENT_QUOTES, 'UTF-8') ?>">
     <script src="<?php echo _SITETOOLS ?>/jquery/jquery-min.js"></script>
     <script src="<?php echo _SITETOOLS ?>/bootstrap-table/dist/bootstrap-table.min.js"></script>
     <script src="<?php echo _SITETOOLS ?>/int/flatpickr/dist/flatpickr.min.js"></script>

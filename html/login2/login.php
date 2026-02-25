@@ -13,7 +13,7 @@ $cssVersion = (string) (is_file(__DIR__ . '/login.css') ? filemtime(__DIR__ . '/
     <title><?= Lang::get('_SITE_TITLE') ?> - <?= Lang::get('_LOGIN') ?></title>
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/bootstrap5/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/fontawesome-free-7.0.1-web/css/all.min.css">
-    <link rel="stylesheet" href="?op=loginasset&amp;file=login.css&amp;v=<?= htmlspecialchars($cssVersion, ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(Url::op('loginasset', ['file' => 'login.css', 'v' => $cssVersion]), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body>
 <div class="container">
@@ -39,7 +39,7 @@ $cssVersion = (string) (is_file(__DIR__ . '/login.css') ? filemtime(__DIR__ . '/
             <?php endif; ?>
 
             <div class="card-body">
-                <form method="post" action="?op=checklogin">
+                <form method="post" action="<?= htmlspecialchars(Url::op('checklogin'), ENT_QUOTES, 'UTF-8') ?>">
                     <input type="hidden" name="_csrf" value="<?= htmlspecialchars(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), ENT_QUOTES, 'UTF-8') ?>">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">

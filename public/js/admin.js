@@ -713,6 +713,113 @@ function initSettingsEditor() {
   loadSettings().catch((error) => showAlert('settingsMessage', 'danger', error.message));
 }
 
+function initCaTlsEditor() {
+  const caEditor = document.getElementById('catlsCaEditor');
+  const tlsEditor = document.getElementById('catlsTlsEditor');
+  if (!caEditor || !tlsEditor) return;
+
+  const caPathEl = document.getElementById('catlsCaPath');
+  const tlsPathEl = document.getElementById('catlsTlsPath');
+  const reloadBtn = document.getElementById('catlsReloadBtn');
+  const saveBtn = document.getElementById('catlsSaveBtn');
+
+  async function loadCaTls() {
+    const data = await getJson('?op=data&select=catls&action=get');
+    caEditor.value = data.ca || '';
+    tlsEditor.value = data.tls || '';
+    if (caPathEl) caPathEl.textContent = data.ca_path || '-';
+    if (tlsPathEl) tlsPathEl.textContent = data.tls_path || '-';
+    showAlert('catlsMessage', 'success', t('_MSG_CATLS_LOADED', 'CA/TLS data loaded.'));
+  }
+
+  if (reloadBtn) {
+    reloadBtn.addEventListener('click', () => {
+      loadCaTls().catch((error) => showAlert('catlsMessage', 'danger', error.message));
+    });
+  }
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', async () => {
+      try {
+        await postForm('?op=data&select=catls', {
+          action: 'save',
+          ca_content: caEditor.value,
+          tls_content: tlsEditor.value,
+        });
+        await loadCaTls();
+        showAlert('catlsMessage', 'success', t('_MSG_CATLS_SAVED', 'CA/TLS data saved.'));
+      } catch (error) {
+        showAlert('catlsMessage', 'danger', error.message);
+      }
+    });
+  }
+
+  loadCaTls().catch((error) => showAlert('catlsMessage', 'danger', error.message));
+}
+
+function initDocumentationPage() {
+  const searchInput = document.getElementById('docsSearchInput');
+  const accordion = document.getElementById('docsAccordion');
+  if (!searchInput || !accordion) return;
+
+  const noResult = document.getElementById('docsNoResult');
+  const fileItems = Array.from(accordion.querySelectorAll('.doc-file-item'));
+
+  const collapseAll = () => {
+    if (!window.bootstrap) return;
+    fileItems.forEach((item) => {
+      const collapseEl = item.querySelector('.accordion-collapse');
+      if (!collapseEl) return;
+      const instance = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+      instance.hide();
+    });
+  };
+
+  const openFirstVisibleFile = () => {
+    if (!window.bootstrap) return;
+    const firstVisible = fileItems.find((item) => !item.classList.contains('d-none'));
+    if (!firstVisible) return;
+    const collapseEl = firstVisible.querySelector('.accordion-collapse');
+    if (!collapseEl) return;
+    const instance = window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+    instance.show();
+  };
+
+  const applyFilter = () => {
+    const query = String(searchInput.value || '').trim().toLowerCase();
+    let visibleFiles = 0;
+
+    fileItems.forEach((item) => {
+      const functions = Array.from(item.querySelectorAll('.doc-function'));
+      let fileHasVisible = false;
+
+      functions.forEach((fn) => {
+        const blob = String(fn.getAttribute('data-doc-search') || '').toLowerCase();
+        const match = query === '' || blob.includes(query);
+        fn.classList.toggle('d-none', !match);
+        if (match) {
+          fileHasVisible = true;
+        }
+      });
+
+      item.classList.toggle('d-none', !fileHasVisible);
+      if (fileHasVisible) {
+        visibleFiles++;
+      }
+    });
+
+    if (noResult) {
+      noResult.classList.toggle('d-none', visibleFiles > 0);
+    }
+
+    collapseAll();
+    openFirstVisibleFile();
+  };
+
+  searchInput.addEventListener('input', applyFilter);
+  applyFilter();
+}
+
 function initDashboardStats() {
   const statWrap = document.getElementById('dashboardAdminStats');
   if (!statWrap) return;
@@ -794,6 +901,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogTable();
   initConfigEditor();
   initSettingsEditor();
+  initCaTlsEditor();
+  initDocumentationPage();
   initDashboardStats();
   initDebugModal();
 });

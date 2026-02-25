@@ -1,5 +1,5 @@
-#!/bin/bash
-# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+#!/usr/bin/env bash
+# this File is part of OpenVPN-WebAdmin - (c) 2026 OpenVPN-WebAdmin
 #
 # NOTICE OF LICENSE
 #
@@ -10,249 +10,357 @@
 #
 # @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
 #
-# @author     Wutze
-# @copyright  2020 OpenVPN-WebAdmin
-# @link       https://github.com/Wutze/OpenVPN-WebAdmin
-# @see        Internal Documentation ~/doc/
-# @version    1.4.2
-# @todo       new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+# @author    Wutze
+# @copyright 2026 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		2.0.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-### Set Vars
+CONFIG_FILE="${SCRIPT_DIR}/config.sh"
+LANG_DIR="${SCRIPT_DIR}/lang"
 
-# debug
-#set -x
+LOG_FILE=""
+OS_ID=""
+OS_VERSION_ID=""
+OS_CODENAME=""
+LANG_CHOICE=""
 
-###############
-# Only for Functions to use setup AND update
-###############
+COL_NC='\033[0m'
+COL_BLUE='\033[1;34m'
+COL_GREEN='\033[1;32m'
+COL_RED='\033[1;31m'
+COL_YELLOW='\033[1;33m'
 
-#
-# my Intro with colored Logo
-# @pos004
-#
-intro(){
+TICK="[${COL_GREEN}OK${COL_NC}]"
+CROSS="[${COL_RED}!!${COL_NC}]"
+INFO_TAG="[${COL_BLUE}..${COL_NC}]"
+WARN_TAG="[${COL_YELLOW}??${COL_NC}]"
+WHIPTAIL_BIN="${WHIPTAIL_BIN:-$(command -v whiptail || true)}"
+WHIPTAIL_HEIGHT=16
+WHIPTAIL_WIDTH=84
+WHIPTAIL_MENU_HEIGHT=10
+
+init_log() {
+  LOG_FILE="${LOG_FILE:-${LOG_FILE_DEFAULT:-/var/log/openvpn-webadmin-setup.log}}"
+  mkdir -p "$(dirname "${LOG_FILE}")"
+  touch "${LOG_FILE}"
+}
+
+log_line() {
+  local level="$1"
+  shift
+  local msg="$*"
+  printf '%s [%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "${level}" "${msg}" >> "${LOG_FILE}"
+}
+
+info() {
+  echo -e " ${INFO_TAG} $*"
+  log_line INFO "$*"
+}
+
+warn() {
+  echo -e " ${WARN_TAG} $*"
+  log_line WARN "$*"
+}
+
+ok() {
+  echo -e " ${TICK} $*"
+  log_line INFO "$*"
+}
+
+error() {
+  echo -e " ${CROSS} $*"
+  log_line ERROR "$*"
+}
+
+fatal() {
+  error "$*"
+  exit 1
+}
+
+abort_by_user() {
+  fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
+}
+
+print_line() {
+  printf '%*s\n' "${1:-78}" '' | tr ' ' '-'
+}
+
+show_header() {
   clear
-  NOW=$(date +"%Y")
-  echo -e "${COL_LIGHT_RED}
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-${COL_BLUE}        ◢■◤
-      ◢■◤
-    ◢■◤  ${COL_LIGHT_RED} O P E N V P N - ${COL_NC}W E B A D M I N${COL_LIGHT_RED} - S E R V E R${COL_BLUE}
-  ◢■◤                         【ツ】 © 10.000BC - ${NOW}
-◢■■■■■■■■■■■■■■■■■■■■◤             ${COL_LIGHT_RED}L   I   N   U   X
-■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■${COL_NC}
-"
-datum=$(date '+%Y-%m-%d:%H.%M.%S')
-echo ${datum}": Start Install" >> ${CURRENT_PATH}/loginstall.log
+  print_line 78
+  echo " OpenVPN-WebAdmin Setup"
+  echo " $(date '+%Y-%m-%d %H:%M:%S')"
+  print_line 78
 }
 
-#
-# init screen
-# Find the rows and columns will default to 80x24 if it can not be detected
-# @pos00
-#
-set_screen_vars(){
-  screen_size=$(stty size 2>/dev/null || echo 24 80)
-  rows=$(echo "${screen_size}" | awk '{print $1}')
-  columns=$(echo "${screen_size}" | awk '{print $2}')
-
-  # Divide by two so the dialogs take up half of the screen, which looks nice.
-  r=$(( rows / 2 ))
-  c=$(( columns / 2 ))
-  # Unless the screen is tiny
-  r=$(( r < 20 ? 20 : r ))
-  c=$(( c < 70 ? 70 : c ))
-  h=$(( r - 7 ))
-
-  # The script is part of a larger script collection, so this entry exists.
-  # If the color table file exists
-  if [[ -f "${COLTABLE}" ]]; then
-    # source it
-    source ${COLTABLE}
-  # Otherwise,
-  else
-    # Set these values so the installer can still run in color
-    COL_NC='\e[0m' # No Color
-    COL_LIGHT_GREEN='\e[1;32m'
-    COL_LIGHT_RED='\e[1;31m'
-    COL_BLUE='\e[94m'
-    COL_YELLOW='\e[1;33m'
-    INF0="[${COL_YELLOW}▸"
-    INF1="◂${COL_NC}]"
-    TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
-    CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
-    DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
-    OVER="\\r\\033[K"
-  fi
+show_section() {
+  echo
+  print_line 78
+  echo " $*"
+  print_line 78
+  log_line INFO "SECTION: $*"
 }
 
-#
-# If the entries are left with "Cancel", then create a corresponding error message
-# @param Exitstatus $?
-# @return Message OK or Exit Script
-# @see additional description @pos100
-# @pos001
-#  
-control_box(){
-  exitstatus=$?
-  if [ ${exitstatus} = 0 ]; then
-      message_print_out 1 "Execution Ok: ${2}"
-  else
-      message_print_out 0 "Execution break: ${2}"
-      exit
-  fi
+prompt_continue() {
+  local message="${1:-Press ENTER to continue.}"
+  "${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    --msgbox "${message}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}"
 }
 
-#
-# Errors in the script are intercepted and displayed here
-# @Call After executing a command: control_script_message "description"
-# @param $? + Description
-# @return continue script or or exit when error with exit 100
-# @see additional description @pos100
-# @pos002
-#  
-control_script_message(){
-  if [ ! $? -eq 0 ]
-  then
-  message_print_out 0 "Error ${1} "
-  exit 100
-  fi
+load_install_config() {
+  [ -f "${CONFIG_FILE}" ] || fatal "Missing config file: ${CONFIG_FILE}"
+  # shellcheck disable=SC1090
+  source "${CONFIG_FILE}"
 }
 
-#
-# formats the notes and messages in an appealing form
-# @param [1|0|i|d|r] [Text]
-# @example: message_print_out 1 "your text"
-# @return formated Text with "0" red cross, "1" green tick, "i"nfo, "d"one Message or need input with "r"ead
-# @see additional description @pos100
-# @pos003
-#  
-message_print_out(){
-  case "${1}" in
-    1)
-    echo -e " ${TICK} ${2}"
-    ;;
-    0)
-    echo -e " ${CROSS} ${2}"
-    ;;
-    i)
-    echo -e " ${INF0} ${2} ${INF1}"
-    ;;
-    d)
-    echo -e " ${DONE} ${2}"
-    ;;
-    r)  read -rsp " ${2}"
-    echo "【ツ】"
-    ;;
+load_language() {
+  local lang_file="${LANG_DIR}/${1}"
+  [ -f "${lang_file}" ] || fatal "Missing language file: ${lang_file}"
+  # shellcheck disable=SC1090
+  source "${lang_file}"
+}
+
+choose_language() {
+  local auto_lang="en_GB"
+  case "${LANG%%.*}" in
+    de_DE*) auto_lang="de_DE" ;;
+    fr_FR*) auto_lang="fr_FR" ;;
+    en_*) auto_lang="en_GB" ;;
   esac
-  datum=$(date '+%Y-%m-%d:%H.%M.%S')
-  echo ${datum}": "${2} >> ${CURRENT_PATH}/loginstall.log
-}
 
-### Additional Description
-# @pos100
-# The two functions should be used in combination.
-# "message_print_out" should indicate where the script is and what it wants to do,
-# "control_script_message" or "control_box" should then indicate the completion of the action,
-# whether it was successful or no
-###
+  local lang_num=""
+  show_section "${MSG_SECTION_LANGUAGE:-Language}"
 
-#
-# description: you can only install with root privileges, check this
-# name: check_user
-# @param $?
-# @return continue script or or exit when no root user
-# @callfrom function main
-# @pos011
-#  
-check_user(){
-  # Must be root to install
-  local str="Root user check"
-  if [[ "${EUID}" -eq 0 ]]; then
-    # they are root and all is good
-    message_print_out 1 "${str}"
-  else
-    message_print_out 0 "${str}"
-    message_print_out i "${COL_LIGHT_RED}${USER01}${COL_NC}"
-    message_print_out i "${USER02}"
-    message_print_out 0 "${USER03}"
-    exit 1
+  if [ -z "${WHIPTAIL_BIN}" ]; then
+    fatal "${MSG_MISSING_WHIPTAIL:-whiptail is required. Please install it first.}"
   fi
+
+  lang_num="$("${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    --menu "${MSG_LANGUAGE_SELECT:-Select language}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" "${WHIPTAIL_MENU_HEIGHT}" \
+    "auto" "Auto (${auto_lang})" \
+    "de_DE" "Deutsch" \
+    "en_GB" "English" \
+    "fr_FR" "Francais" \
+    3>&1 1>&2 2>&3)" || abort_by_user
+
+  case "${lang_num}" in
+    de_DE|en_GB|fr_FR) LANG_CHOICE="${lang_num}" ;;
+    *) LANG_CHOICE="${auto_lang}" ;;
+  esac
+
+  load_language "${LANG_CHOICE}"
+  ok "${MSG_LANGUAGE_SET:-Language set}: ${LANG_CHOICE}"
 }
 
-#
-# select current linux version
-# @callfrom function main
-# @pos012
-#
-set_os_version(){
-  if [[ -e /etc/os-release ]]; then
-    OS=$(grep "\bID\b" /etc/os-release | cut -d '=' -f2 | tr -d '"')
-    OSVERSION=$(grep "\bVERSION_ID\b" /etc/os-release | cut -d '=' -f2 | tr -d '"')
-    CODENAME=$(grep "\bVERSION_CODENAME\b" /etc/os-release | cut -d '=' -f2 | tr -d '"')
-    message_print_out i "Install on:  ${OS} ${CODENAME}"
-    # Fix Debian 10 Fehler
-    if [ ${OS} = 'debian' ]; then
-      export PATH=$PATH:/usr/sbin:/sbin
+require_root() {
+  [ "${EUID}" -eq 0 ] || fatal "${MSG_NEED_ROOT:-Run this setup as root.}"
+}
+
+detect_os() {
+  [ -f /etc/os-release ] || fatal "${MSG_OS_NOT_FOUND:-/etc/os-release not found.}"
+  # shellcheck disable=SC1091
+  source /etc/os-release
+  OS_ID="${ID:-}"
+  OS_VERSION_ID="${VERSION_ID:-}"
+  OS_CODENAME="${VERSION_CODENAME:-}"
+  ok "${MSG_OS_DETECTED:-Detected OS}: ${OS_ID} ${OS_VERSION_ID} ${OS_CODENAME}"
+}
+
+version_in_list() {
+  local needle="$1"
+  shift
+  local item
+  for item in "$@"; do
+    [ "${needle}" = "${item}" ] && return 0
+  done
+  return 1
+}
+
+assert_supported_os() {
+  case "${OS_ID}" in
+    debian)
+      version_in_list "${OS_VERSION_ID}" "${SUPPORTED_DEBIAN_VERSIONS[@]}" || \
+        fatal "${MSG_OS_UNSUPPORTED:-Unsupported OS version.} (${OS_ID} ${OS_VERSION_ID})"
+      ;;
+    ubuntu)
+      version_in_list "${OS_VERSION_ID}" "${SUPPORTED_UBUNTU_LTS_VERSIONS[@]}" || \
+        fatal "${MSG_OS_UNSUPPORTED:-Unsupported OS version.} (${OS_ID} ${OS_VERSION_ID})"
+      ;;
+    *)
+      fatal "${MSG_OS_UNSUPPORTED:-Unsupported OS version.} (${OS_ID} ${OS_VERSION_ID})"
+      ;;
+  esac
+}
+
+ask_input() {
+  local var_name="$1"
+  local prompt="$2"
+  local default_value="${3:-}"
+  local value=""
+
+  value="$("${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    --inputbox "${prompt}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" "${default_value}" \
+    3>&1 1>&2 2>&3)" || abort_by_user
+
+  if [ -n "${default_value}" ] && [ -z "${value}" ]; then
+    value="${default_value}"
+  fi
+
+  printf -v "${var_name}" '%s' "${value}"
+}
+
+ask_secret() {
+  local var_name="$1"
+  local prompt="$2"
+  local value=""
+
+  while true; do
+    value="$("${WHIPTAIL_BIN}" \
+      --title "OpenVPN-WebAdmin Setup" \
+      --passwordbox "${prompt}" \
+      "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" \
+      3>&1 1>&2 2>&3)" || abort_by_user
+    [ -n "${value}" ] && break
+    warn "${MSG_EMPTY_NOT_ALLOWED:-This value must not be empty.}"
+  done
+
+  printf -v "${var_name}" '%s' "${value}"
+}
+
+ask_yes_no() {
+  local var_name="$1"
+  local prompt="$2"
+  local default_value="${3:-yes}"
+
+  local status=1
+  local -a yesno_args=(--yesno)
+  case "${default_value}" in
+    no|NO|n|N) yesno_args=(--defaultno --yesno) ;;
+  esac
+
+  if "${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    "${yesno_args[@]}" "${prompt}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}"; then
+    status=0
+  else
+    status=$?
+  fi
+
+  case "${status}" in
+    0) printf -v "${var_name}" '%s' "yes" ;;
+    1) printf -v "${var_name}" '%s' "no" ;;
+    *) abort_by_user ;;
+  esac
+}
+
+ask_choice() {
+  local var_name="$1"
+  local prompt="$2"
+  local default_value="$3"
+  shift 3
+
+  local value=""
+  local -a options=("$@")
+  local default_tag="${default_value}"
+  local has_default=0
+  local i=0
+
+  if [ "${#options[@]}" -lt 2 ] || [ $(( ${#options[@]} % 2 )) -ne 0 ]; then
+    fatal "ask_choice requires tag/label option pairs."
+  fi
+
+  for ((i = 0; i < ${#options[@]}; i += 2)); do
+    if [ "${options[$i]}" = "${default_tag}" ]; then
+      has_default=1
+      break
     fi
+  done
+
+  if [ "${has_default}" -eq 0 ]; then
+    default_tag="${options[0]}"
+  fi
+
+  value="$("${WHIPTAIL_BIN}" \
+    --title "OpenVPN-WebAdmin Setup" \
+    --menu "${prompt}" \
+    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" "${WHIPTAIL_MENU_HEIGHT}" \
+    "${options[@]}" \
+    3>&1 1>&2 2>&3)" || abort_by_user
+
+  if [ -z "${value}" ]; then
+    value="${default_tag}"
+  fi
+
+  printf -v "${var_name}" '%s' "${value}"
+}
+
+ensure_absolute_path() {
+  case "$1" in
+    /*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+backup_file() {
+  local file="$1"
+  [ -f "${file}" ] || return 0
+  local backup="${file}.bak.$(date '+%Y%m%d%H%M%S')"
+  cp -a "${file}" "${backup}"
+  ok "${MSG_BACKUP_CREATED:-Backup created}: ${backup}"
+}
+
+set_or_append_openvpn_line() {
+  local file="$1"
+  local key="$2"
+  local full_line="$3"
+
+  if grep -Eq "^[[:space:]]*${key}[[:space:]]+" "${file}"; then
+    sed -i "s#^[[:space:]]*${key}[[:space:]].*#${full_line}#" "${file}"
   else
-    message_print_out 0 "No suitable operating system found, sorry"
-    message_print_out 0 ${BREAK}
-    exit
+    echo "${full_line}" >> "${file}"
   fi
 }
 
-#
-# choose your favourite language
-# or selected automatically from system settings
-# @callfrom function main
-# At the moment there are 3 language files
-# If no known language is available, English is used as the default
-# @pos010
-#
-set_language(){
-  message_print_out i "Select Language"
-  # Split System-Variable $LANG
-  var1=${LANG%.*}
-  ## Select Language to install
-  var2=$(whiptail --title "Select Language" --menu "Select your language" ${r} ${c} ${h} \
-    "AUTO" " Automatic" \
-    "de_DE" " Deutsch" \
-    "en_EN" " Englisch" \
-    "fr_FR" " Français" \
-    "es_ES" " Español" \
-    3>&1 1>&2 2>&3)
-  RET=$?
-  if [ ${RET} -eq 1 ]; then
-    message_print_out 0 "Exit select language"
-    exit
-  elif [ ${RET} -eq 0 ]; then
-    case "${var2}" in
-      AUTO)
-        if [[ -f "installation/lang/${var1}" ]]; then
-          source "installation/lang/${var1}"
-        else
-          source "installation/lang/en_EN"
-          var2="en_EN"
-        fi
-      ;;
-      de_DE) source "installation/lang/${var2}"
-      ;;
-      en_EN) source "installation/lang/${var2}"
-      ;;
-      fr_FR) source "installation/lang/${var2}"
-      ;;
-      es_ES) source "installation/lang/${var2}"
-      ;;
-      *) source "installation/lang/en_EN"
-      ;;
-    esac
-  fi
-  if [ $var2 = "AUTO" ]; then
-    message_print_out 1 "Set Language to: ${var1}"
-  else
-    message_print_out 1 "Set Language to: ${var2}"
-  fi
+ensure_cmd() {
+  command -v "$1" >/dev/null 2>&1 || fatal "${MSG_MISSING_COMMAND:-Missing command}: $1"
 }
 
+render_progress_bar() {
+  local current="$1"
+  local total="$2"
+  local label="${3:-}"
+  local width=40
+  local percent=0
+  local filled=0
+  local empty=0
+
+  if [ "${total}" -le 0 ]; then
+    total=1
+  fi
+  if [ "${current}" -lt 0 ]; then
+    current=0
+  fi
+  if [ "${current}" -gt "${total}" ]; then
+    current="${total}"
+  fi
+
+  percent=$(( current * 100 / total ))
+  filled=$(( current * width / total ))
+  empty=$(( width - filled ))
+
+  printf "\r %s [" "${label}"
+  printf "%${filled}s" '' | tr ' ' '#'
+  printf "%${empty}s" '' | tr ' ' '-'
+  printf "] %3d%% (%d/%d)" "${percent}" "${current}" "${total}"
+}

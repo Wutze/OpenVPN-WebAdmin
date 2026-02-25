@@ -21,20 +21,51 @@
  * Wird von allen entrypoints (index.php, login.php, api.php …) eingebunden
  */
 
+/**
+ * .env frueh laden, damit Runtime-Flags (z.B. DEBUG/REWRITE) zentral verfuegbar sind.
+ */
+$envPath = dirname(__DIR__) . '/.env';
+if (is_file($envPath) && is_readable($envPath)) {
+    $lines = @file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    if (is_array($lines)) {
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || str_starts_with($line, '#') || !str_contains($line, '=')) {
+                continue;
+            }
+
+            [$k, $v] = array_map('trim', explode('=', $line, 2));
+            if ($k === '') {
+                continue;
+            }
+
+            $v = trim($v, "\"'");
+            $_ENV[$k] = $v;
+            putenv($k . '=' . $v);
+        }
+    }
+}
+
 // Konfiguration laden
 $config = require dirname(__DIR__) . '/config/config.php';
+
+$envDebugRaw = getenv('DEBUG');
+$envDebug = filter_var($envDebugRaw === false ? 'false' : $envDebugRaw, FILTER_VALIDATE_BOOL);
+$envRewriteRaw = getenv('REWRITE');
+$envRewrite = filter_var($envRewriteRaw === false ? 'false' : $envRewriteRaw, FILTER_VALIDATE_BOOL);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Micro\OpenvpnWebadmin\Core\Database;
 use Micro\OpenvpnWebadmin\Core\Session;
 use Micro\OpenvpnWebadmin\Core\Lang;
+use Micro\OpenvpnWebadmin\Core\Url;
 
 /**
  * damit das Debugging überall verfügbar ist
  */
 class_alias(\Micro\OpenvpnWebadmin\Core\Debug::class, 'Debug');
-Debug::init($config['debug'] ? 'development' : 'production');
+Debug::init($envDebug ? 'development' : 'production', null, $envDebug);
 
 /**
  * alle anderen notwendigen Klassen zentral verfügbar
@@ -42,6 +73,7 @@ Debug::init($config['debug'] ? 'development' : 'production');
 if (class_exists(Lang::class))     class_alias(Lang::class, 'Lang');
 if (class_exists(Database::class)) class_alias(Database::class, 'DB');
 if (class_exists(Session::class))  class_alias(Session::class, 'Session');
+if (class_exists(Url::class))      class_alias(Url::class, 'Url');
 
 
 /**
@@ -111,6 +143,13 @@ header(
 
 
 define('_SITETOOLS', $config['sitetools']);
+define('_URL_REWRITE', $envRewrite);
+define(
+    '_APP_BASE_PATH',
+    (($scriptDir = rtrim(str_replace('\\', '/', dirname((string)($_SERVER['SCRIPT_NAME'] ?? '/'))), '/')) === '' || $scriptDir === '/')
+        ? ''
+        : $scriptDir
+);
 define('_PROJECT_BASE_DIR', dirname(__DIR__));
 define('_HTML_BASE_DIR', _PROJECT_BASE_DIR . '/html');
 

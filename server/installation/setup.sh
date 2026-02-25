@@ -1,5 +1,5 @@
-#!/bin/bash
-# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
+#!/usr/bin/env bash
+# this File is part of OpenVPN-WebAdmin - (c) 2026 OpenVPN-WebAdmin
 #
 # NOTICE OF LICENSE
 #
@@ -10,1110 +10,1151 @@
 #
 # @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
 #
-# @author     Wutze
-# @copyright  2020 OpenVPN-WebAdmin
-# @link       https://github.com/Wutze/OpenVPN-WebAdmin
-# @see        Internal Documentation ~/doc/
-# @version    1.4.2
-# @todo       new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+# @author    Wutze
+# @copyright 2026 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		2.0.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
+set -euo pipefail
 
-### Set Vars
-# debug
-# If you want to debug the script, start it with this call
-## DEBUG=1 ./install.sh
-test -z "$DEBUG" || set -x
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck disable=SC1091
+source "${SCRIPT_DIR}/functions.sh"
 
-## short Description install file
-## script explained step by step
-# in the first define variables, load config files
-# setting up the functions
-# then start the script
-# read the arguments, check this, set the install path
-# check installation path and whether group and user exist
-# Inputs all vars with Message Boxes
-# setup mysql > databases, tables, access and first admin to login webfrontend
-# read vars and setting up to create ca-certs
-# create system services
-# create and copy bash scripts for server
-# create and copy files for webfrontend
-# in the last install third party components, setting access rights
-# finnish the script with message
+REPO_URL=""
+REPO_BRANCH=""
+SOURCE_DIR=""
+DEPLOY_DIR=""
+WEB_OWNER=""
+WEB_GROUP=""
+LOGIN_THEME=""
+SITETOOLS=""
 
-### Important notice ###
-# The @pos[nnn] indicates the sequence number of the functions or additional
-# descriptions to make them easier to find.
-###
+DB_HOST=""
+DB_PORT=""
+DB_NAME=""
+DB_USER=""
+DB_PASS=""
+DB_CREATE_LOCAL=""
+DB_ROOT_PASSWORD=""
 
-#
-# set static vars
-#
-source installation/functions.sh
-config="installation/config.conf"
-BACKTITLE="OVPN-Admin [INSTALLATION]"
-# Set the path from which you started your installation
-CURRENT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-VERSION="1.4.1"
+ADMIN_USER=""
+ADMIN_PASS=""
 
-##### System Functions #####
+OPENVPN_SERVER_CONF=""
+OPENVPN_SCRIPTS_DIR=""
+WEBSERVER_PACKAGE=""
+WEBSERVER_CONFIGURE="no"
+WEBSERVER_TARGET=""
+WEBSERVER_MODE="standalone"
+WEBSERVER_SUBDIR="/openvpnwebadmin"
+WEBSERVER_SERVER_NAME="_"
+ENABLE_REWRITE="no"
+ASSETS_ALLOW_NPM_FALLBACK="yes"
+EFFECTIVE_WEB_OWNER=""
+EFFECTIVE_WEB_GROUP=""
 
+PACKAGES=()
 
-### Additional Description
-# @pos100
-# The two functions should be used in combination.
-# "message_print_out" should indicate where the script is and what it wants to do,
-# "control_script_message" or "control_box" should then indicate the completion of the action,
-# whether it was successful or no
-###
-
-
-#
-# you have define database?
-# looks at define local or remote database
-# you can take only one database, else error message
-# @return $installsql [1|0]
-# @return $mysqlserver for install
-# @callfrom function do_select_start_install
-# @pos005
-#
-collect_param_mysql(){
-  message_print_out i "define selectet SQL-Server|SQL-Client"
-  # If the variable xxx already contains a value, it means this function
-  # has been called before. A double installation is not allowed
-  # exit script
-  if [ ${mysqlserver} ]; then
-    message_print_out 0 "${FEHLER01} ${SELECT03} ${FEHLER03} ${SELECT04}. ${ONEONLY}"
-    message_print_out 0 ${BREAK}
-    exit
-  fi
-  if [ ${1} = 3 ]; then
-    mysqlserver="mariadb-server"
-    # Definition whether local server [1] or remote [0]
-    installsql="1"
-    message_print_out 1 "Install Server on ${OS}: ${mysqlserver}"
-  elif [ ${1} = 4 ]; then
-    if [ "${OS}" = "centos" ]; then
-      mysqlserver="mysql"
-      setsebool -P httpd_can_network_connect_db on
-      installsql="0"
-    else
-      mysqlserver="default-mysql-client"
-      installsql="0"
-    fi
-    message_print_out 1 "Install Client on ${OS}: ${mysqlserver}"
-  fi
+input_preview() {
+  local key="$1"
+  case "${key}" in
+    DB_PASS|ADMIN_PASS)
+      printf '%s' "********"
+      ;;
+    DB_ROOT_PASSWORD)
+      if [ -n "${DB_ROOT_PASSWORD}" ]; then
+        printf '%s' "********"
+      else
+        printf '%s' "(empty)"
+      fi
+      ;;
+    *)
+      local value="${!key-}"
+      if [ -n "${value}" ]; then
+        printf '%.46s' "${value}"
+      else
+        printf '%s' "(empty)"
+      fi
+      ;;
+  esac
 }
 
-#
-# all collect Functions collect the script options
-# @callfrom function do_select_start_install
-# @pos006
-#
-collect_param_webserver(){
-  message_print_out i "define selectet Webserver"
-  if [ ${webserver} ]; then
-    message_print_out 0 "${FEHLER01} ${SELECT04} ${FEHLER03} ${SELECT05}. ${ONEONLY}"
-    message_print_out 0 ${BREAK}
-    exit
-  fi
-  if [ ${1} = 5 ]; then
-    if [ "${OS}" = "centos" ]; then
-      webserver="httpd"
-    else
-      webserver="apache2"
-    fi
-    message_print_out 1 "Install on ${OS}: ${webserver}"
-  elif [ ${1} = 6 ]; then
-    webserver="nginx"
-    message_print_out 1 "Install on ${OS}: ${webserver}"
-  fi
+edit_single_input() {
+  local key="$1"
+
+  case "${key}" in
+    REPO_URL) ask_input REPO_URL "${MSG_REPO_URL:-Repository URL}" "${REPO_URL}" ;;
+    REPO_BRANCH) ask_input REPO_BRANCH "${MSG_REPO_BRANCH:-Repository branch}" "${REPO_BRANCH}" ;;
+    SOURCE_DIR) ask_input SOURCE_DIR "${MSG_SOURCE_DIR:-Local source directory}" "${SOURCE_DIR}" ;;
+    DEPLOY_DIR) ask_input DEPLOY_DIR "${MSG_DEPLOY_DIR:-WebAdmin target directory}" "${DEPLOY_DIR}" ;;
+    WEB_OWNER) ask_input WEB_OWNER "${MSG_WEB_OWNER:-Web owner user}" "${WEB_OWNER}" ;;
+    WEB_GROUP) ask_input WEB_GROUP "${MSG_WEB_GROUP:-Web owner group}" "${WEB_GROUP}" ;;
+    LOGIN_THEME)
+      ask_choice LOGIN_THEME "${MSG_LOGIN_THEME:-Login theme (login1/login2/login3)}" "${LOGIN_THEME}" \
+        "login1" "login1" \
+        "login2" "login2" \
+        "login3" "login3"
+      ;;
+    SITETOOLS) ask_input SITETOOLS "${MSG_SITETOOLS:-Local sitetools path (no external URL)}" "${SITETOOLS}" ;;
+    DB_HOST) ask_input DB_HOST "${MSG_DB_HOST:-Database host}" "${DB_HOST}" ;;
+    DB_PORT) ask_input DB_PORT "${MSG_DB_PORT:-Database port}" "${DB_PORT}" ;;
+    DB_NAME) ask_input DB_NAME "${MSG_DB_NAME:-Database name}" "${DB_NAME}" ;;
+    DB_USER) ask_input DB_USER "${MSG_DB_USER:-Database user}" "${DB_USER}" ;;
+    DB_PASS) ask_secret DB_PASS "${MSG_DB_PASS:-Database password}" ;;
+    DB_CREATE_LOCAL)
+      ask_yes_no DB_CREATE_LOCAL "${MSG_DB_CREATE_LOCAL:-Create local MariaDB database and user}" "${DB_CREATE_LOCAL}"
+      if [ "${DB_CREATE_LOCAL}" = "no" ]; then
+        DB_ROOT_PASSWORD=""
+      fi
+      ;;
+    DB_ROOT_PASSWORD)
+      if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
+        ask_input DB_ROOT_PASSWORD "${MSG_DB_ROOT_PASS_OPTIONAL:-MariaDB root password (leave empty for socket auth)}" "${DB_ROOT_PASSWORD}"
+      fi
+      ;;
+    ADMIN_USER) ask_input ADMIN_USER "${MSG_ADMIN_USER:-Initial admin username}" "${ADMIN_USER}" ;;
+    ADMIN_PASS) ask_secret ADMIN_PASS "${MSG_ADMIN_PASS:-Initial admin password}" ;;
+    OPENVPN_SERVER_CONF) ask_input OPENVPN_SERVER_CONF "${MSG_OPENVPN_CONF:-OpenVPN server.conf path}" "${OPENVPN_SERVER_CONF}" ;;
+    OPENVPN_SCRIPTS_DIR) ask_input OPENVPN_SCRIPTS_DIR "${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}" "${OPENVPN_SCRIPTS_DIR}" ;;
+    WEBSERVER_PACKAGE)
+      ask_choice WEBSERVER_PACKAGE "${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}" "${WEBSERVER_PACKAGE}" \
+        "none" "none" \
+        "apache2" "apache2" \
+        "nginx" "nginx"
+      collect_webserver_options
+      ;;
+    WEBSERVER_CONFIGURE)
+      ask_yes_no WEBSERVER_CONFIGURE "${MSG_WEBSERVER_CONFIGURE:-Configure webserver automatically now}" "${WEBSERVER_CONFIGURE}"
+      ;;
+    WEBSERVER_TARGET)
+      ask_choice WEBSERVER_TARGET "${MSG_WEBSERVER_TARGET:-Webserver type for configuration}" "${WEBSERVER_TARGET}" \
+        "apache2" "apache2" \
+        "nginx" "nginx"
+      ;;
+    WEBSERVER_MODE)
+      ask_choice WEBSERVER_MODE "${MSG_WEBSERVER_USE_SUBDIR:-Expose app under /openvpnwebadmin path instead of standalone site}" "${WEBSERVER_MODE}" \
+        "subdir" "${MSG_MODE_SUBDIR:-Subdirectory (/openvpnwebadmin)}" \
+        "standalone" "${MSG_MODE_STANDALONE:-Standalone site}"
+      ;;
+    WEBSERVER_SUBDIR)
+      ask_input WEBSERVER_SUBDIR "${MSG_WEBSERVER_SUBDIR:-Subdirectory path}" "${WEBSERVER_SUBDIR}"
+      ;;
+    WEBSERVER_SERVER_NAME)
+      ask_input WEBSERVER_SERVER_NAME "${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}" "${WEBSERVER_SERVER_NAME}"
+      ;;
+    ENABLE_REWRITE)
+      ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "${ENABLE_REWRITE}"
+      ;;
+    ASSETS_ALLOW_NPM_FALLBACK)
+      ask_yes_no ASSETS_ALLOW_NPM_FALLBACK "${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}" "${ASSETS_ALLOW_NPM_FALLBACK}"
+      ;;
+  esac
 }
 
-#
-# set var webroot
-# @callfrom function do_select_start_install
-# @pos007
-#
-collect_param_webroot(){
-  message_print_out i "Set Parameters Webserver"
-  WWWROOT="/srv/www"
-  OVPNROOT="/openvpn-admin"
-  OVPN_FULL_PATH=$WWWROOT$OVPNROOT
-}
+review_inputs_menu() {
+  local choice=""
 
-#
-# set the php-script owner
-# @callfrom function do_select_start_install
-# @pos008
-#
-collect_param_owner(){
-  message_print_out i "define Owner for permissions"
-  if [ "${OS}" == "debian" ]; then
-    OWNER="www-data"
-    GROUPOWNER="www-data"
-  elif [ "${OS}" == "centos" ]; then
-    OWNER="apache"
-    GROUPOWNER="apache"
-  fi
-  message_print_out 1 "define permissions on ${OS} : ${OWNER}:${GROUPOWNER}"
-}
+  while true; do
+    choice="$("${WHIPTAIL_BIN}" \
+      --title "OpenVPN-WebAdmin Setup" \
+      --menu "${MSG_EDIT_MENU_PROMPT:-Select a field to edit or continue}" \
+      24 96 16 \
+      "continue" "${MSG_EDIT_CONTINUE:-Continue with these values}" \
+      "REPO_URL" "$(input_preview REPO_URL)" \
+      "REPO_BRANCH" "$(input_preview REPO_BRANCH)" \
+      "SOURCE_DIR" "$(input_preview SOURCE_DIR)" \
+      "DEPLOY_DIR" "$(input_preview DEPLOY_DIR)" \
+      "WEB_OWNER" "$(input_preview WEB_OWNER)" \
+      "WEB_GROUP" "$(input_preview WEB_GROUP)" \
+      "LOGIN_THEME" "$(input_preview LOGIN_THEME)" \
+      "SITETOOLS" "$(input_preview SITETOOLS)" \
+      "DB_HOST" "$(input_preview DB_HOST)" \
+      "DB_PORT" "$(input_preview DB_PORT)" \
+      "DB_NAME" "$(input_preview DB_NAME)" \
+      "DB_USER" "$(input_preview DB_USER)" \
+      "DB_PASS" "$(input_preview DB_PASS)" \
+      "DB_CREATE_LOCAL" "$(input_preview DB_CREATE_LOCAL)" \
+      "DB_ROOT_PASSWORD" "$(input_preview DB_ROOT_PASSWORD)" \
+      "ADMIN_USER" "$(input_preview ADMIN_USER)" \
+      "ADMIN_PASS" "$(input_preview ADMIN_PASS)" \
+      "OPENVPN_SERVER_CONF" "$(input_preview OPENVPN_SERVER_CONF)" \
+      "OPENVPN_SCRIPTS_DIR" "$(input_preview OPENVPN_SCRIPTS_DIR)" \
+      "WEBSERVER_PACKAGE" "$(input_preview WEBSERVER_PACKAGE)" \
+      "WEBSERVER_CONFIGURE" "$(input_preview WEBSERVER_CONFIGURE)" \
+      "WEBSERVER_TARGET" "$(input_preview WEBSERVER_TARGET)" \
+      "WEBSERVER_MODE" "$(input_preview WEBSERVER_MODE)" \
+      "WEBSERVER_SUBDIR" "$(input_preview WEBSERVER_SUBDIR)" \
+      "WEBSERVER_SERVER_NAME" "$(input_preview WEBSERVER_SERVER_NAME)" \
+      "ENABLE_REWRITE" "$(input_preview ENABLE_REWRITE)" \
+      "ASSETS_ALLOW_NPM_FALLBACK" "$(input_preview ASSETS_ALLOW_NPM_FALLBACK)" \
+      3>&1 1>&2 2>&3)" || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
 
-#
-# copy install.conf, when you call it
-# @callfrom function do_select_start_install
-# @pos009
-#
-copy_config(){
-  message_print_out i "copy install.config"
-  cp installation/config.conf.sample installation/config.conf
-  control_box $0 "copy config.conf"
-}
-
-#
-# tests if required programs are installed
-# @callfrom function main
-# @pos013
-#
-test_system(){
-  message_print_out i "checks if all required programs are installed"
-  for i in openvpn mysql php yarn node unzip wget sed route tar; do
-    which $i > /dev/null
-    if [ $? -ne 0 ]; then
-      message_print_out 0 "${MISSING} ${COL_LIGHT_RED}${i}${COL_NC}! ${INSTALL}"
-      message_print_out 0 "${BREAK}"
-      exit
-    fi
+    [ "${choice}" = "continue" ] && break
+    edit_single_input "${choice}"
   done
 }
 
-#
-# Selection of installation options
-# @callfrom function do_select_start_install
-# @pos014
-#
-do_select(){
-  # nginx fehlt noch
-  message_print_out i "give me inputs"
-  sel=$(whiptail --title "${SELECT_A}" --checklist --separate-output "${SELECT_B}:" ${r} ${c} ${h} \
-    "1" "${SELECT01} " on \
-    "2" "${SELECT02} " on \
-    "3" "${SELECT03} " on \
-    "4" "${SELECT04} " off \
-    "5" "${SELECT05} " on \
-    "11" "${SELECT11} " off \
-    "12" "${SELECT12} " off \
-    "13" "${SELECT13} " off \
-    "20" "${SELECT20} " off \
-    3>&1 1>&2 2>&3)
-#  RET=$?
-  control_box $? "do_select"
+setup_prelude() {
+  load_install_config
+  init_log
+  show_header
+  ensure_cmd whiptail
+  choose_language
+
+  show_section "${MSG_SECTION_SYSTEM_CHECK:-System check}"
+  require_root
+  detect_os
+  assert_supported_os
+  ensure_cmd apt-get
+  ensure_cmd sed
+  ensure_cmd grep
 }
 
-#
-# execute the settings from do_select
-# @callfrom function main
-# @pos015
-#
-do_select_start_install(){
-  message_print_out 1 "Intro Attention"
-  #### Start Script with Out- and Inputs
-  ## first call funcions
-  ## creates a readme first file with installation information
-  echo "${ATTENTION}" > README.FIRST.txt
-  whiptail --textbox README.FIRST.txt --title "Information" ${r} ${c}
-
-  message_print_out i "${BEFOR}"
-  message_print_out r
-  message_print_out 1 "Select the installationoptions:"
-  ## go to @pos014, select install options
-  do_select
-  ## execute the previously selected options
-  while read -r line;
-  do #echo "${line}";
-      case ${line} in
-          1) copy_config ## @pos009
-          ;;
-          2) collect_param_install_programs ${line} ## @pos017
-          ;;
-          3|4) collect_param_mysql ${line} ## @pos005
-          ;;
-          5|6) collect_param_webserver ${line} ## @pos006
-          ;;
-          9|10) collect_param_owner ${line} ## @pos008
-          ;;
-          11) modules_dev="1"
-              MOD_ENABLE="1"
-          ;;
-          12) modules_firewall="1"
-              MOD_ENABLE="1"
-          ;;
-          13) modules_clientload="1"
-              MOD_ENABLE="1"
-          ;;
-          20) modules_all="1"
-              MOD_ENABLE="1"
-          ;;
-          *)
-          ;;
-      esac
-  done < <(echo "${sel}")
-  message_print_out 1 "Fin selection"
-}
-
-
-#
-# read config.conf
-# you must copy config.conf.example to config.conf and edit this file
-# @callfrom function main
-# @pos016
-#
-check_config(){
-  message_print_out i "check install-config"
-  if [[ -f "${config}" ]]; then
-    # source it
-    source ${config}
-  # Otherwise,
-  else
-    echo -e ${COL_LIGHT_RED}${CONFIG01}${COL_NC}
-    echo -e ${CONFIG02}
-    echo -e ${COL_LIGHT_GREEN}${CONFIG03}${COL_NC}
-    echo -e ${CONFIG04}
-    echo -e ${CROSS}" "${BREAK}
-    message_print_out 0 "error check install-config"
-    exit
+normalize_subdir_path() {
+  local value="$1"
+  value="${value%/}"
+  if [ -z "${value}" ]; then
+    value="/openvpnwebadmin"
   fi
-  message_print_out 1 "read install-config"
+  case "${value}" in
+    /*) ;;
+    *) value="/${value}" ;;
+  esac
+  printf '%s' "${value}"
 }
 
-#
-# Security updates come in too late from the distributions.
-# Therefore, the openvpn repo will be used from now on.
-# @callfrom function collect_param_install_programs
-#
-set_openvpn_repo(){
-  message_print_out i "set openvpn repo"
-  if [ "${OS}" == "debian" ]; then
-    apt-get update && apt-get -y install ca-certificates wget net-tools gnupg >> ${CURRENT_PATH}/loginstall.log
-    wget -O - https://swupdate.openvpn.net/repos/repo-public.gpg | apt-key add -
-    echo "deb http://build.openvpn.net/debian/openvpn/stable/ ${CODENAME} main" > /etc/apt/sources.list.d/openvpn-as-repo.list
-    apt-get update >> ${CURRENT_PATH}/loginstall.log
-  elif [ "${OS}" == "centos" ]; then
-    yum copr enable dsommers/openvpn-git -y >> ${CURRENT_PATH}/loginstall.log
-  fi
-  message_print_out 1 "set openvpn repo ${OS}"
-}
+collect_webserver_options() {
+  WEBSERVER_TARGET="${WEBSERVER_PACKAGE}"
+  WEBSERVER_MODE="standalone"
+  WEBSERVER_SUBDIR="/openvpnwebadmin"
+  WEBSERVER_SERVER_NAME="_"
+  ENABLE_REWRITE="no"
 
-#
-# you need this programs
-# Here it is defined which operating system needs which programs
-# @callfrom function do_select_start_install
-# @pos017
-#
-collect_param_install_programs(){
-  set_openvpn_repo
-  message_print_out i "collect install programms"
-  if [ "${OS}" == "debian" ]; then
-    autoinstall="openvpn php-mysql php-zip php unzip git wget sed curl git net-tools nodejs"
-  elif [ "${OS}" == "centos" ]; then
-    autoinstall="openvpn php php-mysqlnd php-zip php-json unzip git wget sed curl git net-tools tar npm"
+  if [ "${WEBSERVER_PACKAGE}" = "none" ]; then
+    ask_yes_no WEBSERVER_CONFIGURE "${MSG_WEBSERVER_CONFIGURE_EXISTING:-Configure an existing webserver now}" "no"
+    if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
+      ask_choice WEBSERVER_TARGET "${MSG_WEBSERVER_TARGET:-Webserver type for configuration}" "apache2" \
+        "apache2" "apache2" \
+        "nginx" "nginx"
+      ask_yes_no WEBSERVER_MODE_SUBDIR "${MSG_WEBSERVER_USE_SUBDIR_EXISTING:-Expose app under /openvpnwebadmin path (like phpMyAdmin)}" "yes"
+      if [ "${WEBSERVER_MODE_SUBDIR}" = "yes" ]; then
+        WEBSERVER_MODE="subdir"
+        ask_input WEBSERVER_SUBDIR "${MSG_WEBSERVER_SUBDIR:-Subdirectory path}" "/openvpnwebadmin"
+      else
+        WEBSERVER_MODE="standalone"
+        ask_input WEBSERVER_SERVER_NAME "${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}" "_"
+      fi
+      ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "no"
+    fi
+    return
   fi
-  message_print_out 1 "collect install programms for ${OS}"
-}
 
-#
-# Start Program Installation
-# @callfrom function main
-# @pos018
-#
-install_programs_now(){
-  if [ ! ${mysqlserver} ]; then
-    message_print_out 0 "${INSTMESS}"
-    message_print_out 0 "${BREAK}"
-    exit
-  fi
-  message_print_out i "${INFO001}"
-  message_print_out i "${INFO002}"  
-  message_print_out i "${INFO003}"
-  if [ "${OS}" == "debian" ]; then
-    message_print_out i "Update ${OS}"
-    apt-get update -y >> ${CURRENT_PATH}/loginstall.log
-    message_print_out i "Upgrade ${OS}"
-    apt-get upgrade -y >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-Update"
-    message_print_out i "Install Nodejs 12.x ${OS}"
-    wget https://deb.nodesource.com/setup_12.x -O node-setup.sh >> ${CURRENT_PATH}/loginstall.log
-    chmod 700 node-setup.sh >> ${CURRENT_PATH}/loginstall.log
-    ./node-setup.sh >> ${CURRENT_PATH}/loginstall.log
-    message_print_out i "Install Packages ${OS}"
-    apt-get install ${webserver} ${autoinstall} ${mysqlserver} -y >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-Install"
-    message_print_out i "Install npm/yarn ${OS}"
-    npm install -g yarn >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-npm/yarn Install"
-  elif [ "${OS}" == "centos" ]; then
-    ## disable the firewall bullshit
-    if (whiptail --title "Question" --yesno "${CENTOSME}" ${r} ${c}); then
-      message_print_out 1 "Continue."
+  ask_yes_no WEBSERVER_CONFIGURE "${MSG_WEBSERVER_CONFIGURE:-Configure webserver automatically now}" "yes"
+  if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
+    ask_yes_no WEBSERVER_MODE_SUBDIR "${MSG_WEBSERVER_USE_SUBDIR:-Expose app under /openvpnwebadmin path instead of standalone site}" "no"
+    if [ "${WEBSERVER_MODE_SUBDIR}" = "yes" ]; then
+      WEBSERVER_MODE="subdir"
+      ask_input WEBSERVER_SUBDIR "${MSG_WEBSERVER_SUBDIR:-Subdirectory path}" "/openvpnwebadmin"
     else
-      message_print_out 0 "You would rather work with a pseudo security. Script end"
-      exit
+      WEBSERVER_MODE="standalone"
+      ask_input WEBSERVER_SERVER_NAME "${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}" "_"
     fi
-    
-    systemctl stop firewalld >> ${CURRENT_PATH}/loginstall.log
-    systemctl disable firewalld >> ${CURRENT_PATH}/loginstall.log
-    systemctl mask --now firewalld >> ${CURRENT_PATH}/loginstall.log
-
-    message_print_out i "Install epel-release ${OS}"
-    yum install epel-release -y  >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-enable epel-release"
-    message_print_out i "Update ${OS}"
-    yum update -y >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-Update"
-    message_print_out i "Install Packages ${OS}"
-    yum install ${webserver} ${autoinstall} ${mysqlserver} -y >> ${CURRENT_PATH}/loginstall.log
-
-    if [ $installsql = "1" ]; then
-      systemctl enable mariadb >> ${CURRENT_PATH}/loginstall.log
-      systemctl start mariadb >> ${CURRENT_PATH}/loginstall.log
-    fi
-
-    message_print_out i "Enable OpenVPN-Server"
-    mkdir /var/log/openvpn
-    # diese Änderung ist notwendig, da sonst die server.conf nicht per Web editiert werden kann
-    # bzw. der OpenVPN-Server schlicht nicht starten mag
-    sed -i "s/SELINUX=enforcing/SELINUX=disabled/" "/etc/selinux/config"
-    systemctl -f enable openvpn-server@server.service >> ${CURRENT_PATH}/loginstall.log
-    systemctl start httpd >> ${CURRENT_PATH}/loginstall.log
-    systemctl enable httpd >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-Install"
-    message_print_out i "enable/install nodejs ${OS}"
-    ## jetzt Version 12 da Version 10 veraltet
-    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash >> ${CURRENT_PATH}/loginstall.log
-    yum module reset nodejs:10 -y >> ${CURRENT_PATH}/loginstall.log
-    yum module enable nodejs:12 -y >> ${CURRENT_PATH}/loginstall.log
-    yum install nodejs -y >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-enabled/install nodejs"
-    message_print_out i "Install yarn ${OS}"
-    curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo >> ${CURRENT_PATH}/loginstall.log
-    rpm --import https://dl.yarnpkg.com/rpm/pubkey.gpg >> ${CURRENT_PATH}/loginstall.log
-    yum install yarn -y >> ${CURRENT_PATH}/loginstall.log
-    control_box $? "${OS}-Install yarn"
+    ask_yes_no ENABLE_REWRITE "${MSG_USE_REWRITE:-Enable rewrite mode}" "no"
   fi
-  message_print_out 1 "Installation Ok -> ${OS}"
 }
 
-#
-# Collect all variables here to be able to perform the installation
-# @callfrom function main
-# @pos019
-#
-give_me_input(){
-  message_print_out i "Setup the variables"
-  ## Message Boxen/Input
-  ## Setup VPN
-  ip_server=$(whiptail --inputbox "${SETVPN01}" ${r} ${c} --title "Hostname/IP" 3>&1 1>&2 2>&3)
-  control_box $? "Server IP"
-  openvpn_proto=$(whiptail --inputbox "${SETVPN02}" ${r} ${c} udp --title "Protokoll" 3>&1 1>&2 2>&3)
-  control_box $? "VPN Protokoll"
-  server_port=$(whiptail --inputbox "${SETVPN03}" ${r} ${c} 1194 --title "Server Port" 3>&1 1>&2 2>&3)
-  control_box $? "OpenVPN Port"
+collect_inputs() {
+  show_section "${MSG_SECTION_INPUT:-Installation parameters}"
 
-  ## Setup Database-Server
-  db_host=$(whiptail --inputbox "${SETVPN04}" ${r} ${c} localhost --title "DB Host" 3>&1 1>&2 2>&3)
-  control_box $? "DB-Host"
-  db_name=$(whiptail --inputbox "${SETVPN10}" ${r} ${c} openvpnadmin --title "DB Name" 3>&1 1>&2 2>&3)
-  control_box $? "DB-Name"
+  ask_input REPO_URL "${MSG_REPO_URL:-Repository URL}" "${INSTALL_REPO_URL}"
+  ask_input REPO_BRANCH "${MSG_REPO_BRANCH:-Repository branch}" "${INSTALL_REPO_BRANCH}"
+  ask_input SOURCE_DIR "${MSG_SOURCE_DIR:-Local source directory}" "${INSTALL_SOURCE_DIR}"
+  ask_input DEPLOY_DIR "${MSG_DEPLOY_DIR:-WebAdmin target directory}" "${DEFAULT_DEPLOY_DIR}"
+  ask_input WEB_OWNER "${MSG_WEB_OWNER:-Web owner user}" "${DEFAULT_WEB_OWNER}"
+  ask_input WEB_GROUP "${MSG_WEB_GROUP:-Web owner group}" "${DEFAULT_WEB_GROUP}"
+  ask_choice LOGIN_THEME "${MSG_LOGIN_THEME:-Login theme (login1/login2/login3)}" "${DEFAULT_LOGIN_THEME}" \
+    "login1" "login1" \
+    "login2" "login2" \
+    "login3" "login3"
+  ask_input SITETOOLS "${MSG_SITETOOLS:-Local sitetools path (no external URL)}" "${DEFAULT_SITETOOLS}"
 
-  ## If you are using an external database server
-  ## configure it previously so that you can enter a user name and password.
-  if [ "${db_host}" == localhost ]; then
-    DBROOTPW=$(whiptail --inputbox "${SETVPN05}" ${r} ${c} ${DBROOTPW} --title "DB Root PW" 3>&1 1>&2 2>&3)
-    control_box $? "Root PW"
+  ask_input DB_HOST "${MSG_DB_HOST:-Database host}" "${DEFAULT_DB_HOST}"
+  ask_input DB_PORT "${MSG_DB_PORT:-Database port}" "${DEFAULT_DB_PORT}"
+  ask_input DB_NAME "${MSG_DB_NAME:-Database name}" "${DEFAULT_DB_NAME}"
+  ask_input DB_USER "${MSG_DB_USER:-Database user}" "${DEFAULT_DB_USER}"
+  ask_secret DB_PASS "${MSG_DB_PASS:-Database password}"
+
+  local db_local_default="no"
+  if [ "${DB_HOST}" = "localhost" ] || [ "${DB_HOST}" = "127.0.0.1" ]; then
+    db_local_default="yes"
   fi
-  mysql_user=$(whiptail --inputbox "${SETVPN06}" ${r} ${c} --title "User DB Name" 3>&1 1>&2 2>&3)
-  control_box $? "MySQL Username"
-  mysql_user_pass=$(whiptail --inputbox "${SETVPN07}" ${r} ${c} --title "User DB PW" 3>&1 1>&2 2>&3)
-  control_box $? "MySQL User PW"
+  ask_yes_no DB_CREATE_LOCAL "${MSG_DB_CREATE_LOCAL:-Create local MariaDB database and user}" "${db_local_default}"
 
-  ## Setup Webfrontend
-  admin_user=$(whiptail --inputbox "${SETVPN08}" ${r} ${c} --title "Web-Admin Name" 3>&1 1>&2 2>&3)
-  control_box $? "Web Admin User"
-  admin_user_pass=$(whiptail --inputbox "${SETVPN09}" ${r} ${c} --title "Web-Admin PW" 3>&1 1>&2 2>&3)
-  control_box $? "Web Admin PW"
-  
-  message_print_out 1 "the setup have all variables now"
+  DB_ROOT_PASSWORD=""
+  if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
+    ask_input DB_ROOT_PASSWORD "${MSG_DB_ROOT_PASS_OPTIONAL:-MariaDB root password (leave empty for socket auth)}" ""
+  fi
+
+  ask_input ADMIN_USER "${MSG_ADMIN_USER:-Initial admin username}" "admin"
+  ask_secret ADMIN_PASS "${MSG_ADMIN_PASS:-Initial admin password}"
+
+  local default_conf_path="${DEFAULT_OPENVPN_SERVER_CONF}"
+  if [ ! -f "${default_conf_path}" ] && [ -f "${ALT_OPENVPN_SERVER_CONF}" ]; then
+    default_conf_path="${ALT_OPENVPN_SERVER_CONF}"
+  fi
+  ask_input OPENVPN_SERVER_CONF "${MSG_OPENVPN_CONF:-OpenVPN server.conf path}" "${default_conf_path}"
+  ask_input OPENVPN_SCRIPTS_DIR "${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}" "${DEFAULT_OPENVPN_SCRIPTS_DIR}"
+
+  ask_choice WEBSERVER_PACKAGE "${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}" "none" \
+    "none" "none" \
+    "apache2" "apache2" \
+    "nginx" "nginx"
+
+  collect_webserver_options
+  ask_yes_no ASSETS_ALLOW_NPM_FALLBACK "${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}" "yes"
+
+  review_inputs_menu
 }
 
-#
-# after install mysql-server create mysql-root-pw
-# @callfrom function main
-# @pos020
-#
-set_mysql_rootpw(){
-  message_print_out i "Insert/Set MySQL Root PW"
-  DBROOTPW=$(whiptail --inputbox "${MYSQL01}" ${r} ${c} --title "${MYSQL02}" 3>&1 1>&2 2>&3)
-  control_box $? "input mysql root pw"
+validate_inputs() {
+  show_section "${MSG_SECTION_VALIDATE:-Validation}"
 
-  if [ "${OS}" == "centos" ]; then
-    mysql_secure_installation >> ${CURRENT_PATH}/loginstall.log 2>&1 <<EOF
+  case "${WEBSERVER_PACKAGE}" in
+    none|apache2|nginx) ;;
+    *) fatal "${MSG_INVALID_WEBSERVER:-Invalid webserver package option.}" ;;
+  esac
 
-y
-${DBROOTPW}
-${DBROOTPW}
-y
-y
-y
-y
+  case "${WEBSERVER_CONFIGURE}" in
+    yes|no) ;;
+    *) fatal "${MSG_INVALID_WEBSERVER_CONFIG:-Invalid webserver configuration option.}" ;;
+  esac
+
+  case "${ASSETS_ALLOW_NPM_FALLBACK}" in
+    yes|no) ;;
+    *) fatal "${MSG_INVALID_ASSETS_FALLBACK:-Invalid assets fallback option.}" ;;
+  esac
+
+  if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
+    case "${WEBSERVER_TARGET}" in
+      apache2|nginx) ;;
+      *) fatal "${MSG_INVALID_WEBSERVER:-Invalid webserver package option.}" ;;
+    esac
+
+    case "${WEBSERVER_MODE}" in
+      standalone|subdir) ;;
+      *) fatal "${MSG_INVALID_WEBSERVER_MODE:-Invalid webserver mode.}" ;;
+    esac
+
+    case "${ENABLE_REWRITE}" in
+      yes|no) ;;
+      *) fatal "${MSG_INVALID_REWRITE_OPTION:-Invalid rewrite option.}" ;;
+    esac
+
+    if [ "${WEBSERVER_MODE}" = "subdir" ]; then
+      WEBSERVER_SUBDIR="$(normalize_subdir_path "${WEBSERVER_SUBDIR}")"
+      if ! [[ "${WEBSERVER_SUBDIR}" =~ ^/[A-Za-z0-9._/-]+$ ]]; then
+        fatal "${MSG_INVALID_SUBDIR:-Invalid subdirectory path}: ${WEBSERVER_SUBDIR}"
+      fi
+    else
+      [ -n "${WEBSERVER_SERVER_NAME}" ] || fatal "${MSG_INVALID_SERVER_NAME:-ServerName must not be empty.}"
+    fi
+  fi
+
+  if [[ "${SITETOOLS}" =~ ^https?:// ]]; then
+    fatal "${MSG_SITETOOLS_EXTERNAL_FORBIDDEN:-External sitetools URLs are not allowed.}"
+  fi
+
+  ensure_absolute_path "${SOURCE_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${SOURCE_DIR}"
+  ensure_absolute_path "${DEPLOY_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${DEPLOY_DIR}"
+  ensure_absolute_path "${OPENVPN_SCRIPTS_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${OPENVPN_SCRIPTS_DIR}"
+
+  id -u "${WEB_OWNER}" >/dev/null 2>&1 || fatal "${MSG_USER_NOT_FOUND:-User not found}: ${WEB_OWNER}"
+  getent group "${WEB_GROUP}" >/dev/null 2>&1 || fatal "${MSG_GROUP_NOT_FOUND:-Group not found}: ${WEB_GROUP}"
+
+  ok "${MSG_INPUT_VALID:-All input values are valid.}"
+}
+
+build_package_list() {
+  PACKAGES=(
+    git
+    rsync
+    ca-certificates
+    curl
+    unzip
+    tar
+    sed
+    gawk
+    grep
+    openvpn
+    easy-rsa
+    mariadb-client
+    php-cli
+    php-common
+    php-mysql
+    php-mbstring
+    php-xml
+    php-curl
+    php-zip
+    php-intl
+    php-gd
+    php-fpm
+  )
+
+  if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
+    PACKAGES+=(mariadb-server)
+  fi
+
+  case "${WEBSERVER_PACKAGE}" in
+    apache2)
+      PACKAGES+=(apache2 libapache2-mod-php)
+      ;;
+    nginx)
+      PACKAGES+=(nginx)
+      ;;
+  esac
+}
+
+ensure_npm_runtime() {
+  if command -v npm >/dev/null 2>&1 && command -v node >/dev/null 2>&1; then
+    return 0
+  fi
+
+  info "${MSG_ASSETS_INSTALL_NPM:-Installing npm/nodejs for fallback asset build}"
+  apt-get update >>"${LOG_FILE}" 2>&1
+  DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm >>"${LOG_FILE}" 2>&1
+}
+
+build_and_deploy_tools_assets() {
+  show_section "${MSG_SECTION_ASSETS:-Frontend assets}"
+
+  local assets_dir="${DEPLOY_DIR}/assets-build"
+  local build_script="${assets_dir}/scripts/build-tools-assets.sh"
+  local deploy_script="${assets_dir}/scripts/deploy-tools-assets.sh"
+  local archive_path="${assets_dir}/release/tools-assets.tar.gz"
+  local archive_sha="${assets_dir}/release/tools-assets.tar.gz.sha256"
+
+  [ -d "${assets_dir}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${assets_dir}"
+  [ -f "${deploy_script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${deploy_script}"
+
+  if [ -f "${archive_path}" ]; then
+    info "${MSG_ASSETS_USE_ARCHIVE:-Using prebuilt frontend asset archive}"
+    if [ -f "${archive_sha}" ]; then
+      bash "${deploy_script}" "${DEPLOY_DIR}/public" "${archive_path}" "${archive_sha}" >>"${LOG_FILE}" 2>&1
+    else
+      bash "${deploy_script}" "${DEPLOY_DIR}/public" "${archive_path}" >>"${LOG_FILE}" 2>&1
+    fi
+    ok "${MSG_ASSETS_DONE:-Frontend assets are ready in /tools.}"
+    return 0
+  fi
+
+  [ -f "${build_script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${build_script}"
+  [ "${ASSETS_ALLOW_NPM_FALLBACK}" = "yes" ] || fatal "${MSG_ASSETS_ARCHIVE_MISSING:-Prebuilt asset archive missing and npm fallback is disabled.}"
+
+  warn "${MSG_ASSETS_ARCHIVE_MISSING_FALLBACK:-Prebuilt asset archive missing. Using npm fallback build.}"
+  ensure_npm_runtime
+  info "${MSG_ASSETS_BUILD:-Building local frontend asset package}"
+  (
+    cd "${assets_dir}"
+    bash "${build_script}"
+  ) >>"${LOG_FILE}" 2>&1
+  info "${MSG_ASSETS_DEPLOY:-Deploying frontend assets to public/tools}"
+  bash "${deploy_script}" "${DEPLOY_DIR}/public" >>"${LOG_FILE}" 2>&1
+
+  ok "${MSG_ASSETS_DONE:-Frontend assets are ready in /tools.}"
+}
+
+show_summary() {
+  show_section "${MSG_SECTION_SUMMARY:-Summary}"
+  echo " ${MSG_REPO_URL:-Repository URL}: ${REPO_URL}"
+  echo " ${MSG_REPO_BRANCH:-Repository branch}: ${REPO_BRANCH}"
+  echo " ${MSG_SOURCE_DIR:-Local source directory}: ${SOURCE_DIR}"
+  echo " ${MSG_DEPLOY_DIR:-WebAdmin target directory}: ${DEPLOY_DIR}"
+  echo " ${MSG_WEB_OWNER:-Web owner user}: ${WEB_OWNER}:${WEB_GROUP}"
+  echo " ${MSG_LOGIN_THEME:-Login theme (login1/login2/login3)}: ${LOGIN_THEME}"
+  echo " ${MSG_SITETOOLS:-Local sitetools path (no external URL)}: ${SITETOOLS}"
+  echo " ${MSG_DB_HOST:-Database host}: ${DB_HOST}:${DB_PORT}/${DB_NAME}"
+  echo " ${MSG_DB_USER:-Database user}: ${DB_USER}"
+  echo " ${MSG_DB_CREATE_LOCAL:-Create local MariaDB database and user}: ${DB_CREATE_LOCAL}"
+  echo " ${MSG_OPENVPN_CONF:-OpenVPN server.conf path}: ${OPENVPN_SERVER_CONF}"
+  echo " ${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}: ${OPENVPN_SCRIPTS_DIR}"
+  echo " ${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}: ${WEBSERVER_PACKAGE}"
+  echo " ${MSG_WEBSERVER_CONFIGURE:-Configure webserver automatically now}: ${WEBSERVER_CONFIGURE}"
+  if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
+    echo " ${MSG_WEBSERVER_TARGET:-Webserver type for configuration}: ${WEBSERVER_TARGET}"
+    echo " ${MSG_WEBSERVER_MODE:-Webserver mode}: ${WEBSERVER_MODE}"
+    if [ "${WEBSERVER_MODE}" = "subdir" ]; then
+      echo " ${MSG_WEBSERVER_SUBDIR:-Subdirectory path}: ${WEBSERVER_SUBDIR}"
+    else
+      echo " ${MSG_WEBSERVER_SERVER_NAME:-ServerName / Hostname}: ${WEBSERVER_SERVER_NAME}"
+    fi
+    echo " ${MSG_USE_REWRITE:-Enable rewrite mode}: ${ENABLE_REWRITE}"
+  fi
+  echo " ${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}: ${ASSETS_ALLOW_NPM_FALLBACK}"
+
+  echo
+  echo " ${MSG_REQUIRED_PACKAGES:-Required packages}:"
+  local p
+  for p in "${PACKAGES[@]}"; do
+    echo "  - ${p}"
+  done
+
+  ask_yes_no CONFIRM_INSTALL "${MSG_CONFIRM_INSTALL:-Start installation with these settings}" "yes"
+  [ "${CONFIRM_INSTALL}" = "yes" ] || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
+}
+
+install_required_packages() {
+  show_section "${MSG_SECTION_PACKAGES:-Install packages}"
+  info "${MSG_INSTALL_PACKAGES:-Installing required packages}"
+
+  apt-get update >>"${LOG_FILE}" 2>&1
+  local total count pkg
+  total="${#PACKAGES[@]}"
+  count=0
+
+  for pkg in "${PACKAGES[@]}"; do
+    count=$((count + 1))
+    render_progress_bar "${count}" "${total}" "${MSG_INSTALL_PACKAGES:-Installing required packages}"
+    DEBIAN_FRONTEND=noninteractive apt-get install -y "${pkg}" >>"${LOG_FILE}" 2>&1
+  done
+  echo
+
+  if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
+    systemctl enable --now mariadb >>"${LOG_FILE}" 2>&1 || systemctl enable --now mysql >>"${LOG_FILE}" 2>&1
+  fi
+
+  ok "${MSG_PACKAGES_DONE:-Packages installed.}"
+}
+
+sync_source_repo() {
+  show_section "${MSG_SECTION_REPO:-Source repository}"
+  ensure_cmd git
+
+  if [ -d "${SOURCE_DIR}/.git" ]; then
+    info "${MSG_REPO_UPDATE:-Updating existing source repository}"
+    git -C "${SOURCE_DIR}" fetch --all --prune >>"${LOG_FILE}" 2>&1
+    git -C "${SOURCE_DIR}" checkout "${REPO_BRANCH}" >>"${LOG_FILE}" 2>&1
+    git -C "${SOURCE_DIR}" pull --ff-only origin "${REPO_BRANCH}" >>"${LOG_FILE}" 2>&1
+  elif [ -d "${SOURCE_DIR}" ] && [ -n "$(ls -A "${SOURCE_DIR}" 2>/dev/null)" ]; then
+    fatal "${MSG_SOURCE_NOT_EMPTY:-Source directory exists and is not empty}: ${SOURCE_DIR}"
+  else
+    info "${MSG_REPO_CLONE:-Cloning repository}"
+    mkdir -p "$(dirname "${SOURCE_DIR}")"
+    git clone --branch "${REPO_BRANCH}" "${REPO_URL}" "${SOURCE_DIR}" >>"${LOG_FILE}" 2>&1
+  fi
+
+  ok "${MSG_REPO_READY:-Source repository is ready.}"
+}
+
+deploy_application_files() {
+  show_section "${MSG_SECTION_DEPLOY:-Deploy files}"
+
+  local db_sql_file="${SOURCE_DIR}/server/installation/database.sql"
+  local scripts_source_dir="${SOURCE_DIR}/server/scripte"
+  local app_config_template_file="${SOURCE_DIR}/config/config.conf"
+
+  [ -f "${db_sql_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${db_sql_file}"
+  [ -f "${app_config_template_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${app_config_template_file}"
+  [ -d "${scripts_source_dir}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${scripts_source_dir}"
+
+  mkdir -p "${DEPLOY_DIR}"
+  rsync -a --exclude '.git' "${SOURCE_DIR}/" "${DEPLOY_DIR}/" >>"${LOG_FILE}" 2>&1
+  mkdir -p "${DEPLOY_DIR}/storage/logs"
+
+  ok "${MSG_DEPLOY_FILES_DONE:-Application files deployed.}"
+}
+
+write_app_config() {
+  show_section "${MSG_SECTION_CONFIG:-Application config}"
+
+  local target_config_file="${DEPLOY_DIR}/config/config.php"
+  local target_template_file="${DEPLOY_DIR}/config/config.conf"
+  backup_file "${target_config_file}"
+
+  [ -f "${target_template_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${target_template_file}"
+
+  local cfg_db_host cfg_db_port cfg_db_name cfg_db_user cfg_db_pass cfg_sitetools cfg_login_theme
+  cfg_db_host="$(printf '%s' "${DB_HOST}" | sed "s/'/\\\\'/g")"
+  cfg_db_port="$(printf '%s' "${DB_PORT}" | sed "s/'/\\\\'/g")"
+  cfg_db_name="$(printf '%s' "${DB_NAME}" | sed "s/'/\\\\'/g")"
+  cfg_db_user="$(printf '%s' "${DB_USER}" | sed "s/'/\\\\'/g")"
+  cfg_db_pass="$(printf '%s' "${DB_PASS}" | sed "s/'/\\\\'/g")"
+  cfg_sitetools="$(printf '%s' "${SITETOOLS}" | sed "s/'/\\\\'/g")"
+  cfg_login_theme="$(printf '%s' "${LOGIN_THEME}" | sed "s/'/\\\\'/g")"
+
+  cp "${target_template_file}" "${target_config_file}"
+
+  sed_escape_repl() {
+    printf '%s' "$1" | sed -e 's/[\/&|]/\\&/g'
+  }
+
+  local repl_db_host repl_db_port repl_db_name repl_db_user repl_db_pass repl_sitetools repl_login_theme
+  repl_db_host="$(sed_escape_repl "${cfg_db_host}")"
+  repl_db_port="$(sed_escape_repl "${cfg_db_port}")"
+  repl_db_name="$(sed_escape_repl "${cfg_db_name}")"
+  repl_db_user="$(sed_escape_repl "${cfg_db_user}")"
+  repl_db_pass="$(sed_escape_repl "${cfg_db_pass}")"
+  repl_sitetools="$(sed_escape_repl "${cfg_sitetools}")"
+  repl_login_theme="$(sed_escape_repl "${cfg_login_theme}")"
+
+  sed -i \
+    -e "s|__CFG_LOGIN_THEME__|${repl_login_theme}|g" \
+    -e "s|__CFG_SITETOOLS__|${repl_sitetools}|g" \
+    -e "s|__CFG_DB_HOST__|${repl_db_host}|g" \
+    -e "s|__CFG_DB_PORT__|${repl_db_port}|g" \
+    -e "s|__CFG_DB_NAME__|${repl_db_name}|g" \
+    -e "s|__CFG_DB_USER__|${repl_db_user}|g" \
+    -e "s|__CFG_DB_PASS__|${repl_db_pass}|g" \
+    "${target_config_file}"
+
+  ok "${MSG_CONFIG_WRITTEN:-Application config written.}"
+}
+
+write_runtime_env() {
+  show_section "${MSG_SECTION_ENV:-Environment config}"
+
+  local env_file="${DEPLOY_DIR}/.env"
+  local rewrite_value="false"
+  if [ "${ENABLE_REWRITE}" = "yes" ]; then
+    rewrite_value="true"
+  fi
+
+  [ -f "${env_file}" ] || touch "${env_file}"
+
+  if grep -q '^REWRITE=' "${env_file}"; then
+    sed -i "s/^REWRITE=.*/REWRITE=${rewrite_value}/" "${env_file}"
+  else
+    echo "REWRITE=${rewrite_value}" >> "${env_file}"
+  fi
+
+  if ! grep -q '^DEBUG=' "${env_file}"; then
+    echo "DEBUG=false" >> "${env_file}"
+  fi
+
+  ok "${MSG_ENV_WRITTEN:-Environment file updated.}: ${env_file}"
+}
+
+setup_database() {
+  show_section "${MSG_SECTION_DATABASE:-Database setup}"
+
+  local db_sql_file="${SOURCE_DIR}/server/installation/database.sql"
+
+  sql_escape_single() {
+    printf '%s' "$1" | sed "s/'/''/g"
+  }
+
+  mysql_root_exec() {
+    local sql="$1"
+    if [ -n "${DB_ROOT_PASSWORD}" ]; then
+      mysql -uroot -p"${DB_ROOT_PASSWORD}" -e "${sql}"
+    else
+      mysql -uroot -e "${sql}"
+    fi
+  }
+
+  if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
+    local db_name_sql db_user_sql db_pass_sql
+    db_name_sql="$(sql_escape_single "${DB_NAME}")"
+    db_user_sql="$(sql_escape_single "${DB_USER}")"
+    db_pass_sql="$(sql_escape_single "${DB_PASS}")"
+
+    mysql_root_exec "CREATE DATABASE IF NOT EXISTS \\`${db_name_sql}\\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+    mysql_root_exec "CREATE USER IF NOT EXISTS '${db_user_sql}'@'localhost' IDENTIFIED BY '${db_pass_sql}';"
+    mysql_root_exec "GRANT ALL PRIVILEGES ON \\`${db_name_sql}\\`.* TO '${db_user_sql}'@'localhost';"
+    mysql_root_exec "FLUSH PRIVILEGES;"
+  fi
+
+  mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < "${db_sql_file}"
+
+  local admin_hash admin_user_sql admin_hash_sql
+  admin_hash="$(php -r 'echo password_hash($argv[1], PASSWORD_DEFAULT);' "${ADMIN_PASS}")"
+  admin_user_sql="$(sql_escape_single "${ADMIN_USER}")"
+  admin_hash_sql="$(sql_escape_single "${admin_hash}")"
+
+  mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" -e "
+INSERT INTO groupnames (gid, name)
+VALUES (1, 'admin'), (2, 'user')
+ON DUPLICATE KEY UPDATE name = VALUES(name);
+"
+
+  mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" -e "
+INSERT INTO user (user_name, gid, user_pass, user_enable, user_start_date, user_end_date, user_online)
+VALUES ('${admin_user_sql}', 1, '${admin_hash_sql}', 1, CURDATE(), NULL, 0)
+ON DUPLICATE KEY UPDATE
+  gid = VALUES(gid),
+  user_pass = VALUES(user_pass),
+  user_enable = 1;
+"
+
+  ok "${MSG_DATABASE_DONE:-Database setup done.}"
+}
+
+write_default_openvpn_server_conf() {
+  local target_file="/etc/openvpn/server.conf"
+  [ -f "${target_file}" ] && return 0
+
+  mkdir -p /etc/openvpn
+  cat > "${target_file}" <<'EOF'
+# OpenVPN server default configuration generated by OpenVPN-WebAdmin setup
+# Adjust certificate/key paths for your environment before starting the service.
+
+port 1194
+proto udp
+dev tun
+
+ca /etc/openvpn/ca.crt
+cert /etc/openvpn/server.crt
+key /etc/openvpn/server.key
+dh /etc/openvpn/dh.pem
+tls-auth /etc/openvpn/ta.key 0
+
+server 10.8.0.0 255.255.255.0
+topology subnet
+
+ifconfig-pool-persist /var/log/openvpn/ipp.txt
+status /var/log/openvpn/openvpn-status.log
+log-append /var/log/openvpn/openvpn.log
+verb 3
+
+keepalive 10 120
+persist-key
+persist-tun
+explicit-exit-notify 1
+
+script-security 2
+client-config-dir /etc/openvpn/ccd
+
+# OpenVPN-WebAdmin hooks (installed by setup)
+client-connect /etc/openvpn/scripts/connect.sh
+client-disconnect /etc/openvpn/scripts/disconnect.sh
 EOF
-  elif [ "${OS}" == "debian" ]; then
-    echo "grant all on *.* to root@localhost identified by '${DBROOTPW}' with grant option;" | mysql -u root --password="${DBROOTPW}"
-    echo "flush privileges;" | mysql -u root --password="${DBROOTPW}"
+
+  chmod 0644 "${target_file}"
+  ok "${MSG_OPENVPN_DEFAULT_CONF_CREATED:-Created default OpenVPN config}: ${target_file}"
+}
+
+deploy_openvpn_scripts() {
+  show_section "${MSG_SECTION_OPENVPN:-OpenVPN integration}"
+
+  local scripts_source_dir="${SOURCE_DIR}/server/scripte"
+  local server_conf_template="${SOURCE_DIR}/storage/conf/server/server.conf"
+
+  write_default_openvpn_server_conf
+
+  if [ ! -f "${OPENVPN_SERVER_CONF}" ]; then
+    [ -f "${server_conf_template}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${OPENVPN_SERVER_CONF}"
+    mkdir -p "$(dirname "${OPENVPN_SERVER_CONF}")"
+    install -m 0644 "${server_conf_template}" "${OPENVPN_SERVER_CONF}"
+    ok "${MSG_OPENVPN_CONF_BOOTSTRAP:-OpenVPN server.conf created from template.}"
   fi
-  control_box $? "set mysql root pw"
-}
 
-#  
-# name: create_mysql
-# @param dbname dbuser dbpass
-# @return insert new database, user and setup password
-# @callfrom function main
-# @pos021
-#  
-create_database(){
-  message_print_out i "Setup User Password for OpenVPN-WebAdmin on your DB-Server"
-  EXPECTED_ARGS=3
-  MYSQL=`which mysql`
-  Q1="CREATE DATABASE IF NOT EXISTS $1;"
-  Q2="GRANT ALL ON $1.* TO '$2'@'localhost' IDENTIFIED BY '$3';"
-  Q3="FLUSH PRIVILEGES;"
-  SQL="${Q1}${Q2}${Q3}"
+  install -d -m 0750 "${OPENVPN_SCRIPTS_DIR}"
+  install -m 0750 "${scripts_source_dir}/connect.sh" "${OPENVPN_SCRIPTS_DIR}/connect.sh"
+  install -m 0750 "${scripts_source_dir}/disconnect.sh" "${OPENVPN_SCRIPTS_DIR}/disconnect.sh"
+  install -m 0750 "${scripts_source_dir}/functions.sh" "${OPENVPN_SCRIPTS_DIR}/functions.sh"
+  install -m 0640 "${scripts_source_dir}/config.sample.sh" "${OPENVPN_SCRIPTS_DIR}/config.sh"
 
-  if [ $# -ne ${EXPECTED_ARGS} ]
-  then
-    echo "Usage: $0 dbname dbuser dbpass"
-    exit
-  fi
-   
-  $MYSQL -h ${db_host} -uroot --password=${DBROOTPW} -e "${SQL}"
-  control_box $? "Create local Database"
-}
+  local db_host_esc db_port_esc db_user_esc db_pass_esc db_name_esc
+  db_host_esc="$(printf '%s' "${DB_HOST}" | sed 's/[\\/&]/\\\\&/g')"
+  db_port_esc="$(printf '%s' "${DB_PORT}" | sed 's/[\\/&]/\\\\&/g')"
+  db_user_esc="$(printf '%s' "${DB_USER}" | sed 's/[\\/&]/\\\\&/g')"
+  db_pass_esc="$(printf '%s' "${DB_PASS}" | sed 's/[\\/&]/\\\\&/g')"
+  db_name_esc="$(printf '%s' "${DB_NAME}" | sed 's/[\\/&]/\\\\&/g')"
 
-#
-# install database
-# add admin and first user
-# @param from do_select
-# @callfrom function main
-# @pos022
-#
-install_mysql_database(){
-  message_print_out i "Setup Database"
-  # current only new install
-  mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} ${db_name} < installation/sql/vpnadmin-${VERSION}.dump
-  control_script_message "Insert Database Dump"
-  mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} --database=${db_name} -e "INSERT INTO user (user_name, user_pass, gid, user_enable) VALUES ('${admin_user}', encrypt('${admin_user_pass}'),'1','1');"
-  control_script_message "Insert Webadmin User"
-  mysql -h ${db_host} -u ${mysql_user} --password=${mysql_user_pass} --database=${db_name} -e "INSERT INTO user (user_name, user_pass, gid, user_enable) VALUES ('${admin_user}-user', encrypt('${admin_user_pass}'),'2','1');"
-  control_script_message "Insert first User"
-  message_print_out 1 "setting up MySQL OK"
-}
+  sed -i "s/^DBHOST=.*/DBHOST='${db_host_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s/^DBPORT=.*/DBPORT='${db_port_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s/^DBUSER=.*/DBUSER='${db_user_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s/^DBPASS=.*/DBPASS='${db_pass_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s/^DBNAME=.*/DBNAME='${db_name_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
 
-#
-# make the TLS Certs for your OpenVPN-Server
-# @param looks like the config.conf
-# @callfrom function main
-# @pos023
-#
-make_certs(){
-  message_print_out i "Creating the certificates"
+  backup_file "${OPENVPN_SERVER_CONF}"
+  set_or_append_openvpn_line "${OPENVPN_SERVER_CONF}" "script-security" "script-security 2"
+  set_or_append_openvpn_line "${OPENVPN_SERVER_CONF}" "client-connect" "client-connect ${OPENVPN_SCRIPTS_DIR}/connect.sh"
+  set_or_append_openvpn_line "${OPENVPN_SERVER_CONF}" "client-disconnect" "client-disconnect ${OPENVPN_SCRIPTS_DIR}/disconnect.sh"
 
-  # Get the rsa keys
-  # mal austauschen gegen "neu"
-  # https://github.com/OpenVPN/easy-rsa/archive/master.zip
-  cd /opt/
-  wget "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.6/EasyRSA-unix-v3.0.6.tgz"
-  tar -xaf "EasyRSA-unix-v3.0.6.tgz"
-  mv "EasyRSA-v3.0.6" /etc/openvpn/easy-rsa
-  rm "EasyRSA-unix-v3.0.6.tgz"
+  chown -R root:root "${OPENVPN_SCRIPTS_DIR}"
+  chmod 0750 "${OPENVPN_SCRIPTS_DIR}"/*.sh
+  mkdir -p /etc/openvpn/ccd
 
-  cd /etc/openvpn/easy-rsa
-
-  message_print_out i "Setup OpenVPN"
-  message_print_out i "Init PKI dirs and build CA certs"
-  ./easyrsa init-pki
-  ./easyrsa build-ca nopass
-  message_print_out i "Generate Diffie-Hellman parameters"
-  ./easyrsa gen-dh
-  message_print_out i "Genrate server keypair for "$ip_server
-  ./easyrsa build-server-full $ip_server nopass
-  message_print_out i "Generate shared-secret for TLS Authentication"
-  openvpn --genkey --secret pki/ta.key
-  message_print_out 1 "setting up EasyRSA Ok"
-  message_print_out 1 "Creating the certificates"
-  
-  # Copy certificates and the server configuration in the openvpn directory
-  if [ "${OS}" == "centos" ]; then
-    # CentOS is unfortunately somewhat special here.
-    # Originally the path should only be a different one,
-    # on "install_programs_now" now the system start script is changed
-    OVPNSERVERPATH="/etc/openvpn"
+  if systemctl list-unit-files | grep -q '^openvpn-server@.service'; then
+    systemctl enable --now openvpn-server@server.service >>"${LOG_FILE}" 2>&1
+    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn-server@server.service"
+  elif systemctl list-unit-files | grep -q '^openvpn@.service'; then
+    systemctl enable --now openvpn@server.service >>"${LOG_FILE}" 2>&1
+    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn@server.service"
+  elif systemctl list-unit-files | grep -q '^openvpn.service'; then
+    systemctl enable --now openvpn.service >>"${LOG_FILE}" 2>&1
+    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn.service"
   else
-    OVPNSERVERPATH="/etc/openvpn"
+    warn "${MSG_OPENVPN_SERVICE_UNKNOWN:-OpenVPN service unit not found. Please enable the service manually.}"
   fi
 
-  cp /etc/openvpn/easy-rsa/pki/{ca.crt,ta.key,issued/${ip_server}.crt,private/${ip_server}.key,dh.pem} ${OVPNSERVERPATH}
-  message_print_out 1 "Copy Certifikates ${OVPNSERVERPATH}"
-  cp "${CURRENT_PATH}/installation/server.conf" ${OVPNSERVERPATH}
-  message_print_out 1 "Copy Server Conf"
-  # ccd dir
-  # The folder is entered directly in the server configuration and
-  # should not be changed, otherwise the login scripts may not work properly
-  mkdir "/etc/openvpn/ccd"
-  message_print_out 1 "make ccd dir"
-  sed -i "s/port 443/port ${server_port}/" "${OVPNSERVERPATH}/server.conf"
-  message_print_out 1 "Set Openvpn Proto"
-  if [ ${openvpn_proto} = "udp" ]; then
-    sed -i "s/proto tcp/proto ${openvpn_proto}/" "${OVPNSERVERPATH}/server.conf"
-  fi
-
-  nobody_group=$(id -ng nobody)
-  sed -i "s/group nogroup/group ${nobody_group}/" "${OVPNSERVERPATH}/server.conf"
-  message_print_out 1 "Change Access OpenVPN Group"
-  message_print_out 1 "Setup OpenVPN Finish"
+  ok "${MSG_OPENVPN_DONE:-OpenVPN integration done.}"
 }
 
-#
-# copy now all config file
-# copy keys, scripts and make server.conf
-# @callfrom function main
-# @pos024
-#
-create_openvpn_config_files(){
-  # Replace in the client configurations with the ip of the server and openvpn protocol
-  message_print_out i "make config-files for vpn"
-  cd ${CURRENT_PATH}
-  for file in $(find ../ -name client.ovpn); do
-    sed -i "s/remote xxx\.xxx\.xxx\.xxx 443/remote ${ip_server} ${server_port}/" ${file}
-    echo "<ca>" >> ${file}
-    cat "${OVPNSERVERPATH}/ca.crt" >> ${file}
-    echo "</ca>" >> ${file}
-    echo "<tls-auth>" >> ${file}
-    cat "${OVPNSERVERPATH}/ta.key" >> ${file}
-    echo "</tls-auth>" >> ${file}
-    if [ ${openvpn_proto} = "udp" ]; then
-      sed -i "s/proto tcp-client/proto udp/" ${file}
+detect_php_fpm_upstream() {
+  local sock
+  for sock in /run/php/php*-fpm.sock /run/php-fpm/www.sock /run/php/php-fpm.sock; do
+    if [ -S "${sock}" ]; then
+      printf 'unix:%s' "${sock}"
+      return
+    fi
+  done
+  printf '127.0.0.1:9000'
+}
+
+configure_apache_webadmin() {
+  local allow_override="None"
+  [ "${ENABLE_REWRITE}" = "yes" ] && allow_override="All"
+
+  if [ "${WEBSERVER_MODE}" = "standalone" ]; then
+    local site_file="/etc/apache2/sites-available/openvpn-webadmin.conf"
+    cat > "${site_file}" <<EOF
+<VirtualHost *:80>
+    ServerName ${WEBSERVER_SERVER_NAME}
+    DocumentRoot ${DEPLOY_DIR}/public
+
+    <Directory ${DEPLOY_DIR}/public>
+        Options FollowSymLinks
+        AllowOverride ${allow_override}
+        Require all granted
+        DirectoryIndex index.php
+    </Directory>
+
+    ErrorLog \${APACHE_LOG_DIR}/openvpn-webadmin-error.log
+    CustomLog \${APACHE_LOG_DIR}/openvpn-webadmin-access.log combined
+</VirtualHost>
+EOF
+    a2ensite openvpn-webadmin.conf >>"${LOG_FILE}" 2>&1
+  else
+    local conf_file="/etc/apache2/conf-available/openvpn-webadmin.conf"
+    cat > "${conf_file}" <<EOF
+Alias ${WEBSERVER_SUBDIR} ${DEPLOY_DIR}/public
+Alias ${WEBSERVER_SUBDIR}/ ${DEPLOY_DIR}/public/
+Alias /tools ${DEPLOY_DIR}/public/tools
+Alias /tools/ ${DEPLOY_DIR}/public/tools/
+
+<Directory ${DEPLOY_DIR}/public>
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
+    DirectoryIndex index.php
+EOF
+    if [ "${ENABLE_REWRITE}" = "yes" ]; then
+      cat >> "${conf_file}" <<EOF
+    FallbackResource ${WEBSERVER_SUBDIR}/index.php
+EOF
+    fi
+    cat >> "${conf_file}" <<EOF
+</Directory>
+
+<Directory ${DEPLOY_DIR}/public/tools>
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+EOF
+    a2enconf openvpn-webadmin.conf >>"${LOG_FILE}" 2>&1
+  fi
+
+  if [ "${ENABLE_REWRITE}" = "yes" ]; then
+    a2enmod rewrite >>"${LOG_FILE}" 2>&1
+  fi
+
+  apache2ctl configtest >>"${LOG_FILE}" 2>&1
+  systemctl enable --now apache2 >>"${LOG_FILE}" 2>&1
+  systemctl reload apache2 >>"${LOG_FILE}" 2>&1
+}
+
+detect_nginx_site_file() {
+  if [ -f /etc/nginx/sites-available/default ]; then
+    printf '%s' "/etc/nginx/sites-available/default"
+    return
+  fi
+
+  local first_enabled
+  first_enabled="$(find /etc/nginx/sites-enabled -maxdepth 1 -type f 2>/dev/null | head -n1 || true)"
+  if [ -n "${first_enabled}" ]; then
+    printf '%s' "${first_enabled}"
+    return
+  fi
+
+  printf '%s' "/etc/nginx/conf.d/default.conf"
+}
+
+configure_nginx_webadmin() {
+  local php_upstream
+  php_upstream="$(detect_php_fpm_upstream)"
+
+  if [ "${WEBSERVER_MODE}" = "standalone" ]; then
+    local nginx_target
+    local listen_ipv4="listen 80;"
+    local listen_ipv6="listen [::]:80;"
+    nginx_target="$(detect_nginx_site_file)"
+    if [ -e "${nginx_target}" ]; then
+      nginx_target="$(readlink -f "${nginx_target}")"
+      backup_file "${nginx_target}"
+    fi
+
+    if [ "${WEBSERVER_SERVER_NAME}" = "_" ]; then
+      listen_ipv4="listen 80 default_server;"
+      listen_ipv6="listen [::]:80 default_server;"
+    fi
+
+    cat > "${nginx_target}" <<EOF
+server {
+    ${listen_ipv4}
+    ${listen_ipv6}
+
+    server_name ${WEBSERVER_SERVER_NAME};
+    root ${DEPLOY_DIR}/public;
+    index index.php index.html index.htm index.nginx-debian.html;
+
+    location / {
+EOF
+    if [ "${ENABLE_REWRITE}" = "yes" ]; then
+      cat >> "${nginx_target}" <<EOF
+        try_files \$uri \$uri/ /index.php?\$query_string;
+EOF
+    else
+      cat >> "${nginx_target}" <<EOF
+        try_files \$uri \$uri/ =404;
+EOF
+    fi
+    cat >> "${nginx_target}" <<EOF
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass ${php_upstream};
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\. {
+        deny all;
+    }
+}
+EOF
+  else
+    local snippet_file="/etc/nginx/snippets/openvpn-webadmin-location.conf"
+    local nginx_target
+    nginx_target="$(detect_nginx_site_file)"
+    if [ -e "${nginx_target}" ]; then
+      nginx_target="$(readlink -f "${nginx_target}")"
+    fi
+    mkdir -p /etc/nginx/snippets
+
+    cat > "${snippet_file}" <<EOF
+location = ${WEBSERVER_SUBDIR} {
+    return 301 ${WEBSERVER_SUBDIR}/;
+}
+
+location /tools/ {
+    alias ${DEPLOY_DIR}/public/tools/;
+    index index.html;
+    try_files \$uri \$uri/ =404;
+}
+
+location ~ ^${WEBSERVER_SUBDIR}/index\.php$ {
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME ${DEPLOY_DIR}/public/index.php;
+    fastcgi_param SCRIPT_NAME ${WEBSERVER_SUBDIR}/index.php;
+    fastcgi_pass ${php_upstream};
+}
+
+location ${WEBSERVER_SUBDIR}/ {
+    alias ${DEPLOY_DIR}/public/;
+    index index.php;
+EOF
+    if [ "${ENABLE_REWRITE}" = "yes" ]; then
+      cat >> "${snippet_file}" <<EOF
+    rewrite ^${WEBSERVER_SUBDIR}/setlang/([A-Za-z_]+)$ ${WEBSERVER_SUBDIR}/index.php?op=setlang&lang=\$1 last;
+    rewrite ^${WEBSERVER_SUBDIR}/([A-Za-z0-9_-]+)/?$ ${WEBSERVER_SUBDIR}/index.php?op=\$1 last;
+EOF
+    fi
+    cat >> "${snippet_file}" <<EOF
+    try_files \$uri \$uri/ ${WEBSERVER_SUBDIR}/index.php?\$query_string;
+}
+EOF
+
+    touch "${nginx_target}"
+    if ! grep -Eq "server[[:space:]]*\\{" "${nginx_target}"; then
+      fatal "${MSG_NGINX_SERVER_BLOCK_MISSING:-No server block found in nginx target config}: ${nginx_target}"
+    fi
+
+    if ! grep -q "include /etc/nginx/snippets/openvpn-webadmin-location.conf;" "${nginx_target}"; then
+      sed -i '0,/server[[:space:]]*{/s|server[[:space:]]*{|&\
+    include /etc/nginx/snippets/openvpn-webadmin-location.conf;|' "${nginx_target}"
+    fi
+  fi
+
+  nginx -t >>"${LOG_FILE}" 2>&1
+  systemctl enable --now nginx >>"${LOG_FILE}" 2>&1
+  systemctl reload nginx >>"${LOG_FILE}" 2>&1
+}
+
+configure_webserver() {
+  show_section "${MSG_SECTION_WEBSERVER:-Webserver setup}"
+
+  if [ "${WEBSERVER_CONFIGURE}" != "yes" ]; then
+    info "${MSG_WEBSERVER_SKIP:-Skipping automatic webserver configuration.}"
+    return
+  fi
+
+  if [ "${WEBSERVER_TARGET}" = "apache2" ]; then
+    ensure_cmd apache2ctl
+    ensure_cmd a2enmod
+    configure_apache_webadmin
+  else
+    ensure_cmd nginx
+    configure_nginx_webadmin
+  fi
+
+  ok "${MSG_WEBSERVER_CONFIG_DONE:-Webserver configuration installed and enabled.}"
+}
+
+resolve_runtime_web_identity() {
+  EFFECTIVE_WEB_OWNER="${WEB_OWNER}"
+  EFFECTIVE_WEB_GROUP="${WEB_GROUP}"
+
+  if [ "${WEBSERVER_CONFIGURE}" != "yes" ]; then
+    return 0
+  fi
+
+  if [ "${WEBSERVER_TARGET}" = "apache2" ] && [ -f /etc/apache2/envvars ]; then
+    # shellcheck disable=SC1091
+    . /etc/apache2/envvars
+    if [ -n "${APACHE_RUN_USER:-}" ] && id -u "${APACHE_RUN_USER}" >/dev/null 2>&1; then
+      EFFECTIVE_WEB_OWNER="${APACHE_RUN_USER}"
+    fi
+    if [ -n "${APACHE_RUN_GROUP:-}" ] && getent group "${APACHE_RUN_GROUP}" >/dev/null 2>&1; then
+      EFFECTIVE_WEB_GROUP="${APACHE_RUN_GROUP}"
+    fi
+    return 0
+  fi
+
+  if [ "${WEBSERVER_TARGET}" = "nginx" ] && [ -f /etc/nginx/nginx.conf ]; then
+    local nginx_user_line nginx_user nginx_group
+    nginx_user_line="$(awk '/^[[:space:]]*user[[:space:]]+/ {print; exit}' /etc/nginx/nginx.conf 2>/dev/null || true)"
+    if [ -n "${nginx_user_line}" ]; then
+      # "user www-data;" or "user nginx nginx;"
+      set -- ${nginx_user_line}
+      nginx_user="${2:-}"
+      nginx_group="${3:-}"
+      nginx_user="${nginx_user%;}"
+      nginx_group="${nginx_group%;}"
+
+      if [ -n "${nginx_user}" ] && id -u "${nginx_user}" >/dev/null 2>&1; then
+        EFFECTIVE_WEB_OWNER="${nginx_user}"
+      fi
+      if [ -n "${nginx_group}" ] && getent group "${nginx_group}" >/dev/null 2>&1; then
+        EFFECTIVE_WEB_GROUP="${nginx_group}"
+      elif [ -n "${nginx_user}" ] && id -u "${nginx_user}" >/dev/null 2>&1; then
+        local user_group
+        user_group="$(id -gn "${nginx_user}" 2>/dev/null || true)"
+        if [ -n "${user_group}" ] && getent group "${user_group}" >/dev/null 2>&1; then
+          EFFECTIVE_WEB_GROUP="${user_group}"
+        fi
+      fi
+    fi
+  fi
+}
+
+finalize_permissions() {
+  show_section "${MSG_SECTION_PERMS:-Permissions}"
+  resolve_runtime_web_identity
+  chown -R "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" "${DEPLOY_DIR}"
+  ok "${MSG_PERMS_DONE:-Permissions updated.} (${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP})"
+}
+
+check_runtime_permissions() {
+  show_section "${MSG_SECTION_PERMS_CHECK:-Permission check}"
+  resolve_runtime_web_identity
+
+  local target
+  local failed=0
+  local -a must_write=(
+    "${DEPLOY_DIR}/storage"
+    "${DEPLOY_DIR}/storage/conf"
+    "${DEPLOY_DIR}/storage/conf/history"
+    "${DEPLOY_DIR}/storage/logs"
+  )
+
+  while IFS= read -r target; do
+    [ -n "${target}" ] || continue
+    must_write+=("$(dirname "${target}")")
+    must_write+=("${target}")
+  done < <(find "${DEPLOY_DIR}/storage/conf" -mindepth 2 -maxdepth 2 -type f -name 'client.ovpn' 2>/dev/null)
+
+  for target in "${must_write[@]}"; do
+    if [ ! -e "${target}" ]; then
+      warn "${MSG_PERMS_MISSING:-Path missing for permission check}: ${target}"
+      failed=1
+      continue
+    fi
+
+    if su -s /bin/sh -c "test -w \"$target\"" "${EFFECTIVE_WEB_OWNER}" >/dev/null 2>&1; then
+      ok "${MSG_PERMS_OK:-Writable for web user}: ${target}"
+    else
+      warn "${MSG_PERMS_FAIL:-Not writable for web user}: ${target}"
+      failed=1
     fi
   done
 
-  mkdir -p $WWWROOT/vpn/{conf,history}/{server,osx,windows,gnu-linux,firewall}
+  if [ "${failed}" -eq 0 ]; then
+    ok "${MSG_PERMS_CHECK_OK:-Permission check passed.}"
+    return
+  fi
 
-  # Copy ta.key inside the client-conf directory
-  for directory in "${WWWROOT}/vpn/conf/gnu-linux/" "${WWWROOT}/vpn/conf/osx/" "${WWWROOT}/vpn/conf/windows/"; do
-    cp "${OVPNSERVERPATH}/"{ca.crt,ta.key} $directory
+  warn "${MSG_PERMS_FIX:-Attempting permission fix...}"
+  chown -R "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" "${DEPLOY_DIR}/storage"
+  find "${DEPLOY_DIR}/storage" -type d -exec chmod 0775 {} +
+  find "${DEPLOY_DIR}/storage" -type f -exec chmod 0664 {} +
+
+  failed=0
+  for target in "${must_write[@]}"; do
+    [ -e "${target}" ] || continue
+    if ! su -s /bin/sh -c "test -w \"$target\"" "${EFFECTIVE_WEB_OWNER}" >/dev/null 2>&1; then
+      failed=1
+      warn "${MSG_PERMS_STILL_FAIL:-Still not writable after fix}: ${target}"
+    fi
   done
 
-  #mkdir -p $WWWROOT/{vpn}/{history}/{server,osx,win,gnu-linux,firewall}
-  
-  #mkdir -p {$WWWROOT"/vpn",$WWWROOT"/vpn/history",$WWWROOT"/vpn/history/server",$WWWROOT"/vpn/history/osx",$WWWROOT"/vpn/history/gnu-linux",$WWWROOT"/vpn/history/win"}
-  cp -r ${CURRENT_PATH}"/installation/conf" ${WWWROOT}"/vpn/"
-  ln -s ${OVPNSERVERPATH}/server.conf ${WWWROOT}"/vpn/conf/server/server.conf"
-
-  message_print_out i "adjust key and cert for the server for ${ip_server}"
-  sed -i "s/cert server.crt/cert ${ip_server}.crt/" /etc/openvpn/server.conf
-  sed -i "s/key server.key/key ${ip_server}.key/" /etc/openvpn/server.conf
-
-  ## Copy bash scripts (which will insert row in MySQL)
-  cp -r ${CURRENT_PATH}"/installation/scripts" ${OVPNSERVERPATH}
-  chmod +x "${OVPNSERVERPATH}/scripts/"*
-
-  message_print_out 1 "make config-files vpn"
-
-}
-
-#
-# write Database Instructions to config file for openvpn server
-# @callfrom function
-# @pos025
-#
-create_openvpn_setup(){
-  # Configure MySQL in openvpn scripts
-  message_print_out i "Create Access-Configfile for VPN-Scripts/Server"
-  cp "${OVPNSERVERPATH}/scripts/config.sample.sh" "${OVPNSERVERPATH}/scripts/config.sh"
-  control_script_message "create script directory"
-  sed -i "s/DBHOST=''/DBHOST='${db_host}'/" "${OVPNSERVERPATH}/scripts/config.sh"
-  sed -i "s/DBUSER=''/DBUSER='${mysql_user}'/" "${OVPNSERVERPATH}/scripts/config.sh"
-  escaped=$(echo -n "${mysql_user_pass}" | sed 's#\\#\\\\#g;s#&#\\&#g')
-  sed -i "s/DBPASS=''/DBPASS='${escaped}'/" "${OVPNSERVERPATH}/scripts/config.sh"
-  sed -i "s/DBNAME=''/DBNAME='${db_name}'/" "${OVPNSERVERPATH}/scripts/config.sh"
-  message_print_out 1 "Access Config for VPN-Scripts/Server created"
-}
-
-#
-# create webdirectory with the OpenVPN-WebAdmin Files
-# @callfrom function
-# @pos026
-#
-create_webdirectory(){
-  # Create the directory of the web application
-  message_print_out 1 "Create webfolder"
-  mkdir $WWWROOT
-  message_print_out 1 "Create Rootfolder ${WWWROOT}"
-
-  mkdir $OVPN_FULL_PATH
-  control_script_message "Create Webfolder"
-  if [ -n "${modules_dev}" ] || [ -n "${modules_all}" ]; then
-    cp -r "${CURRENT_PATH}/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data,dev} "${OVPN_FULL_PATH}"
-    control_script_message "Copy webfolder with dev"
-  else
-    cp -r "${CURRENT_PATH}/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data} "${OVPN_FULL_PATH}"
-    control_script_message "Copy webfolder"
-  fi
-}
-
-#
-# Install now all third party modules
-# node_modules, ADOdb
-# @callfrom function main
-# @pos027
-#
-create_third_party(){
-  message_print_out i "Create Third Party Module"
-  ## node_modules in separate folder
-  mkdir $WWWROOT"/ovpn_modules"
-  control_script_message "create modules folder"
-  cp $CURRENT_PATH"/wwwroot/package.json" $WWWROOT"/ovpn_modules/"
-  control_script_message "copy package.json"
-
-  cd $WWWROOT"/ovpn_modules/"
-  message_print_out i "Install third party module yarn"
-  yarn install
-  control_script_message "yarn installed"
-  message_print_out i "Install third party module ADOdb"
-  git clone https://github.com/ADOdb/ADOdb $WWWROOT"/ovpn_modules/ADOdb"
-  control_script_message "ADOdb installed"
-
-  ## link from module folder into webfolder
-  ln -s $WWWROOT"/ovpn_modules/ADOdb" $OVPN_FULL_PATH"/include/ADOdb"
-  control_script_message "create Link ADOdb"
-  ln -s $WWWROOT"/ovpn_modules/node_modules" $OVPN_FULL_PATH"/node_modules"
-  control_script_message "create Link node_modules"
-}
-
-#
-# you need config.php file in your OpenVPN-WebAdmin
-# Here it is written
-# @callfrom function main
-# @pos028
-#
-write_webconfig(){
-  {
-  echo "<?php
-/**
- * this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
- *
- * NOTICE OF LICENSE
- *
- * GNU AFFERO GENERAL PUBLIC LICENSE V3
- * that is bundled with this package in the file LICENSE.md.
- * It is also available through the world-wide-web at this URL:
- * https://www.gnu.org/licenses/agpl-3.0.en.html
- *
- * @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
- *
- * @author    Wutze
- * @copyright 2020 OpenVPN-WebAdmin
- * @link			https://github.com/Wutze/OpenVPN-WebAdmin
- * @see				Internal Documentation ~/doc/
- * @version		\"${VERSION}\"
- * @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
- */
- 
-(stripos(\$_SERVER['PHP_SELF'], basename(__FILE__)) === false) or die('access denied?');"
-  echo ""
-  echo ""
-  echo "\$dbhost=\"${db_host}\";"
-  echo "\$dbuser=\"${mysql_user}\";"
-  echo "\$dbname=\"${db_name}\";"
-  echo "\$dbport=\"3306\";"
-  echo "\$dbpass=\"PASSWORD\";"
-  echo "\$dbtype=\"mysqli\";"
-  echo "\$dbdebug=FALSE;"
-  echo "\$sessdebug=FALSE;"
-
-  echo "
-/* Site-Name */
-define('_SITE_NAME',\"OVPN-WebAdmin\");
-define('HOME_URL',\"vpn.home\");
-define('_DEFAULT_LANGUAGE','en_EN');
-
-/** Login Site */
-define('_LOGINSITE','login1');"
-
-  }> ${OVPN_FULL_PATH}"/include/config.php"
-
-  sed -i "s/dbpass=\"PASSWORD\"/dbpass=\"${escaped}\"/" "${OVPN_FULL_PATH}/include/config.php"
-
-  if [ -n "${modules_dev}" ] || [ -n "${modules_all}" ]; then
-    echo "
-/** 
- * only for development!
- * please comment out if no longer needed!
- * comment in the \"define function\" to enable
- */
-if(file_exists(\"dev/dev.php\")){
-  define('dev','dev/dev.php');
-}
-if (defined('dev')){
-  include('dev/class.dev.php');
-}
-" >> ${OVPN_FULL_PATH}"/include/module.config.php"
-    MOD_ENABLE="1"
+  if [ "${failed}" -ne 0 ]; then
+    fatal "${MSG_PERMS_CHECK_FATAL:-Permission check failed after fix. Please adjust ownership/ACL manually.}"
   fi
 
-  if [ -n "${modules_firewall}" ] || [ -n "${modules_all}" ]; then
-    echo "
-define('firewall',TRUE);
-" >> ${OVPN_FULL_PATH}"/include/module.config.php"
-    MOD_ENABLE="1"
-  fi
-
-  if [ -n "${modules_clientload}" ] || [ -n "${modules_all}" ]; then
-    echo "
-define('clientload',TRUE);
-" >> ${OVPN_FULL_PATH}"/include/module.config.php"
-    MOD_ENABLE="1"
-  fi
-  
-  message_print_out i "Config and Module Config written"
-
+  ok "${MSG_PERMS_CHECK_FIXED:-Permission check passed after automatic fix.}"
 }
 
-#
-# write the config file for updates
-# @callfrom function
-# @pos029
-#
-write_config(){
-  message_print_out i "write file for future updates"
-  updpath="/var/lib/ovpn-admin/"
-  mkdir $updpath
-  updfile="config.ovpn-admin.upd"
-
-  SERVERID=$( cat /etc/machine-id )
-
-  {
-  echo "VERSION=\"${VERSION}\""
-  echo "DBHOST=\"${db_host}\""
-  echo "DBUSER=\"${mysql_user}\""
-  echo "DBNAME=\"${db_name}\""
-  echo "BASEPATH=\"openvpn-admin\""
-  echo "WEBROOT=\"${WWWROOT}\""
-  echo "WWWOWNER=\"www-data\""
-  echo "### Is it still the original installed system?"
-  echo "MACHINEID=$LOCALMACHINEID"
-  echo "INSTALLDATE=\"$(date '+%Y-%m-%d %H:%M:%S')\""
-  }> ${updpath}${updfile}
-
-#  if [ -n "$installextensions" ]; then
-#  {
-#    echo "### you have installed modules"
-#    echo "MODULES=\"$installextensions\""
-#    echo "MODSSL=\"$modssl\""
-#    echo "MODDEV=\"$moddev\""
-#    }>> $updpath$updfile
-#  fi
-
-  control_box $? "write config"
-  message_print_out 1 "update informations written (${updpath})"
-  chmod -R 600 ${updpath}
-
+finish_message() {
+  show_section "${MSG_SECTION_DONE:-Finished}"
+  ok "${MSG_DONE:-Setup finished successfully.}"
+  info "${MSG_DONE_NEXT:-Restart OpenVPN and your webserver to apply all changes.}"
+  info "${MSG_LOG_HINT:-Setup log file}: ${LOG_FILE}"
 }
 
-#
-# set all permissions
-# @callfrom function main
-# @pos031
-#
-set_permissions(){
-  message_print_out i "Set permissions"
-  chown -R ${OWNER}:${GROUPOWNER} ${OVPN_FULL_PATH}
-  chown -R ${OWNER}:${GROUPOWNER} ${WWWROOT}"/vpn"
-  chown ${OWNER}:${GROUPOWNER} ${WWWROOT}"/vpn/conf/server/server.conf"
-
-  chown -R root ${updpath}
-  chmod -R 600 ${updpath}
-  chown nobody:nobody /etc/openvpn/ccd
-
-  if [ "${OS}" == "centos" ]; then
-    sed -i "s/WorkingDirectory=\/etc\/openvpn\/server/WorkingDirectory=\/etc\/openvpn/g" "/usr/lib/systemd/system/openvpn-server@.service"
-    systemctl daemon-reload
-    chcon -R --reference=/var/www /srv/www
-    chcon -t httpd_sys_content_t ${OVPN_FULL_PATH} -R
-    chcon -t httpd_sys_rw_content_t ${OVPN_FULL_PATH}/data/ -R
-    chcon -t httpd_sys_rw_content_t ${WWWROOT}/vpn/ -R
-    chcon -t httpd_sys_rw_content_t ${OVPNSERVERPATH}/server.conf
-  fi
-
-  message_print_out d "Setup ready - please read informations!"
+main() {
+  setup_prelude
+  collect_inputs
+  validate_inputs
+  build_package_list
+  show_summary
+  install_required_packages
+  sync_source_repo
+  deploy_application_files
+  build_and_deploy_tools_assets
+  write_app_config
+  write_runtime_env
+  configure_webserver
+  setup_database
+  deploy_openvpn_scripts
+  finalize_permissions
+  check_runtime_permissions
+  finish_message
 }
 
-#
-# If the installation was successful
-# Displays additional information
-# @callfrom function main
-# @pos032
-#
-message_fin(){
-  message_print_out 1 "${SETFIN01}"
-  message_print_out i "${SETFIN02}"
-  message_print_out i "${SETFIN03}"
-  message_print_out d "${SETFIN04}"
-
-  if [ -n "${MOD_ENABLE}" ]; then
-    message_print_out i "${MOENABLE0}"
-    message_print_out i "${MOENABLE1}"
-  fi
-  datum=$(date '+%Y-%m-%d:%H.%M.%S')
-  echo ${datum}": Fin Install - thank you ;o)" >> ${CURRENT_PATH}/loginstall.log
-}
-
-#
-# create simple firewall-script
-# @callfrom function main
-# @pos034
-#
-function create_firewall(){
-message_print_out i "create simple firewall"
-
-## create systemd Service
-echo "
-
-[Unit]
-Description=Firewall Rules
-After=network.target
-
-[Service]
-Type=simple
-ExecStart=/bin/bash /usr/sbin/firewall.sh
-TimeoutStartSec=0
-
-[Install]
-WantedBy=default.target
-
-" > /etc/systemd/system/firewall.service
-
-## create simple firewall-script
-echo "#/bin/sh
-export PATH=$PATH:/usr/sbin:/sbin
-
-echo 1 > "/proc/sys/net/ipv4/ip_forward"
-FW=\"iptables\"
-
-## reset iptables
-\$FW -F
-\$FW -X
-\$FW -t nat -F
-\$FW -t nat -X
-\$FW -t mangle -F
-\$FW -t mangle -X
-\$FW -P INPUT ACCEPT
-\$FW -P FORWARD ACCEPT
-\$FW -P OUTPUT ACCEPT
-
-# Get primary NIC device name
-primary_nic=`route | grep '^default' | grep -o '[^ ]*$'`
-
-# Iptable rules
-\$FW -I FORWARD -i tun0 -j ACCEPT
-\$FW -I FORWARD -o tun0 -j ACCEPT
-\$FW -I OUTPUT -o tun0 -j ACCEPT
-
-\$FW -A FORWARD -i tun0 -o \$primary_nic -j ACCEPT
-\$FW -t nat -A POSTROUTING -o \$primary_nic -j MASQUERADE
-\$FW -t nat -A POSTROUTING -s 10.8.0.0/24 -o \$primary_nic -j MASQUERADE
-\$FW -t nat -A POSTROUTING -s 10.8.0.2/24 -o \$primary_nic -j MASQUERADE
-
-# fixes problems with the persistent transmissions e.g. netflix
-\$FW -t mangle -o \$primary_nic --insert FORWARD 1 -p tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1400:65495 -j TCPMSS --clamp-mss-to-pmtu
-" > /usr/sbin/firewall.sh
-
-chmod +x /usr/sbin/firewall.sh
-systemctl enable firewall.service
-systemctl start firewall
-message_print_out 1 "create simple firewall"
-}
-
-#
-# creates the paths
-# @pos35
-#
-create_dirs(){
-  message_print_out i "create directorys, webfolder, files"
-  
-  mkdir $WWWROOT
-  mkdir $OVPN_FULL_PATH
-  if [ -n "$modules_dev" ] || [ -n "$modules_all" ]; then
-    cp -r "$CURRENT_PATH/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data,dev} $OVPN_FULL_PATH
-  else
-    cp -r "$CURRENT_PATH/wwwroot/"{index.php,version.php,favicon.ico,js,include,css,images,data} $OVPN_FULL_PATH
-  fi
-
-  ## node_modules in separate folder
-  mkdir $WWWROOT/ovpn_modules
-  cp "$CURRENT_PATH/wwwroot/package.json" $WWWROOT"/ovpn_modules/"
-
-  mkdir {$WWWROOT/vpn,$WWWROOT/vpn/history,$WWWROOT/vpn/history/server,$WWWROOT/vpn/history/osx,$WWWROOT/vpn/history/gnu-linux,$WWWROOT/vpn/history/win}
-  cp -r "$CURRENT_PATH/"installation/conf $WWWROOT"/vpn/"
-  ln -s /etc/openvpn/server.conf $WWWROOT"/vpn/conf/server/server.conf"
-  message_print_out 1 "create directorys, webfolder, files"
-}
-
-##
-## new install routine
-## Setup changed, as it has become much too confusing
-## @param Nothing. I collect everything in the coming minutes
-## @return installed OpenVPN-WebAdmin (i hope so) ,o)
-## @callfrom the last line in this script
-## @pos000
-##
-main(){
-  #
-  # function.sh @pos00
-  set_screen_vars
-
-  #
-  # functions.sh @pos004
-  intro
-
-  #
-  # As the name says
-  # @pos010
-  set_language
-
-  #
-  # Check root permission
-  # @pos011
-  check_user
-
-  #
-  # Set OS Version and checks if this version is supported
-  # @pos012
-  set_os_version
-
-  #
-  # set all web params
-  # @pos007, @pos008
-  collect_param_webroot
-  collect_param_owner
-
-  #
-  # start selection of install options
-  # set the install options
-  # @pos015
-  do_select_start_install
-
-  #
-  # check vars in your install config
-  # @pos016
-  check_config
-
-  #
-  # If all programs are to be installed automatically
-  # @pos018
-  if [[ ${autoinstall} ]]; then
-    install_programs_now
-  fi
-
-  #
-  # checks if all required programs are installed
-  # @pos013
-  test_system
-
-  #
-  # If MySQL Server is to be installed locally
-  # @pos020
-  if [[ ${installsql} = "1" ]]; then
-    set_mysql_rootpw
-  fi
-
-  #
-  # Input of all system relevant data
-  # @pos019
-  give_me_input
-
-  #
-  # you take local mysql server, create local database
-  # @pos021
-  if [[ ${installsql} = "1" ]]; then
-    create_database $db_name $mysql_user $mysql_user_pass
-  fi
-  #
-  # As the name says
-  # @pos022
-  install_mysql_database
-
-  #
-  # As the name says
-  # @pos023
-  make_certs
-
-  #
-  # As the name says
-  # @pos024
-  create_openvpn_config_files
-
-  #
-  # set Database Permissions
-  # @pos025
-  create_openvpn_setup
-
-  #
-  # As the name says
-  # @pos026
-  create_webdirectory
-
-  #
-  # As the name says
-  # @pos027
-  create_third_party
-
-  #
-  # As the name says
-  # @pos028
-  write_webconfig
-
-  #
-  # As the name says
-  # @pos029
-  write_config
-
-  #
-  # As the name says
-  # @pos034
-  create_firewall
-
-  #
-  # As the name says
-  # @pos031
-  set_permissions
-
-  #
-  # As the name says
-  # @pos032
-  message_fin
-}
-
-
-
-
-##
-## Main call to setup
-## @param none
-## @pos000
-##
-main
-
-
-## todos for one of the next versions
-# replace easy-rsa zip file
-#
-
+main "$@"

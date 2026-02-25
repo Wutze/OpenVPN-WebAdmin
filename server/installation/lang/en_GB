@@ -1,135 +1,130 @@
 #!/usr/bin/env bash
-# this File is part of OpenVPN-WebAdmin - (c) 2020 OpenVPN-WebAdmin
-#
-# NOTICE OF LICENSE
-#
-# GNU AFFERO GENERAL PUBLIC LICENSE V3
-# that is bundled with this package in the file LICENSE.md.
-# It is also available through the world-wide-web at this URL:
-# https://www.gnu.org/licenses/agpl-3.0.en.html
-#
-# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
-#
-# @author    Wutze
-# @copyright 2020 OpenVPN-WebAdmin
-# @link			https://github.com/Wutze/OpenVPN-WebAdmin
-# @see				Internal Documentation ~/doc/
-# @version		1.4.1
-# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
-ATTENTION="ATTENTION!
-Your VPN server should never be directly connected to the Internet, otherwise the server is vulnerable and in the worst case offers direct access to your network.
+MSG_SECTION_LANGUAGE="Language"
+MSG_SECTION_SYSTEM_CHECK="System check"
+MSG_SECTION_INPUT="Installation parameters"
+MSG_SECTION_VALIDATE="Validation"
+MSG_SECTION_SUMMARY="Summary"
+MSG_SECTION_PACKAGES="Install packages"
+MSG_SECTION_REPO="Source repository"
+MSG_SECTION_DEPLOY="Deploy files"
+MSG_SECTION_ASSETS="Frontend assets"
+MSG_SECTION_CONFIG="Application config"
+MSG_SECTION_ENV="Environment file"
+MSG_SECTION_DATABASE="Database setup"
+MSG_SECTION_OPENVPN="OpenVPN integration"
+MSG_SECTION_WEBSERVER="Webserver setup"
+MSG_SECTION_PERMS="Permissions"
+MSG_SECTION_PERMS_CHECK="Permission check"
+MSG_SECTION_DONE="Finished"
 
-In addition, you have to adjust your firewall under /usr/sbin/firewall.sh accordingly, so that the system is sufficiently protected.
+MSG_LANGUAGE_SELECT="Select language"
+MSG_LANGUAGE_SET="Language set"
+MSG_SETUP_START="Starting setup"
+MSG_NEED_ROOT="Please run this setup as root."
+MSG_OS_NOT_FOUND="/etc/os-release was not found."
+MSG_OS_DETECTED="Detected operating system"
+MSG_OS_UNSUPPORTED="Unsupported operating system or version. Allowed: Debian 12/13, Ubuntu 22.04 LTS/24.04 LTS."
+MSG_EMPTY_NOT_ALLOWED="This value must not be empty."
+MSG_ANSWER_YES_NO="Please answer yes or no."
+MSG_BACKUP_CREATED="Backup created"
+MSG_MISSING_COMMAND="Missing command"
+MSG_MISSING_WHIPTAIL="whiptail is missing. Please install it first."
 
-To be always informed about errors in the system, I recommend to install \"logwatch\" and \"fail2ban\". You can find information about this on the internet."
+MSG_REPO_URL="Repository URL"
+MSG_REPO_BRANCH="Repository branch"
+MSG_SOURCE_DIR="Local source directory"
+MSG_DEPLOY_DIR="Target directory for WebAdmin"
+MSG_WEB_OWNER="Owner user for web directory"
+MSG_WEB_GROUP="Owner group for web directory"
+MSG_LOGIN_THEME="Login theme (login1/login2/login3)"
+MSG_SITETOOLS="Local sitetools path (no external URL)"
+MSG_SITETOOLS_EXTERNAL_FORBIDDEN="External sitetools URLs are blocked for privacy reasons."
 
-CONFIG01="config.conf failed"
-CONFIG02="First copy the config.conf.example to config.conf and edit the file"
-CONFIG03="Example: cp config.conf.example config.conf"
-CONFIG04="to edit: nano config.conf"
+MSG_DB_HOST="Database host"
+MSG_DB_PORT="Database port"
+MSG_DB_NAME="Database name"
+MSG_DB_USER="Database user"
+MSG_DB_PASS="Database password"
+MSG_DB_CREATE_LOCAL="Create local MariaDB database and user"
+MSG_DB_ROOT_PASS_OPTIONAL="MariaDB root password (leave empty for socket auth)"
 
-PLSWAIT1="Please wait, Update/Installation system ..."
+MSG_ADMIN_USER="Initial admin username"
+MSG_ADMIN_PASS="Initial admin password"
 
-USER01="Script called with non-root privileges"
-USER02="The Installation requires root privileges to install and run"
-USER03="Installation aborted"
+MSG_OPENVPN_CONF="Path to OpenVPN server.conf"
+MSG_OPENVPN_SCRIPTS_DIR="OpenVPN scripts directory"
+MSG_WEBSERVER_PACKAGE="Optional webserver package (none/apache2/nginx)"
+MSG_WEBSERVER_CONFIGURE="Configure webserver automatically now"
+MSG_WEBSERVER_CONFIGURE_EXISTING="Configure an existing webserver now"
+MSG_WEBSERVER_TARGET="Webserver type for configuration"
+MSG_WEBSERVER_USE_SUBDIR="Expose app under /openvpnwebadmin path instead of standalone site"
+MSG_WEBSERVER_USE_SUBDIR_EXISTING="Expose app under /openvpnwebadmin on existing webserver (like phpMyAdmin)"
+MSG_WEBSERVER_SUBDIR="Subdirectory path"
+MSG_WEBSERVER_SERVER_NAME="ServerName / Hostname"
+MSG_WEBSERVER_MODE="Webserver mode"
+MSG_MODE_SUBDIR="Subdirectory (/openvpnwebadmin)"
+MSG_MODE_STANDALONE="Standalone site"
+MSG_USE_REWRITE="Enable rewrite mode"
+MSG_INVALID_WEBSERVER="Invalid webserver option."
+MSG_INVALID_WEBSERVER_CONFIG="Invalid webserver configuration option."
+MSG_INVALID_WEBSERVER_MODE="Invalid webserver mode."
+MSG_INVALID_REWRITE_OPTION="Invalid rewrite option."
+MSG_INVALID_ASSETS_FALLBACK="Invalid assets fallback option."
+MSG_INVALID_SUBDIR="Invalid subdirectory path"
+MSG_INVALID_SERVER_NAME="ServerName must not be empty."
+MSG_NGINX_SERVER_BLOCK_MISSING="No server block found in nginx target config"
 
-BREAK="Script break"
-BEFOR="Press ENTER to start the installation or ctrl+c to cancel"
+MSG_PATH_ABSOLUTE_REQUIRED="Path must be absolute"
+MSG_USER_NOT_FOUND="User not found"
+MSG_GROUP_NOT_FOUND="Group not found"
+MSG_INPUT_VALID="All input values are valid."
 
-SELECT_A="Selection of installation options"
-SELECT_B="Installation with the following options (Please read the manual first!)"
+MSG_REQUIRED_PACKAGES="Required packages"
+MSG_CONFIRM_INSTALL="Start installation with these settings"
+MSG_ABORTED_BY_USER="Aborted by user."
+MSG_EDIT_MENU_PROMPT="Select a field to edit or continue with these values"
+MSG_EDIT_CONTINUE="Continue with these values"
+MSG_INSTALL_PACKAGES="Installing required packages"
+MSG_PACKAGES_DONE="Packages installed."
+MSG_ASSETS_BUILD="Building local frontend asset package"
+MSG_ASSETS_DEPLOY="Deploying frontend assets to public/tools"
+MSG_ASSETS_DONE="Frontend assets are ready in /tools."
+MSG_ASSETS_ALLOW_NPM_FALLBACK="If prebuilt asset archive is missing, build with npm fallback"
+MSG_ASSETS_USE_ARCHIVE="Using prebuilt frontend asset archive"
+MSG_ASSETS_ARCHIVE_MISSING="Prebuilt asset archive missing and npm fallback is disabled."
+MSG_ASSETS_ARCHIVE_MISSING_FALLBACK="Prebuilt asset archive missing. Using npm fallback build."
+MSG_ASSETS_INSTALL_NPM="Installing npm/nodejs for fallback asset build"
+MSG_WEBSERVER_SKIP="Skipping automatic webserver configuration."
+MSG_WEBSERVER_CONFIG_DONE="Webserver configuration installed and enabled."
 
-SELECT01="copy config.conf.sample to config.conf?"
-SELECT02="Automatic installation of missing packages"
-SELECT03="MySQL-Server lokal (New!)"
-SELECT04="or MySQL-Server remote (or existing)"
-SELECT05="Apache"
-SELECT06="or Nginx"
-SELECT07="webpath /srv/www/openvpn-admin"
-SELECT08="or enter your own directory"
-SELECT09="Set owner webpath to www-data"
-SELECT10="or other self defined owner"
-SELECT11="Install Debug Functions?"
-SELECT12="Install Firewalleditor?"
-SELECT13="Activate client download?"
-SELECT20="Install all extensions?"
+MSG_REPO_UPDATE="Updating existing source repository"
+MSG_SOURCE_NOT_EMPTY="Source directory exists and is not empty"
+MSG_REPO_CLONE="Cloning repository"
+MSG_REPO_READY="Source repository is ready."
+MSG_MISSING_FILE="Missing required file"
+MSG_MISSING_DIR="Missing required directory"
 
-MISSING="missing:"
-INSTALL="Just use the automatic installation of missing packages."
-ONEONLY="Only one selection is possible!"
-FEHLER01="You try to install at the same time:"
-FEHLER03="and"
-INSTMESS="You think you don't need mysql? Wrong! Let's start again. You have to make a MySQL choice!"
+MSG_DEPLOY_FILES_DONE="Application files deployed."
+MSG_CONFIG_WRITTEN="Application config written."
+MSG_ENV_WRITTEN=".env updated"
+MSG_DATABASE_DONE="Database setup done."
+MSG_OPENVPN_DONE="OpenVPN integration done."
+MSG_PERMS_DONE="Permissions updated."
+MSG_PERMS_MISSING="Path missing for permission check"
+MSG_PERMS_OK="Writable for web user"
+MSG_PERMS_FAIL="Not writable for web user"
+MSG_PERMS_CHECK_OK="Permission check passed."
+MSG_PERMS_FIX="Attempting permission fix..."
+MSG_PERMS_STILL_FAIL="Still not writable after fix"
+MSG_PERMS_CHECK_FIXED="Permission check passed after automatic fix."
+MSG_PERMS_CHECK_FATAL="Permission check failed after fix. Please adjust ownership/ACL manually."
 
-CENTOSME="A message only for CentOS users.
+MSG_DONE="Setup finished successfully."
+MSG_DONE_NEXT="Please restart OpenVPN and your webserver."
+MSG_LOG_HINT="Setup log file"
 
-You have heard that a firewall protects you?
-
-You are afraid of crackers because you have read so many reports about them. Nobody can do anything on your server without a starting point. This could be security holes, misconfiguration or intentionally installed backdoors.
-
-Make sure that you know what is happening on your system, a firewall will not help you secure your system!
-
-If you want to install the system, the script will disable your firewall. Please agree with \"Yes\". If you refuse, the installation of the system will be aborted."
-
-MYSQL01="Insert your new database password"
-MYSQL02="Create DB-PW"
-
-SETVPN01="Server Hostname/IP\nUse the name as the server is to be reached from the Internet!"
-SETVPN02="OpenVPN protocol (tcp or udp)\nIf you are using a VM with this installation, then select udp:"
-SETVPN03="OpenVPN Server Port\nDefault Port tcp or udp 1194:"
-SETVPN04="MySQL Host\n(localhost, IP or FQDN)\n\nIf you are using an external database server,\nconfigure it previously so that you can enter a user name and password."
-SETVPN05="MySQL Root Password\n(The password must not be empty. Please configure this before!)"
-SETVPN06="MySQL Username for OpenVPN Database"
-SETVPN07="MySQL Userpassword for OpenVPN Database"
-SETVPN08="Admin Username for Webfrontend OpenVPN-Admin"
-SETVPN09="Admin Userpassword for Webfrontend OpenVPN-Admin"
-SETVPN10="Database name for database"
-SETVPN11="Root directory of the web server"
-SETVPN12="Correct Web directory of the OpenVPN WebAdmin! (without /)"
-
-SETFIN01="Basic installation OpenVPN-Admin completed."
-SETFIN02="To finish the installation, please configure your web server (Apache, NGinx...)"
-SETFIN03="You must restart the server, otherwise OpenVPN will not work correctly!"
-SETFIN04="Questions, answers, wishes, mistakes please communicate there: https://github.com/Wutze/OpenVPN-WebAdmin/issues"
-
-### Update variables
-UPSEL00="Update Information"
-UPSEL01="Update from Version 0.8 to 1.1.0"
-UPSEL02="General Update System 1.1.x"
-UPSEL03=""
-UPSEL04="Installation Questions"
-
-UPVERSIO="Installed Version       "
-NEVERSIO="New Version             "
-UPDBHOST="Database host *         "
-UPDBUSER="Database user *         "
-UPDBPASS="Database password *     "
-UPDBNAME="Database Name *         "
-UPWEBDIR="Web directory *         "
-UPWEBROO="Webroot *               "
-UPPATHOW="Owner                   "
-UPMASHID="Installed on Machine ID "
-INSTALLD="Installed on            "
-UPDATAOK="* Information required!
-
-All data correct?"
-
-
-UPDATEINF01="Please make a backup of your server BEFORE starting this update. Despite all the tests I can do, 
-I can't see any errors on your server to react accordingly.
-
-However, this update introduces some functionality that allows you to restore the old installation from a backup later.
-
-Continue?"
-
-AUPDATE01="Please empty the browser cache after the update!"
-
-MOENABLE0="You installed modules. To enable these modules, transfer the following"
-MOENABLE1="information from /include/module.config.php to /include/config.php"
-
-INFO001="Please wait, the installation can take up to 10 minutes"
-INFO002="You can check the progress of the installation with tail -f /opt/[ovpn-git]/loginstall.log"
-INFO003="view in a separate SSH session"
-
+MSG_OPENVPN_CONF_BOOTSTRAP="OpenVPN server.conf created from template."
+MSG_OPENVPN_DEFAULT_CONF_CREATED="Created default OpenVPN server.conf"
+MSG_OPENVPN_SERVICE_ENABLED="OpenVPN server service enabled"
+MSG_OPENVPN_SERVICE_UNKNOWN="OpenVPN service unit not found. Please enable it manually."

@@ -22,15 +22,15 @@ use Micro\OpenvpnWebadmin\Templates\User;
 use Micro\OpenvpnWebadmin\Templates\Template;
 
 /**
- * Summary of UserController
- */
+Summary of UserController
+*/
 class UserController
 {
-    /**
-     * Kurzbeschreibung Funktion index
-     *
-     * @return void
-     */
+/**
+ * Fuehrt index entsprechend der internen Logik aus.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 public function index(): void
     {
         $content = (new User())->index();

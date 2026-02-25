@@ -12,11 +12,14 @@ $error = $_GET['error'] ?? '';
     <title><?= Lang::get('_SITE_TITLE') ?> - <?= Lang::get('_LOGIN') ?></title>
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/bootstrap5/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo _SITETOOLS ?>/fontawesome-free-7.0.1-web/css/all.min.css">
-    <link rel="stylesheet" href="?op=loginasset&amp;file=style.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(Url::op('loginasset', ['file' => 'style.css']), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="login1-page">
-<div class="login1-wrap">
+<div class="login-box">
     <div class="login1-card card shadow-sm border-0">
+        <div class="login-logo">
+            <img src="<?= htmlspecialchars(Url::op('loginasset', ['file' => 'logo.png']), ENT_QUOTES, 'UTF-8') ?>">&nbsp;OVPN-WebAdmin
+        </div>
         <div class="card-body p-4 p-md-5">
             <h3 class="text-center mb-3"><i class="fa-solid fa-lock"></i> <?= Lang::get('_WELCOME') ?></h3>
 
@@ -30,7 +33,7 @@ $error = $_GET['error'] ?? '';
                 </div>
             <?php endif; ?>
 
-            <form method="post" action="?op=checklogin">
+            <form method="post" action="<?= htmlspecialchars(Url::op('checklogin'), ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="_csrf" value="<?= htmlspecialchars(\Micro\OpenvpnWebadmin\Core\Session::getCsrfToken(), ENT_QUOTES, 'UTF-8') ?>">
                 <div class="mb-3">
                     <label for="username" class="form-label"><?= Lang::get('_LOGIN_NAME') ?></label>

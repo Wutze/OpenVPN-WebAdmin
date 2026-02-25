@@ -1,205 +1,346 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-02-21 18:51:49
+Automatisch generiert am: 2026-02-22 14:35:05
+
+## `src/Core/CaTlsService.php`
+
+### `public __construct($basePath)`
+
+- Datei: `src/Core/CaTlsService.php`
+- Zeile: 33
+- Rueckgabe: `mixed|null`
+
+```
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @param mixed $basePath Eingabewert fuer basePath.
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
+```
+
+### `public getCurrent()`
+
+- Datei: `src/Core/CaTlsService.php`
+- Zeile: 45
+- Rueckgabe: `array`
+
+```
+/**
+ * Liest current und gibt den Wert zurueck.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
+```
+
+### `public save($caContent, $tlsContent)`
+
+- Datei: `src/Core/CaTlsService.php`
+- Zeile: 66
+- Rueckgabe: `array`
+
+```
+/**
+ * Speichert Daten persistent.
+ *
+ * @param mixed $caContent Eingabewert fuer caContent.
+ * @param mixed $tlsContent Eingabewert fuer tlsContent.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
+```
+
+### `private ensureStorage()`
+
+- Datei: `src/Core/CaTlsService.php`
+- Zeile: 83
+- Rueckgabe: `void`
+
+```
+/**
+ * Fuehrt ensure storage entsprechend der internen Logik aus.
+ *
+ * @return void Kein Rueckgabewert.
+ */
+```
+
+### `private ensureFile($path)`
+
+- Datei: `src/Core/CaTlsService.php`
+- Zeile: 102
+- Rueckgabe: `void`
+
+```
+/**
+ * Fuehrt ensure file entsprechend der internen Logik aus.
+ *
+ * @param mixed $path Eingabewert fuer path.
+ * @return void Kein Rueckgabewert.
+ */
+```
+
+### `private writeSecureFile($path, $content)`
+
+- Datei: `src/Core/CaTlsService.php`
+- Zeile: 120
+- Rueckgabe: `void`
+
+```
+/**
+ * Schreibt secure file in das Zielsystem.
+ *
+ * @param mixed $path Eingabewert fuer path.
+ * @param mixed $content Eingabewert fuer content.
+ * @return void Kein Rueckgabewert.
+ */
+```
+
+### `private resolveUsableBasePath()`
+
+- Datei: `src/Core/CaTlsService.php`
+- Zeile: 146
+- Rueckgabe: `string`
+
+```
+/**
+ * Fuehrt resolve usable base path entsprechend der internen Logik aus.
+ *
+ * @return string Rueckgabe als Text.
+ */
+```
+
+### `private canUsePath($path)`
+
+- Datei: `src/Core/CaTlsService.php`
+- Zeile: 171
+- Rueckgabe: `bool`
+
+```
+/**
+ * Prueft, ob use path zutrifft.
+ *
+ * @param mixed $path Eingabewert fuer path.
+ * @return bool True bei Erfolg, sonst false.
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
 
 ## `src/Core/ConfigService.php`
 
 ### `public __construct($basePath)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 16
+- Zeile: 32
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Kurzbeschreibung Funktion __construct
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
  *
- * @param mixed $basePath
- * @return mixed|null
+ * @param mixed $basePath Eingabewert fuer basePath.
+ * @return mixed|null Rueckgabewert der Funktion.
  */
 ```
 
 ### `public listSystems()`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 27
+- Zeile: 43
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion listSystems
+ * Liefert eine Liste von systems.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `public getConfig($system)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 57
+- Zeile: 73
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion getConfig
+ * Liest config und gibt den Wert zurueck.
  *
- * @param mixed $system
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `public saveConfig($system, $content)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 74
+- Zeile: 90
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion saveConfig
+ * Speichert config persistent.
  *
- * @param mixed $system
- * @param mixed $content
- * @return array
+ * @param mixed $system Eingabewert fuer system.
+ * @param mixed $content Eingabewert fuer content.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `public getHistoryList($system)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 113
+- Zeile: 133
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getHistoryList
+ * Liest history list und gibt den Wert zurueck.
  *
- * @param mixed $system
- * @return array
+ * @param mixed $system Eingabewert fuer system.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `public getDiffStatsAgainstCurrent($system)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 144
+- Zeile: 164
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
+ * Liest diff stats against current und gibt den Wert zurueck.
  *
- * @param mixed $system
- * @return array
+ * @param mixed $system Eingabewert fuer system.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `public diffHistoryFile($system, $historyFile)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 166
+- Zeile: 186
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion diffHistoryFile
+ * Vergleicht history file und liefert die Unterschiede.
  *
- * @param mixed $system
- * @param mixed $historyFile
- * @return array
+ * @param mixed $system Eingabewert fuer system.
+ * @param mixed $historyFile Eingabewert fuer historyFile.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private getHistoryContent($system, $historyFile)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 181
+- Zeile: 201
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion getHistoryContent
+ * Liest history content und gibt den Wert zurueck.
  *
- * @param mixed $system
- * @param mixed $historyFile
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @param mixed $historyFile Eingabewert fuer historyFile.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private buildDiffData($oldText, $newText)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 199
+- Zeile: 219
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion buildDiffData
+ * Erzeugt diff data auf Basis der Eingabedaten.
  *
- * @param mixed $oldText
- * @param mixed $newText
- * @return array
+ * @param mixed $oldText Eingabewert fuer oldText.
+ * @param mixed $newText Eingabewert fuer newText.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private diffOps($a, $b)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 235
+- Zeile: 255
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion diffOps
+ * Vergleicht ops und liefert die Unterschiede.
  *
- * @param mixed $a
- * @param mixed $b
- * @return array
+ * @param mixed $a Eingabewert fuer a.
+ * @param mixed $b Eingabewert fuer b.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private clientPath($system)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 288
+- Zeile: 308
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion clientPath
+ * Fuehrt client path entsprechend der internen Logik aus.
  *
- * @param mixed $system
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private historyDir($system)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 300
+- Zeile: 320
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion historyDir
+ * Fuehrt history dir entsprechend der internen Logik aus.
  *
- * @param mixed $system
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private sanitizeSystem($system)`
 
 - Datei: `src/Core/ConfigService.php`
-- Zeile: 312
+- Zeile: 332
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion sanitizeSystem
+ * Fuehrt sanitize system entsprechend der internen Logik aus.
  *
- * @param mixed $system
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
+ */
+```
+
+### `private writeAtomic($path, $content)`
+
+- Datei: `src/Core/ConfigService.php`
+- Zeile: 351
+- Rueckgabe: `void`
+
+```
+/**
+ * Schreibt atomar in die Zieldatei (tmp + rename).
+ * Dadurch funktionieren Saves auch dann, wenn die bestehende Datei restriktive Rechte hat,
+ * aber das Verzeichnis beschreibbar ist.
+ *
+ * @param mixed $path
+ * @param mixed $content
+ * @return void
  */
 ```
 
@@ -215,9 +356,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion handle
+ * Verarbeitet die Anfrage entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -229,286 +370,314 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion handleGet
+ * Verarbeitet get entsprechend der Logik.
  *
- * @param mixed $select
- * @return void
+ * @param mixed $select Eingabewert fuer select.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private handlePost($select)`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 98
+- Zeile: 102
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion handlePost
+ * Verarbeitet post entsprechend der Logik.
  *
- * @param mixed $select
- * @return void
+ * @param mixed $select Eingabewert fuer select.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private getUsers()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 130
+- Zeile: 138
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getUsers
+ * Liest users und gibt den Wert zurueck.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private getLogs()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 149
+- Zeile: 157
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getLogs
+ * Liest logs und gibt den Wert zurueck.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private getDashboardStats()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 167
+- Zeile: 175
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getDashboardStats
+ * Liest dashboard stats und gibt den Wert zurueck.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private handleUserAction()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 203
+- Zeile: 211
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion handleUserAction
+ * Verarbeitet user action entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private handleAccountAction()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 335
+- Zeile: 343
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion handleAccountAction
+ * Verarbeitet account action entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private handleProfileAction()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 377
+- Zeile: 385
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion handleProfileAction
+ * Verarbeitet profile action entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private handleConfigGet()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 404
+- Zeile: 412
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion handleConfigGet
+ * Verarbeitet config get entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private handleConfigPost()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 452
+- Zeile: 460
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion handleConfigPost
+ * Verarbeitet config post entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private handleSettingsGet()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 503
+- Zeile: 518
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion handleSettingsGet
+ * Verarbeitet settings get entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private handleSettingsPost()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 545
+- Zeile: 560
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion handleSettingsPost
+ * Verarbeitet settings post entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
+ */
+```
+
+### `private handleCaTlsGet()`
+
+- Datei: `src/Core/DataController.php`
+- Zeile: 599
+- Rueckgabe: `void`
+
+```
+/**
+ * Verarbeitet ca tls get entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
+```
+
+### `private handleCaTlsPost()`
+
+- Datei: `src/Core/DataController.php`
+- Zeile: 632
+- Rueckgabe: `void`
+
+```
+/**
+ * Verarbeitet ca tls post entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private requireAdminJson()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 584
+- Zeile: 666
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion requireAdminJson
+ * Fuehrt require admin json entsprechend der internen Logik aus.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private msg($key)`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 597
+- Zeile: 679
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion msg
+ * Fuehrt msg entsprechend der internen Logik aus.
  *
- * @param mixed $key
- * @return string
+ * @param mixed $key Eingabewert fuer key.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private msgf($key, $arg)`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 609
+- Zeile: 691
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion msgf
+ * Fuehrt msgf entsprechend der internen Logik aus.
  *
- * @param mixed $key
- * @param mixed $arg
- * @return string
+ * @param mixed $key Eingabewert fuer key.
+ * @param mixed $arg Eingabewert fuer arg.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private assertValidUsername($username)`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 620
+- Zeile: 702
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion assertValidUsername
+ * Fuehrt assert valid username entsprechend der internen Logik aus.
  *
- * @param mixed $username
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private isValidIpv4($value)`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 633
+- Zeile: 715
 - Rueckgabe: `bool`
 
 ```
 /**
- * Kurzbeschreibung Funktion isValidIpv4
+ * Prueft, ob valid ipv4 zutrifft.
  *
- * @param mixed $value
- * @return bool
+ * @param mixed $value Eingabewert fuer value.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
 ### `private getLoginDiagnostics()`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 643
+- Zeile: 725
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getLoginDiagnostics
+ * Liest login diagnostics und gibt den Wert zurueck.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private json($data, $status)`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 757
+- Zeile: 839
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion json
+ * Fuehrt json entsprechend der internen Logik aus.
  *
- * @param mixed $data
- * @param mixed $status
- * @return void
+ * @param mixed $data Eingabewert fuer data.
+ * @param mixed $status Eingabewert fuer status.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private internalError($context, $e)`
 
 - Datei: `src/Core/DataController.php`
-- Zeile: 772
+- Zeile: 854
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion internalError
+ * Fuehrt internal error entsprechend der internen Logik aus.
  *
- * @param mixed $context
- * @param mixed $e
- * @return void
+ * @param mixed $context Eingabewert fuer context.
+ * @param mixed $e Eingabewert fuer e.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -524,10 +693,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion __construct
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
  *
- * @param mixed $config
- * @return mixed|null
+ * @param mixed $config Eingabewert fuer config.
+ * @return mixed|null Rueckgabewert der Funktion.
  */
 ```
 
@@ -539,10 +708,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion getInstance
+ * Liest instance und gibt den Wert zurueck.
  *
- * @param mixed $config
- * @return Database
+ * @param mixed $config Eingabewert fuer config.
+ * @return Database Rueckgabewert der Funktion.
  */
 ```
 
@@ -554,9 +723,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion getConnection
+ * Liest connection und gibt den Wert zurueck.
  *
- * @return PDO
+ * @return PDO Rueckgabewert der Funktion.
  */
 ```
 
@@ -567,7 +736,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public static init($env, $logfile, $debug)`
 
 - Datei: `src/Core/Debug.php`
-- Zeile: 32
+- Zeile: 33
 - Rueckgabe: `void`
 
 ```
@@ -579,7 +748,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public static debug($vars)`
 
 - Datei: `src/Core/Debug.php`
-- Zeile: 45
+- Zeile: 51
 - Rueckgabe: `void`
 
 ```
@@ -591,7 +760,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public static log($vars)`
 
 - Datei: `src/Core/Debug.php`
-- Zeile: 101
+- Zeile: 107
 - Rueckgabe: `void`
 
 ```
@@ -600,10 +769,26 @@ Automatisch generiert am: 2026-02-21 18:51:49
  */
 ```
 
+### `public static logException($e, $context)`
+
+- Datei: `src/Core/Debug.php`
+- Zeile: 132
+- Rueckgabe: `void`
+
+```
+/**
+ * Schreibt Exceptions strukturiert in exceptions.log (nur bei DEBUG=true).
+ *
+ * @param mixed $e
+ * @param mixed $context
+ * @return void
+ */
+```
+
 ### `public static dd($vars)`
 
 - Datei: `src/Core/Debug.php`
-- Zeile: 121
+- Zeile: 158
 - Rueckgabe: `void`
 
 ```
@@ -615,7 +800,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public static handleException($e)`
 
 - Datei: `src/Core/Debug.php`
-- Zeile: 130
+- Zeile: 167
 - Rueckgabe: `void`
 
 ```
@@ -627,7 +812,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public static handleError($errno, $errstr, $errfile, $errline)`
 
 - Datei: `src/Core/Debug.php`
-- Zeile: 156
+- Zeile: 192
 - Rueckgabe: `bool`
 
 ```
@@ -639,14 +824,41 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public static render()`
 
 - Datei: `src/Core/Debug.php`
-- Zeile: 172
+- Zeile: 225
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion render
+ * Stellt Inhalte fuer die Ausgabe dar.
  *
+ * @return void Kein Rueckgabewert.
+ */
+```
+
+### `private static renderExceptionScreen($error)`
+
+- Datei: `src/Core/Debug.php`
+- Zeile: 238
+- Rueckgabe: `void`
+
+```
+/**
+ * Gibt ungefangene Exceptions direkt im Browser aus (nur bei DEBUG=true).
+ *
+ * @param mixed $error
  * @return void
+ */
+```
+
+### `private static ensureLogTargets()`
+
+- Datei: `src/Core/Debug.php`
+- Zeile: 256
+- Rueckgabe: `void`
+
+```
+/**
+ * Stellt sicher, dass die Logziele existieren und beschreibbar sind.
  */
 ```
 
@@ -657,7 +869,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public set_value($key, $val)`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 42
+- Zeile: 43
 - Rueckgabe: `void`
 
 ```
@@ -673,7 +885,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public main()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 55
+- Zeile: 56
 - Rueckgabe: `void`
 
 ```
@@ -690,7 +902,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showLogin()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 133
+- Zeile: 138
 - Rueckgabe: `void`
 
 ```
@@ -704,7 +916,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private checkLogin()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 143
+- Zeile: 148
 - Rueckgabe: `void`
 
 ```
@@ -718,7 +930,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private baseTemplateData($activeOp)`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 154
+- Zeile: 159
 - Rueckgabe: `array`
 
 ```
@@ -733,7 +945,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private renderPage($title, $content, $activeOp)`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 178
+- Zeile: 183
 - Rueckgabe: `void`
 
 ```
@@ -750,7 +962,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showMain()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 189
+- Zeile: 194
 - Rueckgabe: `void`
 
 ```
@@ -764,7 +976,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showUsers()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 200
+- Zeile: 205
 - Rueckgabe: `void`
 
 ```
@@ -778,7 +990,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showLogs()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 211
+- Zeile: 216
 - Rueckgabe: `void`
 
 ```
@@ -792,7 +1004,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showConfig()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 222
+- Zeile: 227
 - Rueckgabe: `void`
 
 ```
@@ -806,7 +1018,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showSettings()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 233
+- Zeile: 238
 - Rueckgabe: `void`
 
 ```
@@ -817,10 +1029,24 @@ Automatisch generiert am: 2026-02-21 18:51:49
  */
 ```
 
+### `private showCaTls()`
+
+- Datei: `src/Core/GoRequest.php`
+- Zeile: 249
+- Rueckgabe: `void`
+
+```
+/**
+ * Zeigt die Seite fuer CA/TLS Inhalte an.
+ *
+ * @return void
+ */
+```
+
 ### `private showProfiles()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 244
+- Zeile: 260
 - Rueckgabe: `void`
 
 ```
@@ -834,7 +1060,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showAccount()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 255
+- Zeile: 271
 - Rueckgabe: `void`
 
 ```
@@ -848,7 +1074,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showLive()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 266
+- Zeile: 282
 - Rueckgabe: `void`
 
 ```
@@ -862,7 +1088,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private logout()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 277
+- Zeile: 293
 - Rueckgabe: `void`
 
 ```
@@ -876,7 +1102,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private ensureAdminOrForbidden()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 304
+- Zeile: 320
 - Rueckgabe: `void`
 
 ```
@@ -890,7 +1116,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private downloadProfileZip()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 318
+- Zeile: 334
 - Rueckgabe: `void`
 
 ```
@@ -904,7 +1130,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private showError()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 344
+- Zeile: 360
 - Rueckgabe: `void`
 
 ```
@@ -918,7 +1144,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private setLanguage()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 360
+- Zeile: 376
 - Rueckgabe: `void`
 
 ```
@@ -932,22 +1158,22 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private isSafeRedirectTarget($target)`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 382
+- Zeile: 398
 - Rueckgabe: `bool`
 
 ```
 /**
- * Kurzbeschreibung Funktion isSafeRedirectTarget
+ * Prueft, ob safe redirect target zutrifft.
  *
- * @param mixed $target
- * @return bool
+ * @param mixed $target Eingabewert fuer target.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
 ### `private enforceAccessPolicy()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 427
+- Zeile: 443
 - Rueckgabe: `void`
 
 ```
@@ -982,7 +1208,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private serveLoginAsset()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 463
+- Zeile: 479
 - Rueckgabe: `void`
 
 ```
@@ -996,7 +1222,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private enforceDataAccessPolicy($method)`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 523
+- Zeile: 539
 - Rueckgabe: `void`
 
 ```
@@ -1011,7 +1237,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private verifyStateChangingRequest()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 541
+- Zeile: 557
 - Rueckgabe: `void`
 
 ```
@@ -1025,7 +1251,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private isSameOriginRequest()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 558
+- Zeile: 574
 - Rueckgabe: `bool`
 
 ```
@@ -1039,7 +1265,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private denyRequest($status, $message)`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 587
+- Zeile: 603
 - Rueckgabe: `void`
 
 ```
@@ -1055,7 +1281,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private getRequestCsrfToken()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 607
+- Zeile: 623
 - Rueckgabe: `string`
 
 ```
@@ -1069,7 +1295,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private canUseDebugModal()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 630
+- Zeile: 646
 - Rueckgabe: `bool`
 
 ```
@@ -1081,7 +1307,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private readDotEnvValue($key)`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 650
+- Zeile: 666
 - Rueckgabe: `string`
 
 ```
@@ -1093,7 +1319,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private buildDebugModalData()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 689
+- Zeile: 705
 - Rueckgabe: `array`
 
 ```
@@ -1107,7 +1333,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private readDebugFile($path)`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 710
+- Zeile: 726
 - Rueckgabe: `string`
 
 ```
@@ -1119,7 +1345,7 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `private getGoRequestDebugVars()`
 
 - Datei: `src/Core/GoRequest.php`
-- Zeile: 735
+- Zeile: 751
 - Rueckgabe: `array`
 
 ```
@@ -1202,9 +1428,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion getAvailableLanguages
+ * Liest available languages und gibt den Wert zurueck.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
@@ -1228,11 +1454,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion buildLocaleLabel
+ * Erzeugt locale label auf Basis der Eingabedaten.
  *
- * @param mixed $langCode
- * @param mixed $countryCode
- * @return string
+ * @param mixed $langCode Eingabewert fuer langCode.
+ * @param mixed $countryCode Eingabewert fuer countryCode.
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -1244,10 +1470,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion countryCodeToFlag
+ * Fuehrt country code to flag entsprechend der internen Logik aus.
  *
- * @param mixed $countryCode
- * @return string
+ * @param mixed $countryCode Eingabewert fuer countryCode.
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -1259,10 +1485,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion sanitizeLangCode
+ * Fuehrt sanitize lang code entsprechend der internen Logik aus.
  *
- * @param mixed $lang
- * @return string
+ * @param mixed $lang Eingabewert fuer lang.
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -1278,9 +1504,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion __construct
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
  *
- * @return mixed|null
+ * @return mixed|null Rueckgabewert der Funktion.
  */
 ```
 
@@ -1292,12 +1518,12 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion getAllLogs
+ * Liest all logs und gibt den Wert zurueck.
  *
- * @param mixed $limit
- * @param mixed $offset
- * @param mixed $search
- * @return array
+ * @param mixed $limit Eingabewert fuer limit.
+ * @param mixed $offset Eingabewert fuer offset.
+ * @param mixed $search Eingabewert fuer search.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
@@ -1309,10 +1535,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion countLogs
+ * Fuehrt count logs entsprechend der internen Logik aus.
  *
- * @param mixed $search
- * @return int
+ * @param mixed $search Eingabewert fuer search.
+ * @return int Rueckgabewert der Funktion.
  */
 ```
 
@@ -1328,9 +1554,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion showLogin
+ * Stellt login fuer die Ausgabe dar.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -1342,9 +1568,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion handleLogin
+ * Verarbeitet login entsprechend der Logik.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -1356,10 +1582,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion redirect
+ * Fuehrt redirect entsprechend der internen Logik aus.
  *
- * @param mixed $url
- * @return void
+ * @param mixed $url Eingabewert fuer url.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -1371,9 +1597,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion clientIp
+ * Fuehrt client ip entsprechend der internen Logik aus.
  *
- * @return string
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -1385,10 +1611,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion auditUserRef
+ * Fuehrt audit user ref entsprechend der internen Logik aus.
  *
- * @param mixed $username
- * @return string
+ * @param mixed $username Eingabewert fuer username.
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -1400,10 +1626,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion loginKey
+ * Fuehrt login key entsprechend der internen Logik aus.
  *
- * @param mixed $username
- * @return string
+ * @param mixed $username Eingabewert fuer username.
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -1415,10 +1641,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion isLoginRateLimited
+ * Prueft, ob login rate limited zutrifft.
  *
- * @param mixed $username
- * @return bool
+ * @param mixed $username Eingabewert fuer username.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -1430,10 +1656,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion registerLoginFailure
+ * Fuehrt register login failure entsprechend der internen Logik aus.
  *
- * @param mixed $username
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -1445,10 +1671,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion clearLoginFailures
+ * Fuehrt clear login failures entsprechend der internen Logik aus.
  *
- * @param mixed $username
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -1460,10 +1686,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion isStrictAdminRoleName
+ * Prueft, ob strict admin role name zutrifft.
  *
- * @param mixed $roleName
- * @return bool
+ * @param mixed $roleName Eingabewert fuer roleName.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -1474,105 +1700,137 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public __construct($basePath)`
 
 - Datei: `src/Core/ProfileService.php`
-- Zeile: 15
+- Zeile: 31
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Kurzbeschreibung Funktion __construct
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
  *
- * @param mixed $basePath
- * @return mixed|null
+ * @param mixed $basePath Eingabewert fuer basePath.
+ * @return mixed|null Rueckgabewert der Funktion.
  */
 ```
 
 ### `public listSystems()`
 
 - Datei: `src/Core/ProfileService.php`
-- Zeile: 25
+- Zeile: 41
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion listSystems
+ * Liefert eine Liste von systems.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `public buildZip($system)`
 
 - Datei: `src/Core/ProfileService.php`
-- Zeile: 76
+- Zeile: 92
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion buildZip
+ * Erzeugt zip auf Basis der Eingabedaten.
  *
- * @param mixed $system
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `public getZipPath($system)`
 
 - Datei: `src/Core/ProfileService.php`
-- Zeile: 118
+- Zeile: 139
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion getZipPath
+ * Liest zip path und gibt den Wert zurueck.
  *
- * @param mixed $system
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private sanitizeSystem($system)`
 
 - Datei: `src/Core/ProfileService.php`
-- Zeile: 136
+- Zeile: 157
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion sanitizeSystem
+ * Fuehrt sanitize system entsprechend der internen Logik aus.
  *
- * @param mixed $system
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private zipPathFor($system)`
 
 - Datei: `src/Core/ProfileService.php`
-- Zeile: 152
+- Zeile: 173
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion zipPathFor
+ * Fuehrt zip path for entsprechend der internen Logik aus.
  *
- * @param mixed $system
- * @return string
+ * @param mixed $system Eingabewert fuer system.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private isAllowedSystemDir($system, $dir)`
 
 - Datei: `src/Core/ProfileService.php`
-- Zeile: 164
+- Zeile: 185
 - Rueckgabe: `bool`
 
 ```
 /**
- * Kurzbeschreibung Funktion isAllowedSystemDir
+ * Prueft, ob allowed system dir zutrifft.
  *
- * @param mixed $system
- * @param mixed $dir
- * @return bool
+ * @param mixed $system Eingabewert fuer system.
+ * @param mixed $dir Eingabewert fuer dir.
+ * @return bool True bei Erfolg, sonst false.
+ */
+```
+
+### `private injectCaTlsBlocks($content)`
+
+- Datei: `src/Core/ProfileService.php`
+- Zeile: 204
+- Rueckgabe: `string`
+
+```
+/**
+ * Fuehrt inject ca tls blocks entsprechend der internen Logik aus.
+ *
+ * @param mixed $content Eingabewert fuer content.
+ * @return string Rueckgabe als Text.
+ */
+```
+
+### `private replaceOvpnBlock($content, $tag, $blockContent)`
+
+- Datei: `src/Core/ProfileService.php`
+- Zeile: 233
+- Rueckgabe: `string`
+
+```
+/**
+ * Fuehrt replace ovpn block entsprechend der internen Logik aus.
+ *
+ * @param mixed $content Eingabewert fuer content.
+ * @param mixed $tag Eingabewert fuer tag.
+ * @param mixed $blockContent Eingabewert fuer blockContent.
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -1583,209 +1841,209 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public __construct($cfg)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 15
+- Zeile: 31
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Kurzbeschreibung Funktion __construct
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
  *
- * @param mixed $cfg
- * @return mixed|null
+ * @param mixed $cfg Eingabewert fuer cfg.
+ * @return mixed|null Rueckgabewert der Funktion.
  */
 ```
 
 ### `public getCurrent()`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 35
+- Zeile: 51
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getCurrent
+ * Liest current und gibt den Wert zurueck.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `public save($content)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 74
+- Zeile: 90
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion save
+ * Speichert Daten persistent.
  *
- * @param mixed $content
- * @return array
+ * @param mixed $content Eingabewert fuer content.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `public getHistoryList()`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 104
+- Zeile: 120
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getHistoryList
+ * Liest history list und gibt den Wert zurueck.
  *
- * @return array
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `public diffHistoryFileAgainstCurrent($historyFile, $current)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 135
+- Zeile: 151
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion diffHistoryFileAgainstCurrent
+ * Vergleicht history file against current und liefert die Unterschiede.
  *
- * @param mixed $historyFile
- * @param mixed $current
- * @return array
+ * @param mixed $historyFile Eingabewert fuer historyFile.
+ * @param mixed $current Eingabewert fuer current.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private getDiffStatsAgainstCurrent($current)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 153
+- Zeile: 169
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion getDiffStatsAgainstCurrent
+ * Liest diff stats against current und gibt den Wert zurueck.
  *
- * @param mixed $current
- * @return array
+ * @param mixed $current Eingabewert fuer current.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private fetchFromUrl($url)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 174
+- Zeile: 190
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion fetchFromUrl
+ * Fuehrt fetch from url entsprechend der internen Logik aus.
  *
- * @param mixed $url
- * @return string
+ * @param mixed $url Eingabewert fuer url.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private writeCache($content)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 207
+- Zeile: 223
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion writeCache
+ * Schreibt cache in das Zielsystem.
  *
- * @param mixed $content
- * @return void
+ * @param mixed $content Eingabewert fuer content.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private archiveFile($file)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 228
+- Zeile: 244
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion archiveFile
+ * Fuehrt archive file entsprechend der internen Logik aus.
  *
- * @param mixed $file
- * @return void
+ * @param mixed $file Eingabewert fuer file.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private readSavePath()`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 246
+- Zeile: 262
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion readSavePath
+ * Laedt save path aus der Quelle.
  *
- * @return string
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private readFile($path)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 269
+- Zeile: 285
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion readFile
+ * Laedt file aus der Quelle.
  *
- * @param mixed $path
- * @return string
+ * @param mixed $path Eingabewert fuer path.
+ * @return string Rueckgabe als Text.
  */
 ```
 
 ### `private ensureSaveFileExists()`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 283
+- Zeile: 299
 - Rueckgabe: `void`
 
 ```
 /**
- * Kurzbeschreibung Funktion ensureSaveFileExists
+ * Fuehrt ensure save file exists entsprechend der internen Logik aus.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
 ### `private buildDiffData($oldText, $newText)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 308
+- Zeile: 324
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion buildDiffData
+ * Erzeugt diff data auf Basis der Eingabedaten.
  *
- * @param mixed $oldText
- * @param mixed $newText
- * @return array
+ * @param mixed $oldText Eingabewert fuer oldText.
+ * @param mixed $newText Eingabewert fuer newText.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
 ### `private diffOps($a, $b)`
 
 - Datei: `src/Core/ServerSettingsService.php`
-- Zeile: 344
+- Zeile: 360
 - Rueckgabe: `array`
 
 ```
 /**
- * Kurzbeschreibung Funktion diffOps
+ * Vergleicht ops und liefert die Unterschiede.
  *
- * @param mixed $a
- * @param mixed $b
- * @return array
+ * @param mixed $a Eingabewert fuer a.
+ * @param mixed $b Eingabewert fuer b.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
@@ -1801,11 +2059,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion __construct
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
  *
- * @param mixed $db
- * @param mixed $lifetime
- * @return mixed|null
+ * @param mixed $db Eingabewert fuer db.
+ * @param mixed $lifetime Eingabewert fuer lifetime.
+ * @return mixed|null Rueckgabewert der Funktion.
  */
 ```
 
@@ -1817,11 +2075,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion open
+ * Fuehrt open entsprechend der internen Logik aus.
  *
- * @param mixed $savePath
- * @param mixed $sessionName
- * @return bool
+ * @param mixed $savePath Eingabewert fuer savePath.
+ * @param mixed $sessionName Eingabewert fuer sessionName.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -1833,9 +2091,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion close
+ * Fuehrt close entsprechend der internen Logik aus.
  *
- * @return bool
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -1847,10 +2105,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion read
+ * Laedt Daten aus der Quelle.
  *
- * @param mixed $id
- * @return string|false
+ * @param mixed $id Eingabewert fuer id.
+ * @return string|false Rueckgabewert der Funktion.
  */
 ```
 
@@ -1862,11 +2120,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion write
+ * Schreibt Daten in das Zielsystem.
  *
- * @param mixed $id
- * @param mixed $data
- * @return bool
+ * @param mixed $id Eingabewert fuer id.
+ * @param mixed $data Eingabewert fuer data.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -1878,10 +2136,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion destroy
+ * Fuehrt destroy entsprechend der internen Logik aus.
  *
- * @param mixed $id
- * @return bool
+ * @param mixed $id Eingabewert fuer id.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -1893,10 +2151,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion gc
+ * Fuehrt gc entsprechend der internen Logik aus.
  *
- * @param mixed $max_lifetime
- * @return int|false
+ * @param mixed $max_lifetime Eingabewert fuer max_lifetime.
+ * @return int|false Rueckgabewert der Funktion.
  */
 ```
 
@@ -1920,9 +2178,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion regenerateId
+ * Fuehrt regenerate id entsprechend der internen Logik aus.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2042,10 +2300,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion verifyCsrfToken
+ * Fuehrt verify csrf token entsprechend der internen Logik aus.
  *
- * @param mixed $token
- * @return bool
+ * @param mixed $token Eingabewert fuer token.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -2057,10 +2315,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion toBool
+ * Fuehrt to bool entsprechend der internen Logik aus.
  *
- * @param mixed $value
- * @return bool
+ * @param mixed $value Eingabewert fuer value.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -2072,10 +2330,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion isStrictAdminRoleName
+ * Prueft, ob strict admin role name zutrifft.
  *
- * @param mixed $roleName
- * @return bool
+ * @param mixed $roleName Eingabewert fuer roleName.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -2091,9 +2349,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion index
+ * Fuehrt index entsprechend der internen Logik aus.
  *
- * @return void
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2109,9 +2367,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion __construct
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
  *
- * @return mixed|null
+ * @return mixed|null Rueckgabewert der Funktion.
  */
 ```
 
@@ -2123,12 +2381,12 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion getAllUsers
+ * Liest all users und gibt den Wert zurueck.
  *
- * @param mixed $limit
- * @param mixed $offset
- * @param mixed $search
- * @return array
+ * @param mixed $limit Eingabewert fuer limit.
+ * @param mixed $offset Eingabewert fuer offset.
+ * @param mixed $search Eingabewert fuer search.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
  */
 ```
 
@@ -2140,10 +2398,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion countUsers
+ * Fuehrt count users entsprechend der internen Logik aus.
  *
- * @param mixed $search
- * @return int
+ * @param mixed $search Eingabewert fuer search.
+ * @return int Rueckgabewert der Funktion.
  */
 ```
 
@@ -2155,9 +2413,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion countOnlineUsers
+ * Fuehrt count online users entsprechend der internen Logik aus.
  *
- * @return int
+ * @return int Rueckgabewert der Funktion.
  */
 ```
 
@@ -2169,10 +2427,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion userExists
+ * Fuehrt user exists entsprechend der internen Logik aus.
  *
- * @param mixed $username
- * @return bool
+ * @param mixed $username Eingabewert fuer username.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -2184,12 +2442,12 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion createUser
+ * Erzeugt user auf Basis der Eingabedaten.
  *
- * @param mixed $username
- * @param mixed $password
- * @param mixed $isAdmin
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $password Eingabewert fuer password.
+ * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2201,11 +2459,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion setUserEnabled
+ * Setzt user enabled auf den uebergebenen Wert.
  *
- * @param mixed $username
- * @param mixed $enabled
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $enabled Eingabewert fuer enabled.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2217,11 +2475,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion setUserRole
+ * Setzt user role auf den uebergebenen Wert.
  *
- * @param mixed $username
- * @param mixed $isAdmin
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2233,11 +2491,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion setUserPasswordByName
+ * Setzt user password by name auf den uebergebenen Wert.
  *
- * @param mixed $username
- * @param mixed $newPassword
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $newPassword Eingabewert fuer newPassword.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2249,11 +2507,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion setUserPasswordById
+ * Setzt user password by id auf den uebergebenen Wert.
  *
- * @param mixed $uid
- * @param mixed $newPassword
- * @return void
+ * @param mixed $uid Eingabewert fuer uid.
+ * @param mixed $newPassword Eingabewert fuer newPassword.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2265,12 +2523,12 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion setUserLimits
+ * Setzt user limits auf den uebergebenen Wert.
  *
- * @param mixed $username
- * @param mixed $startDate
- * @param mixed $endDate
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $startDate Eingabewert fuer startDate.
+ * @param mixed $endDate Eingabewert fuer endDate.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2282,11 +2540,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion setUserFixedIp
+ * Setzt user fixed ip auf den uebergebenen Wert.
  *
- * @param mixed $username
- * @param mixed $fixedIp
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $fixedIp Eingabewert fuer fixedIp.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2298,11 +2556,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion isFixedIpInUseByOtherUser
+ * Prueft, ob fixed ip in use by other user zutrifft.
  *
- * @param mixed $username
- * @param mixed $fixedIp
- * @return bool
+ * @param mixed $username Eingabewert fuer username.
+ * @param mixed $fixedIp Eingabewert fuer fixedIp.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -2314,10 +2572,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion deleteUser
+ * Entfernt user.
  *
- * @param mixed $username
- * @return void
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
@@ -2329,11 +2587,11 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion verifyPassword
+ * Fuehrt verify password entsprechend der internen Logik aus.
  *
- * @param mixed $uid
- * @param mixed $password
- * @return bool
+ * @param mixed $uid Eingabewert fuer uid.
+ * @param mixed $password Eingabewert fuer password.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
@@ -2345,10 +2603,10 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion resolveGroupId
+ * Fuehrt resolve group id entsprechend der internen Logik aus.
  *
- * @param mixed $isAdmin
- * @return int
+ * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @return int Rueckgabewert der Funktion.
  */
 ```
 
@@ -2359,14 +2617,32 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public index()`
 
 - Datei: `src/Templates/Account.php`
-- Zeile: 12
+- Zeile: 28
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion index
+ * Fuehrt index entsprechend der internen Logik aus.
  *
- * @return string
+ * @return string Rueckgabe als Text.
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `src/Templates/CaTls.php`
+
+### `public index()`
+
+- Datei: `src/Templates/CaTls.php`
+- Zeile: 28
+- Rueckgabe: `string`
+
+```
+/**
+ * Fuehrt index entsprechend der internen Logik aus.
+ *
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -2377,14 +2653,14 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public index()`
 
 - Datei: `src/Templates/Config.php`
-- Zeile: 12
+- Zeile: 28
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion index
+ * Fuehrt index entsprechend der internen Logik aus.
  *
- * @return string
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -2400,9 +2676,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion index
+ * Fuehrt index entsprechend der internen Logik aus.
  *
- * @return string
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -2418,9 +2694,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion index
+ * Fuehrt index entsprechend der internen Logik aus.
  *
- * @return string
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -2431,14 +2707,14 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public index()`
 
 - Datei: `src/Templates/Profiles.php`
-- Zeile: 12
+- Zeile: 28
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion index
+ * Fuehrt index entsprechend der internen Logik aus.
  *
- * @return string
+ * @return string Rueckgabe als Text.
  */
 ```
 
@@ -2449,12 +2725,13 @@ Automatisch generiert am: 2026-02-21 18:51:49
 ### `public index()`
 
 - Datei: `src/Templates/Settings.php`
-- Zeile: 12
+- Zeile: 29
 - Rueckgabe: `string`
 
 ```
 /**
- * Kurzbeschreibung Funktion index
+ * Register VPN Einstellungen
+ * Hier wird die Serverkonfiguration geladen, angezeigt und verändert
  *
  * @return string
  */
@@ -2472,12 +2749,12 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion __construct
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
  *
- * @param mixed $title
- * @param mixed $content
- * @param mixed $data
- * @return mixed|null
+ * @param mixed $title Eingabewert fuer title.
+ * @param mixed $content Eingabewert fuer content.
+ * @param mixed $data Eingabewert fuer data.
+ * @return mixed|null Rueckgabewert der Funktion.
  */
 ```
 
@@ -2517,9 +2794,9 @@ Automatisch generiert am: 2026-02-21 18:51:49
 
 ```
 /**
- * Kurzbeschreibung Funktion index
+ * Fuehrt index entsprechend der internen Logik aus.
  *
- * @return string
+ * @return string Rueckgabe als Text.
  */
 ```
 

@@ -26,11 +26,11 @@ use PDOException;
 
 class LoginController
 {
-    /**
-     * Kurzbeschreibung Funktion showLogin
-     *
-     * @return void
-     */
+/**
+ * Stellt login fuer die Ausgabe dar.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 public function showLogin(): void
     {
         $lang = Lang::getAll();
@@ -44,11 +44,11 @@ public function showLogin(): void
         include __DIR__ . '/../Templates/Login/login.php';
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleLogin
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet login entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 public function handleLogin(): void
     {
         $db = Database::getInstance()->getConnection();
@@ -59,19 +59,19 @@ public function handleLogin(): void
         $csrf = (string)($_POST['_csrf'] ?? '');
         if (!Session::verifyCsrfToken($csrf)) {
             Debug::log('LOGIN blocked invalid csrf');
-            $this->redirect('?op=login&error=invalid');
+            $this->redirect(\Url::op('login', ['error' => 'invalid']));
         }
 
         if ($this->isLoginRateLimited($username)) {
             Debug::log('LOGIN blocked rate limit', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
-            $this->redirect('?op=login&error=invalid');
+            $this->redirect(\Url::op('login', ['error' => 'invalid']));
         }
         Debug::log('LOGIN attempt', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
 
         if (empty($username) || empty($password)) {
             Debug::log("Leere Logindaten");
             $this->registerLoginFailure($username);
-            $this->redirect('?op=login&error=empty');
+            $this->redirect(\Url::op('login', ['error' => 'empty']));
         }
 
         try {
@@ -98,7 +98,7 @@ public function handleLogin(): void
             } catch (\Throwable $inner) {
                 Debug::log('Login fallback query failed', $inner->getMessage());
                 $this->registerLoginFailure($username);
-                $this->redirect('?op=login&error=invalid');
+                $this->redirect(\Url::op('login', ['error' => 'invalid']));
             }
         }
 
@@ -129,7 +129,7 @@ public function handleLogin(): void
             $this->clearLoginFailures($username);
             Session::regenerateId();
             $roleName = (string)($user['role_name'] ?? '');
-            $isAdmin = $this->isStrictAdminRoleName($roleName);
+            $isAdmin = ((int)($user['gid'] ?? 0) === 1) || $this->isStrictAdminRoleName($roleName);
             Debug::log('LOGIN session before set', [
                 'session_id' => session_id(),
                 'session_status' => session_status(),
@@ -143,43 +143,54 @@ public function handleLogin(): void
             ]);
             session_write_close();
             Debug::log('LOGIN success', ['user_ref' => $this->auditUserRef($username), 'uid' => (int)$user['uid'], 'is_admin' => $isAdmin]);
-            $this->redirect('?op=dashboard');
+            $this->redirect(\Url::op('dashboard'));
         } else {
             $this->registerLoginFailure($username);
             Debug::log('LOGIN failed', ['user_ref' => $this->auditUserRef($username), 'user_found' => (bool)$user, 'password_ok' => $validPassword, 'ip' => $this->clientIp()]);
-            $this->redirect('?op=login&error=invalid');
+            $this->redirect(\Url::op('login', ['error' => 'invalid']));
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion redirect
-     *
-     * @param mixed $url
-     * @return void
-     */
+/**
+ * Fuehrt redirect entsprechend der internen Logik aus.
+ *
+ * @param mixed $url Eingabewert fuer url.
+ * @return void Kein Rueckgabewert.
+ */
 private function redirect(string $url): void
     {
-        header("Location: $url");
+        header('Location: ' . $this->buildRedirectUrl($url));
         exit;
     }
 
     /**
-     * Kurzbeschreibung Funktion clientIp
+     * Baut eine absolute Redirect-URL aus Legacy-?op Links.
      *
+     * @param string $url
      * @return string
      */
+    private function buildRedirectUrl(string $url): string
+    {
+        return Url::normalizeInternal($url);
+    }
+
+/**
+ * Fuehrt client ip entsprechend der internen Logik aus.
+ *
+ * @return string Rueckgabe als Text.
+ */
 private function clientIp(): string
     {
         $ip = (string)($_SERVER['REMOTE_ADDR'] ?? '');
         return $ip !== '' ? $ip : 'unknown';
     }
 
-    /**
-     * Kurzbeschreibung Funktion auditUserRef
-     *
-     * @param mixed $username
-     * @return string
-     */
+/**
+ * Fuehrt audit user ref entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return string Rueckgabe als Text.
+ */
 private function auditUserRef(string $username): string
     {
         $u = strtolower(trim($username));
@@ -189,23 +200,23 @@ private function auditUserRef(string $username): string
         return 'sha256:' . hash('sha256', $u);
     }
 
-    /**
-     * Kurzbeschreibung Funktion loginKey
-     *
-     * @param mixed $username
-     * @return string
-     */
+/**
+ * Fuehrt login key entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return string Rueckgabe als Text.
+ */
 private function loginKey(string $username): string
     {
         return hash('sha256', strtolower(trim($username)) . '|' . $this->clientIp());
     }
 
-    /**
-     * Kurzbeschreibung Funktion isLoginRateLimited
-     *
-     * @param mixed $username
-     * @return bool
-     */
+/**
+ * Prueft, ob login rate limited zutrifft.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return bool True bei Erfolg, sonst false.
+ */
 private function isLoginRateLimited(string $username): bool
     {
         $store = $_SESSION['_login_guard'] ?? [];
@@ -223,12 +234,12 @@ private function isLoginRateLimited(string $username): bool
         return $lockUntil > time();
     }
 
-    /**
-     * Kurzbeschreibung Funktion registerLoginFailure
-     *
-     * @param mixed $username
-     * @return void
-     */
+/**
+ * Fuehrt register login failure entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
+ */
 private function registerLoginFailure(string $username): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -265,12 +276,12 @@ private function registerLoginFailure(string $username): void
         usleep(300000);
     }
 
-    /**
-     * Kurzbeschreibung Funktion clearLoginFailures
-     *
-     * @param mixed $username
-     * @return void
-     */
+/**
+ * Fuehrt clear login failures entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
+ */
 private function clearLoginFailures(string $username): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -283,12 +294,12 @@ private function clearLoginFailures(string $username): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion isStrictAdminRoleName
-     *
-     * @param mixed $roleName
-     * @return bool
-     */
+/**
+ * Prueft, ob strict admin role name zutrifft.
+ *
+ * @param mixed $roleName Eingabewert fuer roleName.
+ * @return bool True bei Erfolg, sonst false.
+ */
 private function isStrictAdminRoleName(string $roleName): bool
     {
         $role = strtolower(trim($roleName));

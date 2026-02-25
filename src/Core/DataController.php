@@ -20,11 +20,11 @@ namespace Micro\OpenvpnWebadmin\Core;
 
 class DataController
 {
-    /**
-     * Kurzbeschreibung Funktion handle
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet die Anfrage entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 public function handle(): void
     {
         $select = (string)($_GET['select'] ?? '');
@@ -45,12 +45,12 @@ public function handle(): void
         $this->json(['status' => 'error', 'message' => $this->msg('_API_METHOD_NOT_ALLOWED')], 405);
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleGet
-     *
-     * @param mixed $select
-     * @return void
-     */
+/**
+ * Verarbeitet get entsprechend der Logik.
+ *
+ * @param mixed $select Eingabewert fuer select.
+ * @return void Kein Rueckgabewert.
+ */
 private function handleGet(string $select): void
     {
         switch ($select) {
@@ -77,6 +77,10 @@ private function handleGet(string $select): void
                 $this->requireAdminJson();
                 $this->handleSettingsGet();
                 break;
+            case 'catls':
+                $this->requireAdminJson();
+                $this->handleCaTlsGet();
+                break;
             case 'dashboard_stats':
                 $this->requireAdminJson();
                 $this->json($this->getDashboardStats());
@@ -89,12 +93,12 @@ private function handleGet(string $select): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion handlePost
-     *
-     * @param mixed $select
-     * @return void
-     */
+/**
+ * Verarbeitet post entsprechend der Logik.
+ *
+ * @param mixed $select Eingabewert fuer select.
+ * @return void Kein Rueckgabewert.
+ */
 private function handlePost(string $select): void
     {
         switch ($select) {
@@ -117,16 +121,20 @@ private function handlePost(string $select): void
                 $this->requireAdminJson();
                 $this->handleSettingsPost();
                 break;
+            case 'catls':
+                $this->requireAdminJson();
+                $this->handleCaTlsPost();
+                break;
             default:
                 $this->json(['status' => 'error', 'message' => $this->msg('_API_UNKNOWN_DATA_SOURCE')], 404);
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion getUsers
-     *
-     * @return array
-     */
+/**
+ * Liest users und gibt den Wert zurueck.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function getUsers(): array
     {
         $model = new UserModel();
@@ -141,11 +149,11 @@ private function getUsers(): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion getLogs
-     *
-     * @return array
-     */
+/**
+ * Liest logs und gibt den Wert zurueck.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function getLogs(): array
     {
         $model = new LogModel();
@@ -159,11 +167,11 @@ private function getLogs(): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion getDashboardStats
-     *
-     * @return array
-     */
+/**
+ * Liest dashboard stats und gibt den Wert zurueck.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function getDashboardStats(): array
     {
         $userModel = new UserModel();
@@ -195,11 +203,11 @@ private function getDashboardStats(): array
         ];
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleUserAction
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet user action entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function handleUserAction(): void
     {
         $action = (string)($_POST['action'] ?? '');
@@ -327,11 +335,11 @@ private function handleUserAction(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleAccountAction
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet account action entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function handleAccountAction(): void
     {
         try {
@@ -369,11 +377,11 @@ private function handleAccountAction(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleProfileAction
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet profile action entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function handleProfileAction(): void
     {
         $action = (string)($_POST['action'] ?? '');
@@ -396,11 +404,11 @@ private function handleProfileAction(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleConfigGet
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet config get entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function handleConfigGet(): void
     {
         $service = new ConfigService();
@@ -444,11 +452,11 @@ private function handleConfigGet(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleConfigPost
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet config post entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function handleConfigPost(): void
     {
         $service = new ConfigService();
@@ -462,7 +470,7 @@ private function handleConfigPost(): void
         $content = (string)($_POST['content'] ?? '');
 
         $missing = [];
-        foreach (['client', '<ca>', '</ca>', '<tls-auth>', '</tls-auth>'] as $needle) {
+        foreach (['client'] as $needle) {
             if (!str_contains($content, $needle)) {
                 $missing[] = $needle;
             }
@@ -491,15 +499,22 @@ private function handleConfigPost(): void
                 'history_file' => $result['history_file'],
             ]);
         } catch (\Throwable $e) {
-            $this->internalError('handleConfigPost', $e);
+            Debug::logException($e, 'handleConfigPost');
+            Debug::log('handleConfigPost', $e->getMessage(), [
+                'system' => $system,
+            ]);
+            $this->json([
+                'status' => 'error',
+                'message' => $e->getMessage() !== '' ? $e->getMessage() : $this->msg('_MSG_GENERIC_ERROR'),
+            ], 500);
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleSettingsGet
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet settings get entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function handleSettingsGet(): void
     {
         $service = new ServerSettingsService();
@@ -537,11 +552,11 @@ private function handleSettingsGet(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion handleSettingsPost
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet settings post entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function handleSettingsPost(): void
     {
         $service = new ServerSettingsService();
@@ -576,11 +591,78 @@ private function handleSettingsPost(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion requireAdminJson
-     *
-     * @return void
-     */
+/**
+ * Verarbeitet ca tls get entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
+private function handleCaTlsGet(): void
+    {
+        $service = new CaTlsService();
+        $action = (string)($_GET['action'] ?? 'get');
+
+        try {
+            if ($action !== 'get') {
+                $this->json(['status' => 'error', 'message' => $this->msg('_API_CATLS_GET_ACTION_UNKNOWN')], 400);
+            }
+
+            $data = $service->getCurrent();
+            $this->json([
+                'status' => 'ok',
+                'ca' => $data['ca'],
+                'tls' => $data['tls'],
+                'ca_path' => $data['ca_path'],
+                'tls_path' => $data['tls_path'],
+            ]);
+        } catch (\Throwable $e) {
+            Debug::logException($e, 'handleCaTlsGet');
+            Debug::log('handleCaTlsGet', $e->getMessage());
+            $this->json([
+                'status' => 'error',
+                'message' => $e->getMessage() !== '' ? $e->getMessage() : $this->msg('_MSG_GENERIC_ERROR'),
+            ], 500);
+        }
+    }
+
+/**
+ * Verarbeitet ca tls post entsprechend der Logik.
+ *
+ * @return void Kein Rueckgabewert.
+ */
+private function handleCaTlsPost(): void
+    {
+        $service = new CaTlsService();
+        $action = (string)($_POST['action'] ?? '');
+        if ($action !== 'save') {
+            $this->json(['status' => 'error', 'message' => $this->msg('_API_CATLS_POST_ACTION_UNKNOWN')], 400);
+        }
+
+        $ca = (string)($_POST['ca_content'] ?? '');
+        $tls = (string)($_POST['tls_content'] ?? '');
+
+        try {
+            $saved = $service->save($ca, $tls);
+            $this->json([
+                'status' => 'ok',
+                'message' => $this->msg('_API_CATLS_SAVED'),
+                'ca_path' => $saved['ca_path'],
+                'tls_path' => $saved['tls_path'],
+            ]);
+        } catch (\Throwable $e) {
+            Debug::logException($e, 'handleCaTlsPost');
+            Debug::log('handleCaTlsPost', $e->getMessage());
+            $this->json([
+                'status' => 'error',
+                'message' => $e->getMessage() !== '' ? $e->getMessage() : $this->msg('_MSG_GENERIC_ERROR'),
+            ], 500);
+        }
+    }
+
+/**
+ * Fuehrt require admin json entsprechend der internen Logik aus.
+ *
+ * @return void Kein Rueckgabewert.
+ */
 private function requireAdminJson(): void
     {
         if (!Session::isAdmin()) {
@@ -588,34 +670,34 @@ private function requireAdminJson(): void
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion msg
-     *
-     * @param mixed $key
-     * @return string
-     */
+/**
+ * Fuehrt msg entsprechend der internen Logik aus.
+ *
+ * @param mixed $key Eingabewert fuer key.
+ * @return string Rueckgabe als Text.
+ */
 private function msg(string $key): string
     {
         return Lang::get($key);
     }
 
-    /**
-     * Kurzbeschreibung Funktion msgf
-     *
-     * @param mixed $key
-     * @param mixed $arg
-     * @return string
-     */
+/**
+ * Fuehrt msgf entsprechend der internen Logik aus.
+ *
+ * @param mixed $key Eingabewert fuer key.
+ * @param mixed $arg Eingabewert fuer arg.
+ * @return string Rueckgabe als Text.
+ */
 private function msgf(string $key, string $arg): string
     {
         return sprintf(Lang::get($key), $arg);
     }
 
     /**
-     * Kurzbeschreibung Funktion assertValidUsername
+     * Fuehrt assert valid username entsprechend der internen Logik aus.
      *
-     * @param mixed $username
-     * @return void
+     * @param mixed $username Eingabewert fuer username.
+     * @return void Kein Rueckgabewert.
      */
     private function assertValidUsername(string $username): void
     {
@@ -624,22 +706,22 @@ private function msgf(string $key, string $arg): string
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion isValidIpv4
-     *
-     * @param mixed $value
-     * @return bool
-     */
+/**
+ * Prueft, ob valid ipv4 zutrifft.
+ *
+ * @param mixed $value Eingabewert fuer value.
+ * @return bool True bei Erfolg, sonst false.
+ */
 private function isValidIpv4(string $value): bool
     {
         return filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false;
     }
 
-    /**
-     * Kurzbeschreibung Funktion getLoginDiagnostics
-     *
-     * @return array
-     */
+/**
+ * Liest login diagnostics und gibt den Wert zurueck.
+ *
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 private function getLoginDiagnostics(): array
     {
         $out = [
@@ -748,11 +830,11 @@ private function getLoginDiagnostics(): array
     }
 
     /**
-     * Kurzbeschreibung Funktion json
+     * Fuehrt json entsprechend der internen Logik aus.
      *
-     * @param mixed $data
-     * @param mixed $status
-     * @return void
+     * @param mixed $data Eingabewert fuer data.
+     * @param mixed $status Eingabewert fuer status.
+     * @return void Kein Rueckgabewert.
      */
     private function json(array $data, int $status = 200): void
     {
@@ -762,15 +844,16 @@ private function getLoginDiagnostics(): array
         exit;
     }
 
-    /**
-     * Kurzbeschreibung Funktion internalError
-     *
-     * @param mixed $context
-     * @param mixed $e
-     * @return void
-     */
+/**
+ * Fuehrt internal error entsprechend der internen Logik aus.
+ *
+ * @param mixed $context Eingabewert fuer context.
+ * @param mixed $e Eingabewert fuer e.
+ * @return void Kein Rueckgabewert.
+ */
 private function internalError(string $context, \Throwable $e): void
     {
+        Debug::logException($e, $context);
         Debug::log($context, $e->getMessage());
         $this->json([
             'status' => 'error',

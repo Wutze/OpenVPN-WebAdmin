@@ -17,6 +17,7 @@
  */
 
 $t = static fn(string $k): string => \Lang::get($k);
+$dataUrl = htmlspecialchars(\Url::op('data', ['select' => 'user']), ENT_QUOTES, 'UTF-8');
 
 return <<<HTML
 <div class="card mb-3">
@@ -45,7 +46,7 @@ return <<<HTML
 </div>
 
 <table id="user-table" class="table table-striped"
-       data-url="?op=data&select=user"
+       data-url="{$dataUrl}"
        data-side-pagination="server"
        data-search="true"
        data-striped="true"

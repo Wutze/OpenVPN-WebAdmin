@@ -23,26 +23,26 @@ use PDO;
 
 class LogModel
 {
-    private PDO $db;
+private PDO $db;
 
-    /**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @return mixed|null
-     */
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
 public function __construct()
     {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    /**
-     * Kurzbeschreibung Funktion getAllLogs
-     *
-     * @param mixed $limit
-     * @param mixed $offset
-     * @param mixed $search
-     * @return array
-     */
+/**
+ * Liest all logs und gibt den Wert zurueck.
+ *
+ * @param mixed $limit Eingabewert fuer limit.
+ * @param mixed $offset Eingabewert fuer offset.
+ * @param mixed $search Eingabewert fuer search.
+ * @return array Rueckgabe als Array mit den ermittelten Daten.
+ */
 public function getAllLogs(int $limit = 50, int $offset = 0, string $search = null): array
     {
         $sql = "SELECT * FROM log WHERE 1";
@@ -67,12 +67,12 @@ public function getAllLogs(int $limit = 50, int $offset = 0, string $search = nu
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Kurzbeschreibung Funktion countLogs
-     *
-     * @param mixed $search
-     * @return int
-     */
+/**
+ * Fuehrt count logs entsprechend der internen Logik aus.
+ *
+ * @param mixed $search Eingabewert fuer search.
+ * @return int Rueckgabewert der Funktion.
+ */
 public function countLogs(string $search = null): int
     {
         $sql = "SELECT COUNT(*) as cnt FROM log WHERE 1";

@@ -25,6 +25,7 @@ $_rec = \Lang::get('_LOG_COL_REC');
 $_sent = \Lang::get('_LOG_COL_SENT');
 $_start = \Lang::get('_LOG_COL_START');
 $_end = \Lang::get('_LOG_COL_END');
+$dataUrl = htmlspecialchars(\Url::op('data', ['select' => 'log']), ENT_QUOTES, 'UTF-8');
 
 return <<<HTML
             <table class="table-sm"
@@ -34,7 +35,7 @@ return <<<HTML
               data-search="true"
               data-detail-formatter="logdetails"
               data-search-time-out="1000"
-              data-url="?op=data&amp;select=log">
+              data-url="{$dataUrl}">
               <thead class="thead-dark">
                 <tr>
                    <th data-field="log_id" >{$_id}</th>

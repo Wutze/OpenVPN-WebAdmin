@@ -23,15 +23,15 @@ use PDOException;
 
 class Database
 {
-    private static ?Database $instance = null;
-    private PDO $connection;
+private static ?Database $instance = null;
+private PDO $connection;
 
-    /**
-     * Kurzbeschreibung Funktion __construct
-     *
-     * @param mixed $config
-     * @return mixed|null
-     */
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @param mixed $config Eingabewert fuer config.
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
 private function __construct(array $config)
     {
         try {
@@ -48,12 +48,12 @@ private function __construct(array $config)
         }
     }
 
-    /**
-     * Kurzbeschreibung Funktion getInstance
-     *
-     * @param mixed $config
-     * @return Database
-     */
+/**
+ * Liest instance und gibt den Wert zurueck.
+ *
+ * @param mixed $config Eingabewert fuer config.
+ * @return Database Rueckgabewert der Funktion.
+ */
 public static function getInstance(array $config = null): Database
     {
         if (self::$instance === null) {
@@ -65,11 +65,11 @@ public static function getInstance(array $config = null): Database
         return self::$instance;
     }
 
-    /**
-     * Kurzbeschreibung Funktion getConnection
-     *
-     * @return PDO
-     */
+/**
+ * Liest connection und gibt den Wert zurueck.
+ *
+ * @return PDO Rueckgabewert der Funktion.
+ */
 public function getConnection(): PDO
     {
         return $this->connection;

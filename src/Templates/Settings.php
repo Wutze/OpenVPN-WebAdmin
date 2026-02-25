@@ -20,12 +20,12 @@ namespace Micro\OpenvpnWebadmin\Templates;
 
 class Settings
 {
-    /**
-     * Register VPN Einstellungen
-     * Hier wird die Serverkonfiguration geladen, angezeigt und verändert
-     *
-     * @return string
-     */
+/**
+ * Register VPN Einstellungen
+ * Hier wird die Serverkonfiguration geladen, angezeigt und verändert
+ *
+ * @return string
+ */
 public function index(): string
     {
         $title = \Lang::get('_SETTINGS_TITLE');

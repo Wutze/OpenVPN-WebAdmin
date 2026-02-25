@@ -1,0 +1,26 @@
+/.env
+
+# Local runtime config
+/config/config.php
+
+# Generated OpenVPN artifacts and secrets
+/storage/conf/**/*.zip
+/storage/conf/**/*.ovpn
+/storage/conf/**/*.crt
+/storage/conf/**/*.key
+/storage/conf/.secure/*
+/storage/secure/*
+
+# Generated server config snapshots/history
+/storage/conf/history/
+/storage/conf/server/history/
+/storage/conf/server/server.conf
+
+# Runtime logs
+/storage/logs/*.log
+
+# Local asset build outputs
+/assets-build/node_modules/
+/assets-build/staging/
+/assets-build/release/
+
