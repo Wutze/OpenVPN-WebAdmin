@@ -8,6 +8,12 @@ Das Grundsystem passt so weit, das Setup ist getestet mit nginx und externem SQL
 
 Wer testen will kann das gern tun. Versprechen kann ich noch nichts.
 
+```code
+## Setup Start mit:
+curl -L https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/main/setup.sh -o setup.sh
+```
+
+
 ## Note
 
 You lock your front door. But why do you leave the back entrances open? This is the same with almost all Internet accesses to your IoT, webcams and other devices.
