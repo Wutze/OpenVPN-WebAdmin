@@ -1,7 +1,7 @@
 .login1-page {
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, #eef4ff 0%, #f8fbff 45%, #e7f5f1 100%);
+
 }
 
 .login1-wrap {
@@ -15,5 +15,75 @@
 .login1-card {
     width: 100%;
     max-width: 430px;
-    border-radius: 14px;
+}
+
+.login1-page {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: #d2d6de;
+}
+
+.login-box {
+    width: 360px;
+    background-image: url("../img/bg.png");
+    box-shadow: 0 0 5px rgba(0, 16, 31, 0.918), 0 1px 5px rgba(0, 16, 31, 0.2);
+}
+
+.login-logo {
+    font-size: 1.95rem;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.login-logo a {
+    color: #1f2d3d;
+    text-decoration: none;
+    display: block;
+    padding: 10px 8px;
+}
+
+.login-logo img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+
+
+.login-box-msg {
+    margin: 0 0 1rem;
+    text-align: center;
+    color: #fff;
+}
+
+
+
+
+.login-box .login-logo a,
+.login-box,
+.login-logo {
+    color: #ffffff !important;
+    background-color: #00101f !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.login-logo {
+    margin-bottom: 0 !important;
+}
+
+.login-box-body {
+    padding: 5px !important;
+}
+
+@media (max-width: 420px) {
+    .login-box {
+        width: 100%;
+    }
 }
