@@ -427,6 +427,36 @@ ensure_npm_runtime() {
   DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm >>"${LOG_FILE}" 2>&1
 }
 
+run_with_spinner() {
+    local message="$1"
+    shift
+
+    local spinner='|/-\'
+    local i=0
+    local pid
+    local result=0
+
+    "$@" >>"${LOG_FILE}" 2>&1 &
+    pid=$!
+
+    while kill -0 "${pid}" 2>/dev/null; do
+        printf '\r\033[K%s %s' \
+            "${message}" "${spinner:i++%4:1}"
+        sleep 0.2
+    done
+
+    wait "${pid}" || result=$?
+
+    if [ "${result}" -eq 0 ]; then
+        printf '\r\033[K%s [OK]\n' "${message}"
+    else
+        printf '\r\033[K%s [FEHLER]\n' "${message}"
+        info "Details siehe ${LOG_FILE}"
+    fi
+
+    return "${result}"
+}
+
 build_and_deploy_tools_assets() {
   show_section "${MSG_SECTION_ASSETS:-Frontend assets}"
 
@@ -456,10 +486,10 @@ build_and_deploy_tools_assets() {
   warn "${MSG_ASSETS_ARCHIVE_MISSING_FALLBACK:-Prebuilt asset archive missing. Using npm fallback build.}"
   ensure_npm_runtime
   info "${MSG_ASSETS_BUILD:-Building local frontend asset package}"
-  (
-    cd "${assets_dir}"
-    bash "${build_script}"
-  ) >>"${LOG_FILE}" 2>&1
+  run_with_spinner \
+    "${MSG_ASSETS_BUILD:-Building local frontend asset package}" \
+    bash -c 'cd "$1" && bash "$2"' \
+    _ "${assets_dir}" "${build_script}"
   info "${MSG_ASSETS_DEPLOY:-Deploying frontend assets to public/tools}"
   bash "${deploy_script}" "${DEPLOY_DIR}/public" >>"${LOG_FILE}" 2>&1
 
@@ -634,6 +664,23 @@ write_runtime_env() {
   fi
 
   ok "${MSG_ENV_WRITTEN:-Environment file updated.}: ${env_file}"
+}
+
+configure_mariadb_client() {
+    show_section "MariaDB client configuration"
+
+    local config_file="/etc/mysql/mariadb.conf.d/99-no-tls-client.cnf"
+
+    mkdir -p "$(dirname "${config_file}")"
+
+    cat > "${config_file}" <<'EOF'
+[client]
+skip-ssl
+EOF
+
+    chmod 0644 "${config_file}"
+
+    ok "MariaDB client TLS disabled: ${config_file}"
 }
 
 setup_database() {
@@ -1145,6 +1192,7 @@ main() {
   build_package_list
   show_summary
   install_required_packages
+  configure_mariadb_client
   sync_source_repo
   deploy_application_files
   build_and_deploy_tools_assets
