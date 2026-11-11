@@ -332,9 +332,13 @@ small.text-muted {
   border: 1px solid #dbe1f1;
 }
 
+textarea.form-control {
+  height: 30em;
+}
+
 .ovpn-editor {
   min-height: 0;
-  height: 30em;
+  height: auto;
   flex: 1 1 auto;
   font-family: "Cascadia Mono", "Consolas", monospace;
   font-size: 0.9rem;
