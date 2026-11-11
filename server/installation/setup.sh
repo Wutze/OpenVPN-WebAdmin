@@ -1026,6 +1026,7 @@ resolve_runtime_web_identity() {
 
   if [ "${WEBSERVER_TARGET}" = "apache2" ] && [ -f /etc/apache2/envvars ]; then
     # shellcheck disable=SC1091
+    export APACHE_CONFDIR="${APACHE_CONFDIR:-/etc/apache2}"
     . /etc/apache2/envvars
     if [ -n "${APACHE_RUN_USER:-}" ] && id -u "${APACHE_RUN_USER}" >/dev/null 2>&1; then
       EFFECTIVE_WEB_OWNER="${APACHE_RUN_USER}"
