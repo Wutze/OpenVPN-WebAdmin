@@ -91,6 +91,8 @@ deploy_php_update() {
   rsync -rt \
     --include='*/' \
     --include='*.php' \
+    --include='*.css' \
+    --include='*.js' \
     --exclude='config/config.php' \
     --exclude='.env' \
     --exclude='*' \
