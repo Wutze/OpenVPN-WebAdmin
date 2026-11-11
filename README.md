@@ -22,9 +22,9 @@ See `assets-build/README.md` for details.
 
 Start with Code:
 
-'''code
+```code
 bash <(wget -qO- 'https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/master/install.sh')
-'''
+```
 
 Alles andere wird dann automatisch abgefragt und installiert.
 
