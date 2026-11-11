@@ -334,7 +334,7 @@ small.text-muted {
 
 .ovpn-editor {
   min-height: 0;
-  height: 30;
+  height: 30em;
   flex: 1 1 auto;
   font-family: "Cascadia Mono", "Consolas", monospace;
   font-size: 0.9rem;
