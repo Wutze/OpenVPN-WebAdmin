@@ -388,8 +388,6 @@ build_package_list() {
     sed
     gawk
     grep
-    openvpn
-    easy-rsa
     mariadb-client
     php-cli
     php-common
