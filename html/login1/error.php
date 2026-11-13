@@ -1,7 +1,7 @@
 <?php
-use Micro\OpenvpnWebadmin\Core\Lang;
+use Micro\OpenvpnWebadmin\Util\Lang;
 
-Lang::init();
+Lang::init(isset($_SESSION['lang']) && is_string($_SESSION['lang']) ? $_SESSION['lang'] : null);
 ?>
 <!DOCTYPE html>
 <html lang="<?= htmlspecialchars(substr(Lang::getCurrent(), 0, 2), ENT_QUOTES, 'UTF-8') ?>">

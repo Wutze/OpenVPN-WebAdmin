@@ -58,7 +58,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Micro\OpenvpnWebadmin\Core\Database;
 use Micro\OpenvpnWebadmin\Core\Session;
-use Micro\OpenvpnWebadmin\Core\Lang;
+use Micro\OpenvpnWebadmin\Util\Lang;
 use Micro\OpenvpnWebadmin\Core\Url;
 
 /**
@@ -93,7 +93,7 @@ Session::start($db, $config['session']['lifetime']);
 /**
  * Sprache laden
  */
-Lang::init();
+Lang::init(isset($_SESSION['lang']) && is_string($_SESSION['lang']) ? $_SESSION['lang'] : null);
 
 /**
  * Security headers

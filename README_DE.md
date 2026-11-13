@@ -6,7 +6,7 @@ Erstellen und verwalten Sie Ihr virtuelles privates Netzwerk über einen Webbrow
 
 ## Offline assets for `/tools`
 
-Der Ordner `/tools` ist die private Datenschutzvariante, statt Standard-Templates, CSS usw. von irgendwelchen externen Anbietern zu beziehen. Wenn du keine externen CDNs verwenden und `npm` nicht auf dem Webserver ausführen möchtest, dann findest du hier die Anleitung:
+Der Ordner `/tools` ist die private Datenschutzvariante für die Standard-Templates wie CSS usw., statt diese von irgendwelchen externen Anbietern zu beziehen. Wenn du keine externen CDNs verwenden und `npm` nicht auf dem Webserver ausführen möchtest, dann findest du hier die Anleitung:
 
 1. Build static frontend assets in a trusted build environment:
    `assets-build/scripts/build-tools-assets.sh`

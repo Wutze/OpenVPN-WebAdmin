@@ -20,8 +20,8 @@ $message = [
     '_LANG_CODE' => 'de_DE',
     '_SITE_TITLE' => 'OVPN-Webadmin',
     '_BRAND_NAME' => 'OpenVPN WebAdmin',
-    '_HOME' => 'Home',
-    '_WELCOME' => 'Willkommen',
+    '_HOME' => 'Home [HELP_DOC/other/:TEXT]',
+    '_WELCOME' => 'Willkommen [HELP_DOC/other/:TEXT]',
     '_WELCOME_MESSAGE' => 'Willkommen im OpenVPN Webadmin',
     '_UNKNOWN_USER' => 'Unbekannt',
     '_ROLE_USER' => 'User',
@@ -233,7 +233,11 @@ $message = [
     '_API_USERNAME_INVALID' => 'Benutzername ungueltig.',
     '_API_FIXED_IP_INVALID' => 'Ungueltige IPv4-Adresse.',
     '_API_FIXED_IP_IN_USE' => 'Diese feste IP-Adresse ist bereits einem anderen Benutzer zugewiesen.',
-
+    'HELP_DOC_OPEN' => 'Ausführliche Dokumentation öffnen',
+    'HELP_DOC_MODAL_TITLE' => 'Dokumentation',
+    'HELP_DOC_LOADING' => 'Dokumentation wird geladen …',
+    'HELP_DOC_NOT_AVAILABLE' => 'Dokumentation noch nicht vorhanden.',
+    'HELP_DOC_CLOSE' => 'Schließen',
 ];
 
 return $message;

@@ -18,6 +18,10 @@
 
 namespace Micro\OpenvpnWebadmin\Core;
 
+use Micro\OpenvpnWebadmin\Util\Lang;
+use Micro\OpenvpnWebadmin\Util\HelpDocService;
+use Micro\OpenvpnWebadmin\Util\Markdown;
+
 use Micro\OpenvpnWebadmin\Templates\Account;
 use Micro\OpenvpnWebadmin\Templates\CaTls;
 use Micro\OpenvpnWebadmin\Templates\Config;
@@ -58,7 +62,7 @@ public function main(): void
         $allowedOps = [
             'login', 'checklogin', 'logout', 'main', 'data', 'live',
             'users', 'dashboard', 'logs', 'account', 'config', 'catls', 'settings', 'documentation',
-            'profiles', 'download', 'setlang', 'loginasset'
+            'profiles', 'download', 'setlang', 'loginasset', 'helpdocshow'
         ];
 
         if (!in_array($this->action, $allowedOps, true)) {
@@ -72,6 +76,9 @@ public function main(): void
         $this->enforceAccessPolicy();
 //Debug::debug($this);
         switch ($this->action) {
+            case 'helpdocshow':
+                $this->showHelpDoc();
+                break;
             case 'login':
                 $this->showLogin();
                 break;
@@ -398,7 +405,8 @@ private function setLanguage(): void
     {
         $lang = (string)($_GET['lang'] ?? '');
         if ($lang !== '') {
-            Lang::setCurrent($lang);
+            Lang::init($lang);
+            $_SESSION['lang'] = Lang::getCurrent();
         }
 
         $target = (string)($_SERVER['HTTP_REFERER'] ?? \Url::op('dashboard'));
@@ -412,6 +420,36 @@ private function setLanguage(): void
 
         header('Location: ' . $target);
         exit;
+    }
+
+    /** Returns a validated Markdown help document for the modal. */
+    private function showHelpDoc(): void
+    {
+        header('Content-Type: application/json; charset=UTF-8');
+        $area = (string)($_GET['area'] ?? '');
+        $doc = (string)($_GET['doc'] ?? '');
+        $service = new HelpDocService();
+        $document = $service->load($area, $doc);
+        if ($document === null) {
+            http_response_code(400);
+            echo json_encode(['ok' => false, 'message' => Lang::get('HELP_DOC_NOT_AVAILABLE')]);
+            return;
+        }
+
+        $html = '<div class="help-doc-markdown">' . Markdown::render(
+            $document['markdown'],
+            static function (string $source) use ($service, $document): ?string {
+                $image = $service->resolveImage($document['lang'], $document['area'], $source);
+                if ($image === null) {
+                    return null;
+                }
+                $contents = @file_get_contents($image['path']);
+                return $contents === false
+                    ? null
+                    : 'data:' . $image['mime'] . ';base64,' . base64_encode($contents);
+            }
+        ) . '</div>';
+        echo json_encode(['ok' => true, 'html' => $html], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
     }
 
 /**

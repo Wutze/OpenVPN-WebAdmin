@@ -77,6 +77,7 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
         $sidebar  = $this->loadPart('Sidebar', $this->data);
         $footer   = $this->loadPart('Footer');
         $scripts  = $this->loadPart('Scripts', $this->data);
+        $helpdoc  = $this->loadPart('Helpdoc');
         $htmlfoot  = $this->loadPart('HtmlFoot');
 
         $html = <<<HTML
@@ -95,6 +96,7 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
         {$footer}
     </div>
 {$scripts}
+{$helpdoc}
 {$htmlfoot}
 HTML;
 

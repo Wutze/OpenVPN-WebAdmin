@@ -18,7 +18,7 @@
 
 namespace Micro\OpenvpnWebadmin\Core;
 
-use Micro\OpenvpnWebadmin\Core\Lang;
+use Micro\OpenvpnWebadmin\Util\Lang;
 use Micro\OpenvpnWebadmin\Core\Session;
 use Micro\OpenvpnWebadmin\Core\Database;
 use Micro\OpenvpnWebadmin\Core\Debug;

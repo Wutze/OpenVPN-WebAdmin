@@ -16,7 +16,7 @@
  * @version     2.0.0
  */
 
-use Micro\OpenvpnWebadmin\Core\Lang;
+use Micro\OpenvpnWebadmin\Util\Lang;
 
 $error = $_GET['error'] ?? '';
 ?>

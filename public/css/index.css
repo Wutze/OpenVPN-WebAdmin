@@ -403,3 +403,55 @@ textarea.form-control {
   color: #1f2d3d;
   border-color: #ffc107;
 }
+
+/* Erweiterte Dokumentation (HELP_DOC) */
+.help-doc-icon {
+  border: none;
+  background: transparent;
+  padding: 0 0 0 0.25rem;
+  margin: 0;
+  cursor: pointer;
+  font-size: 0.95em;
+  line-height: 1;
+  vertical-align: baseline;
+}
+.help-doc-icon:hover,
+.help-doc-icon:focus {
+  text-decoration: none;
+  outline: none;
+  filter: brightness(1.2);
+}
+.help-doc-content img {
+  max-width: 100%;
+  height: auto;
+}
+.help-doc-content pre.help-doc-code {
+  background: #f4f6f9;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  overflow-x: auto;
+}
+.help-doc-content pre.help-doc-code code {
+  color: inherit;
+  background: transparent;
+  padding: 0;
+}
+.help-doc-content h1,
+.help-doc-content h2,
+.help-doc-content h3,
+.help-doc-content h4 {
+  margin-top: 1rem;
+}
+
+.lang-flag {
+  width: 1.4rem;
+  height: auto;
+  vertical-align: middle;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+}
+.dropdown-item .lang-flag {
+  margin-right: 0.25rem;
+}
+

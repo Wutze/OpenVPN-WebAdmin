@@ -45,7 +45,7 @@
         ?>
         <li class="nav-item dropdown me-2">
             <button class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                <?= htmlspecialchars($meta['flag'], ENT_QUOTES, 'UTF-8') ?>
+                <?= $meta['flag'] ?>
                 <?= htmlspecialchars($meta['label'], ENT_QUOTES, 'UTF-8') ?>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -54,7 +54,7 @@
                     <li>
                         <a class="dropdown-item<?= $langCode === $currentLang ? ' active' : '' ?>"
                            href="<?= htmlspecialchars(Url::op('setlang', ['lang' => $langCode]), ENT_QUOTES, 'UTF-8') ?>">
-                            <?= htmlspecialchars($langMeta['flag'], ENT_QUOTES, 'UTF-8') ?>
+                            <?= $langMeta['flag'] ?>
                             <?= htmlspecialchars($langMeta['label'], ENT_QUOTES, 'UTF-8') ?>
                         </a>
                     </li>

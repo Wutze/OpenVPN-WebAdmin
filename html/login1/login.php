@@ -1,7 +1,7 @@
 <?php
-use Micro\OpenvpnWebadmin\Core\Lang;
+use Micro\OpenvpnWebadmin\Util\Lang;
 
-Lang::init();
+Lang::init(isset($_SESSION['lang']) && is_string($_SESSION['lang']) ? $_SESSION['lang'] : null);
 $error = $_GET['error'] ?? '';
 ?>
 <!DOCTYPE html>
