@@ -1,5 +1,5 @@
 /**
- * this File is part of OpenVPN-WebAdmin - (c) 2020/2025 OpenVPN-WebAdmin
+ * this File is part of OpenVPN-WebAdmin - (c) 2020/2026 OpenVPN-WebAdmin
  */
 
 function t(key, fallback = '') {
