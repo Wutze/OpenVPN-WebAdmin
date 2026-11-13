@@ -1,0 +1,21 @@
+# OpenVPN-WebAdmin initial server configuration template.
+# Provide these files manually before enabling the OpenVPN service.
+port 1194
+proto udp
+dev tun
+
+ca __OPENVPN_CONFIG_DIR__/ca.crt
+cert __OPENVPN_CONFIG_DIR__/server.crt
+key __OPENVPN_CONFIG_DIR__/server.key
+dh __OPENVPN_CONFIG_DIR__/dh.pem
+tls-auth __OPENVPN_CONFIG_DIR__/ta.key 0
+
+server 10.8.0.0 255.255.255.0
+topology subnet
+keepalive 10 120
+persist-key
+persist-tun
+explicit-exit-notify 1
+
+status /var/log/openvpn/openvpn-status.log
+verb 3

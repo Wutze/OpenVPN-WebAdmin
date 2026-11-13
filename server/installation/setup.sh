@@ -45,6 +45,7 @@ ADMIN_PASS=""
 
 OPENVPN_SERVER_CONF=""
 OPENVPN_SCRIPTS_DIR=""
+OPENVPN_SETUP_MODE=""
 WEBSERVER_PACKAGE=""
 WEBSERVER_CONFIGURE="no"
 WEBSERVER_TARGET=""
@@ -119,6 +120,12 @@ edit_single_input() {
     ADMIN_PASS) ask_secret ADMIN_PASS "${MSG_ADMIN_PASS:-Initial admin password}" ;;
     OPENVPN_SERVER_CONF) ask_input OPENVPN_SERVER_CONF "${MSG_OPENVPN_CONF:-OpenVPN server.conf path}" "${OPENVPN_SERVER_CONF}" ;;
     OPENVPN_SCRIPTS_DIR) ask_input OPENVPN_SCRIPTS_DIR "${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}" "${OPENVPN_SCRIPTS_DIR}" ;;
+    OPENVPN_SETUP_MODE)
+      ask_choice OPENVPN_SETUP_MODE "${MSG_OPENVPN_MODE:-How should OpenVPN be integrated?}" "${OPENVPN_SETUP_MODE}" \
+        "existing" "${MSG_OPENVPN_MODE_EXISTING:-Take over existing configured installation}" \
+        "configure" "${MSG_OPENVPN_MODE_CONFIGURE:-Configure existing unconfigured installation}" \
+        "new" "${MSG_OPENVPN_MODE_NEW:-Use a new OpenVPN installation}"
+      ;;
     WEBSERVER_PACKAGE)
       ask_choice WEBSERVER_PACKAGE "${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}" "${WEBSERVER_PACKAGE}" \
         "none" "none" \
@@ -182,6 +189,7 @@ review_inputs_menu() {
       "ADMIN_PASS" "$(input_preview ADMIN_PASS)" \
       "OPENVPN_SERVER_CONF" "$(input_preview OPENVPN_SERVER_CONF)" \
       "OPENVPN_SCRIPTS_DIR" "$(input_preview OPENVPN_SCRIPTS_DIR)" \
+      "OPENVPN_SETUP_MODE" "$(input_preview OPENVPN_SETUP_MODE)" \
       "WEBSERVER_PACKAGE" "$(input_preview WEBSERVER_PACKAGE)" \
       "WEBSERVER_CONFIGURE" "$(input_preview WEBSERVER_CONFIGURE)" \
       "WEBSERVER_TARGET" "$(input_preview WEBSERVER_TARGET)" \
@@ -302,11 +310,29 @@ collect_inputs() {
   ask_secret ADMIN_PASS "${MSG_ADMIN_PASS:-Initial admin password}"
 
   local default_conf_path="${DEFAULT_OPENVPN_SERVER_CONF}"
-  if [ ! -f "${default_conf_path}" ] && [ -f "${ALT_OPENVPN_SERVER_CONF}" ]; then
-    default_conf_path="${ALT_OPENVPN_SERVER_CONF}"
+  if [ -f "/etc/openvpn/server/server.conf" ]; then
+    default_conf_path="/etc/openvpn/server/server.conf"
+  elif [ ! -f "${default_conf_path}" ]; then
+    if [ -f "${ALT_OPENVPN_SERVER_CONF}" ]; then
+      default_conf_path="${ALT_OPENVPN_SERVER_CONF}"
+    elif { [[ "${OS_ID}" == debian && ( "${OS_VERSION_ID}" == 12 || "${OS_VERSION_ID}" == 13 ) ]] || \
+           [[ "${OS_ID}" == ubuntu && "${OS_VERSION_ID}" == 24.04 ]]; }; then
+      default_conf_path="/etc/openvpn/server/server.conf"
+    fi
   fi
   ask_input OPENVPN_SERVER_CONF "${MSG_OPENVPN_CONF:-OpenVPN server.conf path}" "${default_conf_path}"
   ask_input OPENVPN_SCRIPTS_DIR "${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}" "${DEFAULT_OPENVPN_SCRIPTS_DIR}"
+  local default_ovpn_mode="new"
+  if command -v openvpn >/dev/null 2>&1; then
+    default_ovpn_mode="configure"
+    if [ -f "${OPENVPN_SERVER_CONF}" ]; then
+      default_ovpn_mode="existing"
+    fi
+  fi
+  ask_choice OPENVPN_SETUP_MODE "${MSG_OPENVPN_MODE:-How should OpenVPN be integrated?}" "${default_ovpn_mode}" \
+    "existing" "${MSG_OPENVPN_MODE_EXISTING:-Take over existing configured installation}" \
+    "configure" "${MSG_OPENVPN_MODE_CONFIGURE:-Configure existing unconfigured installation}" \
+    "new" "${MSG_OPENVPN_MODE_NEW:-Use a new OpenVPN installation}"
 
   ask_choice WEBSERVER_PACKAGE "${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}" "none" \
     "none" "none" \
@@ -336,6 +362,14 @@ validate_inputs() {
     yes|no) ;;
     *) fatal "${MSG_INVALID_ASSETS_FALLBACK:-Invalid assets fallback option.}" ;;
   esac
+
+  case "${OPENVPN_SETUP_MODE}" in
+    existing|configure|new) ;;
+    *) fatal "${MSG_INVALID_OPENVPN_MODE:-Invalid OpenVPN setup mode.}" ;;
+  esac
+  if [ "${OPENVPN_SETUP_MODE}" != "new" ] && ! command -v openvpn >/dev/null 2>&1; then
+    fatal "${MSG_OPENVPN_MISSING_EXISTING:-Selected an existing OpenVPN installation, but the openvpn command is not installed.}"
+  fi
 
   if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
     case "${WEBSERVER_TARGET}" in
@@ -369,6 +403,7 @@ validate_inputs() {
 
   ensure_absolute_path "${SOURCE_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${SOURCE_DIR}"
   ensure_absolute_path "${DEPLOY_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${DEPLOY_DIR}"
+  ensure_absolute_path "${OPENVPN_SERVER_CONF}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${OPENVPN_SERVER_CONF}"
   ensure_absolute_path "${OPENVPN_SCRIPTS_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${OPENVPN_SCRIPTS_DIR}"
 
   id -u "${WEB_OWNER}" >/dev/null 2>&1 || fatal "${MSG_USER_NOT_FOUND:-User not found}: ${WEB_OWNER}"
@@ -510,6 +545,7 @@ show_summary() {
   echo " ${MSG_DB_CREATE_LOCAL:-Create local MariaDB database and user}: ${DB_CREATE_LOCAL}"
   echo " ${MSG_OPENVPN_CONF:-OpenVPN server.conf path}: ${OPENVPN_SERVER_CONF}"
   echo " ${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}: ${OPENVPN_SCRIPTS_DIR}"
+  echo " ${MSG_OPENVPN_MODE:-OpenVPN integration mode}: ${OPENVPN_SETUP_MODE}"
   echo " ${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}: ${WEBSERVER_PACKAGE}"
   echo " ${MSG_WEBSERVER_CONFIGURE:-Configure webserver automatically now}: ${WEBSERVER_CONFIGURE}"
   if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
@@ -738,106 +774,16 @@ ON DUPLICATE KEY UPDATE
   ok "${MSG_DATABASE_DONE:-Database setup done.}"
 }
 
-write_default_openvpn_server_conf() {
-  local target_file="/etc/openvpn/server.conf"
-  [ -f "${target_file}" ] && return 0
-
-  mkdir -p /etc/openvpn
-  cat > "${target_file}" <<'EOF'
-# OpenVPN server default configuration generated by OpenVPN-WebAdmin setup
-# Adjust certificate/key paths for your environment before starting the service.
-
-port 1194
-proto udp
-dev tun
-
-ca /etc/openvpn/ca.crt
-cert /etc/openvpn/server.crt
-key /etc/openvpn/server.key
-dh /etc/openvpn/dh.pem
-tls-auth /etc/openvpn/ta.key 0
-
-server 10.8.0.0 255.255.255.0
-topology subnet
-
-ifconfig-pool-persist /var/log/openvpn/ipp.txt
-status /var/log/openvpn/openvpn-status.log
-log-append /var/log/openvpn/openvpn.log
-verb 3
-
-keepalive 10 120
-persist-key
-persist-tun
-explicit-exit-notify 1
-
-script-security 2
-client-config-dir /etc/openvpn/ccd
-
-# OpenVPN-WebAdmin hooks (installed by setup)
-client-connect /etc/openvpn/scripts/connect.sh
-client-disconnect /etc/openvpn/scripts/disconnect.sh
-EOF
-
-  chmod 0644 "${target_file}"
-  ok "${MSG_OPENVPN_DEFAULT_CONF_CREATED:-Created default OpenVPN config}: ${target_file}"
-}
-
 deploy_openvpn_scripts() {
   show_section "${MSG_SECTION_OPENVPN:-OpenVPN integration}"
-
-  local scripts_source_dir="${SOURCE_DIR}/server/scripte"
-  local server_conf_template="${SOURCE_DIR}/storage/conf/server/server.conf"
-
-  write_default_openvpn_server_conf
-
-  if [ ! -f "${OPENVPN_SERVER_CONF}" ]; then
-    [ -f "${server_conf_template}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${OPENVPN_SERVER_CONF}"
-    mkdir -p "$(dirname "${OPENVPN_SERVER_CONF}")"
-    install -m 0644 "${server_conf_template}" "${OPENVPN_SERVER_CONF}"
-    ok "${MSG_OPENVPN_CONF_BOOTSTRAP:-OpenVPN server.conf created from template.}"
+  local configure_script="${SOURCE_DIR}/server/installation/configure-openvpn.sh"
+  [ -f "${configure_script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${configure_script}"
+  if ! OVPN_DB_HOST="${DB_HOST}" OVPN_DB_PORT="${DB_PORT}" OVPN_DB_USER="${DB_USER}" \
+    OVPN_DB_PASS="${DB_PASS}" OVPN_DB_NAME="${DB_NAME}" \
+    bash "${configure_script}" "${OPENVPN_SETUP_MODE}" "${OPENVPN_SERVER_CONF}" \
+      "${OPENVPN_SCRIPTS_DIR}" "${SOURCE_DIR}/server/scripte" "${DEPLOY_DIR}" 2>&1 | tee -a "${LOG_FILE}"; then
+    fatal "${MSG_OPENVPN_CONFIG_FAILED:-OpenVPN integration failed. See the setup log.}"
   fi
-
-  install -d -m 0750 "${OPENVPN_SCRIPTS_DIR}"
-  install -m 0750 "${scripts_source_dir}/connect.sh" "${OPENVPN_SCRIPTS_DIR}/connect.sh"
-  install -m 0750 "${scripts_source_dir}/disconnect.sh" "${OPENVPN_SCRIPTS_DIR}/disconnect.sh"
-  install -m 0750 "${scripts_source_dir}/functions.sh" "${OPENVPN_SCRIPTS_DIR}/functions.sh"
-  install -m 0640 "${scripts_source_dir}/config.sample.sh" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-
-  local db_host_esc db_port_esc db_user_esc db_pass_esc db_name_esc
-  db_host_esc="$(printf '%s' "${DB_HOST}" | sed 's/[\\/&]/\\\\&/g')"
-  db_port_esc="$(printf '%s' "${DB_PORT}" | sed 's/[\\/&]/\\\\&/g')"
-  db_user_esc="$(printf '%s' "${DB_USER}" | sed 's/[\\/&]/\\\\&/g')"
-  db_pass_esc="$(printf '%s' "${DB_PASS}" | sed 's/[\\/&]/\\\\&/g')"
-  db_name_esc="$(printf '%s' "${DB_NAME}" | sed 's/[\\/&]/\\\\&/g')"
-
-  sed -i "s/^DBHOST=.*/DBHOST='${db_host_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^DBPORT=.*/DBPORT='${db_port_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^DBUSER=.*/DBUSER='${db_user_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^DBPASS=.*/DBPASS='${db_pass_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^DBNAME=.*/DBNAME='${db_name_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-
-  backup_file "${OPENVPN_SERVER_CONF}"
-  set_or_append_openvpn_line "${OPENVPN_SERVER_CONF}" "script-security" "script-security 2"
-  set_or_append_openvpn_line "${OPENVPN_SERVER_CONF}" "client-connect" "client-connect ${OPENVPN_SCRIPTS_DIR}/connect.sh"
-  set_or_append_openvpn_line "${OPENVPN_SERVER_CONF}" "client-disconnect" "client-disconnect ${OPENVPN_SCRIPTS_DIR}/disconnect.sh"
-
-  chown -R root:root "${OPENVPN_SCRIPTS_DIR}"
-  chmod 0750 "${OPENVPN_SCRIPTS_DIR}"/*.sh
-  mkdir -p /etc/openvpn/ccd
-
-  if systemctl list-unit-files | grep -q '^openvpn-server@.service'; then
-    systemctl enable --now openvpn-server@server.service >>"${LOG_FILE}" 2>&1
-    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn-server@server.service"
-  elif systemctl list-unit-files | grep -q '^openvpn@.service'; then
-    systemctl enable --now openvpn@server.service >>"${LOG_FILE}" 2>&1
-    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn@server.service"
-  elif systemctl list-unit-files | grep -q '^openvpn.service'; then
-    systemctl enable --now openvpn.service >>"${LOG_FILE}" 2>&1
-    ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn.service"
-  else
-    warn "${MSG_OPENVPN_SERVICE_UNKNOWN:-OpenVPN service unit not found. Please enable the service manually.}"
-  fi
-
   ok "${MSG_OPENVPN_DONE:-OpenVPN integration done.}"
 }
 
