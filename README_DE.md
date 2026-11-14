@@ -27,7 +27,7 @@ bash <(wget -qO- 'https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/maste
 ```
 
 ```bash
-bash <(wget -qO- 'http://gitlab1.home/micro/openvpn-webadmin-intern/-/blob/main/setup.sh')
+bash <(wget -qO- 'http://gitlab1.home/micro/openvpn-webadmin-intern/-/raw/main/setup.sh?ref_type=heads&inline=false')
 ```
 
 Alles andere wird dann automatisch abgefragt und installiert.
