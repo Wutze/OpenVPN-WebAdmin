@@ -127,34 +127,57 @@ load_language() {
 }
 
 choose_language() {
-  local auto_lang="en_GB"
-  case "${LANG%%.*}" in
-    de_DE*) auto_lang="de_DE" ;;
-    fr_FR*) auto_lang="fr_FR" ;;
-    en_*) auto_lang="en_GB" ;;
-  esac
+  local auto_lang="" lang_file lang_code lang_label lang_num="" i
+  local -a language_args=() language_codes=()
+  local locale="${LANG%%.*}"
+
+  shopt -s nullglob
+  local -a language_files=("${LANG_DIR}"/*)
+  shopt -u nullglob
+  for lang_file in "${language_files[@]}"; do
+    [ -f "${lang_file}" ] || continue
+    lang_code="${lang_file##*/}"
+    [[ "${lang_code}" =~ ^[a-z]{2}_[A-Z]{2}$ ]] || continue
+    # shellcheck disable=SC1090
+    lang_label="$(unset LANGUAGE; source "${lang_file}"; printf '%s' "${LANGUAGE:-${lang_code}}")"
+    language_codes+=("${lang_code}")
+    language_args+=("${lang_code}" "${lang_label} (${lang_code})")
+    [[ "${locale}" == "${lang_code}"* ]] && auto_lang="${lang_code}"
+  done
+  ((${#language_codes[@]} > 0)) || fatal "No supported language files found in ${LANG_DIR}."
+  if [ -z "${auto_lang}" ]; then
+    for lang_code in "${language_codes[@]}"; do
+      [[ "${lang_code}" == "en_GB" ]] && auto_lang="${lang_code}" && break
+    done
+  fi
+  [ -n "${auto_lang}" ] || auto_lang="${language_codes[0]}"
+
+  # Establish a fallback translation set before rendering prompts. Languages
+  # may not yet contain every message key; the selected file overrides these.
+  load_language "${auto_lang}"
 
   local lang_num=""
   show_section "${MSG_SECTION_LANGUAGE:-Language}"
 
-  if [ -z "${WHIPTAIL_BIN}" ]; then
-    fatal "${MSG_MISSING_WHIPTAIL:-whiptail is required. Please install it first.}"
+  if [ -n "${WHIPTAIL_BIN}" ]; then
+    lang_num="$("${WHIPTAIL_BIN}" \
+      --title "OpenVPN-WebAdmin Setup" \
+      --menu "${MSG_LANGUAGE_SELECT:-Select language}" \
+      "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" "${WHIPTAIL_MENU_HEIGHT}" \
+      "auto" "Auto (${auto_lang})" "${language_args[@]}" \
+      3>&1 1>&2 2>&3)" || abort_by_user
+  else
+    printf '%s\n' "${MSG_LANGUAGE_SELECT:-Select language}"
+    printf '  auto) Auto (%s)\n' "${auto_lang}"
+    for ((i=0; i<${#language_codes[@]}; i++)); do
+      printf '  %s) %s\n' "${language_codes[i]}" "${language_args[i*2+1]}"
+    done
+    read -r -p "${MSG_LANGUAGE_SELECT:-Select language} [auto]: " lang_num
+    lang_num="${lang_num:-auto}"
   fi
 
-  lang_num="$("${WHIPTAIL_BIN}" \
-    --title "OpenVPN-WebAdmin Setup" \
-    --menu "${MSG_LANGUAGE_SELECT:-Select language}" \
-    "${WHIPTAIL_HEIGHT}" "${WHIPTAIL_WIDTH}" "${WHIPTAIL_MENU_HEIGHT}" \
-    "auto" "Auto (${auto_lang})" \
-    "de_DE" "Deutsch" \
-    "en_GB" "English" \
-    "fr_FR" "Francais" \
-    3>&1 1>&2 2>&3)" || abort_by_user
-
-  case "${lang_num}" in
-    de_DE|en_GB|fr_FR) LANG_CHOICE="${lang_num}" ;;
-    *) LANG_CHOICE="${auto_lang}" ;;
-  esac
+  LANG_CHOICE="${auto_lang}"
+  if [[ " ${language_codes[*]} " == *" ${lang_num} "* ]]; then LANG_CHOICE="${lang_num}"; fi
 
   load_language "${LANG_CHOICE}"
   ok "${MSG_LANGUAGE_SET:-Language set}: ${LANG_CHOICE}"

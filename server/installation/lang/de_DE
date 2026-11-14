@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
+LANGUAGE="Deutsch"
 
 MSG_SECTION_LANGUAGE="Sprache"
 MSG_SECTION_SYSTEM_CHECK="Systempruefung"

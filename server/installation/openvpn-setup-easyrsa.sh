@@ -3,36 +3,18 @@
 
 set -Eeuo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck disable=SC1091
+source "${SCRIPT_DIR}/functions.sh"
+
 OPENVPN_DIR=/etc/openvpn
 EASYRSA_DIR="${OPENVPN_DIR}/easy-rsa"
 SCRIPTS_DIR="${OPENVPN_SCRIPTS_DIR:-/etc/openvpn/scripts}"
 CLIENT_DIR="${OPENVPN_CLIENT_CERT_DIR:-/etc/openvpn/client-certificates}"
 PKI_DIR="${EASYRSA_DIR}/pki"
 EASYRSA_BIN=""
-LANG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lang"
-LANG_CHOICE=""
-
-select_language() {
-  local auto_lang="en_GB" choice=""
-  case "${LANG%%.*}" in de_DE*) auto_lang=de_DE ;; fr_FR*) auto_lang=fr_FR ;; en_*) auto_lang=en_GB ;; esac
-  [ -f "${LANG_DIR}/de_DE" ] || { printf 'Sprachdatei fehlt: %s\n' "${LANG_DIR}/de_DE" >&2; exit 1; }
-  # Keep newly introduced messages available until translations are added to
-  # the other language files; their existing entries can still override these.
-  # shellcheck disable=SC1091
-  source "${LANG_DIR}/de_DE"
-  if command -v whiptail >/dev/null 2>&1; then
-    choice="$(whiptail --title 'OpenVPN-WebAdmin Setup' --menu "$MSG_SETUP_RSA_LANGUAGE_SELECT" 14 72 4 \
-      auto "Auto (${auto_lang})" de_DE Deutsch en_GB English fr_FR Francais 3>&1 1>&2 2>&3)" || exit 1
-  else
-    printf '%s\n' "$MSG_SETUP_RSA_LANGUAGE_SELECT"
-    read -r -p "$MSG_SETUP_RSA_LANGUAGE_PROMPT " choice
-    case "$choice" in 1) choice=de_DE ;; 2) choice=en_GB ;; 3) choice=fr_FR ;; *) choice=auto ;; esac
-  fi
-  case "$choice" in de_DE|en_GB|fr_FR) LANG_CHOICE="$choice" ;; *) LANG_CHOICE="$auto_lang" ;; esac
-  [ -f "${LANG_DIR}/${LANG_CHOICE}" ] || { printf 'Sprachdatei fehlt: %s\n' "${LANG_DIR}/${LANG_CHOICE}" >&2; exit 1; }
-  # shellcheck disable=SC1090
-  [ "$LANG_CHOICE" = de_DE ] || source "${LANG_DIR}/${LANG_CHOICE}"
-}
+EASYRSA_SUPPORTS_EXACT_DATES=0
+EASYRSA_SUPPORTS_EXPIRE=0
 
 say() { printf '[%s] %s\n' "$1" "$2"; }
 die() { say "${MSG_SETUP_RSA_ERROR:-ERROR}" "$*" >&2; exit 1; }
@@ -99,6 +81,52 @@ prepare_vars() {
 
 easyrsa_run() {
   (cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" EASYRSA_BATCH=1 EASYRSA_REQ_CN="${EASYRSA_REQ_CN:-OpenVPN-WebAdmin}" "$EASYRSA_BIN" "$@")
+}
+
+easyrsa_require_exact_dates() {
+  local help version
+  help="$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" 2>&1 || true)"
+  version="$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" --version 2>&1 || true)"
+  [[ "$help" == *"--startdate=DATE"* && "$help" == *"--enddate=DATE"* ]] && EASYRSA_SUPPORTS_EXACT_DATES=1
+  [[ "$help" == *"expire <file_name_base>"* ]] && EASYRSA_SUPPORTS_EXPIRE=1
+  say INFO "$(printf '%s' "$version" | head -n 1): exact date options $([[ "$EASYRSA_SUPPORTS_EXACT_DATES" -eq 1 ]] && printf supported || printf unavailable); expire command $([[ "$EASYRSA_SUPPORTS_EXPIRE" -eq 1 ]] && printf supported || printf unavailable)."
+}
+
+berlin_start_utc() {
+  local epoch
+  epoch=$(TZ=Europe/Berlin date --date="$1 00:00:00" +%s) || return 1
+  date --date="@$epoch" -u +%Y%m%d%H%M%SZ
+}
+
+berlin_end_utc() {
+  local next_day epoch
+  next_day=$(TZ=Europe/Berlin date --date="$1 + 1 day" +%F) || return 1
+  epoch=$(TZ=Europe/Berlin date --date="$next_day 00:00:00" +%s) || return 1
+  epoch=$((epoch - 1))
+  date --date="@$epoch" -u +%Y%m%d%H%M%SZ
+}
+
+one_year_after_berlin_start_utc() {
+  local anniversary epoch
+  anniversary=$(TZ=Europe/Berlin date --date="$1 + 1 year" +%F) || return 1
+  epoch=$(TZ=Europe/Berlin date --date="$anniversary 00:00:00" +%s) || return 1
+  epoch=$((epoch - 1))
+  date --date="@$epoch" -u +%Y%m%d%H%M%SZ
+}
+
+cert_time_utc() {
+  local cert="$1" field value
+  field="$2"
+  value=$(openssl x509 -in "$cert" -noout -"$field" | sed "s/^[^=]*=//") || return 1
+  date --date="$value" -u +%Y%m%d%H%M%SZ
+}
+
+install_client_files() {
+  local uid="$1"
+  install -o root -g www-data -m 0640 "${PKI_DIR}/issued/${uid}.crt" "${CLIENT_DIR}/${uid}.crt"
+  install -o root -g www-data -m 0640 "${PKI_DIR}/private/${uid}.key" "${CLIENT_DIR}/${uid}.key"
+  install -o root -g www-data -m 0640 "${PKI_DIR}/ca.crt" "${CLIENT_DIR}/${uid}.ca.crt"
+  if [ -s "${OPENVPN_DIR}/ta.key" ]; then install -o root -g www-data -m 0640 "${OPENVPN_DIR}/ta.key" "${CLIENT_DIR}/${uid}.ta.key"; fi
 }
 
 ensure_client_dir() {
@@ -182,36 +210,101 @@ sync_clients() {
   [ -f "${PKI_DIR}/ca.crt" ] || die "$(printf "$MSG_SETUP_RSA_CA_MISSING" "$PKI_DIR")"
   load_db_config
   ensure_client_dir
-  local rows uid username existing_count
+  local rows uid username start_date end_date cert cert_start cert_end desired_start desired_end expired effective_end_date cert_end_epoch expected_end_epoch start_sql end_sql anniversary anniversary_epoch
+  easyrsa_require_exact_dates
   rows=$(MYSQL_PWD="$DBPASS" mysql --batch --skip-column-names --raw \
     --host="$DBHOST" --port="$DBPORT" --user="$DBUSER" "$DBNAME" \
-    --execute='SELECT uid, user_name FROM user WHERE user_enable = 1 ORDER BY uid') || die "$MSG_SETUP_RSA_DB_QUERY_FAILED"
+    --execute="SELECT uid, user_name, COALESCE(DATE_FORMAT(user_start_date, '%Y-%m-%d'), 'NULL'), COALESCE(DATE_FORMAT(user_end_date, '%Y-%m-%d'), 'NULL') FROM user WHERE user_enable = 1 ORDER BY uid") || die "$MSG_SETUP_RSA_DB_QUERY_FAILED"
   [ -n "$rows" ] || { say INFO "$MSG_SETUP_RSA_NO_USERS"; return; }
-  while IFS=$'\t' read -r uid username; do
+  while IFS=$'\t' read -r uid username start_date end_date; do
     [[ "$uid" =~ ^[0-9]+$ ]] || { say "${MSG_SETUP_RSA_ERROR}" "$(printf "$MSG_SETUP_RSA_INVALID_UID" "$uid")"; continue; }
-    local cert="${CLIENT_DIR}/${uid}.crt" key="${CLIENT_DIR}/${uid}.key" ca="${CLIENT_DIR}/${uid}.ca.crt" tls="${CLIENT_DIR}/${uid}.ta.key"
-    existing_count=0
-    for f in "$cert" "$key" "$ca" "$tls"; do [ -e "$f" ] && existing_count=$((existing_count + 1)); done
-    if [ "$existing_count" -gt 0 ]; then
-      say INFO "$(printf "$MSG_SETUP_RSA_CERT_EXISTS" "$uid" "${username:-$MSG_SETUP_RSA_NO_NAME}")"
-      continue
+    [ "$start_date" != NULL ] || start_date=""
+    [ "$end_date" != NULL ] || end_date=""
+    if { [ -n "$start_date" ] || [ -n "$end_date" ]; } && [ "$EASYRSA_SUPPORTS_EXACT_DATES" -ne 1 ]; then
+      die "Easy-RSA does not support --startdate and --enddate; cannot issue uid ${uid} with its individual date limits."
     fi
-    if [ -s "${PKI_DIR}/issued/${uid}.crt" ] && [ -s "${PKI_DIR}/private/${uid}.key" ]; then
-      say INFO "$(printf "$MSG_SETUP_RSA_CERT_IN_PKI" "$uid")"
-      install -o root -g www-data -m 0640 "${PKI_DIR}/issued/${uid}.crt" "$cert"
-      install -o root -g www-data -m 0640 "${PKI_DIR}/private/${uid}.key" "$key"
-      install -o root -g www-data -m 0640 "${PKI_DIR}/ca.crt" "$ca"
-      if [ -s "${OPENVPN_DIR}/ta.key" ]; then install -o root -g www-data -m 0640 "${OPENVPN_DIR}/ta.key" "$tls"; fi
-      continue
+    cert="${PKI_DIR}/issued/${uid}.crt"
+    desired_start=""
+    desired_end=""
+    if [ -n "$start_date" ]; then desired_start=$(berlin_start_utc "$start_date") || die "Invalid user_start_date for uid $uid: $start_date"; fi
+    if [ -n "$end_date" ]; then
+      desired_end=$(berlin_end_utc "$end_date") || die "Invalid user_end_date for uid $uid: $end_date"
+      effective_end_date="$end_date"
+    elif [ -n "$start_date" ]; then
+      desired_end=$(one_year_after_berlin_start_utc "$start_date") || die "Could not calculate one-year validity for uid $uid"
+      anniversary=$(TZ=Europe/Berlin date --date="$start_date + 1 year" +%F) || die "Could not calculate validity anniversary for uid $uid"
+      anniversary_epoch=$(TZ=Europe/Berlin date --date="$anniversary 00:00:00" +%s) || die "Could not calculate expiration date for uid $uid"
+      effective_end_date=$(TZ=Europe/Berlin date --date="@$((anniversary_epoch - 1))" +%F) || die "Could not calculate expiration date for uid $uid"
+    else
+      effective_end_date=""
     fi
+
+    expired=0
+    if [ -n "$effective_end_date" ] && [[ "$effective_end_date" < "$(TZ=Europe/Berlin date +%F)" ]]; then expired=1; fi
+    cert_start=""; cert_end=""
+    if [ -s "$cert" ]; then
+      cert_start=$(cert_time_utc "$cert" startdate) || cert_start=""
+      cert_end=$(cert_time_utc "$cert" enddate) || cert_end=""
+    fi
+
+    if [ -s "$cert" ]; then
+      local standard_default=1
+      if [ -z "$desired_end" ] && [ -z "$start_date" ] && [ -n "$cert_start" ] && [ -n "$cert_end" ]; then
+        cert_end_epoch=$(date --date="$cert_start" +%s)
+        expected_end_epoch=$((cert_end_epoch + 365 * 86400))
+        expected_end=$(date --date="@$expected_end_epoch" -u +%Y%m%d%H%M%SZ)
+        [ "$cert_end" = "$expected_end" ] || standard_default=0
+      fi
+      local matches=1
+      [ "$standard_default" -eq 1 ] || matches=0
+      [ -z "$desired_start" ] || [ "$cert_start" = "$desired_start" ] || matches=0
+      [ -z "$desired_end" ] || [ "$cert_end" = "$desired_end" ] || matches=0
+      if [ -z "$desired_end" ] && [ -z "$end_date" ] && [ -n "$cert_end" ]; then
+        openssl x509 -in "$cert" -checkend 0 -noout >/dev/null 2>&1 || matches=0
+      fi
+      if [ "$matches" -eq 1 ]; then
+        if [ "$expired" -eq 1 ] && { [ -n "$start_date" ] || [ -n "$end_date" ]; } && ! openssl x509 -in "$cert" -checkend 0 -noout >/dev/null 2>&1; then
+          if [ -n "$start_date" ]; then start_sql="user_start_date = '${start_date}'"; else start_sql='user_start_date IS NULL'; fi
+          if [ -n "$end_date" ]; then end_sql="user_end_date = '${end_date}'"; else end_sql='user_end_date IS NULL'; fi
+          MYSQL_PWD="$DBPASS" mysql --batch --skip-column-names --raw --host="$DBHOST" --port="$DBPORT" --user="$DBUSER" "$DBNAME" \
+            --execute="UPDATE user SET user_enable = 0 WHERE uid = ${uid} AND user_enable = 1 AND ${start_sql} AND ${end_sql}" || die "$MSG_SETUP_RSA_DB_QUERY_FAILED"
+          say INFO "uid ${uid}: unchanged individual limit expired; user marked inactive."
+          continue
+        fi
+        if [ -s "${PKI_DIR}/private/${uid}.key" ]; then install_client_files "$uid"; fi
+        say INFO "uid ${uid}: existing certificate matches current limits; unchanged."
+        continue
+      fi
+    fi
+
+    local -a date_opts=()
+    [ -z "$desired_start" ] || date_opts+=("--startdate=$desired_start")
+    if [ -n "$desired_end" ]; then date_opts+=("--enddate=$desired_end")
+    else date_opts+=("--days=365"); fi
     say INFO "$(printf "$MSG_SETUP_RSA_ISSUE_CLIENT" "$uid" "${username:-$MSG_SETUP_RSA_NO_NAME}")"
-    if ! easyrsa_run build-client-full "$uid" nopass; then
+    if [ -s "$cert" ]; then
+      [ "$EASYRSA_SUPPORTS_EXPIRE" -eq 1 ] || die "This Easy-RSA version cannot archive the previous certificate for uid ${uid}; upgrade Easy-RSA before renewal."
+      if ! easyrsa_run expire "$uid" || ! easyrsa_run "${date_opts[@]}" sign-req client "$uid"; then
+        say "${MSG_SETUP_RSA_ERROR}" "$(printf "$MSG_SETUP_RSA_ISSUE_FAILED" "$uid")"; continue
+      fi
+    elif [ -s "${PKI_DIR}/reqs/${uid}.req" ] && [ -s "${PKI_DIR}/private/${uid}.key" ]; then
+      if ! easyrsa_run "${date_opts[@]}" sign-req client "$uid"; then
+        say "${MSG_SETUP_RSA_ERROR}" "$(printf "$MSG_SETUP_RSA_ISSUE_FAILED" "$uid")"; continue
+      fi
+    elif ! EASYRSA_REQ_CN="$uid" easyrsa_run gen-req "$uid" nopass || ! easyrsa_run "${date_opts[@]}" sign-req client "$uid"; then
       say "${MSG_SETUP_RSA_ERROR}" "$(printf "$MSG_SETUP_RSA_ISSUE_FAILED" "$uid")"; continue
     fi
-    install -o root -g www-data -m 0640 "${PKI_DIR}/issued/${uid}.crt" "$cert"
-    install -o root -g www-data -m 0640 "${PKI_DIR}/private/${uid}.key" "$key"
-    install -o root -g www-data -m 0640 "${PKI_DIR}/ca.crt" "$ca"
-    if [ -s "${OPENVPN_DIR}/ta.key" ]; then install -o root -g www-data -m 0640 "${OPENVPN_DIR}/ta.key" "$tls"; fi
+    cert_start=$(cert_time_utc "$cert" startdate) || die "Could not read issued notBefore for uid $uid"
+    cert_end=$(cert_time_utc "$cert" enddate) || die "Could not read issued notAfter for uid $uid"
+    [ -z "$desired_start" ] || [ "$cert_start" = "$desired_start" ] || die "Easy-RSA issued unexpected notBefore for uid $uid (expected $desired_start, got $cert_start)"
+    [ -z "$desired_end" ] || [ "$cert_end" = "$desired_end" ] || die "Easy-RSA issued unexpected notAfter for uid $uid (expected $desired_end, got $cert_end)"
+    if [ -z "$desired_end" ] && [ -z "$start_date" ]; then
+      cert_end_epoch=$(date --date="$cert_start" +%s)
+      expected_end_epoch=$((cert_end_epoch + 365 * 86400))
+      expected_end=$(date --date="@$expected_end_epoch" -u +%Y%m%d%H%M%SZ)
+      [ "$cert_end" = "$expected_end" ] || die "Easy-RSA did not issue the default one-year validity for uid $uid"
+    fi
+    install_client_files "$uid"
   done <<< "$rows"
   chown root:www-data "$CLIENT_DIR"
   chmod 0750 "$CLIENT_DIR"
@@ -219,8 +312,9 @@ sync_clients() {
 }
 
 main() {
-  select_language
   need_root
+  init_log
+  choose_language
   install_if_missing openvpn openvpn
   install_if_missing easy-rsa easyrsa
   find_easyrsa
