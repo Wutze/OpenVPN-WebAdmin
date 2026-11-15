@@ -810,19 +810,21 @@ deploy_openvpn_scripts() {
   install -m 0640 "${scripts_source_dir}/config.sample.sh" "${OPENVPN_SCRIPTS_DIR}/config.sh"
 
   local db_host_esc db_port_esc db_user_esc db_pass_esc db_name_esc timezone_esc
-  db_host_esc="$(printf '%s' "${DB_HOST}" | sed 's/[\\/&]/\\\\&/g')"
-  db_port_esc="$(printf '%s' "${DB_PORT}" | sed 's/[\\/&]/\\\\&/g')"
-  db_user_esc="$(printf '%s' "${DB_USER}" | sed 's/[\\/&]/\\\\&/g')"
-  db_pass_esc="$(printf '%s' "${DB_PASS}" | sed 's/[\\/&]/\\\\&/g')"
-  db_name_esc="$(printf '%s' "${DB_NAME}" | sed 's/[\\/&]/\\\\&/g')"
-  timezone_esc="$(printf '%s' "${TIMEZONE}" | sed 's/[\\/&]/\\\\&/g')"
+  # Escape sed replacement metacharacters. Use | as the delimiter so values
+  # containing / (common in passwords) cannot break the substitution.
+  db_host_esc="$(printf '%s' "${DB_HOST}" | sed 's/[\\&|]/\\&/g')"
+  db_port_esc="$(printf '%s' "${DB_PORT}" | sed 's/[\\&|]/\\&/g')"
+  db_user_esc="$(printf '%s' "${DB_USER}" | sed 's/[\\&|]/\\&/g')"
+  db_pass_esc="$(printf '%s' "${DB_PASS}" | sed 's/[\\&|]/\\&/g')"
+  db_name_esc="$(printf '%s' "${DB_NAME}" | sed 's/[\\&|]/\\&/g')"
+  timezone_esc="$(printf '%s' "${TIMEZONE}" | sed 's/[\\&|]/\\&/g')"
 
-  sed -i "s/^DBHOST=.*/DBHOST='${db_host_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^DBPORT=.*/DBPORT='${db_port_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^DBUSER=.*/DBUSER='${db_user_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^DBPASS=.*/DBPASS='${db_pass_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^DBNAME=.*/DBNAME='${db_name_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
-  sed -i "s/^TIMEZONE=.*/TIMEZONE='${timezone_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s|^DBHOST=.*|DBHOST='${db_host_esc}'|" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s|^DBPORT=.*|DBPORT='${db_port_esc}'|" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s|^DBUSER=.*|DBUSER='${db_user_esc}'|" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s|^DBPASS=.*|DBPASS='${db_pass_esc}'|" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s|^DBNAME=.*|DBNAME='${db_name_esc}'|" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s|^TIMEZONE=.*|TIMEZONE='${timezone_esc}'|" "${OPENVPN_SCRIPTS_DIR}/config.sh"
 
   backup_file "${OPENVPN_SERVER_CONF}"
   set_or_append_openvpn_line "${OPENVPN_SERVER_CONF}" "script-security" "script-security 2"
