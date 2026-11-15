@@ -62,7 +62,7 @@ confirm_update() {
   if [ "${UPDATE_SOURCE}" = "yes" ]; then
     echo " ${MSG_REPO_BRANCH:-Repository branch}: ${SOURCE_BRANCH}"
   fi
-  echo " ${MSG_UPDATE_ONLY_PHP:-Only PHP files will be updated. config/config.php and .env stay unchanged.}"
+  echo " ${MSG_UPDATE_FILES:-PHP and Markdown files will be updated. config/config.php and .env stay unchanged.}"
 
   ask_yes_no CONFIRM_UPDATE "${MSG_CONFIRM_UPDATE:-Start update with these settings}" "yes"
   [ "${CONFIRM_UPDATE}" = "yes" ] || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
@@ -93,6 +93,7 @@ deploy_site_update() {
     --include='*.php' \
     --include='*.css' \
     --include='*.js' \
+    --include='*.md' \
     --exclude='config/config.php' \
     --exclude='.env' \
     --exclude='*' \
@@ -100,7 +101,7 @@ deploy_site_update() {
 
   find "${DEPLOY_DIR}" -type f -name '*.php' ! -path "${DEPLOY_DIR}/config/config.php" -exec chown "${deploy_uid}:${deploy_gid}" {} + >>"${LOG_FILE}" 2>&1
 
-  ok "${MSG_UPDATE_DONE:-PHP update completed.}"
+  ok "${MSG_UPDATE_DONE:-Application and help documentation update completed.}"
 }
 
 main() {
