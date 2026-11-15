@@ -22,7 +22,7 @@ use Micro\OpenvpnWebadmin\Templates\User;
 use Micro\OpenvpnWebadmin\Templates\Template;
 
 /**
-Summary of UserController
+* Summary of UserController
 */
 class UserController
 {

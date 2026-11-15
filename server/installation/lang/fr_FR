@@ -1,5 +1,24 @@
 #!/usr/bin/env bash
+# this File is part of OpenVPN-WebAdmin - (c) 2026 OpenVPN-WebAdmin
+#
+# NOTICE OF LICENSE
+#
+# GNU AFFERO GENERAL PUBLIC LICENSE V3
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
+#
+
+#
+# @author    Wutze
+# @copyright 2026 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		2.0.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+
 # shellcheck disable=SC2034
+
 LANGUAGE="Français"
 
 MSG_SECTION_LANGUAGE="Langue"
@@ -130,3 +149,48 @@ MSG_OPENVPN_CONF_BOOTSTRAP="OpenVPN server.conf cree depuis le modele."
 MSG_OPENVPN_DEFAULT_CONF_CREATED="Configuration OpenVPN server.conf standard creee"
 MSG_OPENVPN_SERVICE_ENABLED="Service OpenVPN serveur active"
 MSG_OPENVPN_SERVICE_UNKNOWN="Service OpenVPN introuvable. Veuillez l'activer manuellement."
+
+
+MSG_SETUP_RSA_MUSTROOT="Veuillez exécuter ce script en tant que root."
+MSG_SETUP_RSA_LANGUAGE_SELECT="Sélectionner la langue"
+MSG_SETUP_RSA_LANGUAGE_PROMPT="Sélection [0] :"
+MSG_SETUP_RSA_ERROR="ERREUR"
+MSG_SETUP_RSA_FAILED_LINE="Erreur à la ligne"
+MSG_SETUP_RSA_EXIT_CODE="Code de sortie"
+MSG_SETUP_RSA_DETAILS_HINT="Des détails supplémentaires figurent éventuellement dans la sortie Easy-RSA ci-dessus."
+MSG_SETUP_RSA_PACKAGE_PRESENT="%s est déjà installé ; installation ignorée."
+MSG_SETUP_RSA_INSTALL_PACKAGE="Installation de %s …"
+MSG_SETUP_RSA_APT_MISSING="apt-get introuvable ; l'installation automatique est uniquement prise en charge sous Debian/Ubuntu."
+MSG_SETUP_RSA_EASYRSA_NOT_FOUND="Easy-RSA a été installé, mais le programme easyrsa est introuvable."
+MSG_SETUP_RSA_COUNTRY="Pays (2 caractères)"
+MSG_SETUP_RSA_PROVINCE="État/Province"
+MSG_SETUP_RSA_CITY="Ville"
+MSG_SETUP_RSA_ORG="Organisation"
+MSG_SETUP_RSA_EMAIL="Adresse e-mail"
+MSG_SETUP_RSA_OU="Unité organisationnelle"
+MSG_SETUP_RSA_VALIDITY_DAYS="Durée de validité du certificat en jours"
+MSG_SETUP_RSA_VALIDITY_YEARS="Durée de validité du certificat en années"
+MSG_SETUP_RSA_COUNTRY_INVALID="COUNTRY doit être composé exactement de deux lettres."
+MSG_SETUP_RSA_VALIDITY_INVALID="La durée de validité doit être un nombre positif."
+MSG_SETUP_RSA_FIRST_SETUP="Aucune configuration Easy-RSA trouvée ; création d'une nouvelle PKI."
+MSG_SETUP_RSA_FIRST_DONE="La PKI et les fichiers serveur ont été configurés. L'autorité de certification racine et sa clé sont stockées en toute sécurité sous %s."
+MSG_SETUP_RSA_CONF_EXISTS="%s existe déjà et ne sera pas écrasé."
+MSG_SETUP_RSA_PKI_MISSING="Le répertoire PKI est introuvable : %s"
+MSG_SETUP_RSA_SERVER_RENEWED="Certificat serveur renouvelé (CN %s) ; l'autorité de certification racine et les certificats clients ont été conservés."
+MSG_SETUP_RSA_DB_CONFIG_MISSING="La configuration de la base de données est introuvable : %s (vérifiez le chemin utilisé lors de la configuration initiale)."
+MSG_SETUP_RSA_MYSQL_MISSING="Le client MySQL est manquant ; veuillez installer le client MariaDB/MySQL."
+MSG_SETUP_RSA_CA_MISSING="L'autorité de certification racine est introuvable sous %s ; veuillez d'abord effectuer la configuration initiale."
+MSG_SETUP_RSA_DB_QUERY_FAILED="La requête de la table des utilisateurs dans la base de données a échoué."
+MSG_SETUP_RSA_NO_USERS="Aucun utilisateur activé trouvé dans la table user."
+MSG_SETUP_RSA_INVALID_UID="uid invalide provenant de la base de données : %s"
+MSG_SETUP_RSA_NO_NAME="sans nom"
+MSG_SETUP_RSA_CERT_EXISTS="uid %s (%s) : les fichiers de certificat existent déjà ; utilisateur ignoré afin d'éviter tout écrasement."
+MSG_SETUP_RSA_CERT_IN_PKI="uid %s : certificat déjà présent dans la PKI ; exportation des fichiers existants."
+MSG_SETUP_RSA_ISSUE_CLIENT="Émission du certificat client pour uid %s (%s)."
+MSG_SETUP_RSA_ISSUE_FAILED="Échec de la création du certificat pour uid %s ; utilisateur ignoré."
+MSG_SETUP_RSA_SYNC_DONE="Synchronisation des utilisateurs terminée."
+MSG_SETUP_RSA_EXISTING_PKI="Répertoire Easy-RSA trouvé : %s"
+MSG_SETUP_RSA_OPTION_RENEW="Renouveler le certificat serveur (conserver l'autorité de certification existante)"
+MSG_SETUP_RSA_OPTION_USERS="Importer les nouveaux utilisateurs depuis la base de données"
+MSG_SETUP_RSA_CHOICE="Sélection [1/2] :"
+MSG_SETUP_RSA_CHOICE_INVALID="Sélection invalide ; aucune modification effectuée."

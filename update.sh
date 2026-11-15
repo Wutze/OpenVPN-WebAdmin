@@ -8,7 +8,7 @@
 # It is also available through the world-wide-web at this URL:
 # https://www.gnu.org/licenses/agpl-3.0.en.html
 #
-# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+
 #
 # @author    Wutze
 # @copyright 2026 OpenVPN-WebAdmin

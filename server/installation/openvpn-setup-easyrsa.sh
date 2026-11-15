@@ -1,10 +1,29 @@
 #!/usr/bin/env bash
-# OpenVPN-WebAdmin: OpenVPN and Easy-RSA setup / client certificate import.
+# this File is part of OpenVPN-WebAdmin - (c) 2026 OpenVPN-WebAdmin
+#
+# NOTICE OF LICENSE
+#
+# GNU AFFERO GENERAL PUBLIC LICENSE V3
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
+#
+
+#
+# @author    Wutze
+# @copyright 2026 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		2.0.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+
+# shellcheck disable=SC2034
+# shellcheck disable=SC2059
+# shellcheck disable=SC1091
 
 set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck disable=SC1091
 source "${SCRIPT_DIR}/functions.sh"
 
 OPENVPN_DIR=/etc/openvpn
@@ -200,7 +219,6 @@ renew_server() {
 
 load_db_config() {
   [ -f "${SCRIPTS_DIR}/config.sh" ] || die "$(printf "$MSG_SETUP_RSA_DB_CONFIG_MISSING" "${SCRIPTS_DIR}/config.sh")"
-  # shellcheck disable=SC1090
   source "${SCRIPTS_DIR}/config.sh"
   : "${DBHOST:?DBHOST fehlt in config.sh}" "${DBPORT:?DBPORT fehlt in config.sh}" "${DBUSER:?DBUSER fehlt in config.sh}" "${DBPASS:?DBPASS fehlt in config.sh}" "${DBNAME:?DBNAME fehlt in config.sh}"
   command -v mysql >/dev/null 2>&1 || die "$MSG_SETUP_RSA_MYSQL_MISSING"

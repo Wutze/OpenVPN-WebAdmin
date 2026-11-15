@@ -8,7 +8,7 @@
 # It is also available through the world-wide-web at this URL:
 # https://www.gnu.org/licenses/agpl-3.0.en.html
 #
-# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+
 #
 # @author    Wutze
 # @copyright 2026 OpenVPN-WebAdmin
@@ -81,7 +81,7 @@ update_source_repo() {
   ok "${MSG_REPO_READY:-Source repository is ready.}"
 }
 
-deploy_php_update() {
+deploy_site_update() {
   show_section "${MSG_SECTION_DEPLOY:-Deploy files}"
 
   local deploy_uid deploy_gid
@@ -120,7 +120,7 @@ main() {
   validate_update_inputs
   confirm_update
   update_source_repo
-  deploy_php_update
+  deploy_site_update
 
   show_section "${MSG_SECTION_DONE:-Finished}"
   ok "${MSG_DONE:-Update finished successfully.}"

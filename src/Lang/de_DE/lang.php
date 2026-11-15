@@ -67,7 +67,7 @@ $message = [
 
     '_USERS_TITLE' => 'Benutzerverwaltung',
     '_USERS_SUBTITLE' => 'Benutzer anlegen, Passwort zuruecksetzen und Rollen als Admin verwalten.',
-    '_USERS_CREATE_TITLE' => 'Neuen Benutzer anlegen',
+    '_USERS_CREATE_TITLE' => 'Neuen Benutzer anlegen [HELP_DOC/system/:NEWUSER]',
     '_USERS_USERNAME' => 'Benutzername',
     '_USERS_START_PASSWORD' => 'Start-Passwort',
     '_USERS_IS_ADMIN' => 'Admin',
@@ -118,7 +118,7 @@ $message = [
 
     '_PROFILES_TITLE' => 'Konfigurations-Downloads',
     '_PROFILES_SUBTITLE' => 'ZIP-Dateien werden unter /storage/conf/ pro System erstellt und koennen von hier geladen werden.',
-    '_PROFILES_CARD_TITLE' => 'Systemprofile',
+    '_PROFILES_CARD_TITLE' => 'Systemprofile [HELP_DOC/system/:HINWEIS]',
     '_REFRESH' => 'Aktualisieren',
     '_FILE' => 'Datei',
     '_PROFILES_COL_SYSTEM' => 'System',

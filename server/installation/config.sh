@@ -8,7 +8,7 @@
 # It is also available through the world-wide-web at this URL:
 # https://www.gnu.org/licenses/agpl-3.0.en.html
 #
-# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+
 #
 # @author    Wutze
 # @copyright 2026 OpenVPN-WebAdmin
@@ -16,6 +16,8 @@
 # @see				Internal Documentation ~/doc/
 # @version		2.0.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+
+# shellcheck disable=SC2034
 
 # Git source for the application code.
 # Replace these values to switch to a different internal repository.
@@ -35,8 +37,8 @@ DEFAULT_SITETOOLS="${DEFAULT_SITETOOLS:-/tools}"
 # Database defaults
 DEFAULT_DB_HOST="${DEFAULT_DB_HOST:-localhost}"
 DEFAULT_DB_PORT="${DEFAULT_DB_PORT:-3306}"
-DEFAULT_DB_NAME="${DEFAULT_DB_NAME:-ovpn_admin}"
-DEFAULT_DB_USER="${DEFAULT_DB_USER:-ovpn_admin}"
+DEFAULT_DB_NAME="${DEFAULT_DB_NAME:-ovpn-admin}"
+DEFAULT_DB_USER="${DEFAULT_DB_USER:-ovpn-admin}"
 
 # OpenVPN integration defaults
 DEFAULT_OPENVPN_SERVER_CONF="${DEFAULT_OPENVPN_SERVER_CONF:-/etc/openvpn/server.conf}"
@@ -45,6 +47,8 @@ DEFAULT_OPENVPN_SCRIPTS_DIR="${DEFAULT_OPENVPN_SCRIPTS_DIR:-/etc/openvpn/scripts
 
 # Supported platforms only
 SUPPORTED_DEBIAN_VERSIONS=("12" "13")
-SUPPORTED_UBUNTU_LTS_VERSIONS=("22.04" "24.04")
+SUPPORTED_UBUNTU_LTS_VERSIONS=("24.04" "26.04")
 
 LOG_FILE_DEFAULT="${LOG_FILE_DEFAULT:-/var/log/openvpn-webadmin-setup.log}"
+
+TIMEZONE="Europe/Berlin"

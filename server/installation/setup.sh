@@ -8,7 +8,7 @@
 # It is also available through the world-wide-web at this URL:
 # https://www.gnu.org/licenses/agpl-3.0.en.html
 #
-# @fork Original Idea and parts in this script from: https://github.com/Chocobozzz/OpenVPN-Admin
+
 #
 # @author    Wutze
 # @copyright 2026 OpenVPN-WebAdmin
@@ -17,10 +17,13 @@
 # @version		2.0.0
 # @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
 
+# shellcheck disable=SC1091
+# shellcheck disable=SC2034
+
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck disable=SC1091
+
 source "${SCRIPT_DIR}/functions.sh"
 
 REPO_URL=""
@@ -714,7 +717,7 @@ setup_database() {
   mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < "${db_sql_file}"
 
   local admin_hash admin_user_sql admin_hash_sql
-  admin_hash="$(php -r 'echo password_hash($argv[1], PASSWORD_DEFAULT);' "${ADMIN_PASS}")"
+  admin_hash="$(php -r "echo password_hash($argv[1], PASSWORD_DEFAULT);" "${ADMIN_PASS}")"
   admin_user_sql="$(sql_escape_single "${ADMIN_USER}")"
   admin_hash_sql="$(sql_escape_single "${admin_hash}")"
 

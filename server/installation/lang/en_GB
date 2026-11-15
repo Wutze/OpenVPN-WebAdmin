@@ -1,5 +1,24 @@
 #!/usr/bin/env bash
+# this File is part of OpenVPN-WebAdmin - (c) 2026 OpenVPN-WebAdmin
+#
+# NOTICE OF LICENSE
+#
+# GNU AFFERO GENERAL PUBLIC LICENSE V3
+# that is bundled with this package in the file LICENSE.md.
+# It is also available through the world-wide-web at this URL:
+# https://www.gnu.org/licenses/agpl-3.0.en.html
+#
+
+#
+# @author    Wutze
+# @copyright 2026 OpenVPN-WebAdmin
+# @link			https://github.com/Wutze/OpenVPN-WebAdmin
+# @see				Internal Documentation ~/doc/
+# @version		2.0.0
+# @todo			new issues report here please https://github.com/Wutze/OpenVPN-WebAdmin/issues
+
 # shellcheck disable=SC2034
+
 LANGUAGE="English"
 
 MSG_SECTION_LANGUAGE="Language"
@@ -130,3 +149,48 @@ MSG_OPENVPN_CONF_BOOTSTRAP="OpenVPN server.conf created from template."
 MSG_OPENVPN_DEFAULT_CONF_CREATED="Created default OpenVPN server.conf"
 MSG_OPENVPN_SERVICE_ENABLED="OpenVPN server service enabled"
 MSG_OPENVPN_SERVICE_UNKNOWN="OpenVPN service unit not found. Please enable it manually."
+
+
+MSG_SETUP_RSA_MUSTROOT="Please run as root."
+MSG_SETUP_RSA_LANGUAGE_SELECT="Select language"
+MSG_SETUP_RSA_LANGUAGE_PROMPT="Selection [0]:"
+MSG_SETUP_RSA_ERROR="ERROR"
+MSG_SETUP_RSA_FAILED_LINE="Error on line"
+MSG_SETUP_RSA_EXIT_CODE="Exit code"
+MSG_SETUP_RSA_DETAILS_HINT="Further details may be available in the Easy-RSA output above."
+MSG_SETUP_RSA_PACKAGE_PRESENT="%s is already installed; skipping installation."
+MSG_SETUP_RSA_INSTALL_PACKAGE="Installing %s …"
+MSG_SETUP_RSA_APT_MISSING="apt-get not found; automatic installation is only supported on Debian/Ubuntu."
+MSG_SETUP_RSA_EASYRSA_NOT_FOUND="Easy-RSA was installed, but the easyrsa program could not be found."
+MSG_SETUP_RSA_COUNTRY="Country (2 characters)"
+MSG_SETUP_RSA_PROVINCE="State/Province"
+MSG_SETUP_RSA_CITY="City"
+MSG_SETUP_RSA_ORG="Organization"
+MSG_SETUP_RSA_EMAIL="Email address"
+MSG_SETUP_RSA_OU="Organizational unit"
+MSG_SETUP_RSA_VALIDITY_DAYS="Certificate validity in days"
+MSG_SETUP_RSA_VALIDITY_YEARS="Certificate validity in years"
+MSG_SETUP_RSA_COUNTRY_INVALID="COUNTRY must consist of exactly two letters."
+MSG_SETUP_RSA_VALIDITY_INVALID="The validity period must be a positive number."
+MSG_SETUP_RSA_FIRST_SETUP="No Easy-RSA setup found; creating a new PKI."
+MSG_SETUP_RSA_FIRST_DONE="PKI and server files have been set up. The root CA and CA key are securely stored under %s."
+MSG_SETUP_RSA_CONF_EXISTS="%s already exists and will not be overwritten."
+MSG_SETUP_RSA_PKI_MISSING="PKI directory is missing: %s"
+MSG_SETUP_RSA_SERVER_RENEWED="Server certificate renewed (CN %s); root CA and client certificates were preserved."
+MSG_SETUP_RSA_DB_CONFIG_MISSING="Database configuration is missing: %s (check the path used during the initial setup)."
+MSG_SETUP_RSA_MYSQL_MISSING="MySQL client is missing; please install the MariaDB/MySQL client."
+MSG_SETUP_RSA_CA_MISSING="Root CA is missing under %s; please run the initial setup first."
+MSG_SETUP_RSA_DB_QUERY_FAILED="Failed to query the user table in the database."
+MSG_SETUP_RSA_NO_USERS="No enabled users found in the user table."
+MSG_SETUP_RSA_INVALID_UID="Invalid uid from database: %s"
+MSG_SETUP_RSA_NO_NAME="unnamed"
+MSG_SETUP_RSA_CERT_EXISTS="uid %s (%s): certificate files already exist; skipping user to prevent overwriting."
+MSG_SETUP_RSA_CERT_IN_PKI="uid %s: certificate already exists in the PKI; exporting existing files."
+MSG_SETUP_RSA_ISSUE_CLIENT="Issuing client certificate for uid %s (%s)."
+MSG_SETUP_RSA_ISSUE_FAILED="Failed to create certificate for uid %s; skipping user."
+MSG_SETUP_RSA_SYNC_DONE="User synchronization completed."
+MSG_SETUP_RSA_EXISTING_PKI="Easy-RSA directory found: %s"
+MSG_SETUP_RSA_OPTION_RENEW="Renew server certificate (keep existing CA)"
+MSG_SETUP_RSA_OPTION_USERS="Import new users from the database"
+MSG_SETUP_RSA_CHOICE="Selection [1/2]:"
+MSG_SETUP_RSA_CHOICE_INVALID="Invalid selection; no changes have been made."

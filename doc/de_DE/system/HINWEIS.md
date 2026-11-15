@@ -1,3 +1,3 @@
-## Das ist nur ein Test mit SYSTEM.md
+## Hinweis
 
-Wirklich nur ein Test
+Hier suchst du dir deine Konfiguration zu deinem entsprechenden Gerät.
