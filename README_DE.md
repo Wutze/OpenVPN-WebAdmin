@@ -9,16 +9,27 @@ Die Anwendung richtet sich insbesondere an selbst betriebene Infrastrukturen, pr
 
 ---
 
+## Extended documentation
+
+[![Doku English]🇬🇧](doc/README.md)
+[![Doku Deutsch/German]🇩🇪](doc/README_DE.md)
+
+## Screenshots
+
+![Previsualisation Login](doc/img/login.png)
+![Previsualisation Administration](doc/img/overview.png)
+![Previsualisation Useradministration](doc/img/useradmin.png)
+
 ## Projektziele
 
 OpenVPN-WebAdmin basiert auf einigen grundlegenden Prinzipien:
 
 - **Selbst gehostet:** Die Anwendung wird auf der eigenen Infrastruktur betrieben.
-- **Kontrolle:** Die OpenVPN-Konfiguration und die Integration in den Server bleiben unter der Kontrolle des Administrators.
-- **Sicherheit:** Administrative Funktionen sind von den eigentlichen OpenVPN-Serverprozessen getrennt.
+- **Mehrsprachigkeit:** Das System ist von Anfang an auf Mehrsprachigen Betrieb ausgelegt. Neue Sprache einkopieren - fertig
+- **Hilfestellungen:** Zu jedem Kontexteintrag, zu jeder Seite kann eine eigene Hilfeseite aufgebaut werden. Auch diese können Mehrsprachig sein. Neu anlegen, fertig
 - **Datenschutz:** Für die Frontend-Bereitstellung werden keine externen Dienste oder CDNs benötigt.
-- **Transparenz:** Konfigurationen, Skripte und Anwendungskomponenten sollen nachvollziehbar und wartbar bleiben.
 - **Unabhängigkeit:** Es wird weder eine Docker-Umgebung noch eine cloudbasierte Infrastruktur vorausgesetzt.
+- **Für Entwickler:** Es gibt ein eigenes, durchsuchbares System um die enthaltenen PHP Scripte nach ihren Funktionen und Klassen zu dokumentieren und zu suchen.
 
 ## Installation
 
