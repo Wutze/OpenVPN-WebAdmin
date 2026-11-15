@@ -19,6 +19,96 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# Detect the current system timezone without modifying it. Prefer systemd's
+# configured timezone, then derive the IANA name from /etc/localtime.
+detect_system_timezone() {
+  local timezone localtime_path
+
+  if command -v timedatectl >/dev/null 2>&1; then
+    timezone="$(timedatectl show --property=Timezone --value 2>/dev/null || true)"
+    if timezone_is_valid "$timezone"; then
+      printf '%s\n' "$timezone"
+      return 0
+    fi
+  fi
+
+  localtime_path="$(readlink -f /etc/localtime 2>/dev/null || true)"
+  case "$localtime_path" in
+    /usr/share/zoneinfo/*)
+      timezone="${localtime_path#/usr/share/zoneinfo/}"
+      if timezone_is_valid "$timezone"; then
+        printf '%s\n' "$timezone"
+        return 0
+      fi
+      ;;
+  esac
+
+  return 1
+}
+
+timezone_is_valid() {
+  local timezone="$1"
+  [[ "$timezone" != *..* ]] \
+    && [[ "$timezone" =~ ^[A-Za-z0-9._+-]+(/[A-Za-z0-9._+-]+)*$ ]] \
+    && [ -f "/usr/share/zoneinfo/${timezone}" ]
+}
+
+timezone_start_utc() {
+  local timezone="$1" date_value="$2" epoch
+  epoch="$(TZ="$timezone" date --date="$date_value 00:00:00" +%s)" || return 1
+  date --date="@$epoch" -u +%Y%m%d%H%M%SZ
+}
+
+timezone_end_utc() {
+  local timezone="$1" date_value="$2" next_day epoch
+  next_day="$(TZ="$timezone" date --date="$date_value + 1 day" +%F)" || return 1
+  epoch="$(TZ="$timezone" date --date="$next_day 00:00:00" +%s)" || return 1
+  date --date="@$((epoch - 1))" -u +%Y%m%d%H%M%SZ
+}
+
+one_year_after_timezone_start_utc() {
+  local timezone="$1" date_value="$2" anniversary epoch
+  anniversary="$(TZ="$timezone" date --date="$date_value + 1 year" +%F)" || return 1
+  epoch="$(TZ="$timezone" date --date="$anniversary 00:00:00" +%s)" || return 1
+  date --date="@$((epoch - 1))" -u +%Y%m%d%H%M%SZ
+}
+
+date_in_timezone() {
+  local timezone="$1" epoch="$2"
+  TZ="$timezone" date --date="@$epoch" +%F
+}
+
+cert_time_utc() {
+  local cert="$1" field="$2" value
+  value="$(openssl x509 -in "$cert" -noout -"$field" | sed 's/^[^=]*=//')" || return 1
+  date --date="$value" -u +%Y%m%d%H%M%SZ
+}
+
+# Return 0 when the stored DB date pair matches, 1 when no snapshot exists,
+# and 2 when a snapshot exists but is unreadable, malformed, or changed.
+certificate_limit_snapshot_status() {
+  local snapshot="$1" start_date="$2" end_date="$3" stored_start stored_end
+  [ -e "$snapshot" ] || return 1
+  [ -r "$snapshot" ] || return 2
+  IFS=$'\t' read -r stored_start stored_end < "$snapshot" || return 2
+  [ "$stored_start" = "${start_date:-NULL}" ] \
+    && [ "$stored_end" = "${end_date:-NULL}" ] || return 2
+  return 0
+}
+
+write_certificate_limit_snapshot() {
+  local snapshot="$1" start_date="$2" end_date="$3" directory temporary
+  directory="${snapshot%/*}"
+  install -d -m 0700 "$directory" || return 1
+  temporary="$(mktemp "${directory}/.limits.XXXXXX")" || return 1
+  if ! printf '%s\t%s\n' "${start_date:-NULL}" "${end_date:-NULL}" > "$temporary"; then
+    rm -f -- "$temporary"
+    return 1
+  fi
+  chmod 0600 "$temporary" || { rm -f -- "$temporary"; return 1; }
+  mv -f -- "$temporary" "$snapshot"
+}
+
 CONFIG_FILE="${SCRIPT_DIR}/config.sh"
 LANG_DIR="${SCRIPT_DIR}/lang"
 

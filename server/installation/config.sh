@@ -51,4 +51,3 @@ SUPPORTED_UBUNTU_LTS_VERSIONS=("24.04" "26.04")
 
 LOG_FILE_DEFAULT="${LOG_FILE_DEFAULT:-/var/log/openvpn-webadmin-setup.log}"
 
-TIMEZONE="Europe/Berlin"

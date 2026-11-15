@@ -111,35 +111,6 @@ easyrsa_require_exact_dates() {
   say INFO "$(printf '%s' "$version" | head -n 1): exact date options $([[ "$EASYRSA_SUPPORTS_EXACT_DATES" -eq 1 ]] && printf supported || printf unavailable); expire command $([[ "$EASYRSA_SUPPORTS_EXPIRE" -eq 1 ]] && printf supported || printf unavailable)."
 }
 
-berlin_start_utc() {
-  local epoch
-  epoch=$(TZ=Europe/Berlin date --date="$1 00:00:00" +%s) || return 1
-  date --date="@$epoch" -u +%Y%m%d%H%M%SZ
-}
-
-berlin_end_utc() {
-  local next_day epoch
-  next_day=$(TZ=Europe/Berlin date --date="$1 + 1 day" +%F) || return 1
-  epoch=$(TZ=Europe/Berlin date --date="$next_day 00:00:00" +%s) || return 1
-  epoch=$((epoch - 1))
-  date --date="@$epoch" -u +%Y%m%d%H%M%SZ
-}
-
-one_year_after_berlin_start_utc() {
-  local anniversary epoch
-  anniversary=$(TZ=Europe/Berlin date --date="$1 + 1 year" +%F) || return 1
-  epoch=$(TZ=Europe/Berlin date --date="$anniversary 00:00:00" +%s) || return 1
-  epoch=$((epoch - 1))
-  date --date="@$epoch" -u +%Y%m%d%H%M%SZ
-}
-
-cert_time_utc() {
-  local cert="$1" field value
-  field="$2"
-  value=$(openssl x509 -in "$cert" -noout -"$field" | sed "s/^[^=]*=//") || return 1
-  date --date="$value" -u +%Y%m%d%H%M%SZ
-}
-
 install_client_files() {
   local uid="$1"
   install -o root -g www-data -m 0640 "${PKI_DIR}/issued/${uid}.crt" "${CLIENT_DIR}/${uid}.crt"
@@ -228,7 +199,12 @@ sync_clients() {
   [ -f "${PKI_DIR}/ca.crt" ] || die "$(printf "$MSG_SETUP_RSA_CA_MISSING" "$PKI_DIR")"
   load_db_config
   ensure_client_dir
-  local rows uid username start_date end_date cert cert_start cert_end desired_start desired_end expired effective_end_date cert_end_epoch expected_end_epoch start_sql end_sql anniversary anniversary_epoch
+  local rows uid username start_date end_date cert cert_start cert_end desired_start desired_end expired effective_end_date cert_end_epoch expected_end_epoch expected_end start_sql end_sql anniversary anniversary_epoch timezone snapshot snapshot_status
+  timezone="$(detect_system_timezone)" || die "Could not determine the system timezone; refusing to issue certificates with ambiguous date limits."
+  if [ -n "${TIMEZONE:-}" ] && [ "$TIMEZONE" != "$timezone" ]; then
+    say INFO "System timezone changed from configured ${TIMEZONE}; using detected ${timezone}."
+  fi
+  say INFO "Using system timezone ${timezone} for client certificate date limits."
   easyrsa_require_exact_dates
   rows=$(MYSQL_PWD="$DBPASS" mysql --batch --skip-column-names --raw \
     --host="$DBHOST" --port="$DBPORT" --user="$DBUSER" "$DBNAME" \
@@ -238,27 +214,31 @@ sync_clients() {
     [[ "$uid" =~ ^[0-9]+$ ]] || { say "${MSG_SETUP_RSA_ERROR}" "$(printf "$MSG_SETUP_RSA_INVALID_UID" "$uid")"; continue; }
     [ "$start_date" != NULL ] || start_date=""
     [ "$end_date" != NULL ] || end_date=""
+    if [ -n "$start_date" ] && [ -n "$end_date" ] && [[ "$start_date" > "$end_date" ]]; then
+      die "Invalid user date range for uid ${uid}: start date ${start_date} is after end date ${end_date}."
+    fi
     if { [ -n "$start_date" ] || [ -n "$end_date" ]; } && [ "$EASYRSA_SUPPORTS_EXACT_DATES" -ne 1 ]; then
       die "Easy-RSA does not support --startdate and --enddate; cannot issue uid ${uid} with its individual date limits."
     fi
     cert="${PKI_DIR}/issued/${uid}.crt"
+    snapshot="${PKI_DIR}/webadmin-validity/${uid}.dates"
     desired_start=""
     desired_end=""
-    if [ -n "$start_date" ]; then desired_start=$(berlin_start_utc "$start_date") || die "Invalid user_start_date for uid $uid: $start_date"; fi
+    if [ -n "$start_date" ]; then desired_start=$(timezone_start_utc "$timezone" "$start_date") || die "Invalid user_start_date for uid $uid: $start_date"; fi
     if [ -n "$end_date" ]; then
-      desired_end=$(berlin_end_utc "$end_date") || die "Invalid user_end_date for uid $uid: $end_date"
+      desired_end=$(timezone_end_utc "$timezone" "$end_date") || die "Invalid user_end_date for uid $uid: $end_date"
       effective_end_date="$end_date"
     elif [ -n "$start_date" ]; then
-      desired_end=$(one_year_after_berlin_start_utc "$start_date") || die "Could not calculate one-year validity for uid $uid"
-      anniversary=$(TZ=Europe/Berlin date --date="$start_date + 1 year" +%F) || die "Could not calculate validity anniversary for uid $uid"
-      anniversary_epoch=$(TZ=Europe/Berlin date --date="$anniversary 00:00:00" +%s) || die "Could not calculate expiration date for uid $uid"
-      effective_end_date=$(TZ=Europe/Berlin date --date="@$((anniversary_epoch - 1))" +%F) || die "Could not calculate expiration date for uid $uid"
+      desired_end=$(one_year_after_timezone_start_utc "$timezone" "$start_date") || die "Could not calculate one-year validity for uid $uid"
+      anniversary=$(TZ="$timezone" date --date="$start_date + 1 year" +%F) || die "Could not calculate validity anniversary for uid $uid"
+      anniversary_epoch=$(TZ="$timezone" date --date="$anniversary 00:00:00" +%s) || die "Could not calculate expiration date for uid $uid"
+      effective_end_date=$(date_in_timezone "$timezone" "$((anniversary_epoch - 1))") || die "Could not calculate expiration date for uid $uid"
     else
       effective_end_date=""
     fi
 
     expired=0
-    if [ -n "$effective_end_date" ] && [[ "$effective_end_date" < "$(TZ=Europe/Berlin date +%F)" ]]; then expired=1; fi
+    if [ -n "$effective_end_date" ] && [[ "$effective_end_date" < "$(TZ="$timezone" date +%F)" ]]; then expired=1; fi
     cert_start=""; cert_end=""
     if [ -s "$cert" ]; then
       cert_start=$(cert_time_utc "$cert" startdate) || cert_start=""
@@ -266,21 +246,23 @@ sync_clients() {
     fi
 
     if [ -s "$cert" ]; then
-      local standard_default=1
-      if [ -z "$desired_end" ] && [ -z "$start_date" ] && [ -n "$cert_start" ] && [ -n "$cert_end" ]; then
-        cert_end_epoch=$(date --date="$cert_start" +%s)
-        expected_end_epoch=$((cert_end_epoch + 365 * 86400))
-        expected_end=$(date --date="@$expected_end_epoch" -u +%Y%m%d%H%M%SZ)
-        [ "$cert_end" = "$expected_end" ] || standard_default=0
+      if certificate_limit_snapshot_status "$snapshot" "$start_date" "$end_date"; then
+        snapshot_status=0
+      else
+        snapshot_status=$?
       fi
       local matches=1
-      [ "$standard_default" -eq 1 ] || matches=0
       [ -z "$desired_start" ] || [ "$cert_start" = "$desired_start" ] || matches=0
       [ -z "$desired_end" ] || [ "$cert_end" = "$desired_end" ] || matches=0
-      if [ -z "$desired_end" ] && [ -z "$end_date" ] && [ -n "$cert_end" ]; then
-        openssl x509 -in "$cert" -checkend 0 -noout >/dev/null 2>&1 || matches=0
-      fi
+      [ "$snapshot_status" -ne 2 ] || matches=0
+      # With no individual date limits, issue a fresh one-year certificate on
+      # every synchronization run, as requested.
+      if [ -z "$start_date" ] && [ -z "$end_date" ]; then matches=0; fi
       if [ "$matches" -eq 1 ]; then
+        if [ "$snapshot_status" -eq 1 ]; then
+          write_certificate_limit_snapshot "$snapshot" "$start_date" "$end_date" \
+            || die "Could not save the validity snapshot for uid ${uid}."
+        fi
         if [ "$expired" -eq 1 ] && { [ -n "$start_date" ] || [ -n "$end_date" ]; } && ! openssl x509 -in "$cert" -checkend 0 -noout >/dev/null 2>&1; then
           if [ -n "$start_date" ]; then start_sql="user_start_date = '${start_date}'"; else start_sql='user_start_date IS NULL'; fi
           if [ -n "$end_date" ]; then end_sql="user_end_date = '${end_date}'"; else end_sql='user_end_date IS NULL'; fi
@@ -323,6 +305,8 @@ sync_clients() {
       [ "$cert_end" = "$expected_end" ] || die "Easy-RSA did not issue the default one-year validity for uid $uid"
     fi
     install_client_files "$uid"
+    write_certificate_limit_snapshot "$snapshot" "$start_date" "$end_date" \
+      || die "Could not save the validity snapshot for uid ${uid}."
   done <<< "$rows"
   chown root:www-data "$CLIENT_DIR"
   chmod 0750 "$CLIENT_DIR"

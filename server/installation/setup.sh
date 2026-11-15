@@ -43,6 +43,8 @@ DB_PASS=""
 DB_CREATE_LOCAL=""
 DB_ROOT_PASSWORD=""
 
+TIMEZONE=""
+
 ADMIN_USER=""
 ADMIN_PASS=""
 
@@ -203,6 +205,7 @@ review_inputs_menu() {
 setup_prelude() {
   load_install_config
   init_log
+  TIMEZONE="$(detect_system_timezone)" || fatal "Could not determine the server timezone with timedatectl or /etc/localtime."
   show_header
   ensure_cmd whiptail
   choose_language
@@ -214,6 +217,7 @@ setup_prelude() {
   ensure_cmd apt-get
   ensure_cmd sed
   ensure_cmd grep
+  info "Detected server timezone: ${TIMEZONE}"
 }
 
 normalize_subdir_path() {
@@ -509,6 +513,7 @@ show_summary() {
   echo " ${MSG_DB_HOST:-Database host}: ${DB_HOST}:${DB_PORT}/${DB_NAME}"
   echo " ${MSG_DB_USER:-Database user}: ${DB_USER}"
   echo " ${MSG_DB_CREATE_LOCAL:-Create local MariaDB database and user}: ${DB_CREATE_LOCAL}"
+  echo " System timezone (detected automatically): ${TIMEZONE}"
   echo " ${MSG_OPENVPN_CONF:-OpenVPN server.conf path}: ${OPENVPN_SERVER_CONF}"
   echo " ${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}: ${OPENVPN_SCRIPTS_DIR}"
   echo " ${MSG_WEBSERVER_PACKAGE:-Optional webserver package (none/apache2/nginx)}: ${WEBSERVER_PACKAGE}"
@@ -804,18 +809,20 @@ deploy_openvpn_scripts() {
   install -m 0750 "${scripts_source_dir}/functions.sh" "${OPENVPN_SCRIPTS_DIR}/functions.sh"
   install -m 0640 "${scripts_source_dir}/config.sample.sh" "${OPENVPN_SCRIPTS_DIR}/config.sh"
 
-  local db_host_esc db_port_esc db_user_esc db_pass_esc db_name_esc
+  local db_host_esc db_port_esc db_user_esc db_pass_esc db_name_esc timezone_esc
   db_host_esc="$(printf '%s' "${DB_HOST}" | sed 's/[\\/&]/\\\\&/g')"
   db_port_esc="$(printf '%s' "${DB_PORT}" | sed 's/[\\/&]/\\\\&/g')"
   db_user_esc="$(printf '%s' "${DB_USER}" | sed 's/[\\/&]/\\\\&/g')"
   db_pass_esc="$(printf '%s' "${DB_PASS}" | sed 's/[\\/&]/\\\\&/g')"
   db_name_esc="$(printf '%s' "${DB_NAME}" | sed 's/[\\/&]/\\\\&/g')"
+  timezone_esc="$(printf '%s' "${TIMEZONE}" | sed 's/[\\/&]/\\\\&/g')"
 
   sed -i "s/^DBHOST=.*/DBHOST='${db_host_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
   sed -i "s/^DBPORT=.*/DBPORT='${db_port_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
   sed -i "s/^DBUSER=.*/DBUSER='${db_user_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
   sed -i "s/^DBPASS=.*/DBPASS='${db_pass_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
   sed -i "s/^DBNAME=.*/DBNAME='${db_name_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
+  sed -i "s/^TIMEZONE=.*/TIMEZONE='${timezone_esc}'/" "${OPENVPN_SCRIPTS_DIR}/config.sh"
 
   backup_file "${OPENVPN_SERVER_CONF}"
   set_or_append_openvpn_line "${OPENVPN_SERVER_CONF}" "script-security" "script-security 2"
