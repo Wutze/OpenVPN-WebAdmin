@@ -26,6 +26,7 @@
  * data-helpdoc-doc direkt verdrahtet werden.
  */
 use Micro\OpenvpnWebadmin\Util\Lang;
+use Micro\OpenvpnWebadmin\Core\Url;
 ?>
 <div class="modal fade" id="helpdoc-modal" tabindex="-1" aria-labelledby="helpdoc-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -50,6 +51,7 @@ window.HelpDoc = (() => {
     // der aktiven Sprache mit [HELP_DOC/...]-Marker.
     const docRefs = <?= json_encode(Lang::getDocRefMap(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
     const refByText = new Map(docRefs.map((ref) => [ref.text, ref]));
+    const helpDocUrl = <?= json_encode(Url::op('helpdocshow'), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
 
     const modalBody = () => document.getElementById('helpdoc-modal-body');
 
@@ -84,7 +86,7 @@ window.HelpDoc = (() => {
         const modal = document.getElementById('helpdoc-modal');
         bootstrap.Modal.getOrCreateInstance(modal).show();
 
-        fetch('/?op=helpdocshow&area=' + encodeURIComponent(area) + '&doc=' + encodeURIComponent(doc), {
+        fetch(helpDocUrl + (helpDocUrl.includes('?') ? '&' : '?') + 'area=' + encodeURIComponent(area) + '&doc=' + encodeURIComponent(doc), {
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             credentials: 'same-origin'
         })
