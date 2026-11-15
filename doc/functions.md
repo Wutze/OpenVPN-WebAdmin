@@ -1,12 +1,12 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-02-22 14:35:05
+Automatisch generiert am: 2026-11-15 09:31:22
 
-## `src/Core/CaTlsService.php`
+## `./src/Core/CaTlsService.php`
 
 ### `public __construct($basePath)`
 
-- Datei: `src/Core/CaTlsService.php`
+- Datei: `./src/Core/CaTlsService.php`
 - Zeile: 33
 - Rueckgabe: `mixed|null`
 
@@ -21,7 +21,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getCurrent()`
 
-- Datei: `src/Core/CaTlsService.php`
+- Datei: `./src/Core/CaTlsService.php`
 - Zeile: 45
 - Rueckgabe: `array`
 
@@ -35,7 +35,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public save($caContent, $tlsContent)`
 
-- Datei: `src/Core/CaTlsService.php`
+- Datei: `./src/Core/CaTlsService.php`
 - Zeile: 66
 - Rueckgabe: `array`
 
@@ -51,7 +51,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private ensureStorage()`
 
-- Datei: `src/Core/CaTlsService.php`
+- Datei: `./src/Core/CaTlsService.php`
 - Zeile: 83
 - Rueckgabe: `void`
 
@@ -65,7 +65,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private ensureFile($path)`
 
-- Datei: `src/Core/CaTlsService.php`
+- Datei: `./src/Core/CaTlsService.php`
 - Zeile: 102
 - Rueckgabe: `void`
 
@@ -80,7 +80,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private writeSecureFile($path, $content)`
 
-- Datei: `src/Core/CaTlsService.php`
+- Datei: `./src/Core/CaTlsService.php`
 - Zeile: 120
 - Rueckgabe: `void`
 
@@ -96,7 +96,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private resolveUsableBasePath()`
 
-- Datei: `src/Core/CaTlsService.php`
+- Datei: `./src/Core/CaTlsService.php`
 - Zeile: 146
 - Rueckgabe: `string`
 
@@ -110,7 +110,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private canUsePath($path)`
 
-- Datei: `src/Core/CaTlsService.php`
+- Datei: `./src/Core/CaTlsService.php`
 - Zeile: 171
 - Rueckgabe: `bool`
 
@@ -125,11 +125,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/ConfigService.php`
+## `./src/Core/ConfigService.php`
 
 ### `public __construct($basePath)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 32
 - Rueckgabe: `mixed|null`
 
@@ -144,7 +144,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public listSystems()`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 43
 - Rueckgabe: `array`
 
@@ -158,7 +158,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getConfig($system)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 73
 - Rueckgabe: `string`
 
@@ -173,7 +173,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public saveConfig($system, $content)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 90
 - Rueckgabe: `array`
 
@@ -189,7 +189,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getHistoryList($system)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 133
 - Rueckgabe: `array`
 
@@ -204,7 +204,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getDiffStatsAgainstCurrent($system)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 164
 - Rueckgabe: `array`
 
@@ -219,7 +219,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public diffHistoryFile($system, $historyFile)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 186
 - Rueckgabe: `array`
 
@@ -235,7 +235,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private getHistoryContent($system, $historyFile)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 201
 - Rueckgabe: `string`
 
@@ -251,7 +251,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private buildDiffData($oldText, $newText)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 219
 - Rueckgabe: `array`
 
@@ -267,7 +267,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private diffOps($a, $b)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 255
 - Rueckgabe: `array`
 
@@ -283,7 +283,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private clientPath($system)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 308
 - Rueckgabe: `string`
 
@@ -298,7 +298,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private historyDir($system)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 320
 - Rueckgabe: `string`
 
@@ -313,7 +313,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private sanitizeSystem($system)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 332
 - Rueckgabe: `string`
 
@@ -328,7 +328,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private writeAtomic($path, $content)`
 
-- Datei: `src/Core/ConfigService.php`
+- Datei: `./src/Core/ConfigService.php`
 - Zeile: 351
 - Rueckgabe: `void`
 
@@ -346,11 +346,59 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/DataController.php`
+## `./src/Core/Database.php`
+
+### `private __construct($config)`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 35
+- Rueckgabe: `mixed|null`
+
+```
+/**
+ * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ *
+ * @param mixed $config Eingabewert fuer config.
+ * @return mixed|null Rueckgabewert der Funktion.
+ */
+```
+
+### `public static getInstance($config)`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 57
+- Rueckgabe: `Database`
+
+```
+/**
+ * Liest instance und gibt den Wert zurueck.
+ *
+ * @param mixed $config Eingabewert fuer config.
+ * @return Database Rueckgabewert der Funktion.
+ */
+```
+
+### `public getConnection()`
+
+- Datei: `./src/Core/Database.php`
+- Zeile: 73
+- Rueckgabe: `PDO`
+
+```
+/**
+ * Liest connection und gibt den Wert zurueck.
+ *
+ * @return PDO Rueckgabewert der Funktion.
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Core/DataController.php`
 
 ### `public handle()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 28
 - Rueckgabe: `void`
 
@@ -364,7 +412,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleGet($select)`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 54
 - Rueckgabe: `void`
 
@@ -379,7 +427,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handlePost($select)`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 102
 - Rueckgabe: `void`
 
@@ -394,7 +442,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private getUsers()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 138
 - Rueckgabe: `array`
 
@@ -408,7 +456,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private getLogs()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 157
 - Rueckgabe: `array`
 
@@ -422,7 +470,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private getDashboardStats()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 175
 - Rueckgabe: `array`
 
@@ -436,7 +484,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleUserAction()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 211
 - Rueckgabe: `void`
 
@@ -450,7 +498,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleAccountAction()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 343
 - Rueckgabe: `void`
 
@@ -464,7 +512,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleProfileAction()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 385
 - Rueckgabe: `void`
 
@@ -478,7 +526,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleConfigGet()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 412
 - Rueckgabe: `void`
 
@@ -492,7 +540,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleConfigPost()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 460
 - Rueckgabe: `void`
 
@@ -506,7 +554,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleSettingsGet()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 518
 - Rueckgabe: `void`
 
@@ -520,7 +568,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleSettingsPost()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 560
 - Rueckgabe: `void`
 
@@ -534,7 +582,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleCaTlsGet()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 599
 - Rueckgabe: `void`
 
@@ -548,7 +596,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private handleCaTlsPost()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 632
 - Rueckgabe: `void`
 
@@ -562,7 +610,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private requireAdminJson()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 666
 - Rueckgabe: `void`
 
@@ -576,7 +624,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private msg($key)`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 679
 - Rueckgabe: `string`
 
@@ -591,7 +639,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private msgf($key, $arg)`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 691
 - Rueckgabe: `string`
 
@@ -607,7 +655,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private assertValidUsername($username)`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 702
 - Rueckgabe: `void`
 
@@ -622,7 +670,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private isValidIpv4($value)`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 715
 - Rueckgabe: `bool`
 
@@ -637,7 +685,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private getLoginDiagnostics()`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 725
 - Rueckgabe: `array`
 
@@ -651,7 +699,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private json($data, $status)`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 839
 - Rueckgabe: `void`
 
@@ -667,7 +715,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private internalError($context, $e)`
 
-- Datei: `src/Core/DataController.php`
+- Datei: `./src/Core/DataController.php`
 - Zeile: 854
 - Rueckgabe: `void`
 
@@ -683,59 +731,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/Database.php`
-
-### `private __construct($config)`
-
-- Datei: `src/Core/Database.php`
-- Zeile: 35
-- Rueckgabe: `mixed|null`
-
-```
-/**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
- *
- * @param mixed $config Eingabewert fuer config.
- * @return mixed|null Rueckgabewert der Funktion.
- */
-```
-
-### `public static getInstance($config)`
-
-- Datei: `src/Core/Database.php`
-- Zeile: 57
-- Rueckgabe: `Database`
-
-```
-/**
- * Liest instance und gibt den Wert zurueck.
- *
- * @param mixed $config Eingabewert fuer config.
- * @return Database Rueckgabewert der Funktion.
- */
-```
-
-### `public getConnection()`
-
-- Datei: `src/Core/Database.php`
-- Zeile: 73
-- Rueckgabe: `PDO`
-
-```
-/**
- * Liest connection und gibt den Wert zurueck.
- *
- * @return PDO Rueckgabewert der Funktion.
- */
-```
-
-<hr style="border:0; height:5px; background:#1e90ff;">
-
-## `src/Core/Debug.php`
+## `./src/Core/Debug.php`
 
 ### `public static init($env, $logfile, $debug)`
 
-- Datei: `src/Core/Debug.php`
+- Datei: `./src/Core/Debug.php`
 - Zeile: 33
 - Rueckgabe: `void`
 
@@ -747,7 +747,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static debug($vars)`
 
-- Datei: `src/Core/Debug.php`
+- Datei: `./src/Core/Debug.php`
 - Zeile: 51
 - Rueckgabe: `void`
 
@@ -757,10 +757,40 @@ Automatisch generiert am: 2026-02-22 14:35:05
  */
 ```
 
+### `private static buildAutoContextForObject($object)`
+
+- Datei: `./src/Core/Debug.php`
+- Zeile: 114
+- Rueckgabe: `array`
+
+```
+/**
+ * Baut automatisch einen zweiten Debug-Kontext fuer Objekt-Calls auf.
+ *
+ * @param object $object
+ * @return array<string,mixed>
+ */
+```
+
+### `private static extractObjectProperties($object)`
+
+- Datei: `./src/Core/Debug.php`
+- Zeile: 132
+- Rueckgabe: `array`
+
+```
+/**
+ * Extrahiert alle Objekt-Properties inklusive private/protected per Reflection.
+ *
+ * @param object $object
+ * @return array<string,mixed>
+ */
+```
+
 ### `public static log($vars)`
 
-- Datei: `src/Core/Debug.php`
-- Zeile: 107
+- Datei: `./src/Core/Debug.php`
+- Zeile: 158
 - Rueckgabe: `void`
 
 ```
@@ -771,8 +801,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static logException($e, $context)`
 
-- Datei: `src/Core/Debug.php`
-- Zeile: 132
+- Datei: `./src/Core/Debug.php`
+- Zeile: 183
 - Rueckgabe: `void`
 
 ```
@@ -787,8 +817,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static dd($vars)`
 
-- Datei: `src/Core/Debug.php`
-- Zeile: 158
+- Datei: `./src/Core/Debug.php`
+- Zeile: 209
 - Rueckgabe: `void`
 
 ```
@@ -799,8 +829,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static handleException($e)`
 
-- Datei: `src/Core/Debug.php`
-- Zeile: 167
+- Datei: `./src/Core/Debug.php`
+- Zeile: 218
 - Rueckgabe: `void`
 
 ```
@@ -811,8 +841,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static handleError($errno, $errstr, $errfile, $errline)`
 
-- Datei: `src/Core/Debug.php`
-- Zeile: 192
+- Datei: `./src/Core/Debug.php`
+- Zeile: 243
 - Rueckgabe: `bool`
 
 ```
@@ -823,8 +853,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static render()`
 
-- Datei: `src/Core/Debug.php`
-- Zeile: 225
+- Datei: `./src/Core/Debug.php`
+- Zeile: 271
 - Rueckgabe: `void`
 
 ```
@@ -835,10 +865,24 @@ Automatisch generiert am: 2026-02-22 14:35:05
  */
 ```
 
+### `public static getBufferedOutput()`
+
+- Datei: `./src/Core/Debug.php`
+- Zeile: 290
+- Rueckgabe: `string`
+
+```
+/**
+ * Liefert die gesammelte HTML-Debug-Ausgabe für das Debug-Modal.
+ *
+ * @return string
+ */
+```
+
 ### `private static renderExceptionScreen($error)`
 
-- Datei: `src/Core/Debug.php`
-- Zeile: 238
+- Datei: `./src/Core/Debug.php`
+- Zeile: 311
 - Rueckgabe: `void`
 
 ```
@@ -852,8 +896,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private static ensureLogTargets()`
 
-- Datei: `src/Core/Debug.php`
-- Zeile: 256
+- Datei: `./src/Core/Debug.php`
+- Zeile: 329
 - Rueckgabe: `void`
 
 ```
@@ -864,28 +908,27 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/GoRequest.php`
+## `./src/Core/GoRequest.php`
 
-### `public set_value($key, $val)`
+### `public __construct($action)`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 43
-- Rueckgabe: `void`
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 47
+- Rueckgabe: `mixed|null`
 
 ```
 /**
- * Setzt dynamisch eine Eigenschaft der Klasse auf den uebergebenen Wert.
+ * Initialisiert den Request-Handler mit der gewuenschten Operation.
  *
- * @param mixed $key
- * @param mixed $val
- * @return void
+ * @param mixed $action
+ * @return mixed|null
  */
 ```
 
 ### `public main()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 56
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 60
 - Rueckgabe: `void`
 
 ```
@@ -901,8 +944,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showLogin()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 138
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 149
 - Rueckgabe: `void`
 
 ```
@@ -915,8 +958,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private checkLogin()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 148
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 159
 - Rueckgabe: `void`
 
 ```
@@ -929,8 +972,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private baseTemplateData($activeOp)`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 159
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 170
 - Rueckgabe: `array`
 
 ```
@@ -944,8 +987,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private renderPage($title, $content, $activeOp)`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 183
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 195
 - Rueckgabe: `void`
 
 ```
@@ -961,8 +1004,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showMain()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 194
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 206
 - Rueckgabe: `void`
 
 ```
@@ -975,8 +1018,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showUsers()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 205
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 217
 - Rueckgabe: `void`
 
 ```
@@ -989,8 +1032,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showLogs()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 216
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 228
 - Rueckgabe: `void`
 
 ```
@@ -1003,8 +1046,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showConfig()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 227
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 239
 - Rueckgabe: `void`
 
 ```
@@ -1017,8 +1060,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showSettings()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 238
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 250
 - Rueckgabe: `void`
 
 ```
@@ -1031,8 +1074,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showCaTls()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 249
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 261
 - Rueckgabe: `void`
 
 ```
@@ -1043,10 +1086,24 @@ Automatisch generiert am: 2026-02-22 14:35:05
  */
 ```
 
+### `private showDocumentation()`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 272
+- Rueckgabe: `void`
+
+```
+/**
+ * Zeigt die durchsuchbare Funktionsdokumentation an.
+ *
+ * @return void
+ */
+```
+
 ### `private showProfiles()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 260
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 288
 - Rueckgabe: `void`
 
 ```
@@ -1059,8 +1116,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showAccount()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 271
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 299
 - Rueckgabe: `void`
 
 ```
@@ -1073,8 +1130,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showLive()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 282
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 310
 - Rueckgabe: `void`
 
 ```
@@ -1087,8 +1144,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private logout()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 293
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 321
 - Rueckgabe: `void`
 
 ```
@@ -1101,8 +1158,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private ensureAdminOrForbidden()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 320
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 348
 - Rueckgabe: `void`
 
 ```
@@ -1115,8 +1172,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private downloadProfileZip()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 334
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 362
 - Rueckgabe: `void`
 
 ```
@@ -1129,8 +1186,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private showError()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 360
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 388
 - Rueckgabe: `void`
 
 ```
@@ -1143,8 +1200,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private setLanguage()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 376
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 404
 - Rueckgabe: `void`
 
 ```
@@ -1155,10 +1212,20 @@ Automatisch generiert am: 2026-02-22 14:35:05
  */
 ```
 
+### `private showHelpDoc()`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 426
+- Rueckgabe: `void`
+
+```
+/**
+```
+
 ### `private isSafeRedirectTarget($target)`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 398
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 461
 - Rueckgabe: `bool`
 
 ```
@@ -1172,8 +1239,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private enforceAccessPolicy()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 443
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 506
 - Rueckgabe: `void`
 
 ```
@@ -1207,8 +1274,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private serveLoginAsset()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 479
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 542
 - Rueckgabe: `void`
 
 ```
@@ -1221,8 +1288,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private enforceDataAccessPolicy($method)`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 539
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 602
 - Rueckgabe: `void`
 
 ```
@@ -1236,8 +1303,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private verifyStateChangingRequest()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 557
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 620
 - Rueckgabe: `void`
 
 ```
@@ -1250,8 +1317,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private isSameOriginRequest()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 574
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 637
 - Rueckgabe: `bool`
 
 ```
@@ -1264,8 +1331,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private denyRequest($status, $message)`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 603
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 666
 - Rueckgabe: `void`
 
 ```
@@ -1280,8 +1347,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private getRequestCsrfToken()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 623
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 686
 - Rueckgabe: `string`
 
 ```
@@ -1294,8 +1361,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private canUseDebugModal()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 646
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 709
 - Rueckgabe: `bool`
 
 ```
@@ -1306,8 +1373,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private readDotEnvValue($key)`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 666
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 729
 - Rueckgabe: `string`
 
 ```
@@ -1318,8 +1385,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private buildDebugModalData()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 705
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 768
 - Rueckgabe: `array`
 
 ```
@@ -1332,8 +1399,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private readDebugFile($path)`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 726
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 790
 - Rueckgabe: `string`
 
 ```
@@ -1342,10 +1409,25 @@ Automatisch generiert am: 2026-02-22 14:35:05
  */
 ```
 
+### `private buildInternalUrl($url)`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 816
+- Rueckgabe: `string`
+
+```
+/**
+ * Baut interne Ziel-URLs aus Legacy-?op Links.
+ *
+ * @param string $url
+ * @return string
+ */
+```
+
 ### `private getGoRequestDebugVars()`
 
-- Datei: `src/Core/GoRequest.php`
-- Zeile: 751
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 826
 - Rueckgabe: `array`
 
 ```
@@ -1358,147 +1440,177 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/Lang.php`
+## `./src/Core/LoginController.php`
 
-### `public static init($lang)`
+### `public showLogin()`
 
-- Datei: `src/Core/Lang.php`
-- Zeile: 29
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 34
 - Rueckgabe: `void`
 
 ```
 /**
- * Initialisiert die Sprache (Session muss vorher gestartet sein)
+ * Stellt login fuer die Ausgabe dar.
+ *
+ * @return void Kein Rueckgabewert.
  */
 ```
 
-### `public static get($key, $default)`
+### `public handleLogin()`
 
-- Datei: `src/Core/Lang.php`
-- Zeile: 57
-- Rueckgabe: `string`
-
-```
-/**
- * Einzeltext holen
- */
-```
-
-### `public static getAll()`
-
-- Datei: `src/Core/Lang.php`
-- Zeile: 65
-- Rueckgabe: `array`
-
-```
-/**
- * Komplettes Message-Array (für Templates / Backwards-Compatibility)
- */
-```
-
-### `public static getCurrent()`
-
-- Datei: `src/Core/Lang.php`
-- Zeile: 73
-- Rueckgabe: `string`
-
-```
-/**
- * Aktuelle Sprache
- */
-```
-
-### `public static setCurrent($lang)`
-
-- Datei: `src/Core/Lang.php`
-- Zeile: 81
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 52
 - Rueckgabe: `void`
 
 ```
 /**
- * Sprache setzen und neu laden
- */
-```
-
-### `public static getAvailableLanguages()`
-
-- Datei: `src/Core/Lang.php`
-- Zeile: 95
-- Rueckgabe: `array`
-
-```
-/**
- * Liest available languages und gibt den Wert zurueck.
+ * Verarbeitet login entsprechend der Logik.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
-### `public static getLanguageMeta($code)`
+### `private redirect($url)`
 
-- Datei: `src/Core/Lang.php`
-- Zeile: 125
-- Rueckgabe: `array`
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 160
+- Rueckgabe: `void`
 
 ```
 /**
- * Liefert Label + Flagge für Sprach-Auswahl.
+ * Fuehrt redirect entsprechend der internen Logik aus.
+ *
+ * @param mixed $url Eingabewert fuer url.
+ * @return void Kein Rueckgabewert.
  */
 ```
 
-### `private static buildLocaleLabel($langCode, $countryCode)`
+### `private buildRedirectUrl($url)`
 
-- Datei: `src/Core/Lang.php`
-- Zeile: 147
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 172
 - Rueckgabe: `string`
 
 ```
 /**
- * Erzeugt locale label auf Basis der Eingabedaten.
+ * Baut eine absolute Redirect-URL aus Legacy-?op Links.
  *
- * @param mixed $langCode Eingabewert fuer langCode.
- * @param mixed $countryCode Eingabewert fuer countryCode.
- * @return string Rueckgabe als Text.
+ * @param string $url
+ * @return string
  */
 ```
 
-### `private static countryCodeToFlag($countryCode)`
+### `private clientIp()`
 
-- Datei: `src/Core/Lang.php`
-- Zeile: 171
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 182
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt country code to flag entsprechend der internen Logik aus.
+ * Fuehrt client ip entsprechend der internen Logik aus.
  *
- * @param mixed $countryCode Eingabewert fuer countryCode.
  * @return string Rueckgabe als Text.
  */
 ```
 
-### `private static sanitizeLangCode($lang)`
+### `private auditUserRef($username)`
 
-- Datei: `src/Core/Lang.php`
-- Zeile: 189
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 194
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt sanitize lang code entsprechend der internen Logik aus.
+ * Fuehrt audit user ref entsprechend der internen Logik aus.
  *
- * @param mixed $lang Eingabewert fuer lang.
+ * @param mixed $username Eingabewert fuer username.
  * @return string Rueckgabe als Text.
+ */
+```
+
+### `private loginKey($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 209
+- Rueckgabe: `string`
+
+```
+/**
+ * Fuehrt login key entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return string Rueckgabe als Text.
+ */
+```
+
+### `private isLoginRateLimited($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 220
+- Rueckgabe: `bool`
+
+```
+/**
+ * Prueft, ob login rate limited zutrifft.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return bool True bei Erfolg, sonst false.
+ */
+```
+
+### `private registerLoginFailure($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 243
+- Rueckgabe: `void`
+
+```
+/**
+ * Fuehrt register login failure entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
+ */
+```
+
+### `private clearLoginFailures($username)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 285
+- Rueckgabe: `void`
+
+```
+/**
+ * Fuehrt clear login failures entsprechend der internen Logik aus.
+ *
+ * @param mixed $username Eingabewert fuer username.
+ * @return void Kein Rueckgabewert.
+ */
+```
+
+### `private isStrictAdminRoleName($roleName)`
+
+- Datei: `./src/Core/LoginController.php`
+- Zeile: 303
+- Rueckgabe: `bool`
+
+```
+/**
+ * Prueft, ob strict admin role name zutrifft.
+ *
+ * @param mixed $roleName Eingabewert fuer roleName.
+ * @return bool True bei Erfolg, sonst false.
  */
 ```
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/LogModel.php`
+## `./src/Core/LogModel.php`
 
 ### `public __construct()`
 
-- Datei: `src/Core/LogModel.php`
+- Datei: `./src/Core/LogModel.php`
 - Zeile: 33
 - Rueckgabe: `mixed|null`
 
@@ -1512,7 +1624,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getAllLogs($limit, $offset, $search)`
 
-- Datei: `src/Core/LogModel.php`
+- Datei: `./src/Core/LogModel.php`
 - Zeile: 46
 - Rueckgabe: `array`
 
@@ -1529,7 +1641,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public countLogs($search)`
 
-- Datei: `src/Core/LogModel.php`
+- Datei: `./src/Core/LogModel.php`
 - Zeile: 76
 - Rueckgabe: `int`
 
@@ -1544,162 +1656,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/LoginController.php`
-
-### `public showLogin()`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 34
-- Rueckgabe: `void`
-
-```
-/**
- * Stellt login fuer die Ausgabe dar.
- *
- * @return void Kein Rueckgabewert.
- */
-```
-
-### `public handleLogin()`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 52
-- Rueckgabe: `void`
-
-```
-/**
- * Verarbeitet login entsprechend der Logik.
- *
- * @return void Kein Rueckgabewert.
- */
-```
-
-### `private redirect($url)`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 160
-- Rueckgabe: `void`
-
-```
-/**
- * Fuehrt redirect entsprechend der internen Logik aus.
- *
- * @param mixed $url Eingabewert fuer url.
- * @return void Kein Rueckgabewert.
- */
-```
-
-### `private clientIp()`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 171
-- Rueckgabe: `string`
-
-```
-/**
- * Fuehrt client ip entsprechend der internen Logik aus.
- *
- * @return string Rueckgabe als Text.
- */
-```
-
-### `private auditUserRef($username)`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 183
-- Rueckgabe: `string`
-
-```
-/**
- * Fuehrt audit user ref entsprechend der internen Logik aus.
- *
- * @param mixed $username Eingabewert fuer username.
- * @return string Rueckgabe als Text.
- */
-```
-
-### `private loginKey($username)`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 198
-- Rueckgabe: `string`
-
-```
-/**
- * Fuehrt login key entsprechend der internen Logik aus.
- *
- * @param mixed $username Eingabewert fuer username.
- * @return string Rueckgabe als Text.
- */
-```
-
-### `private isLoginRateLimited($username)`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 209
-- Rueckgabe: `bool`
-
-```
-/**
- * Prueft, ob login rate limited zutrifft.
- *
- * @param mixed $username Eingabewert fuer username.
- * @return bool True bei Erfolg, sonst false.
- */
-```
-
-### `private registerLoginFailure($username)`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 232
-- Rueckgabe: `void`
-
-```
-/**
- * Fuehrt register login failure entsprechend der internen Logik aus.
- *
- * @param mixed $username Eingabewert fuer username.
- * @return void Kein Rueckgabewert.
- */
-```
-
-### `private clearLoginFailures($username)`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 274
-- Rueckgabe: `void`
-
-```
-/**
- * Fuehrt clear login failures entsprechend der internen Logik aus.
- *
- * @param mixed $username Eingabewert fuer username.
- * @return void Kein Rueckgabewert.
- */
-```
-
-### `private isStrictAdminRoleName($roleName)`
-
-- Datei: `src/Core/LoginController.php`
-- Zeile: 292
-- Rueckgabe: `bool`
-
-```
-/**
- * Prueft, ob strict admin role name zutrifft.
- *
- * @param mixed $roleName Eingabewert fuer roleName.
- * @return bool True bei Erfolg, sonst false.
- */
-```
-
-<hr style="border:0; height:5px; background:#1e90ff;">
-
-## `src/Core/ProfileService.php`
+## `./src/Core/ProfileService.php`
 
 ### `public __construct($basePath)`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 31
 - Rueckgabe: `mixed|null`
 
@@ -1714,7 +1675,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public listSystems()`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 41
 - Rueckgabe: `array`
 
@@ -1728,7 +1689,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public buildZip($system)`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 92
 - Rueckgabe: `string`
 
@@ -1743,7 +1704,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getZipPath($system)`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 139
 - Rueckgabe: `string`
 
@@ -1758,7 +1719,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private sanitizeSystem($system)`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 157
 - Rueckgabe: `string`
 
@@ -1773,7 +1734,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private zipPathFor($system)`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 173
 - Rueckgabe: `string`
 
@@ -1788,7 +1749,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private isAllowedSystemDir($system, $dir)`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 185
 - Rueckgabe: `bool`
 
@@ -1804,7 +1765,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private injectCaTlsBlocks($content)`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 204
 - Rueckgabe: `string`
 
@@ -1819,7 +1780,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private replaceOvpnBlock($content, $tag, $blockContent)`
 
-- Datei: `src/Core/ProfileService.php`
+- Datei: `./src/Core/ProfileService.php`
 - Zeile: 233
 - Rueckgabe: `string`
 
@@ -1836,11 +1797,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/ServerSettingsService.php`
+## `./src/Core/ServerSettingsService.php`
 
 ### `public __construct($cfg)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 31
 - Rueckgabe: `mixed|null`
 
@@ -1855,7 +1816,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getCurrent()`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 51
 - Rueckgabe: `array`
 
@@ -1869,7 +1830,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public save($content)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 90
 - Rueckgabe: `array`
 
@@ -1884,7 +1845,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getHistoryList()`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 120
 - Rueckgabe: `array`
 
@@ -1898,7 +1859,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public diffHistoryFileAgainstCurrent($historyFile, $current)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 151
 - Rueckgabe: `array`
 
@@ -1914,7 +1875,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private getDiffStatsAgainstCurrent($current)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 169
 - Rueckgabe: `array`
 
@@ -1929,7 +1890,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private fetchFromUrl($url)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 190
 - Rueckgabe: `string`
 
@@ -1944,7 +1905,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private writeCache($content)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 223
 - Rueckgabe: `void`
 
@@ -1959,7 +1920,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private archiveFile($file)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 244
 - Rueckgabe: `void`
 
@@ -1974,7 +1935,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private readSavePath()`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 262
 - Rueckgabe: `string`
 
@@ -1988,7 +1949,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private readFile($path)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 285
 - Rueckgabe: `string`
 
@@ -2003,7 +1964,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private ensureSaveFileExists()`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 299
 - Rueckgabe: `void`
 
@@ -2017,7 +1978,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private buildDiffData($oldText, $newText)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 324
 - Rueckgabe: `array`
 
@@ -2033,7 +1994,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private diffOps($a, $b)`
 
-- Datei: `src/Core/ServerSettingsService.php`
+- Datei: `./src/Core/ServerSettingsService.php`
 - Zeile: 360
 - Rueckgabe: `array`
 
@@ -2049,11 +2010,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/Session.php`
+## `./src/Core/Session.php`
 
 ### `public __construct($db, $lifetime)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 48
 - Rueckgabe: `mixed|null`
 
@@ -2069,7 +2030,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public open($savePath, $sessionName)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 77
 - Rueckgabe: `bool`
 
@@ -2085,7 +2046,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public close()`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 87
 - Rueckgabe: `bool`
 
@@ -2099,7 +2060,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public read($id)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 98
 - Rueckgabe: `string|false`
 
@@ -2114,7 +2075,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public write($id, $data)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 126
 - Rueckgabe: `bool`
 
@@ -2130,7 +2091,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public destroy($id)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 158
 - Rueckgabe: `bool`
 
@@ -2145,7 +2106,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public gc($max_lifetime)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 178
 - Rueckgabe: `int|false`
 
@@ -2160,7 +2121,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static start($db, $lifetime)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 198
 - Rueckgabe: `void`
 
@@ -2172,7 +2133,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static regenerateId()`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 230
 - Rueckgabe: `void`
 
@@ -2186,7 +2147,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static setVar($key, $value)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 240
 - Rueckgabe: `void`
 
@@ -2198,7 +2159,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static getVar($key, $default)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 248
 - Rueckgabe: `mixed`
 
@@ -2210,7 +2171,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static removeVar($key)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 256
 - Rueckgabe: `void`
 
@@ -2222,7 +2183,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static isUser()`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 264
 - Rueckgabe: `bool`
 
@@ -2234,7 +2195,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static isAdmin()`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 272
 - Rueckgabe: `bool`
 
@@ -2246,7 +2207,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static getUser()`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 321
 - Rueckgabe: `?array`
 
@@ -2258,7 +2219,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static setUser($user)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 329
 - Rueckgabe: `void`
 
@@ -2270,7 +2231,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static destroyAll()`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 337
 - Rueckgabe: `void`
 
@@ -2282,7 +2243,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static getCsrfToken()`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 357
 - Rueckgabe: `string`
 
@@ -2294,7 +2255,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public static verifyCsrfToken($token)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 372
 - Rueckgabe: `bool`
 
@@ -2309,7 +2270,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private static toBool($value)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 392
 - Rueckgabe: `bool`
 
@@ -2324,7 +2285,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private static isStrictAdminRoleName($roleName)`
 
-- Datei: `src/Core/Session.php`
+- Datei: `./src/Core/Session.php`
 - Zeile: 414
 - Rueckgabe: `bool`
 
@@ -2339,11 +2300,75 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/UserController.php`
+## `./src/Core/Url.php`
+
+### `private static basePath()`
+
+- Datei: `./src/Core/Url.php`
+- Zeile: 28
+- Rueckgabe: `string`
+
+```
+/**
+ * Kurzbeschreibung Funktion basePath
+ *
+ * @return string
+ */
+```
+
+### `private static appPath($path)`
+
+- Datei: `./src/Core/Url.php`
+- Zeile: 46
+- Rueckgabe: `string`
+
+```
+/**
+ * Kurzbeschreibung Funktion appPath
+ *
+ * @param mixed $path
+ * @return string
+ */
+```
+
+### `public static op($op, $params)`
+
+- Datei: `./src/Core/Url.php`
+- Zeile: 60
+- Rueckgabe: `string`
+
+```
+/**
+ * Baut interne App-URLs fuer op-Routen.
+ *
+ * @param string $op
+ * @param array<string,mixed> $params
+ * @return string
+ */
+```
+
+### `public static normalizeInternal($url)`
+
+- Datei: `./src/Core/Url.php`
+- Zeile: 90
+- Rueckgabe: `string`
+
+```
+/**
+ * Kurzbeschreibung Funktion normalizeInternal
+ *
+ * @param mixed $url
+ * @return string
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Core/UserController.php`
 
 ### `public index()`
 
-- Datei: `src/Core/UserController.php`
+- Datei: `./src/Core/UserController.php`
 - Zeile: 34
 - Rueckgabe: `void`
 
@@ -2357,11 +2382,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Core/UserModel.php`
+## `./src/Core/UserModel.php`
 
 ### `public __construct()`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 32
 - Rueckgabe: `mixed|null`
 
@@ -2375,7 +2400,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public getAllUsers($limit, $offset, $search)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 45
 - Rueckgabe: `array`
 
@@ -2392,7 +2417,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public countUsers($search)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 93
 - Rueckgabe: `int`
 
@@ -2407,7 +2432,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public countOnlineUsers()`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 117
 - Rueckgabe: `int`
 
@@ -2421,7 +2446,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public userExists($username)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 129
 - Rueckgabe: `bool`
 
@@ -2436,7 +2461,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public createUser($username, $password, $isAdmin)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 144
 - Rueckgabe: `void`
 
@@ -2453,7 +2478,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public setUserEnabled($username, $enabled)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 168
 - Rueckgabe: `void`
 
@@ -2469,7 +2494,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public setUserRole($username, $isAdmin)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 184
 - Rueckgabe: `void`
 
@@ -2485,7 +2510,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public setUserPasswordByName($username, $newPassword)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 201
 - Rueckgabe: `void`
 
@@ -2501,7 +2526,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public setUserPasswordById($uid, $newPassword)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 218
 - Rueckgabe: `void`
 
@@ -2517,7 +2542,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public setUserLimits($username, $startDate, $endDate)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 236
 - Rueckgabe: `void`
 
@@ -2534,7 +2559,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public setUserFixedIp($username, $fixedIp)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 260
 - Rueckgabe: `void`
 
@@ -2550,7 +2575,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public isFixedIpInUseByOtherUser($username, $fixedIp)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 310
 - Rueckgabe: `bool`
 
@@ -2566,7 +2591,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public deleteUser($username)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 334
 - Rueckgabe: `void`
 
@@ -2581,7 +2606,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public verifyPassword($uid, $password)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 347
 - Rueckgabe: `bool`
 
@@ -2597,7 +2622,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private resolveGroupId($isAdmin)`
 
-- Datei: `src/Core/UserModel.php`
+- Datei: `./src/Core/UserModel.php`
 - Zeile: 365
 - Rueckgabe: `int`
 
@@ -2612,11 +2637,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/Account.php`
+## `./src/Templates/Account.php`
 
 ### `public index()`
 
-- Datei: `src/Templates/Account.php`
+- Datei: `./src/Templates/Account.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
@@ -2630,11 +2655,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/CaTls.php`
+## `./src/Templates/CaTls.php`
 
 ### `public index()`
 
-- Datei: `src/Templates/CaTls.php`
+- Datei: `./src/Templates/CaTls.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
@@ -2648,11 +2673,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/Config.php`
+## `./src/Templates/Config.php`
 
 ### `public index()`
 
-- Datei: `src/Templates/Config.php`
+- Datei: `./src/Templates/Config.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
@@ -2666,11 +2691,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/Dashboard.php`
+## `./src/Templates/Dashboard.php`
 
 ### `public index()`
 
-- Datei: `src/Templates/Dashboard.php`
+- Datei: `./src/Templates/Dashboard.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
@@ -2684,11 +2709,58 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/Log.php`
+## `./src/Templates/Documentation.php`
 
 ### `public index()`
 
-- Datei: `src/Templates/Log.php`
+- Datei: `./src/Templates/Documentation.php`
+- Zeile: 28
+- Rueckgabe: `string`
+
+```
+/**
+ * Rendert die Funktionsdokumentation aus doc/functions.md als durchsuchbare Akkordeon-Ansicht.
+ *
+ * @return string
+ */
+```
+
+### `private parseFunctionsReference()`
+
+- Datei: `./src/Templates/Documentation.php`
+- Zeile: 140
+- Rueckgabe: `array`
+
+```
+/**
+ * Parsed doc/functions.md into file -> function entries.
+ *
+ * @return array{error:string,files:array<string,array<int,array<string,string>>>}
+ */
+```
+
+### `private joinHtml($parts)`
+
+- Datei: `./src/Templates/Documentation.php`
+- Zeile: 232
+- Rueckgabe: `string`
+
+```
+/**
+ * Joins HTML fragments without additional separators.
+ *
+ * @param array<int,string> $parts
+ * @return string
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Templates/Log.php`
+
+### `public index()`
+
+- Datei: `./src/Templates/Log.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
@@ -2702,11 +2774,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/Profiles.php`
+## `./src/Templates/Profiles.php`
 
 ### `public index()`
 
-- Datei: `src/Templates/Profiles.php`
+- Datei: `./src/Templates/Profiles.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
@@ -2720,11 +2792,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/Settings.php`
+## `./src/Templates/Settings.php`
 
 ### `public index()`
 
-- Datei: `src/Templates/Settings.php`
+- Datei: `./src/Templates/Settings.php`
 - Zeile: 29
 - Rueckgabe: `string`
 
@@ -2739,11 +2811,11 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/Template.php`
+## `./src/Templates/Template.php`
 
 ### `public __construct($title, $content, $data)`
 
-- Datei: `src/Templates/Template.php`
+- Datei: `./src/Templates/Template.php`
 - Zeile: 37
 - Rueckgabe: `mixed|null`
 
@@ -2760,7 +2832,7 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `private loadPart($name, $vars)`
 
-- Datei: `src/Templates/Template.php`
+- Datei: `./src/Templates/Template.php`
 - Zeile: 47
 - Rueckgabe: `string`
 
@@ -2772,8 +2844,8 @@ Automatisch generiert am: 2026-02-22 14:35:05
 
 ### `public render()`
 
-- Datei: `src/Templates/Template.php`
-- Zeile: 65
+- Datei: `./src/Templates/Template.php`
+- Zeile: 72
 - Rueckgabe: `string`
 
 ```
@@ -2782,13 +2854,28 @@ Automatisch generiert am: 2026-02-22 14:35:05
  */
 ```
 
+### `private rewriteOpUrls($html)`
+
+- Datei: `./src/Templates/Template.php`
+- Zeile: 116
+- Rueckgabe: `string`
+
+```
+/**
+ * Schreibt ?op=... Links in "sprechende" Pfade um.
+ *
+ * @param string $html
+ * @return string
+ */
+```
+
 <hr style="border:0; height:5px; background:#1e90ff;">
 
-## `src/Templates/User.php`
+## `./src/Templates/User.php`
 
 ### `public index()`
 
-- Datei: `src/Templates/User.php`
+- Datei: `./src/Templates/User.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
@@ -2797,6 +2884,431 @@ Automatisch generiert am: 2026-02-22 14:35:05
  * Fuehrt index entsprechend der internen Logik aus.
  *
  * @return string Rueckgabe als Text.
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Util/HelpDoc.php`
+
+### `public static icon($ref)`
+
+- Datei: `./src/Util/HelpDoc.php`
+- Zeile: 37
+- Rueckgabe: `string`
+
+```
+/**
+ * Rendert ein escaped 🛟-Modal-Element aus einem area/doc-Verweis oder einen Leerstring.
+ * @param array{area: string, doc: string}|null $ref
+ * @return string
+ */
+```
+
+### `public static iconFor($key)`
+
+- Datei: `./src/Util/HelpDoc.php`
+- Zeile: 57
+- Rueckgabe: `string`
+
+```
+/**
+ * Ermittelt den Dokumentverweis eines Sprachschlüssels und rendert dessen Hilfesymbol.
+ * @param string $key
+ * @return string
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Util/HelpDocService.php`
+
+### `public load($area, $doc)`
+
+- Datei: `./src/Util/HelpDocService.php`
+- Zeile: 54
+- Rueckgabe: `?array`
+
+```
+/**
+ * Dokument laden; Fallback auf de_DE, wenn es in der aktiven Sprache fehlt.
+ * @return array{area: string, doc: string, lang: string, markdown: string}|null
+ * null, wenn weder die Übersetzung noch die deutsche Datei existiert
+ * oder die Angaben ungültig sind
+ * @param string $area
+ * @param string $doc
+ */
+```
+
+### `public resolveImage($lang, $area, $file)`
+
+- Datei: `./src/Util/HelpDocService.php`
+- Zeile: 87
+- Rueckgabe: `?array`
+
+```
+/**
+ * Bild relativ zum Verzeichnis eines Dokuments auflösen.
+ * @return array{path: string, mime: string}|null
+ * @param string $lang
+ * @param string $area
+ * @param string $file
+ */
+```
+
+### `private docPath($lang, $area, $doc)`
+
+- Datei: `./src/Util/HelpDocService.php`
+- Zeile: 122
+- Rueckgabe: `?string`
+
+```
+/**
+ * Pfad zu einem Dokument, wenn es existiert und innerhalb von doc/ liegt.
+ * @param string $lang
+ * @param string $area
+ * @param string $doc
+ * @return ?string
+ */
+```
+
+### `private containedPath($path)`
+
+- Datei: `./src/Util/HelpDocService.php`
+- Zeile: 138
+- Rueckgabe: `?string`
+
+```
+/**
+ * Auflösen und prüfen, dass der Pfad innerhalb von doc/ bleibt.
+ * @param string $path
+ * @return ?string
+ */
+```
+
+### `private isValidName($name)`
+
+- Datei: `./src/Util/HelpDocService.php`
+- Zeile: 155
+- Rueckgabe: `bool`
+
+```
+/**
+ * Beschränkt Dokument- und Bereichsnamen auf sichere ASCII-Zeichen ohne Pfadtrenner.
+ * @param string $name
+ * @return bool
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Util/Lang.php`
+
+### `public static init($lang)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 50
+- Rueckgabe: `void`
+
+```
+/**
+ * Initialisiert die Sprache (Session muss vorher gestartet sein).
+ * @param ?string $lang
+ * @return void
+ */
+```
+
+### `public static get($key, $default)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 66
+- Rueckgabe: `string`
+
+```
+/**
+ * Einzeltext holen.
+ * Ein eventuell vorhandener [HELP_DOC/...]-Marker wird aus dem sichtbaren
+ * Text entfernt; die Referenz selbst liefert Lang::getDocRef().
+ * @param string $key
+ * @param string $default
+ * @return string
+ */
+```
+
+### `public static getDocRef($key)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 80
+- Rueckgabe: `?array`
+
+```
+/**
+ * Dokumentationsverweis eines Spracheintrags ([HELP_DOC/<bereich>/:<dokument>]).
+ * @return array{area: string, doc: string}|null null, wenn kein gültiger Marker vorhanden ist
+ * @param string $key
+ */
+```
+
+### `public static getDocRefMap()`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 103
+- Rueckgabe: `array`
+
+```
+/**
+ * Alle Dokumentationsverweise der aktiven Sprache als Liste
+ * (sichtbarer Text → Bereich/Dokument). Dient der clientseitigen
+ * Anbindung des 🛟-Symbols an jede Stelle, an der ein markierter
+ * Sprachtext ausgegeben wird.
+ * @return array<int, array{text: string, area: string, doc: string}>
+ */
+```
+
+### `public static getAll()`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 129
+- Rueckgabe: `array`
+
+```
+/**
+ * Komplettes Message-Array.
+ * @return array
+ */
+```
+
+### `public static getCurrent()`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 145
+- Rueckgabe: `string`
+
+```
+/**
+ * Aktuelle Sprache.
+ * @return string
+ */
+```
+
+### `public static setCurrent($lang)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 157
+- Rueckgabe: `void`
+
+```
+/**
+ * Sprache setzen, in Session und Cookie speichern und neu laden.
+ * @param string $lang
+ * @return void
+ */
+```
+
+### `public static getAvailableLanguages()`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 167
+- Rueckgabe: `array`
+
+```
+/**
+ * Alle verfügbaren Sprachcodes anhand der Ordner Lang/<locale>/lang.php.
+ * @return array
+ */
+```
+
+### `public static getLanguageMeta($code)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 195
+- Rueckgabe: `array`
+
+```
+/**
+ * Liefert Label + Flagge für die Sprachauswahl.
+ * Die Flagge ist ein SVG aus public/img/flags/ (Dateiname = Ländercode
+ * klein, z. B. de.svg); ohne passende Datei ein generisches Icon.
+ * @param string $code
+ * @return array
+ */
+```
+
+### `private static ensureInitialized()`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 214
+- Rueckgabe: `void`
+
+```
+/**
+ * Lädt die Sprachwahl einmalig, wenn ein Aufrufer vor init() erstmals einen Text abfragt.
+ * @return void
+ */
+```
+
+### `private static stripHelpDocMarkers($text)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 226
+- Rueckgabe: `string`
+
+```
+/**
+ * Entfernt gültige [HELP_DOC/...]-Marker aus einem sichtbaren Text.
+ * @param string $text
+ * @return string
+ */
+```
+
+### `private static loadMessages($lang)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 240
+- Rueckgabe: `void`
+
+```
+/**
+ * Lädt das Nachrichtenarray der Sprache und fällt bei fehlender/leerer Datei auf DEFAULT_LANG zurück.
+ * @param string $lang
+ * @return void
+ */
+```
+
+### `private static buildLocaleLabel($langCode, $countryCode)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 273
+- Rueckgabe: `string`
+
+```
+/**
+ * Baut mit der Intl-Erweiterung einen lokalisierten Sprachnamen, sonst ein stabiles Code-Label.
+ * @param string $langCode
+ * @param string $countryCode
+ * @return string
+ */
+```
+
+### `private static flagIcon($countryCode)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 297
+- Rueckgabe: `string`
+
+```
+/**
+ * Liefert das vorhandene Länderflaggen-SVG oder ein Unicode-Flaggenzeichen.
+ * @param string $countryCode
+ * @return string
+ */
+```
+
+### `private static sanitizeLangCode($lang)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 322
+- Rueckgabe: `string`
+
+```
+/**
+ * Normalisiert Bindestriche und verwirft Codes außerhalb des Locale-Formats.
+ * @param string $lang
+ * @return string
+ */
+```
+
+### `private static sanitizeAvailable($lang)`
+
+- Datei: `./src/Util/Lang.php`
+- Zeile: 337
+- Rueckgabe: `string`
+
+```
+/**
+ * Ersetzt nicht installierte Sprachen durch DEFAULT_LANG oder die erste verfügbare Sprache.
+ * @param string $lang
+ * @return string
+ */
+```
+
+<hr style="border:0; height:5px; background:#1e90ff;">
+
+## `./src/Util/Markdown.php`
+
+### `public static render($markdown, $imageResolver)`
+
+- Datei: `./src/Util/Markdown.php`
+- Zeile: 42
+- Rueckgabe: `string`
+
+```
+/**
+ * Rendert den unterstützten Markdown-Teilumfang zu escaped HTML für das Hilfedokumentationsmodal.
+ * @param callable|null $imageResolver Resolver mit String-Quelle und erlaubter String-URL oder null; null verwirft Bilder.
+ * @param string $markdown
+ * @return string
+ */
+```
+
+### `private static renderBlock($block, $imageResolver)`
+
+- Datei: `./src/Util/Markdown.php`
+- Zeile: 91
+- Rueckgabe: `string`
+
+```
+/**
+ * Rendert einen Codeblock-Platzhalter, eine Überschrift, Liste oder einen Absatz.
+ * @param string $block
+ * @param ?callable $imageResolver
+ * @return string
+ */
+```
+
+### `private static listItems($lines, $markerPattern)`
+
+- Datei: `./src/Util/Markdown.php`
+- Zeile: 127
+- Rueckgabe: `array`
+
+```
+/**
+ * Zerlegt Listenzeilen, hängt eingerückte Folgezeilen an den vorherigen Eintrag.
+ * @param string[] $lines Zeilen eines Markdown-Blocks.
+ * @return string[] Bereinigte Listeneinträge.
+ * @param string $markerPattern
+ */
+```
+
+### `private static renderList($tag, $items, $imageResolver)`
+
+- Datei: `./src/Util/Markdown.php`
+- Zeile: 148
+- Rueckgabe: `string`
+
+```
+/**
+ * Erzeugt eine HTML-Liste aus zuvor erkannten Einträgen und escaped Inline-Markup.
+ * @param string $tag
+ * @param array $items
+ * @param ?callable $imageResolver
+ * @return string
+ */
+```
+
+### `private static renderInline($text, $imageResolver)`
+
+- Datei: `./src/Util/Markdown.php`
+- Zeile: 164
+- Rueckgabe: `string`
+
+```
+/**
+ * Escaped Text zuerst und wandelt danach nur unterstützte Inline-Syntax in HTML um.
+ * @param string $text
+ * @param ?callable $imageResolver
+ * @return string
  */
 ```
 

@@ -20,7 +20,12 @@ namespace Micro\OpenvpnWebadmin\Core;
 
 class Url
 {
-    private static function basePath(): string
+/**
+ * Kurzbeschreibung Funktion basePath
+ *
+ * @return string
+ */
+private static function basePath(): string
     {
         if (!defined('_APP_BASE_PATH')) {
             return '';
@@ -32,7 +37,13 @@ class Url
         return '/' . trim($base, '/');
     }
 
-    private static function appPath(string $path): string
+/**
+ * Kurzbeschreibung Funktion appPath
+ *
+ * @param mixed $path
+ * @return string
+ */
+private static function appPath(string $path): string
     {
         $path = '/' . ltrim($path, '/');
         $base = self::basePath();
@@ -70,7 +81,13 @@ class Url
         return self::appPath('/?' . http_build_query(array_merge(['op' => $op], $params)));
     }
 
-    public static function normalizeInternal(string $url): string
+/**
+ * Kurzbeschreibung Funktion normalizeInternal
+ *
+ * @param mixed $url
+ * @return string
+ */
+public static function normalizeInternal(string $url): string
     {
         if (preg_match('#^[a-z][a-z0-9+.-]*://#i', $url)) {
             return $url;

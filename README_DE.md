@@ -33,6 +33,10 @@ OpenVPN-WebAdmin basiert auf einigen grundlegenden Prinzipien:
 
 ## Installation
 
+### Systemvoraussetzungen
+
+Getestet und entwickelt unter **Debian 13**. Es genügt ein "nacktes" Betriebssystem, das Installations-Script installiert automatisch alle notwendigen Bibliotheken, je nach Auswahl eurer Setup-Konfigurastion.
+
 Start with Code:
 
 ```code
@@ -63,8 +67,7 @@ Die Benutzeroberfläche basiert auf AdminLTE 3.2.0 und Bootstrap.
 
 ### Benutzer- und Clientverwaltung
 
-Die Benutzer werden zentral über die Datenbank verwaltet. Jedem Benutzer wird eine eigene OpenVPN-Client-Identität zugeordnet. Der Benutzername wird dabei als Common Name (CN) des entsprechenden Client-Zertifikats verwendet.
-
+Die Benutzer werden zentral über die Datenbank verwaltet. Jedem Benutzer wird eine eigene OpenVPN-Client-Identität zugeordnet. Der Benutzername wird dabei als Common Name (CN) des entsprechenden Client-Zertifikats verwendet. 
 Jedem Benutzer kann eine feste VPN-IP-Adresse zugewiesen werden. Die Zuordnung erfolgt über die OpenVPN-Verbindungsskripte. Beim Verbindungsaufbau wird die zugewiesene Adresse aus der Datenbank abgerufen und OpenVPN zur Verfügung gestellt.
 
 Dadurch entsteht eine nachvollziehbare und zentral verwaltete IP-Adressvergabe, anstatt ausschließlich auf dynamisch zugewiesene Client-Adressen zurückzugreifen.
