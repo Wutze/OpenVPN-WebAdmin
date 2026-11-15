@@ -722,7 +722,7 @@ setup_database() {
   mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < "${db_sql_file}"
 
   local admin_hash admin_user_sql admin_hash_sql
-  admin_hash="$(php -r "echo password_hash($argv[1], PASSWORD_DEFAULT);" "${ADMIN_PASS}")"
+  admin_hash="$(php -r 'echo password_hash($argv[1], PASSWORD_DEFAULT);' "${ADMIN_PASS}")"
   admin_user_sql="$(sql_escape_single "${ADMIN_USER}")"
   admin_hash_sql="$(sql_escape_single "${admin_hash}")"
 
