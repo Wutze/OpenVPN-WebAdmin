@@ -35,7 +35,14 @@ EASYRSA_BIN=""
 EASYRSA_SUPPORTS_EXACT_DATES=0
 EASYRSA_SUPPORTS_EXPIRE=0
 
-say() { printf '[%s] %s\n' "$1" "$2"; }
+say() {
+  local level="$1" message="$2"
+  case "$level" in
+    INFO) info "$message" ;;
+    OK) ok "$message" ;;
+    *) error "$message" ;;
+  esac
+}
 die() { say "${MSG_SETUP_RSA_ERROR:-ERROR}" "$*" >&2; exit 1; }
 need_root() { [ "$(id -u)" -eq 0 ] || die "${MSG_SETUP_RSA_MUSTROOT:-Run this script as root.}"; }
 ask() {
@@ -58,8 +65,8 @@ install_if_missing() {
   else
     command -v apt-get >/dev/null 2>&1 || die "$MSG_SETUP_RSA_APT_MISSING"
     say INFO "$(printf "$MSG_SETUP_RSA_INSTALL_PACKAGE" "$package")"
-    apt-get update
-    DEBIAN_FRONTEND=noninteractive apt-get install -y "$package"
+    apt-get update >>"${LOG_FILE}" 2>&1
+    DEBIAN_FRONTEND=noninteractive apt-get install -y "$package" >>"${LOG_FILE}" 2>&1
   fi
 }
 
@@ -99,16 +106,17 @@ prepare_vars() {
 }
 
 easyrsa_run() {
-  (cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" EASYRSA_BATCH=1 EASYRSA_REQ_CN="${EASYRSA_REQ_CN:-OpenVPN-WebAdmin}" "$EASYRSA_BIN" "$@")
+  (cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" EASYRSA_BATCH=1 EASYRSA_REQ_CN="${EASYRSA_REQ_CN:-OpenVPN-WebAdmin}" "$EASYRSA_BIN" "$@") >>"${LOG_FILE}" 2>&1
 }
 
 easyrsa_require_exact_dates() {
   local help version
+  # These are global options, listed by the top-level help (not `help sign-req`).
   help="$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" 2>&1 || true)"
   version="$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" --version 2>&1 || true)"
   [[ "$help" == *"--startdate=DATE"* && "$help" == *"--enddate=DATE"* ]] && EASYRSA_SUPPORTS_EXACT_DATES=1
   [[ "$help" == *"expire <file_name_base>"* ]] && EASYRSA_SUPPORTS_EXPIRE=1
-  say INFO "$(printf '%s' "$version" | head -n 1): exact date options $([[ "$EASYRSA_SUPPORTS_EXACT_DATES" -eq 1 ]] && printf supported || printf unavailable); expire command $([[ "$EASYRSA_SUPPORTS_EXPIRE" -eq 1 ]] && printf supported || printf unavailable)."
+  log_line INFO "$(printf '%s' "$version" | head -n 1): exact date options $([[ "$EASYRSA_SUPPORTS_EXACT_DATES" -eq 1 ]] && printf supported || printf unavailable); expire command $([[ "$EASYRSA_SUPPORTS_EXPIRE" -eq 1 ]] && printf supported || printf unavailable)."
 }
 
 install_client_files() {
@@ -218,7 +226,8 @@ sync_clients() {
       die "Invalid user date range for uid ${uid}: start date ${start_date} is after end date ${end_date}."
     fi
     if { [ -n "$start_date" ] || [ -n "$end_date" ]; } && [ "$EASYRSA_SUPPORTS_EXACT_DATES" -ne 1 ]; then
-      die "Easy-RSA does not support --startdate and --enddate; cannot issue uid ${uid} with its individual date limits."
+      error "$(printf "$MSG_SETUP_RSA_DATES_UNSUPPORTED" "$(printf '%s' "$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" --version 2>&1 || true)" | head -n 1)" "$uid")"
+      continue
     fi
     cert="${PKI_DIR}/issued/${uid}.crt"
     snapshot="${PKI_DIR}/webadmin-validity/${uid}.dates"
@@ -316,7 +325,17 @@ sync_clients() {
 main() {
   need_root
   init_log
-  choose_language
+  show_header
+  if [ -n "${WHIPTAIL_BIN}" ]; then
+    LANG_CHOICE="$(${WHIPTAIL_BIN} --title 'OpenVPN-WebAdmin Setup' --menu "${MSG_SETUP_RSA_LANGUAGE_SELECT:-Sprache auswählen}" 12 72 4 \
+      de_DE Deutsch en_GB English fr_FR Français 3>&1 1>&2 2>&3)" || abort_by_user
+    [ -f "${LANG_DIR}/${LANG_CHOICE}" ] || LANG_CHOICE=de_DE
+    load_language "${LANG_CHOICE}"
+  else
+    LANG_CHOICE=de_DE
+    load_language "${LANG_CHOICE}"
+  fi
+  show_section "${MSG_SETUP_RSA_SECTION:-OpenVPN / Easy-RSA}"
   install_if_missing openvpn openvpn
   install_if_missing easy-rsa easyrsa
   find_easyrsa
@@ -325,12 +344,18 @@ main() {
     first_setup
     return
   fi
-  printf '\n%s\n1) %s\n2) %s\n' "$(printf "$MSG_SETUP_RSA_EXISTING_PKI" "$EASYRSA_DIR")" "$MSG_SETUP_RSA_OPTION_RENEW" "$MSG_SETUP_RSA_OPTION_USERS"
   local choice
-  read -r -p "$MSG_SETUP_RSA_CHOICE " choice
+  if [ -n "${WHIPTAIL_BIN}" ]; then
+    choice="$(${WHIPTAIL_BIN} --title 'OpenVPN-WebAdmin Setup' --menu "$(printf "$MSG_SETUP_RSA_EXISTING_PKI" "$EASYRSA_DIR")" 14 78 5 \
+      1 "$MSG_SETUP_RSA_OPTION_RENEW" 2 "$MSG_SETUP_RSA_OPTION_USERS" 3 "${MSG_SETUP_RSA_OPTION_EXIT:-Beenden}" 3>&1 1>&2 2>&3)" || abort_by_user
+  else
+    printf '\n1) %s\n2) %s\n3) %s\n' "$MSG_SETUP_RSA_OPTION_RENEW" "$MSG_SETUP_RSA_OPTION_USERS" "${MSG_SETUP_RSA_OPTION_EXIT:-Beenden}"
+    read -r -p "$MSG_SETUP_RSA_CHOICE " choice
+  fi
   case "$choice" in
     1) renew_server ;;
     2) sync_clients ;;
+    3) exit 0 ;;
     *) die "$MSG_SETUP_RSA_CHOICE_INVALID" ;;
   esac
 }

@@ -194,3 +194,5 @@ MSG_SETUP_RSA_OPTION_RENEW="Renouveler le certificat serveur (conserver l'autori
 MSG_SETUP_RSA_OPTION_USERS="Importer les nouveaux utilisateurs depuis la base de données"
 MSG_SETUP_RSA_CHOICE="Sélection [1/2] :"
 MSG_SETUP_RSA_CHOICE_INVALID="Sélection invalide ; aucune modification effectuée."
+MSG_SETUP_RSA_OPTION_EXIT="Quitter"
+MSG_SETUP_RSA_DATES_UNSUPPORTED="%s ne peut pas définir les dates individuelles du certificat (--startdate/--enddate) ; uid %s a été ignoré. Utilisez Easy-RSA 3.1.3 ou une version ultérieure."
