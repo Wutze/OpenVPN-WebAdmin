@@ -11,8 +11,8 @@ Die Anwendung richtet sich insbesondere an selbst betriebene Infrastrukturen, pr
 
 ## Extended documentation
 
-[![Doku English]🇬🇧](doc/README.md)
-[![Doku Deutsch/German]🇩🇪](doc/README_DE.md)
+[🇩🇪 Dokumentation Deutsch](doc/README_DE.md)  
+[🇬🇧 Documentation English](doc/README.md)
 
 ## Screenshots
 
