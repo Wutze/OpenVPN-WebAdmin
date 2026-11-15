@@ -9,6 +9,10 @@ DirectoryIndex index.php
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
+    # Keep explicit API operations on pretty page URLs such as /users?op=data.
+    RewriteCond %{QUERY_STRING} (^|&)op= [NC]
+    RewriteRule ^ index.php [QSA,L]
+
     RewriteRule ^setlang/([a-zA-Z_]+)$ index.php?op=setlang&lang=$1 [QSA,L]
     RewriteRule ^([a-zA-Z0-9_-]+)/?$ index.php?op=$1 [QSA,L]
     RewriteRule ^ index.php [QSA,L]
