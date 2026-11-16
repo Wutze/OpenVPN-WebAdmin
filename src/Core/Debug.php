@@ -227,8 +227,20 @@ self::$buffer[] = $HTML;
         // Sicher ins Log schreiben (nur wenn DEBUG=true)
         self::logException($e, 'uncaught_exception');
 
+        if ((string)($_GET['op'] ?? '') === 'data') {
+            // API callers must never receive the HTML exception page. In
+            // particular, the admin UI expects JSON for user save requests.
+            // Discard any partial output so the JSON body remains parseable.
+            while (ob_get_level() > 0) {
+                ob_end_clean();
+            }
+            if (!headers_sent()) {
+                http_response_code(500);
+                header('Content-Type: application/json; charset=utf-8');
+            }
+            echo '{"status":"error","message":"Unbekannter Fehler"}';
         // Nur im Development direkt ausgeben (ohne Debug-Container-Rendering)
-        if (self::$debug && self::$env === 'development') {
+        } elseif (self::$debug && self::$env === 'development') {
             self::renderExceptionScreen($error);
         } else {
             echo "Ein interner Fehler ist aufgetreten. Bitte den Administrator kontaktieren.";

@@ -18,6 +18,8 @@
 
 namespace Micro\OpenvpnWebadmin\Core;
 
+use Micro\OpenvpnWebadmin\Util\Lang;
+
 class DataController
 {
 /**
@@ -211,9 +213,11 @@ private function getDashboardStats(): array
 private function handleUserAction(): void
     {
         $action = (string)($_POST['action'] ?? '');
-        $model = new UserModel();
 
         try {
+            // Construct the model inside the exception boundary as database
+            // connection failures must use the JSON API error response too.
+            $model = new UserModel();
             switch ($action) {
                 case 'create':
                     $username = trim((string)($_POST['username'] ?? ''));
