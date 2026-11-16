@@ -67,8 +67,12 @@ public function getAllUsers(int $limit = 50, int $offset = 0, string $search = '
 
         $params = [];
         if ($search !== '') {
-            $sql .= " AND (u.user_name LIKE :search OR g.name LIKE :search)";
-            $params[':search'] = '%' . $search . '%';
+            // Native PDO prepares do not allow a named placeholder to be
+            // reused twice in one statement.
+            $sql .= " AND (u.user_name LIKE :user_search OR g.name LIKE :group_search)";
+            $searchPattern = '%' . $search . '%';
+            $params[':user_search'] = $searchPattern;
+            $params[':group_search'] = $searchPattern;
         }
 
         $sql .= ' ORDER BY u.user_name ASC LIMIT :limit OFFSET :offset';
@@ -96,8 +100,10 @@ public function countUsers(string $search = ''): int
         $params = [];
 
         if ($search !== '') {
-            $sql .= ' AND (u.user_name LIKE :search OR g.name LIKE :search)';
-            $params[':search'] = '%' . $search . '%';
+            $sql .= ' AND (u.user_name LIKE :user_search OR g.name LIKE :group_search)';
+            $searchPattern = '%' . $search . '%';
+            $params[':user_search'] = $searchPattern;
+            $params[':group_search'] = $searchPattern;
         }
 
         $stmt = $this->db->prepare($sql);
