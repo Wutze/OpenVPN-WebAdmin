@@ -81,11 +81,15 @@ async function postForm(url, payload) {
     body,
   });
 
+  const responseText = await response.text();
   let data = {};
   try {
-    data = await response.json();
+    data = JSON.parse(responseText);
   } catch (_error) {
-    data = { status: 'error', message: t('_MSG_INVALID_SERVER_RESPONSE', 'Ungueltige Serverantwort') };
+    const contentType = response.headers.get('Content-Type') || 'unbekannt';
+    const excerpt = responseText.replace(/\s+/g, ' ').trim().slice(0, 300);
+    const detail = excerpt !== '' ? `: ${excerpt}` : '';
+    throw new Error(`${t('_MSG_INVALID_SERVER_RESPONSE', 'Ungueltige Serverantwort')} (HTTP ${response.status}, ${contentType})${detail}`);
   }
 
   if (!response.ok || data.status === 'error') {
