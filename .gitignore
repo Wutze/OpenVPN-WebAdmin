@@ -22,3 +22,5 @@
 /assets-build/node_modules/
 /assets-build/staging/
 /assets-build/release/
+/public/tools/*
+/DASH.md
