@@ -115,6 +115,68 @@ public function countUsers(string $search = ''): int
         return (int)$stmt->fetchColumn();
     }
 
+    /**
+     * Liefert aktive, fuer VPN-Zugaenge vorgesehene Benutzer mit serverseitiger Suche.
+     *
+     * @return array{total: int, rows: array<int, array<string, mixed>>}
+     */
+    public function getVpnProfileUsers(int $limit, int $offset, string $search = ''): array
+    {
+        $limit = max(1, min(100, $limit));
+        $offset = max(0, $offset);
+        $where = 'u.user_enable = 1
+                  AND (u.user_start_date IS NULL OR u.user_start_date <= CURDATE())
+                  AND (u.user_end_date IS NULL OR u.user_end_date >= CURDATE())';
+        $params = [];
+        if ($search !== '') {
+            $where .= ' AND u.user_name LIKE :search';
+            $params[':search'] = '%' . $search . '%';
+        }
+
+        $count = $this->db->prepare("SELECT COUNT(*) FROM user u WHERE {$where}");
+        $count->execute($params);
+
+        $stmt = $this->db->prepare(
+            "SELECT u.uid, u.user_name AS uname
+             FROM user u
+             WHERE {$where}
+             ORDER BY u.user_name ASC, u.uid ASC
+             LIMIT :limit OFFSET :offset"
+        );
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value, PDO::PARAM_STR);
+        }
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return [
+            'total' => (int)$count->fetchColumn(),
+            'rows' => $stmt->fetchAll(PDO::FETCH_ASSOC),
+        ];
+    }
+
+    /**
+     * Liest den Benutzerstatus und die autoritative Rolle fuer den Download.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function getVpnProfileUser(int $uid): ?array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT u.uid, u.user_name, u.gid, u.user_enable, u.user_start_date, u.user_end_date,
+                    COALESCE(g.name, '') AS role_name
+             FROM user u
+             LEFT JOIN groupnames g ON g.gid = u.gid
+             WHERE u.uid = :uid
+             LIMIT 1"
+        );
+        $stmt->execute([':uid' => $uid]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return is_array($user) ? $user : null;
+    }
+
 /**
  * Fuehrt count online users entsprechend der internen Logik aus.
  *

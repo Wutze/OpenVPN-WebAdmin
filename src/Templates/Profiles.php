@@ -20,48 +20,68 @@ namespace Micro\OpenvpnWebadmin\Templates;
 
 class Profiles
 {
-/**
- * Fuehrt index entsprechend der internen Logik aus.
- *
- * @return string Rueckgabe als Text.
- */
-public function index(): string
+    /**
+     * Zeigt Betriebssystem-Downloads und fuer Admins die Benutzerauswahl.
+     *
+     * @param array<int, array{system: string, label: string}> $systems
+     */
+    public function index(array $systems, bool $isAdmin): string
     {
         $title = \Lang::get('_PROFILES_TITLE');
         $subtitle = \Lang::get('_PROFILES_SUBTITLE');
-        $cardTitle = \Lang::get('_PROFILES_CARD_TITLE');
-        $refresh = \Lang::get('_REFRESH');
-        $colSystem = \Lang::get('_PROFILES_COL_SYSTEM');
-        $colFiles = \Lang::get('_PROFILES_COL_FILES');
-        $colZip = \Lang::get('_PROFILES_COL_ZIP');
-        $colLast = \Lang::get('_PROFILES_COL_LAST_BUILD');
-        $colActions = \Lang::get('_PROFILES_COL_ACTIONS');
+        $download = \Lang::get('_DOWNLOAD');
+        $cards = '';
+        foreach ($systems as $system) {
+            $id = htmlspecialchars($system['system'], ENT_QUOTES, 'UTF-8');
+            $label = htmlspecialchars($system['label'], ENT_QUOTES, 'UTF-8');
+            $downloadUrl = htmlspecialchars(\Url::op('download', ['system' => $system['system']]), ENT_QUOTES, 'UTF-8');
+            $cards .= <<<HTML
+<div class="col-md-4">
+  <div class="card h-100">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">{$label}</h5>
+      <a class="btn btn-success js-profile-download" data-system="{$id}" href="{$downloadUrl}">{$download}</a>
+    </div>
+  </div>
+</div>
+HTML;
+        }
+
+        if ($cards === '') {
+            $cards = '<div class="col-12"><div class="alert alert-warning">' .
+                htmlspecialchars(\Lang::get('_MSG_NO_SYSTEMS'), ENT_QUOTES, 'UTF-8') .
+                '</div></div>';
+        }
+
+        $userTable = '';
+        if ($isAdmin && $systems !== []) {
+            $userTitle = \Lang::get('_PROFILE_USERS_TITLE');
+            $uidLabel = \Lang::get('_PROFILE_USERS_UID');
+            $nameLabel = \Lang::get('_PROFILE_USERS_NAME');
+            $actionLabel = \Lang::get('_PROFILE_USERS_ACTION');
+            $selfLabel = \Lang::get('_PROFILE_USERS_SELF');
+            $userTable = <<<HTML
+<div class="card mt-4">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <span>{$userTitle}</span>
+    <button class="btn btn-sm btn-outline-secondary" type="button" id="profileOwnUserBtn">{$selfLabel}</button>
+  </div>
+  <div class="card-body">
+    <table class="table table-striped" id="profile-users-table">
+      <thead><tr><th>{$uidLabel}</th><th>{$nameLabel}</th><th>{$actionLabel}</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div id="profileUserSelection" class="small text-muted"></div>
+  </div>
+</div>
+HTML;
+        }
+
         return <<<HTML
 <h1>{$title}</h1>
 <p class="text-muted">{$subtitle}</p>
-
-<div class="card">
-  <div class="card-header d-flex justify-content-between align-items-center">
-    <span>{$cardTitle}</span>
-    <button type="button" class="btn btn-sm btn-outline-primary" id="refreshProfilesBtn">{$refresh}</button>
-  </div>
-  <div class="card-body p-0">
-    <table class="table table-striped mb-0" id="profiles-table">
-      <thead>
-        <tr>
-          <th>{$colSystem}</th>
-          <th>{$colFiles}</th>
-          <th>{$colZip}</th>
-          <th>{$colLast}</th>
-          <th>{$colActions}</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</div>
-
-<div id="profilesMessage" class="mt-3"></div>
+<div class="row g-3" id="profile-downloads">{$cards}</div>
+{$userTable}
 HTML;
     }
 }

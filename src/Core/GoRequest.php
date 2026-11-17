@@ -128,7 +128,7 @@ public function main(): void
                 $this->showProfiles();
                 break;
             case 'download':
-                $this->downloadProfileZip();
+                $this->downloadProfile();
                 break;
             case 'setlang':
                 $this->setLanguage();
@@ -287,7 +287,7 @@ private function showDocumentation(): void
  */
 private function showProfiles(): void
     {
-        $content = (new Profiles())->index();
+        $content = (new Profiles())->index((new ProfileService())->listSystems(), Session::isAdmin());
         $this->renderPage('OpenVPN WebAdmin - Konfigurationsdateien', $content, 'profiles');
     }
 
@@ -355,28 +355,102 @@ private function ensureAdminOrForbidden(): void
     }
 
 /**
- * Liefert die angeforderte Profil-ZIP zum Download aus.
+ * Erstellt und liefert die autorisierte Client-Konfiguration im Speicher aus.
  *
  * @return void
  */
-private function downloadProfileZip(): void
+private function downloadProfile(): void
     {
-        $system = (string)($_GET['system'] ?? '');
-        $service = new ProfileService();
-
-        try {
-            $zipPath = $service->getZipPath($system);
-        } catch (\Throwable $e) {
-            http_response_code(404);
-            echo 'Datei nicht gefunden: ' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
-            return;
+        $systemValue = $_GET['system'] ?? $_GET['amp;system'] ?? '';
+        if (!is_string($systemValue)) {
+            $this->denyDownload(400);
+        }
+        $system = $systemValue;
+        $requestedUid = null;
+        if (array_key_exists('uid', $_GET)) {
+            $rawUid = $_GET['uid'];
+            if ((!is_string($rawUid) && !is_int($rawUid))
+                || (string)$rawUid === ''
+                || !ctype_digit((string)$rawUid)
+                || (int)$rawUid <= 0) {
+                $this->denyDownload(400);
+            }
+            $requestedUid = (int)$rawUid;
         }
 
-        $fileName = basename($zipPath);
+        $sessionUser = Session::getUser();
+        $sessionUid = (int)($sessionUser['uid'] ?? 0);
+        try {
+            $download = (new ProfileService())->createDownload($sessionUid, $requestedUid, $system);
+        } catch (\DomainException $e) {
+            $this->logProfileDownloadFailure('denied', [
+                'session_uid' => $sessionUid,
+                'requested_uid' => $requestedUid,
+                'system' => $system,
+                'reason' => $e->getMessage(),
+            ]);
+            $this->denyDownload(403);
+        } catch (\Throwable $e) {
+            $this->logProfileDownloadFailure('failed', [
+                'session_uid' => $sessionUid,
+                'requested_uid' => $requestedUid,
+                'system' => $system,
+                'exception' => $e::class,
+                'code' => $e->getCode(),
+                'reason' => $e->getMessage(),
+                'cause' => $e->getPrevious()?->getMessage(),
+            ]);
+            Debug::logException(
+                $e,
+                'profile download failed (session UID ' . $sessionUid
+                    . ', requested UID ' . ($requestedUid ?? 'self')
+                    . ', system ' . $system . ')'
+            );
+            $this->denyDownload(404);
+        }
+
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
+        ignore_user_abort(false);
+        $fileName = $download['filename'];
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        header('X-Content-Type-Options: nosniff');
         header('Content-Type: application/zip');
         header('Content-Disposition: attachment; filename="' . $fileName . '"');
-        header('Content-Length: ' . (string)filesize($zipPath));
-        readfile($zipPath);
+        header('Content-Length: ' . (string)strlen($download['content']));
+        try {
+            echo $download['content'];
+        } finally {
+            unset($download);
+        }
+        exit;
+    }
+
+    /**
+     * Protokolliert nur nicht geheime Download-Metadaten fuer die Serverdiagnose.
+     *
+     * @param array<string, int|string|null> $context
+     */
+    private function logProfileDownloadFailure(string $event, array $context): void
+    {
+        $json = json_encode($context, JSON_INVALID_UTF8_SUBSTITUTE);
+        error_log('[OpenVPN WebAdmin] profile download ' . $event . ': ' . ($json === false ? '{}' : $json));
+    }
+
+    private function denyDownload(int $status): never
+    {
+        http_response_code($status);
+        header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        header('Content-Type: text/html; charset=utf-8');
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
+        $this->showError();
         exit;
     }
 
@@ -602,7 +676,7 @@ private function serveLoginAsset(): void
 private function enforceDataAccessPolicy(string $method): void
     {
         $select = (string)($_GET['select'] ?? '');
-        $adminSelects = ['user', 'log', 'config', 'settings', 'dashboard_stats', 'diag_login'];
+        $adminSelects = ['user', 'log', 'profile_users', 'config', 'settings', 'dashboard_stats', 'diag_login'];
         if (in_array($select, $adminSelects, true)) {
             $this->ensureAdminOrForbidden();
         }

@@ -73,59 +73,87 @@ function initLogout() {
   });
 }
 
-function renderProfiles(rows) {
-  const tbody = document.querySelector('#profiles-table tbody');
-  if (!tbody) return;
-
-  tbody.innerHTML = rows.map((row) => {
-    const safeSystem = escapeHtml(row.system);
-    const files = (row.files || []).map((f) => escapeHtml(f)).join(', ');
-    const zipName = row.zip_exists ? escapeHtml(row.zip_file) : `<span class="text-muted">${t('_MSG_NOT_AVAILABLE', 'nicht vorhanden')}</span>`;
-    const mtime = escapeHtml(row.zip_mtime || '-');
-
-    return `
-      <tr>
-        <td>${safeSystem}</td>
-        <td>${Number(row.file_count || 0)}<div class="small text-muted">${files}</div></td>
-        <td>${zipName}</td>
-        <td>${mtime}</td>
-        <td>
-          <a class="btn btn-sm btn-success ${row.zip_exists ? '' : 'disabled'}" href="?op=download&system=${encodeURIComponent(String(row.system || ''))}">${t('_DOWNLOAD', 'Download')}</a>
-        </td>
-      </tr>
-    `;
-  }).join('');
-}
-
-async function loadProfiles() {
-  const response = await fetch('?op=data&select=profiles');
-  const data = await response.json();
-  if (!response.ok || data.status === 'error') {
-    throw new Error(data.message || t('_MSG_PROFILE_LOAD_FAILED', 'Profile konnten nicht geladen werden.'));
-  }
-
-  renderProfiles(data.rows || []);
-}
-
 function initProfiles() {
-  const table = document.getElementById('profiles-table');
-  if (!table) return;
+  const downloads = document.querySelectorAll('.js-profile-download');
+  if (downloads.length === 0) return;
 
-  const refreshBtn = document.getElementById('refreshProfilesBtn');
-  const refresh = async () => {
-    try {
-      await loadProfiles();
-      showAlert('profilesMessage', 'success', t('_MSG_PROFILES_UPDATED', 'Profile aktualisiert.'));
-    } catch (error) {
-      showAlert('profilesMessage', 'danger', error.message);
+  const table = document.getElementById('profile-users-table');
+  const selection = document.getElementById('profileUserSelection');
+  let selectedUid = null;
+  let selectedName = '';
+  const escapeAttribute = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  })[char]);
+
+  const updateDownloadLinks = () => {
+    downloads.forEach((link) => {
+      const url = new URL(link.href, window.location.href);
+      if (selectedUid === null) {
+        url.searchParams.delete('uid');
+      } else {
+        url.searchParams.set('uid', selectedUid);
+      }
+      link.href = url.toString();
+    });
+    if (selection) {
+      selection.textContent = selectedUid === null
+        ? t('_PROFILE_USERS_DOWNLOADING_SELF', 'Download fuer den eigenen Benutzer.')
+        : `${t('_PROFILE_USERS_SELECTED', 'Ausgewaehlter Benutzer')}: ${selectedName} (UID ${selectedUid})`;
     }
   };
 
-  if (refreshBtn) {
-    refreshBtn.addEventListener('click', refresh);
-  }
+  updateDownloadLinks();
+  if (!table || !window.jQuery || typeof window.jQuery.fn.bootstrapTable !== 'function') return;
 
-  refresh();
+  const $table = window.jQuery(table);
+  $table.bootstrapTable({
+    sidePagination: 'server',
+    pagination: true,
+    search: true,
+    pageSize: 10,
+    pageList: [10, 25, 50, 100],
+    queryParams: (params) => ({
+      limit: params.limit,
+      offset: params.offset,
+      search: params.search,
+    }),
+    url: '?op=data&select=profile_users',
+    columns: [
+      { field: 'uid', title: t('_PROFILE_USERS_UID', 'UID'), sortable: false },
+      { field: 'uname', title: t('_PROFILE_USERS_NAME', 'Benutzername'), sortable: false },
+      {
+        field: 'select',
+        title: t('_PROFILE_USERS_ACTION', 'Auswahl'),
+        formatter: (_value, row) => `<button type="button" class="btn btn-sm btn-outline-primary js-select-profile-user" data-uid="${Number(row.uid)}" data-name="${escapeAttribute(row.uname)}">${t('_PROFILE_USERS_SELECT', 'Auswaehlen')}</button>`,
+      },
+    ],
+  });
+
+  table.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const button = target.closest('.js-select-profile-user');
+    if (!button) return;
+
+    const uid = Number(button.dataset.uid);
+    if (!Number.isSafeInteger(uid) || uid <= 0) return;
+    selectedUid = String(uid);
+    selectedName = button.dataset.name || '';
+    updateDownloadLinks();
+  });
+
+  const ownUserButton = document.getElementById('profileOwnUserBtn');
+  if (ownUserButton) {
+    ownUserButton.addEventListener('click', () => {
+      selectedUid = null;
+      selectedName = '';
+      updateDownloadLinks();
+    });
+  }
 }
 
 function initAccount() {

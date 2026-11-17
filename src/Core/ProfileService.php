@@ -20,225 +20,418 @@ namespace Micro\OpenvpnWebadmin\Core;
 
 class ProfileService
 {
-private string $basePath;
+    private string $basePath;
+    private string $clientCertPath;
+    private ?UserModel $userModel;
 
-/**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
- *
- * @param mixed $basePath Eingabewert fuer basePath.
- * @return mixed|null Rueckgabewert der Funktion.
- */
-public function __construct(?string $basePath = null)
+    public function __construct(?string $basePath = null, ?string $clientCertPath = null, ?UserModel $userModel = null)
     {
         $this->basePath = $basePath ?? dirname(__DIR__, 2) . '/storage/conf';
-    }
-
-/**
- * Liefert eine Liste von systems.
- *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
- */
-public function listSystems(): array
-    {
-        if (!is_dir($this->basePath)) {
-            return [];
-        }
-
-        $items = scandir($this->basePath) ?: [];
-        $systems = [];
-
-        foreach ($items as $item) {
-            if ($item === '.' || $item === '..') {
-                continue;
-            }
-
-            $dir = $this->basePath . '/' . $item;
-            if (!$this->isAllowedSystemDir($item, $dir)) {
-                continue;
-            }
-
-            $fileList = [];
-            foreach (scandir($dir) ?: [] as $name) {
-                if ($name === '.' || $name === '..') {
-                    continue;
-                }
-                $full = $dir . '/' . $name;
-                if (is_file($full)) {
-                    $fileList[] = $name;
-                }
-            }
-
-            $zipPath = $this->zipPathFor($item);
-            $systems[] = [
-                'system' => $item,
-                'file_count' => count($fileList),
-                'files' => $fileList,
-                'zip_exists' => is_file($zipPath),
-                'zip_file' => basename($zipPath),
-                'zip_mtime' => is_file($zipPath) ? date('Y-m-d H:i:s', (int)filemtime($zipPath)) : null,
-            ];
-        }
-
-        usort($systems, static fn(array $a, array $b): int => strcmp($a['system'], $b['system']));
-        return $systems;
-    }
-
-/**
- * Erzeugt zip auf Basis der Eingabedaten.
- *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
- */
-public function buildZip(string $system): string
-    {
-        $system = $this->sanitizeSystem($system);
-        $sourceDir = $this->basePath . '/' . $system;
-
-        if (!$this->isAllowedSystemDir($system, $sourceDir)) {
-            throw new \RuntimeException('Unbekanntes System: ' . $system);
-        }
-
-        if (!class_exists(\ZipArchive::class)) {
-            throw new \RuntimeException('ZipArchive ist nicht verfuegbar.');
-        }
-
-        $zipPath = $this->zipPathFor($system);
-        $zip = new \ZipArchive();
-        $openResult = $zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
-        if ($openResult !== true) {
-            throw new \RuntimeException('ZIP-Datei konnte nicht erstellt werden. Fehlercode: ' . $openResult);
-        }
-
-        $entries = scandir($sourceDir) ?: [];
-        foreach ($entries as $entry) {
-            if ($entry === '.' || $entry === '..') {
-                continue;
-            }
-
-            $fullPath = $sourceDir . '/' . $entry;
-            if (is_file($fullPath)) {
-                if ($entry === 'client.ovpn') {
-                    $content = (string)file_get_contents($fullPath);
-                    $zip->addFromString($entry, $this->injectCaTlsBlocks($content));
-                } else {
-                    $zip->addFile($fullPath, $entry);
-                }
-            }
-        }
-
-        $zip->close();
-        return $zipPath;
-    }
-
-/**
- * Liest zip path und gibt den Wert zurueck.
- *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
- */
-public function getZipPath(string $system): string
-    {
-        $system = $this->sanitizeSystem($system);
-        $zipPath = $this->zipPathFor($system);
-
-        if (!is_file($zipPath)) {
-            return $this->buildZip($system);
-        }
-
-        return $zipPath;
-    }
-
-/**
- * Fuehrt sanitize system entsprechend der internen Logik aus.
- *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
- */
-private function sanitizeSystem(string $system): string
-    {
-        $system = trim($system);
-        if ($system === '' || !preg_match('/^[a-zA-Z0-9._-]+$/', $system)) {
-            throw new \RuntimeException('Ungueltiger Systemname.');
-        }
-
-        return $system;
-    }
-
-/**
- * Fuehrt zip path for entsprechend der internen Logik aus.
- *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
- */
-private function zipPathFor(string $system): string
-    {
-        return $this->basePath . '/' . $system . '.zip';
+        $this->clientCertPath = $clientCertPath
+            ?? (getenv('OPENVPN_CLIENT_CERT_DIR') ?: '/etc/openvpn/client-certificates');
+        $this->userModel = $userModel;
     }
 
     /**
-     * Prueft, ob allowed system dir zutrifft.
+     * Liefert nur die Betriebssysteme mit vorhandener Vorlage.
      *
-     * @param mixed $system Eingabewert fuer system.
-     * @param mixed $dir Eingabewert fuer dir.
-     * @return bool True bei Erfolg, sonst false.
+     * @return array<int, array{system: string, label: string}>
      */
-    private function isAllowedSystemDir(string $system, string $dir): bool
+    public function listSystems(): array
     {
-        if (!is_dir($dir)) {
-            return false;
+        $labels = [
+            'osx' => 'macOS',
+            'linux' => 'Linux',
+            'windows' => 'Windows',
+        ];
+        $systems = [];
+
+        foreach ($labels as $system => $label) {
+            $template = $this->basePath . '/' . $system . '/client.ovpn';
+            $systemPath = realpath($this->basePath . '/' . $system);
+            $templatePath = realpath($template);
+            if ($systemPath !== false
+                && $templatePath !== false
+                && dirname($templatePath) === $systemPath
+                && is_file($templatePath)
+                && is_readable($templatePath)) {
+                $systems[] = ['system' => $system, 'label' => $label];
+            }
         }
 
-        if (in_array($system, ['server', 'history'], true)) {
-            return false;
-        }
-
-        return is_file($dir . '/client.ovpn');
+        return $systems;
     }
 
-/**
- * Fuehrt inject ca tls blocks entsprechend der internen Logik aus.
- *
- * @param mixed $content Eingabewert fuer content.
- * @return string Rueckgabe als Text.
- */
-private function injectCaTlsBlocks(string $content): string
+    /**
+     * Prueft Session-Benutzer und Rolle, erstellt ein ZIP vollstaendig im Speicher.
+     *
+     * @return array{filename: string, content: string}
+     */
+    public function createDownload(int $sessionUid, ?int $requestedUid, string $system): array
     {
-        try {
-            $service = new CaTlsService();
-            $data = $service->getCurrent();
-            $ca = trim((string)($data['ca'] ?? ''));
-            $tls = trim((string)($data['tls'] ?? ''));
+        if ($sessionUid <= 0) {
+            throw new \DomainException('session_uid_invalid');
+        }
 
-            if ($ca !== '') {
-                $content = $this->replaceOvpnBlock($content, 'ca', $ca);
+        $users = $this->userModel ?? new UserModel();
+        $sessionUser = $users->getVpnProfileUser($sessionUid);
+        if ($sessionUser === null || (int)($sessionUser['user_enable'] ?? 0) !== 1) {
+            throw new \DomainException('session_user_unavailable');
+        }
+
+        $isAdmin = (int)$sessionUser['gid'] === 1 || $this->isAdminRole((string)$sessionUser['role_name']);
+        $targetUid = $requestedUid ?? $sessionUid;
+        if (!$isAdmin && $targetUid !== $sessionUid) {
+            throw new \DomainException('target_uid_forbidden');
+        }
+
+        $targetUser = $targetUid === $sessionUid
+            ? $sessionUser
+            : $users->getVpnProfileUser($targetUid);
+        if ($targetUser === null || !$this->isVpnActive($targetUser)) {
+            throw new \RuntimeException('target_user_unavailable');
+        }
+
+        if (!in_array($system, ['osx', 'linux', 'windows'], true)) {
+            throw new \RuntimeException('unsupported_system');
+        }
+
+        $availableSystems = array_column($this->listSystems(), 'system');
+        if (!in_array($system, $availableSystems, true)) {
+            throw new \RuntimeException('system_template_unavailable');
+        }
+
+        $files = [];
+        $stage = 'configuration_template';
+        try {
+            $template = $this->readTemplate($system);
+
+            $stage = 'client_certificate_files';
+            $clientFiles = $this->readClientFiles($targetUid);
+
+            $stage = 'client_certificate_validation';
+            $this->validateClientFiles($clientFiles, $targetUid);
+
+            $stage = 'configuration_assembly';
+            $files['client.ovpn'] = $this->buildClientConfig($template, $clientFiles);
+
+            $resolvScript = $this->readOptionalTemplateFile($system, 'update-resolv.sh');
+            if ($resolvScript !== null) {
+                $files['update-resolv.sh'] = $resolvScript;
             }
-            if ($tls !== '') {
-                $content = $this->replaceOvpnBlock($content, 'tls-auth', $tls);
+
+            $files['ca.crt'] = $clientFiles['ca'];
+            $files['client.crt'] = $clientFiles['cert'];
+            $files['client.key'] = $clientFiles['key'];
+            $files['ta.key'] = $clientFiles['tls'];
+
+            $stage = 'zip_creation';
+            $archive = $this->createZipInMemory($files);
+            $safeUsername = trim((string)preg_replace('/[^A-Za-z0-9._-]+/', '_', (string)$targetUser['user_name']), '._-');
+            if ($safeUsername === '') {
+                throw new \RuntimeException('Download nicht verfuegbar.');
             }
+
+            return [
+                'filename' => $safeUsername . '.' . date('Y-m-d') . '.openvpn-client.zip',
+                'content' => $archive,
+            ];
         } catch (\Throwable $e) {
-            // CA/TLS ist optional: ZIP-Build darf bei fehlenden Daten nicht abbrechen.
+            throw new \RuntimeException('Profile download failed at stage: ' . $stage, 0, $e);
+        } finally {
+            unset($files, $clientFiles, $template, $resolvScript, $archive);
+        }
+    }
+
+    private function isVpnActive(array $user): bool
+    {
+        if ((int)($user['user_enable'] ?? 0) !== 1) {
+            return false;
+        }
+
+        $today = date('Y-m-d');
+        $startDate = (string)($user['user_start_date'] ?? '');
+        $endDate = (string)($user['user_end_date'] ?? '');
+
+        return ($startDate === '' || $startDate <= $today)
+            && ($endDate === '' || $endDate >= $today);
+    }
+
+    private function isAdminRole(string $roleName): bool
+    {
+        return in_array(strtolower(trim($roleName)), [
+            'admin',
+            'admins',
+            'administrator',
+            'administrators',
+            'administratoren',
+        ], true);
+    }
+
+    private function readTemplate(string $system): string
+    {
+        $path = $this->basePath . '/' . $system . '/client.ovpn';
+        $realBase = realpath($this->basePath . '/' . $system);
+        $realPath = realpath($path);
+        if ($realBase === false || $realPath === false || dirname($realPath) !== $realBase || !is_readable($realPath)) {
+            throw new \RuntimeException('Download nicht verfuegbar.');
+        }
+
+        $content = file_get_contents($realPath);
+        if (!is_string($content) || trim($content) === '') {
+            throw new \RuntimeException('client_template_unreadable_or_empty');
         }
 
         return $content;
     }
 
-/**
- * Fuehrt replace ovpn block entsprechend der internen Logik aus.
- *
- * @param mixed $content Eingabewert fuer content.
- * @param mixed $tag Eingabewert fuer tag.
- * @param mixed $blockContent Eingabewert fuer blockContent.
- * @return string Rueckgabe als Text.
- */
-private function replaceOvpnBlock(string $content, string $tag, string $blockContent): string
+    private function readOptionalTemplateFile(string $system, string $name): ?string
     {
-        $block = "<{$tag}>\n{$blockContent}\n</{$tag}>";
-        $pattern = '/<' . preg_quote($tag, '/') . '>\s*[\s\S]*?\s*<\/' . preg_quote($tag, '/') . '>/i';
-
-        if (preg_match($pattern, $content) === 1) {
-            return (string)preg_replace($pattern, $block, $content, 1);
+        $directory = realpath($this->basePath . '/' . $system);
+        $path = realpath($this->basePath . '/' . $system . '/' . $name);
+        if ($path === false) {
+            return null;
+        }
+        if ($directory === false || dirname($path) !== $directory || !is_file($path) || !is_readable($path)) {
+            throw new \RuntimeException('Download nicht verfuegbar.');
         }
 
-        return rtrim($content) . "\n\n" . $block . "\n";
+        $content = file_get_contents($path);
+        if (!is_string($content)) {
+            throw new \RuntimeException('Download nicht verfuegbar.');
+        }
+
+        return $content;
+    }
+
+    /**
+     * @return array{ca: string, cert: string, key: string, tls: string}
+     */
+    private function readClientFiles(int $uid): array
+    {
+        if ($uid <= 0 || !is_dir($this->clientCertPath)) {
+            throw new \RuntimeException('client_certificate_directory_unavailable');
+        }
+
+        $directory = realpath($this->clientCertPath);
+        if ($directory === false || !is_readable($directory)) {
+            throw new \RuntimeException('client_certificate_directory_unreadable');
+        }
+
+        $suffixes = [
+            'cert' => '.crt',
+            'key' => '.key',
+            'ca' => '.ca.crt',
+            'tls' => '.ta.key',
+        ];
+        $files = [];
+        foreach ($suffixes as $name => $suffix) {
+            $path = realpath($directory . '/' . $uid . $suffix);
+            if ($path === false || dirname($path) !== $directory || !is_file($path) || !is_readable($path)) {
+                throw new \RuntimeException('client_certificate_file_unavailable:' . $name);
+            }
+
+            $content = file_get_contents($path);
+            if (!is_string($content) || trim($content) === '') {
+                throw new \RuntimeException('client_certificate_file_empty:' . $name);
+            }
+            $files[$name] = $name === 'tls'
+                ? $this->normalizeTlsAuthKey($content)
+                : $content;
+        }
+
+        return $files;
+    }
+
+    private function validateClientFiles(array $files, int $uid): void
+    {
+        $certificate = @openssl_x509_read($files['cert']);
+        $caCertificate = @openssl_x509_read($files['ca']);
+        $privateKey = @openssl_pkey_get_private($files['key']);
+        if ($certificate === false || $caCertificate === false || $privateKey === false) {
+            throw new \RuntimeException('Download nicht verfuegbar.');
+        }
+
+        $certificateInfo = @openssl_x509_parse($certificate);
+        $caInfo = @openssl_x509_parse($caCertificate);
+        $caKey = @openssl_pkey_get_public($caCertificate);
+        $tlsKey = trim($files['tls']);
+        if (!is_array($certificateInfo) || !is_array($caInfo) || $caKey === false || $privateKey === false) {
+            throw new \RuntimeException('Download nicht verfuegbar.');
+        }
+
+        if ((string)($certificateInfo['subject']['CN'] ?? '') !== (string)$uid
+            || (int)($certificateInfo['validTo_time_t'] ?? 0) <= time()
+            || (int)($certificateInfo['validFrom_time_t'] ?? 0) > time()
+            || (int)($caInfo['validTo_time_t'] ?? 0) <= time()
+            || (int)($caInfo['validFrom_time_t'] ?? 0) > time()
+            || @openssl_x509_verify($certificate, $caKey) !== 1
+            || @openssl_x509_check_private_key($certificate, $privateKey) !== true
+            || !str_starts_with($tlsKey, '-----BEGIN OpenVPN Static key V1-----')
+            || !str_ends_with($tlsKey, '-----END OpenVPN Static key V1-----')) {
+            throw new \RuntimeException('Download nicht verfuegbar.');
+        }
+
+        unset($certificate, $caCertificate, $privateKey, $caKey);
+    }
+
+    private function normalizeTlsAuthKey(string $key): string
+    {
+        $lines = preg_split('/\r\n|\n|\r/', trim($key));
+        if (!is_array($lines)) {
+            throw new \RuntimeException('tls_auth_key_unrecognized_format');
+        }
+
+        $begin = '-----BEGIN OpenVPN Static key V1-----';
+        $end = '-----END OpenVPN Static key V1-----';
+        $beginIndexes = array_keys($lines, $begin, true);
+        $endIndexes = array_keys($lines, $end, true);
+        if (count($beginIndexes) !== 1 || count($endIndexes) !== 1) {
+            throw new \RuntimeException('tls_auth_key_unrecognized_format');
+        }
+
+        $beginIndex = $beginIndexes[0];
+        $endIndex = $endIndexes[0];
+        if ($endIndex <= $beginIndex) {
+            throw new \RuntimeException('tls_auth_key_unrecognized_format');
+        }
+
+        foreach (array_merge(
+            array_slice($lines, 0, $beginIndex),
+            array_slice($lines, $endIndex + 1)
+        ) as $line) {
+            if (trim($line) !== '' && !str_starts_with(ltrim($line), '#')) {
+                throw new \RuntimeException('tls_auth_key_unrecognized_format');
+            }
+        }
+
+        $keyLines = array_slice($lines, $beginIndex + 1, $endIndex - $beginIndex - 1);
+        if (count($keyLines) !== 16) {
+            throw new \RuntimeException('tls_auth_key_unrecognized_format');
+        }
+        foreach ($keyLines as $line) {
+            if (!preg_match('/\A[0-9a-fA-F]{32}\z/', $line)) {
+                throw new \RuntimeException('tls_auth_key_unrecognized_format');
+            }
+        }
+
+        return implode("\n", array_slice($lines, $beginIndex, $endIndex - $beginIndex + 1)) . "\n";
+    }
+
+    private function buildClientConfig(string $template, array $files): string
+    {
+        $template = (string)preg_replace(
+            '/^\s*(?:ca|cert|key|tls-auth)\s+\S+.*(?:\R|$)/mi',
+            '',
+            $template
+        );
+
+        foreach (['ca', 'cert', 'key', 'tls-auth'] as $tag) {
+            $template = (string)preg_replace(
+                '/<' . preg_quote($tag, '/') . '>\s*[\s\S]*?\s*<\/' . preg_quote($tag, '/') . '>\s*/i',
+                '',
+                $template
+            );
+        }
+
+        $blocks = [
+            'ca' => $files['ca'],
+            'cert' => $files['cert'],
+            'key' => $files['key'],
+            'tls-auth' => $files['tls'],
+        ];
+        foreach ($blocks as $tag => $content) {
+            $template = rtrim($template) . "\n\n<{$tag}>\n" . trim($content) . "\n</{$tag}>\n";
+        }
+
+        return $template;
+    }
+
+    /**
+     * Erstellt ein ZIP-Archiv ohne Datei- oder Temp-Verzeichniszugriffe.
+     *
+     * @param array<string, string> $files
+     */
+    private function createZipInMemory(array $files): string
+    {
+        $localRecords = '';
+        $centralRecords = '';
+        $offset = 0;
+        $entryCount = 0;
+        $dosTime = ((int)date('H') << 11) | ((int)date('i') << 5) | ((int)date('s') >> 1);
+        $dosDate = (((int)date('Y') - 1980) << 9) | ((int)date('n') << 5) | (int)date('j');
+
+        foreach ($files as $name => $content) {
+            $nameLength = strlen($name);
+            $contentLength = strlen($content);
+            $compressed = gzdeflate($content);
+            if ($compressed === false || $contentLength > 0xFFFFFFFF || strlen($compressed) > 0xFFFFFFFF) {
+                throw new \RuntimeException('Download nicht verfuegbar.');
+            }
+
+            $compressedLength = strlen($compressed);
+            $crc = crc32($content);
+            $permissions = match (true) {
+                $name === 'client.ovpn', $name === 'client.key', $name === 'ta.key' => 0x81800000,
+                str_ends_with($name, '.sh') => 0x81ED0000,
+                default => 0x81A40000,
+            };
+            $local = pack(
+                'VvvvvvVVVvv',
+                0x04034b50,
+                20,
+                0,
+                8,
+                $dosTime,
+                $dosDate,
+                $crc,
+                $compressedLength,
+                $contentLength,
+                $nameLength,
+                0
+            ) . $name . $compressed;
+            $centralRecords .= pack(
+                'VvvvvvvVVVvvvvvVV',
+                0x02014b50,
+                0x0314,
+                20,
+                0,
+                8,
+                $dosTime,
+                $dosDate,
+                $crc,
+                $compressedLength,
+                $contentLength,
+                $nameLength,
+                0,
+                0,
+                0,
+                0,
+                $permissions,
+                $offset
+            ) . $name;
+
+            $localRecords .= $local;
+            $offset += strlen($local);
+            $entryCount++;
+        }
+
+        $centralOffset = strlen($localRecords);
+        $centralSize = strlen($centralRecords);
+        if ($entryCount > 0xFFFF || $centralOffset > 0xFFFFFFFF || $centralSize > 0xFFFFFFFF) {
+            throw new \RuntimeException('Download nicht verfuegbar.');
+        }
+
+        return $localRecords . $centralRecords . pack(
+            'VvvvvVVv',
+            0x06054b50,
+            0,
+            0,
+            $entryCount,
+            $entryCount,
+            $centralSize,
+            $centralOffset,
+            0
+        );
     }
 }

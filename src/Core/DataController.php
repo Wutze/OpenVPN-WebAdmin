@@ -71,6 +71,13 @@ private function handleGet(string $select): void
                     'rows' => $service->listSystems(),
                 ]);
                 break;
+            case 'profile_users':
+                $this->requireAdminJson();
+                $limit = max(1, (int)($_GET['limit'] ?? 10));
+                $offset = max(0, (int)($_GET['offset'] ?? 0));
+                $search = trim((string)($_GET['search'] ?? ''));
+                $this->json((new UserModel())->getVpnProfileUsers($limit, $offset, $search));
+                break;
             case 'config':
                 $this->requireAdminJson();
                 $this->handleConfigGet();
@@ -110,10 +117,6 @@ private function handlePost(string $select): void
                 break;
             case 'account':
                 $this->handleAccountAction();
-                break;
-            case 'profiles':
-                $this->requireAdminJson();
-                $this->handleProfileAction();
                 break;
             case 'config':
                 $this->requireAdminJson();
@@ -382,33 +385,6 @@ private function handleAccountAction(): void
     }
 
 /**
- * Verarbeitet profile action entsprechend der Logik.
- *
- * @return void Kein Rueckgabewert.
- */
-private function handleProfileAction(): void
-    {
-        $action = (string)($_POST['action'] ?? '');
-        if ($action !== 'build_zip') {
-            $this->json(['status' => 'error', 'message' => $this->msg('_API_PROFILE_ACTION_UNKNOWN')], 400);
-        }
-
-        $system = (string)($_POST['system'] ?? '');
-        $service = new ProfileService();
-
-        try {
-            $zipPath = $service->buildZip($system);
-            $this->json([
-                'status' => 'ok',
-                'message' => $this->msg('_API_PROFILE_ZIP_CREATED'),
-                'zip_file' => basename($zipPath),
-            ]);
-        } catch (\Throwable $e) {
-            $this->internalError('handleProfileAction', $e);
-        }
-    }
-
-/**
  * Verarbeitet config get entsprechend der Logik.
  *
  * @return void Kein Rueckgabewert.
@@ -488,13 +464,6 @@ private function handleConfigPost(): void
 
         try {
             $result = $service->saveConfig($system, $content);
-
-            // ZIP direkt nach Änderungen aktualisieren
-            try {
-                (new ProfileService())->buildZip($system);
-            } catch (\Throwable $e) {
-                // Kein harter Fehler für Config-Save
-            }
 
             $this->json([
                 'status' => 'ok',
