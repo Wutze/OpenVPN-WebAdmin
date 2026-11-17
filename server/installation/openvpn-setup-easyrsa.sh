@@ -111,11 +111,13 @@ easyrsa_run() {
 
 easyrsa_require_exact_dates() {
   local help version
-  # These are global options, listed by the top-level help (not `help sign-req`).
-  help="$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" 2>&1 || true)"
+  help="$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" help options 2>&1 || true)"
+  help+=$'\n'"$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" help 2>&1 || true)"
   version="$(cd "$EASYRSA_DIR" && EASYRSA_PKI="$PKI_DIR" "$EASYRSA_BIN" --version 2>&1 || true)"
-  [[ "$help" == *"--startdate=DATE"* && "$help" == *"--enddate=DATE"* ]] && EASYRSA_SUPPORTS_EXACT_DATES=1
-  [[ "$help" == *"expire <file_name_base>"* ]] && EASYRSA_SUPPORTS_EXPIRE=1
+
+  [[ "$help" == *"--startdate"* && "$help" == *"--enddate"* ]] && EASYRSA_SUPPORTS_EXACT_DATES=1
+  [[ "$help" == *"expire"* ]] && EASYRSA_SUPPORTS_EXPIRE=1
+
   log_line INFO "$(printf '%s' "$version" | head -n 1): exact date options $([[ "$EASYRSA_SUPPORTS_EXACT_DATES" -eq 1 ]] && printf supported || printf unavailable); expire command $([[ "$EASYRSA_SUPPORTS_EXPIRE" -eq 1 ]] && printf supported || printf unavailable)."
 }
 
