@@ -26,9 +26,7 @@ class LogModel
 private PDO $db;
 
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
- *
- * @return mixed|null Rueckgabewert der Funktion.
+ * Bezieht die gemeinsame PDO-Verbindung aus dem Database-Singleton.
  */
 public function __construct()
     {
@@ -36,12 +34,12 @@ public function __construct()
     }
 
 /**
- * Liest all logs und gibt den Wert zurueck.
+ * Liest Logdatensätze absteigend nach Startzeit, optional nach Benutzer- oder IP-Feldern gefiltert.
  *
- * @param mixed $limit Eingabewert fuer limit.
- * @param mixed $offset Eingabewert fuer offset.
- * @param mixed $search Eingabewert fuer search.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param int $limit Maximale Zahl der Datensätze.
+ * @param int $offset Zahl der zu überspringenden Datensätze.
+ * @param string|null $search Teiltext für Benutzername, vertrauenswürdige IP oder Remote-IP; null/leer ohne Filter.
+ * @return array<int, array<string, mixed>> Assoziative PDO-Zeilen aus der Tabelle `log`.
  */
 public function getAllLogs(int $limit = 50, int $offset = 0, string $search = null): array
     {
@@ -68,10 +66,10 @@ public function getAllLogs(int $limit = 50, int $offset = 0, string $search = nu
     }
 
 /**
- * Fuehrt count logs entsprechend der internen Logik aus.
+ * Zählt Logeinträge mit demselben optionalen Benutzer- und IP-Suchfilter wie `getAllLogs()`.
  *
- * @param mixed $search Eingabewert fuer search.
- * @return int Rueckgabewert der Funktion.
+ * @param string|null $search Teiltext für Benutzername, vertrauenswürdige IP oder Remote-IP.
+ * @return int Zahl der passenden Logeinträge.
  */
 public function countLogs(string $search = null): int
     {

@@ -23,10 +23,9 @@ class ServerSettingsService
 private array $cfg;
 
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Liest VPN-Server-Quell-, Cache- und Historienpfade sowie HTTP-Optionen aus der Konfiguration.
  *
- * @param mixed $cfg Eingabewert fuer cfg.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param array|null $cfg Gesamtkonfiguration; null lädt `config/config.php`.
  */
 public function __construct(?array $cfg = null)
     {
@@ -44,9 +43,10 @@ public function __construct(?array $cfg = null)
     }
 
 /**
- * Liest current und gibt den Wert zurueck.
+ * Bezieht die Serverkonfiguration aus URL, Quelldatei oder lokalem Cache und ergänzt Historien-Diffstatistiken.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array{content: string, source: string, save_path: string, history: array} Inhalt, Herkunftshinweis, Zielpfad und Snapshots samt Änderungszählern.
+ * @throws \RuntimeException Wenn die Quelle und gegebenenfalls der lokale Fallback nicht lesbar sind.
  */
 public function getCurrent(): array
     {
@@ -82,10 +82,11 @@ public function getCurrent(): array
     }
 
 /**
- * Speichert Daten persistent.
+ * Archiviert vorhandene Zieldatei und schreibt anschließend den neuen Serverkonfigurationstext.
  *
- * @param mixed $content Eingabewert fuer content.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $content Vollständiger neuer Konfigurationsinhalt.
+ * @return array{path: string} Pfad der gespeicherten Datei.
+ * @throws \RuntimeException Bei leerem Zielpfad, Verzeichnis-, Archiv- oder Schreibfehler.
  */
 public function save(string $content): array
     {
@@ -113,9 +114,9 @@ public function save(string $content): array
     }
 
 /**
- * Liest history list und gibt den Wert zurueck.
+ * Listet `.conf`-Snapshots im konfigurierten Historienverzeichnis absteigend nach Dateiname.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array<int, array{file: string, mtime: string}> Dateiname und formatierte Änderungszeit; bei fehlendem Ordner leer.
  */
 public function getHistoryList(): array
     {
@@ -142,11 +143,12 @@ public function getHistoryList(): array
     }
 
 /**
- * Vergleicht history file against current und liefert die Unterschiede.
+ * Vergleicht den per Basisdateiname ausgewählten Snapshot mit dem übergebenen aktuellen Inhalt.
  *
- * @param mixed $historyFile Eingabewert fuer historyFile.
- * @param mixed $current Eingabewert fuer current.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $historyFile Snapshotname; Pfadanteile werden durch `basename()` entfernt.
+ * @param string $current Aktueller Konfigurationstext.
+ * @return array{added: int, removed: int, diff: string} Zeilenänderungen und formatierter Diff.
+ * @throws \RuntimeException Wenn der Snapshot fehlt.
  */
 public function diffHistoryFileAgainstCurrent(string $historyFile, string $current): array
     {
@@ -161,10 +163,10 @@ public function diffHistoryFileAgainstCurrent(string $historyFile, string $curre
     }
 
 /**
- * Liest diff stats against current und gibt den Wert zurueck.
+ * Ergänzt die Historienliste um Anzahl hinzugefügter und entfernter Zeilen gegenüber dem Inhalt.
  *
- * @param mixed $current Eingabewert fuer current.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $current Aktueller Serverkonfigurationstext.
+ * @return array<int, array{file: string, mtime: string, added: int, removed: int}> Historienzeilen mit Diff-Zählern.
  */
 private function getDiffStatsAgainstCurrent(string $current): array
     {
@@ -182,10 +184,11 @@ private function getDiffStatsAgainstCurrent(string $current): array
     }
 
 /**
- * Fuehrt fetch from url entsprechend der internen Logik aus.
+ * Ruft eine HTTP(S)-Quelle mit GET, konfiguriertem Timeout und optionalem Authorization-Header ab.
  *
- * @param mixed $url Eingabewert fuer url.
- * @return string Rueckgabe als Text.
+ * @param string $url Abrufadresse; andere Schemes als HTTP und HTTPS werden abgewiesen.
+ * @return string Antwortinhalt.
+ * @throws \RuntimeException Bei ungültigem Scheme oder fehlgeschlagenem Abruf.
  */
 private function fetchFromUrl(string $url): string
     {
@@ -215,9 +218,9 @@ private function fetchFromUrl(string $url): string
     }
 
 /**
- * Schreibt cache in das Zielsystem.
+ * Schreibt den erfolgreichen URL-Inhalt bestmöglich in den konfigurierten Cache; Fehler werden ignoriert.
  *
- * @param mixed $content Eingabewert fuer content.
+ * @param string $content Abzurufender Konfigurationsinhalt.
  * @return void Kein Rueckgabewert.
  */
 private function writeCache(string $content): void
@@ -236,10 +239,11 @@ private function writeCache(string $content): void
     }
 
 /**
- * Fuehrt archive file entsprechend der internen Logik aus.
+ * Kopiert eine bestehende Datei unter Zeitstempel in den Historienordner.
  *
- * @param mixed $file Eingabewert fuer file.
+ * @param string $file Zu archivierende Quelldatei.
  * @return void Kein Rueckgabewert.
+ * @throws \RuntimeException Wenn Historienordner oder Kopie nicht erstellt werden kann.
  */
 private function archiveFile(string $file): void
     {
@@ -277,10 +281,11 @@ private function readSavePath(): string
     }
 
 /**
- * Laedt file aus der Quelle.
+ * Liest eine vorhandene Datei vollständig als Text.
  *
- * @param mixed $path Eingabewert fuer path.
- * @return string Rueckgabe als Text.
+ * @param string $path Quelldateipfad.
+ * @return string Dateiinhalt.
+ * @throws \RuntimeException Wenn die Datei fehlt.
  */
 private function readFile(string $path): string
     {
@@ -292,7 +297,7 @@ private function readFile(string $path): string
     }
 
 /**
- * Fuehrt ensure save file exists entsprechend der internen Logik aus.
+ * Legt den Save-Ordner und bei Bedarf eine minimale Serverkonfiguration an; Anlagefehler werden ignoriert.
  *
  * @return void Kein Rueckgabewert.
  */
@@ -315,11 +320,11 @@ private function ensureSaveFileExists(): void
     }
 
 /**
- * Erzeugt diff data auf Basis der Eingabedaten.
+ * Berechnet Anzahl und Textdarstellung gleicher, hinzugefügter und entfernter Zeilen.
  *
- * @param mixed $oldText Eingabewert fuer oldText.
- * @param mixed $newText Eingabewert fuer newText.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $oldText Vorheriger Konfigurationstext.
+ * @param string $newText Neuer Konfigurationstext.
+ * @return array{added: int, removed: int, diff: string} Zähler und mit `  `, `+ `, `- ` markierte Zeilen.
  */
 private function buildDiffData(string $oldText, string $newText): array
     {
@@ -351,11 +356,11 @@ private function buildDiffData(string $oldText, string $newText): array
     }
 
 /**
- * Vergleicht ops und liefert die Unterschiede.
+ * Erzeugt anhand der längsten gemeinsamen Teilfolge eine geordnete Liste der Zeilenoperationen.
  *
- * @param mixed $a Eingabewert fuer a.
- * @param mixed $b Eingabewert fuer b.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string[] $a Alte Zeilen.
+ * @param string[] $b Neue Zeilen.
+ * @return array<int, array{type: '='|'+'|'-', line: string}> Operationen mit Zeilentyp und Text.
  */
 private function diffOps(array $a, array $b): array
     {

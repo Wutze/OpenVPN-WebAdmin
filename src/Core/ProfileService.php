@@ -24,6 +24,13 @@ class ProfileService
     private string $clientCertPath;
     private ?UserModel $userModel;
 
+    /**
+     * Setzt Vorlagen- und Zertifikatsspeicherpfade sowie optional das injizierte Benutzermodell.
+     *
+     * @param string|null $basePath Verzeichnis mit systembezogenen Client-Vorlagen.
+     * @param string|null $clientCertPath Verzeichnis mit Zertifikatsdateien, standardmäßig aus `OPENVPN_CLIENT_CERT_DIR`.
+     * @param UserModel|null $userModel Modell für Benutzer- und Rollenabfragen; null erzeugt es bei Bedarf.
+     */
     public function __construct(?string $basePath = null, ?string $clientCertPath = null, ?UserModel $userModel = null)
     {
         $this->basePath = $basePath ?? dirname(__DIR__, 2) . '/storage/conf';
@@ -143,6 +150,7 @@ class ProfileService
         }
     }
 
+    /** Prüft Aktivflag und inklusive Start-/Enddatum gegen das heutige Datum. */
     private function isVpnActive(array $user): bool
     {
         if ((int)($user['user_enable'] ?? 0) !== 1) {
@@ -157,6 +165,7 @@ class ProfileService
             && ($endDate === '' || $endDate >= $today);
     }
 
+    /** Erkennt nur die explizit unterstützten Admin-Rollennamen. */
     private function isAdminRole(string $roleName): bool
     {
         return in_array(strtolower(trim($roleName)), [
@@ -168,6 +177,7 @@ class ProfileService
         ], true);
     }
 
+    /** Liest eine nichtleere Client-Vorlage und verhindert Pfadauflösung außerhalb des Systemordners. */
     private function readTemplate(string $system): string
     {
         $path = $this->basePath . '/' . $system . '/client.ovpn';
@@ -185,6 +195,7 @@ class ProfileService
         return $content;
     }
 
+    /** Liest eine optionale, lesbare Datei direkt im Vorlagenordner; fehlende Dateien ergeben null. */
     private function readOptionalTemplateFile(string $system, string $name): ?string
     {
         $directory = realpath($this->basePath . '/' . $system);
@@ -243,6 +254,7 @@ class ProfileService
         return $files;
     }
 
+    /** Validiert X.509-Zertifikate, Gültigkeit, CA-Signatur, privaten Schlüssel und OpenVPN-TLS-Key-Format. */
     private function validateClientFiles(array $files, int $uid): void
     {
         $certificate = @openssl_x509_read($files['cert']);
@@ -275,6 +287,7 @@ class ProfileService
         unset($certificate, $caCertificate, $privateKey, $caKey);
     }
 
+    /** Extrahiert genau einen wohlgeformten OpenVPN Static key V1-Block und normalisiert Zeilenenden. */
     private function normalizeTlsAuthKey(string $key): string
     {
         $lines = preg_split('/\r\n|\n|\r/', trim($key));
@@ -318,6 +331,7 @@ class ProfileService
         return implode("\n", array_slice($lines, $beginIndex, $endIndex - $beginIndex + 1)) . "\n";
     }
 
+    /** Entfernt dateibasierte und eingebettete Schlüssel-Direktiven und hängt die aktuellen Schlüsselblöcke an. */
     private function buildClientConfig(string $template, array $files): string
     {
         $template = (string)preg_replace(

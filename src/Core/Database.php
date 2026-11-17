@@ -27,10 +27,10 @@ private static ?Database $instance = null;
 private PDO $connection;
 
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Baut eine PDO-Verbindung mit MySQL-DSN und Exceptions als Fehlerbetrieb auf.
  *
- * @param mixed $config Eingabewert fuer config.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param array{host: string, port: int|string, dbname: string, charset: string, user: string, pass: string} $config Verbindungsparameter.
+ * @throws \RuntimeException Es wird bei Verbindungsfehlern stattdessen protokolliert, HTTP 500 gesetzt und das Skript mit `die` beendet.
  */
 private function __construct(array $config)
     {
@@ -49,10 +49,11 @@ private function __construct(array $config)
     }
 
 /**
- * Liest instance und gibt den Wert zurueck.
+ * Liefert die Singleton-Verbindung und initialisiert sie beim ersten Aufruf.
  *
- * @param mixed $config Eingabewert fuer config.
- * @return Database Rueckgabewert der Funktion.
+ * @param array|null $config Zugangsdaten; beim ersten Aufruf erforderlich, später ignoriert.
+ * @return self Gemeinsame Database-Instanz.
+ * @throws \RuntimeException Wenn die Erstinitialisierung ohne Konfiguration erfolgt.
  */
 public static function getInstance(array $config = null): Database
     {
@@ -66,9 +67,9 @@ public static function getInstance(array $config = null): Database
     }
 
 /**
- * Liest connection und gibt den Wert zurueck.
+ * Gibt die von PDO verwaltete Datenbankverbindung zurück.
  *
- * @return PDO Rueckgabewert der Funktion.
+ * @return PDO PDO-Verbindung.
  */
 public function getConnection(): PDO
     {

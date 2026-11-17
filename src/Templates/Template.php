@@ -27,12 +27,11 @@ private string $content;
 private array $data;
 
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Speichert Seitentitel, Hauptinhalt und Variablen für Layout-Teile.
  *
- * @param mixed $title Eingabewert fuer title.
- * @param mixed $content Eingabewert fuer content.
- * @param mixed $data Eingabewert fuer data.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param string $title Dokumenttitel.
+ * @param string $content Bereits erzeugter HTML-Hauptinhalt.
+ * @param array $data Werte, die an Layout-Teile übergeben werden.
  */
 public function __construct(string $title = 'WebAdmin', string $content = '', array $data = [])
     {
@@ -42,7 +41,12 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
     }
 
     /**
-     * Lädt eine Layout-Datei aus /src/Layout/
+     * Bindet ein Layout-Snippet mit extrahierten Variablen ein und fängt dessen Ausgabe ab.
+     * Geheimhaltungsfelder aus Debug-Daten werden nur aus der lokalen Debugkopie entfernt.
+     *
+     * @param string $name Dateiname des Layout-Teils ohne `.php`.
+     * @param array $vars Variablen für das inkludierte Template.
+     * @return string HTML-Ausgabe oder Kommentar, wenn die Layoutdatei fehlt.
      */
     private function loadPart(string $name, array $vars = []): string
     {
@@ -67,7 +71,10 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
     }
 
     /**
-     * Baut die komplette Seite zusammen
+     * Rendert Layout-Kopf, Navigation, Inhalt, Fußbereich und Skripte und wendet optional URL-Rewriting an.
+     * Fehlende Teiltemplates werden von `loadPart()` als HTML-Kommentar ausgegeben.
+     *
+     * @return string Zusammengesetztes HTML-Dokument.
      */
     public function render(): string
     {

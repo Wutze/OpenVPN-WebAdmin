@@ -21,9 +21,9 @@ namespace Micro\OpenvpnWebadmin\Core;
 class Url
 {
 /**
- * Kurzbeschreibung Funktion basePath
+ * Ermittelt den normalisierten URL-Präfix der Anwendung aus `_APP_BASE_PATH`.
  *
- * @return string
+ * @return string Leerstring für nicht gesetzten/root-Präfix, sonst führender Slash ohne Abschlussslash.
  */
 private static function basePath(): string
     {
@@ -38,10 +38,10 @@ private static function basePath(): string
     }
 
 /**
- * Kurzbeschreibung Funktion appPath
+ * Ergänzt einen relativen oder absoluten Pfad um den konfigurierten Anwendungspräfix.
  *
- * @param mixed $path
- * @return string
+ * @param string $path Pfad, dessen führende Slashes entfernt und durch genau einen ersetzt werden.
+ * @return string Zusammengesetzter interner Anwendungspfad.
  */
 private static function appPath(string $path): string
     {
@@ -51,11 +51,11 @@ private static function appPath(string $path): string
     }
 
     /**
-     * Baut interne App-URLs fuer op-Routen.
+     * Baut eine interne URL für eine `op`-Route, je nach Konfiguration als Rewrite- oder Query-URL.
      *
-     * @param string $op
-     * @param array<string,mixed> $params
-     * @return string
+     * @param string $op Routenkennung; leer wird zu `main`.
+     * @param array<string,mixed> $params Query-Parameter; im Rewrite-Modus wird `lang` bei `setlang` Teil des Pfads.
+     * @return string URL inklusive App-Präfix und gegebenenfalls kodierter Query.
      */
     public static function op(string $op, array $params = []): string
     {
@@ -82,10 +82,10 @@ private static function appPath(string $path): string
     }
 
 /**
- * Kurzbeschreibung Funktion normalizeInternal
+ * Normalisiert einen internen URL-Wert und erhält absolute URLs unverändert.
  *
- * @param mixed $url
- * @return string
+ * @param string $url Absolute URL, `?op=`-Query, Querystring oder Pfad.
+ * @return string Absolute URLs unverändert; interne Werte erhalten den App-Präfix und `?op=` wird über `op()` gebaut.
  */
 public static function normalizeInternal(string $url): string
     {

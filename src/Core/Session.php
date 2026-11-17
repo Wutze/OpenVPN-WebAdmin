@@ -39,11 +39,10 @@ private string $table = 'sessions2';
 private int $lifetime;
 
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Registriert diese Instanz als PHP-Sessionhandler und setzt sichere Cookie-Optionen.
  *
- * @param mixed $db Eingabewert fuer db.
- * @param mixed $lifetime Eingabewert fuer lifetime.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param PDO $db Datenbankverbindung für `sessions2`.
+ * @param int $lifetime Cookie- und Session-Laufzeit in Sekunden.
  */
 public function __construct(PDO $db, int $lifetime = 1440)
     {
@@ -68,10 +67,10 @@ public function __construct(PDO $db, int $lifetime = 1440)
     // ---------------------------------------------------------------------
 
 /**
- * Fuehrt open entsprechend der internen Logik aus.
+ * Akzeptiert das Öffnen des Session-Speichers; PDO benötigt kein separates Öffnen.
  *
- * @param mixed $savePath Eingabewert fuer savePath.
- * @param mixed $sessionName Eingabewert fuer sessionName.
+ * @param string $savePath Von PHP übergebener Speicherpfad (wird nicht verwendet).
+ * @param string $sessionName Von PHP übergebener Sitzungsname (wird nicht verwendet).
  * @return bool True bei Erfolg, sonst false.
  */
 public function open($savePath, $sessionName): bool
@@ -80,7 +79,7 @@ public function open($savePath, $sessionName): bool
     }
 
 /**
- * Fuehrt close entsprechend der internen Logik aus.
+ * Akzeptiert das Schließen des Session-Speichers; es sind keine Ressourcen freizugeben.
  *
  * @return bool True bei Erfolg, sonst false.
  */
@@ -90,9 +89,9 @@ public function close(): bool
     }
 
 /**
- * Laedt Daten aus der Quelle.
+ * Liest nicht abgelaufene Sitzungsdaten aus `sessions2`; Datenbankfehler werden protokolliert und als leere Session behandelt.
  *
- * @param mixed $id Eingabewert fuer id.
+ * @param string $id PHP-Session-ID als Datenbankschlüssel.
  * @return string|false Rueckgabewert der Funktion.
  */
 public function read($id): string|false
@@ -117,10 +116,10 @@ public function read($id): string|false
     }
 
 /**
- * Schreibt Daten in das Zielsystem.
+ * Ersetzt den Datensatz der Session mit Ablaufzeit, Zeitstempeln und serialisierten Daten.
  *
- * @param mixed $id Eingabewert fuer id.
- * @param mixed $data Eingabewert fuer data.
+ * @param string $id PHP-Session-ID.
+ * @param string $data Von PHP serialisierte Sessiondaten.
  * @return bool True bei Erfolg, sonst false.
  */
 public function write($id, $data): bool
@@ -150,9 +149,9 @@ public function write($id, $data): bool
     }
 
 /**
- * Fuehrt destroy entsprechend der internen Logik aus.
+ * Löscht den Datensatz der angegebenen Session; bei Datenbankfehler wird protokolliert und Erfolg signalisiert.
  *
- * @param mixed $id Eingabewert fuer id.
+ * @param string $id Zu löschende PHP-Session-ID.
  * @return bool True bei Erfolg, sonst false.
  */
 public function destroy($id): bool
@@ -170,9 +169,9 @@ public function destroy($id): bool
     }
 
 /**
- * Fuehrt gc entsprechend der internen Logik aus.
+ * Entfernt alle abgelaufenen Sitzungsdatensätze; bei Fehler wird protokolliert und 0 zurückgegeben.
  *
- * @param mixed $max_lifetime Eingabewert fuer max_lifetime.
+ * @param int $max_lifetime PHP-Parameter der GC-Schnittstelle; die Bereinigung nutzt stattdessen `expiry < NOW()`.
  * @return int|false Rueckgabewert der Funktion.
  */
 public function gc($max_lifetime): int|false
@@ -193,7 +192,11 @@ public function gc($max_lifetime): int|false
     // ---------------------------------------------------------------------
 
     /**
-     * Initialisiert und startet die Session.
+     * Startet bei Bedarf die native PHP-Session mit striktem Modus und sicheren Cookie-Optionen.
+     * Der übergebene PDO-Handler wird derzeit nicht aktiviert; Fehler beim Start werden von PHP behandelt.
+     *
+     * @param PDO $db Datenbankverbindung (aktuell ungenutzt, für den optionalen PDO-Handler vorgesehen).
+     * @param int $lifetime Cookie-Laufzeit in Sekunden.
      */
     public static function start(PDO $db, int $lifetime = 1440): void
     {
@@ -364,9 +367,9 @@ public static function regenerateId(): void
     }
 
     /**
-     * Fuehrt verify csrf token entsprechend der internen Logik aus.
+     * Vergleicht ein übermitteltes CSRF-Token konstantzeitlich mit dem Session-Token.
      *
-     * @param mixed $token Eingabewert fuer token.
+     * @param string|null $token Zu prüfendes Token.
      * @return bool True bei Erfolg, sonst false.
      */
     public static function verifyCsrfToken(?string $token): bool
@@ -384,9 +387,9 @@ public static function regenerateId(): void
     }
 
 /**
- * Fuehrt to bool entsprechend der internen Logik aus.
+ * Erkennt boolesche Werte sowie `1`, `true`, `yes` und `on` (ohne Beachtung der Großschreibung).
  *
- * @param mixed $value Eingabewert fuer value.
+ * @param mixed $value Zu interpretierender Sessionwert.
  * @return bool True bei Erfolg, sonst false.
  */
 private static function toBool(mixed $value): bool
@@ -406,9 +409,9 @@ private static function toBool(mixed $value): bool
     }
 
 /**
- * Prueft, ob strict admin role name zutrifft.
+ * Erkennt ausschließlich die explizit aufgelisteten Admin-Rollennamen nach Trim und Kleinschreibung.
  *
- * @param mixed $roleName Eingabewert fuer roleName.
+ * @param string $roleName Rollenbezeichnung aus der Datenbank.
  * @return bool True bei Erfolg, sonst false.
  */
 private static function isStrictAdminRoleName(string $roleName): bool

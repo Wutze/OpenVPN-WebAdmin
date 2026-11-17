@@ -24,10 +24,10 @@ private string $basePath;
 private string $historyBasePath;
 
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Legt das Konfigurationsverzeichnis und dessen Historienverzeichnis fest.
+ * Ohne expliziten Pfad wird `storage/conf` relativ zum Projektstamm verwendet.
  *
- * @param mixed $basePath Eingabewert fuer basePath.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param string|null $basePath Optionaler Speicherort der Systemkonfigurationen.
  */
 public function __construct(?string $basePath = null)
     {
@@ -36,9 +36,10 @@ public function __construct(?string $basePath = null)
     }
 
 /**
- * Liefert eine Liste von systems.
+ * Ermittelt alphabetisch sortierte Systeme mit einer vorhandenen `client.ovpn`.
+ * Ein fehlendes oder nicht lesbares Verzeichnis ergibt eine leere Liste.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return string[] Verzeichnisnamen der gefundenen Systeme.
  */
 public function listSystems(): array
     {
@@ -65,10 +66,11 @@ public function listSystems(): array
     }
 
 /**
- * Liest config und gibt den Wert zurueck.
+ * Liest die `client.ovpn` des validierten Systems vollständig als Text.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @param string $system Systemverzeichnisname.
+ * @return string Dateiinhalt der Client-Konfiguration.
+ * @throws \RuntimeException Wenn der Systemname ungültig ist oder die Datei fehlt.
  */
 public function getConfig(string $system): string
     {
@@ -81,11 +83,12 @@ public function getConfig(string $system): string
     }
 
 /**
- * Speichert config persistent.
+ * Archiviert die bisherige Konfiguration (falls vorhanden) und ersetzt sie atomar.
  *
- * @param mixed $system Eingabewert fuer system.
- * @param mixed $content Eingabewert fuer content.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $system Systemverzeichnisname.
+ * @param string $content Vollständiger neuer Inhalt für `client.ovpn`.
+ * @return array{history_file: string|null, history_saved: bool, path: string} Speicherpfad und Status des Snapshots.
+ * @throws \RuntimeException Wenn das Systemverzeichnis fehlt oder das Schreiben fehlschlägt.
  */
 public function saveConfig(string $system, string $content): array
     {
@@ -130,10 +133,11 @@ public function saveConfig(string $system, string $content): array
     }
 
 /**
- * Liest history list und gibt den Wert zurueck.
+ * Sammelt `.ovpn`-Snapshots aus den unterstützten Historienorten und sortiert sie absteigend.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $system Systemverzeichnisname.
+ * @return array<int, array{file: string, mtime: string}> Snapshotname und Änderungszeit.
+ * @throws \RuntimeException Bei ungültigem Systemnamen.
  */
 public function getHistoryList(string $system): array
     {
@@ -164,10 +168,11 @@ public function getHistoryList(string $system): array
     }
 
 /**
- * Liest diff stats against current und gibt den Wert zurueck.
+ * Ergänzt jeden Snapshot um die Zeilenzahlen seiner Abweichung zur aktuellen Konfiguration.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $system Systemverzeichnisname.
+ * @return array<int, array{file: string, mtime: string, added: int, removed: int}> Snapshots mit Änderungszahlen.
+ * @throws \RuntimeException Wenn aktuelle Konfiguration oder Systemname ungültig ist.
  */
 public function getDiffStatsAgainstCurrent(string $system): array
     {
@@ -185,11 +190,12 @@ public function getDiffStatsAgainstCurrent(string $system): array
     }
 
 /**
- * Vergleicht history file und liefert die Unterschiede.
+ * Vergleicht einen Snapshot mit der aktuellen `client.ovpn`.
  *
- * @param mixed $system Eingabewert fuer system.
- * @param mixed $historyFile Eingabewert fuer historyFile.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $system Systemverzeichnisname.
+ * @param string $historyFile Snapshotdateiname; Verzeichnisteile werden verworfen.
+ * @return array{added: int, removed: int, diff: string} Zeilenzahlen und zeilenweiser Unified-ähnlicher Vergleich.
+ * @throws \RuntimeException Wenn Snapshot oder aktuelle Konfiguration fehlt.
  */
 public function diffHistoryFile(string $system, string $historyFile): array
     {
@@ -200,11 +206,12 @@ public function diffHistoryFile(string $system, string $historyFile): array
     }
 
 /**
- * Liest history content und gibt den Wert zurueck.
+ * Liest einen Snapshot aus einem der Historienorte des Systems.
  *
- * @param mixed $system Eingabewert fuer system.
- * @param mixed $historyFile Eingabewert fuer historyFile.
- * @return string Rueckgabe als Text.
+ * @param string $system Systemverzeichnisname.
+ * @param string $historyFile Snapshotname; mit `basename()` auf einen Dateinamen begrenzt.
+ * @return string Vollständiger Snapshotinhalt.
+ * @throws \RuntimeException Wenn keine passende Datei gefunden wird.
  */
 private function getHistoryContent(string $system, string $historyFile): string
     {
@@ -220,11 +227,11 @@ private function getHistoryContent(string $system, string $historyFile): string
     }
 
 /**
- * Erzeugt diff data auf Basis der Eingabedaten.
+ * Berechnet Zähler und Textdarstellung eines zeilenweisen Vergleichs.
  *
- * @param mixed $oldText Eingabewert fuer oldText.
- * @param mixed $newText Eingabewert fuer newText.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $oldText Vorheriger Inhalt.
+ * @param string $newText Neuer Inhalt.
+ * @return array{added: int, removed: int, diff: string} Vergleichstext mit `  `, `+ ` und `- ` je Zeile.
  */
 private function buildDiffData(string $oldText, string $newText): array
     {
@@ -256,11 +263,11 @@ private function buildDiffData(string $oldText, string $newText): array
     }
 
 /**
- * Vergleicht ops und liefert die Unterschiede.
+ * Erzeugt per Längentabelle der längsten gemeinsamen Teilfolge geordnete Diff-Operationen.
  *
- * @param mixed $a Eingabewert fuer a.
- * @param mixed $b Eingabewert fuer b.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string[] $a Alte Zeilen.
+ * @param string[] $b Neue Zeilen.
+ * @return array<int, array{type: '='|'+'|'-', line: string}> Gleiche, hinzugefügte oder entfernte Zeilen.
  */
 private function diffOps(array $a, array $b): array
     {
@@ -310,10 +317,11 @@ private function diffOps(array $a, array $b): array
     }
 
 /**
- * Fuehrt client path entsprechend der internen Logik aus.
+ * Erstellt nach Validierung des Systemnamens den Pfad zu seiner Client-Konfiguration.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @param string $system Systemverzeichnisname.
+ * @return string Absoluter Pfad zu `client.ovpn`.
+ * @throws \RuntimeException Bei ungültigem Namen.
  */
 private function clientPath(string $system): string
     {
@@ -322,10 +330,11 @@ private function clientPath(string $system): string
     }
 
 /**
- * Fuehrt history dir entsprechend der internen Logik aus.
+ * Wählt den ersten vorhandenen beschreibbaren oder anlegbaren Historienpfad.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @param string $system Systemverzeichnisname.
+ * @return string Bevorzugter Historienpfad.
+ * @throws \RuntimeException Wenn kein Historienort beschreibbar ist.
  */
 private function historyDir(string $system): string
     {
@@ -364,10 +373,11 @@ private function historyDir(string $system): string
     }
 
 /**
- * Fuehrt sanitize system entsprechend der internen Logik aus.
+ * Entfernt Rand-Leerzeichen und weist Systemnamen außerhalb des erlaubten Zeichensatzes zurück.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @param string $system Ungeprüfter Systemname.
+ * @return string Bereinigter Systemname.
+ * @throws \RuntimeException Bei leerem oder ungültigem Namen.
  */
 private function sanitizeSystem(string $system): string
     {
@@ -384,9 +394,10 @@ private function sanitizeSystem(string $system): string
  * Dadurch funktionieren Saves auch dann, wenn die bestehende Datei restriktive Rechte hat,
  * aber das Verzeichnis beschreibbar ist.
  *
- * @param mixed $path
- * @param mixed $content
+ * @param string $path Zieldatei.
+ * @param string $content Zu schreibender Inhalt.
  * @return void
+ * @throws \RuntimeException Wenn Verzeichnis, temporäre Datei oder Ersetzen fehlschlägt.
  */
 private function writeAtomic(string $path, string $content): void
     {

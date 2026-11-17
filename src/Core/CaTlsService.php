@@ -25,10 +25,9 @@ private string $caPath;
 private string $tlsPath;
 
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Setzt Speicherpfade für CA- und TLS-Datei; ohne Basis nimmt es den ersten nutzbaren Standardpfad.
  *
- * @param mixed $basePath Eingabewert fuer basePath.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param string|null $basePath Optionales Speicherverzeichnis.
  */
 public function __construct(?string $basePath = null)
     {
@@ -38,9 +37,10 @@ public function __construct(?string $basePath = null)
     }
 
 /**
- * Liest current und gibt den Wert zurueck.
+ * Stellt Speicher und Dateien sicher und liest beide Schlüsselmaterialien.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array{ca: string, tls: string, ca_path: string, tls_path: string} Inhalte und Pfade der Dateien.
+ * @throws \RuntimeException Wenn das Speicherverzeichnis oder eine Datei nicht angelegt werden kann.
  */
 public function getCurrent(): array
     {
@@ -57,11 +57,12 @@ public function getCurrent(): array
     }
 
 /**
- * Speichert Daten persistent.
+ * Schreibt CA- und TLS-Inhalt jeweils über eine temporäre Datei mit restriktiven Rechten.
  *
- * @param mixed $caContent Eingabewert fuer caContent.
- * @param mixed $tlsContent Eingabewert fuer tlsContent.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $caContent Inhalt der CA-Datei.
+ * @param string $tlsContent Inhalt der TLS-Authentifizierungsdatei.
+ * @return array{ca_path: string, tls_path: string} Speicherorte der geschriebenen Dateien.
+ * @throws \RuntimeException Wenn Verzeichnis oder temporäre Dateien nicht geschrieben/umbenannt werden können.
  */
 public function save(string $caContent, string $tlsContent): array
     {
@@ -76,7 +77,7 @@ public function save(string $caContent, string $tlsContent): array
     }
 
 /**
- * Fuehrt ensure storage entsprechend der internen Logik aus.
+ * Erstellt das Speicherverzeichnis bei Bedarf, prüft Zugriffsrechte und setzt Modus 0700.
  *
  * @return void Kein Rueckgabewert.
  */
@@ -94,10 +95,11 @@ private function ensureStorage(): void
     }
 
 /**
- * Fuehrt ensure file entsprechend der internen Logik aus.
+ * Legt eine fehlende Schlüsseldatei leer an und setzt Modus 0600.
  *
- * @param mixed $path Eingabewert fuer path.
+ * @param string $path Zu prüfender Datei-Pfad.
  * @return void Kein Rueckgabewert.
+ * @throws \RuntimeException Wenn eine fehlende Datei nicht erstellt werden kann.
  */
 private function ensureFile(string $path): void
     {
@@ -111,11 +113,12 @@ private function ensureFile(string $path): void
     }
 
 /**
- * Schreibt secure file in das Zielsystem.
+ * Schreibt Inhalt in eine temporäre Datei im Speicherverzeichnis und ersetzt damit das Ziel.
  *
- * @param mixed $path Eingabewert fuer path.
- * @param mixed $content Eingabewert fuer content.
+ * @param string $path Zieldatei.
+ * @param string $content Zu speichernder Schlüsselinhalt.
  * @return void Kein Rueckgabewert.
+ * @throws \RuntimeException Wenn temporäres Schreiben oder Umbenennen fehlschlägt.
  */
 private function writeSecureFile(string $path, string $content): void
     {
@@ -139,9 +142,9 @@ private function writeSecureFile(string $path, string $content): void
     }
 
 /**
- * Fuehrt resolve usable base path entsprechend der internen Logik aus.
+ * Prüft `storage/secure` und danach `storage/conf/.secure`, indem es fehlende Verzeichnisse anzulegen versucht.
  *
- * @return string Rueckgabe als Text.
+ * @return string Erster nutzbarer Kandidat oder `storage/secure`, damit ein späterer Fehler den Pfad benennt.
  */
 private function resolveUsableBasePath(): string
     {
@@ -163,9 +166,9 @@ private function resolveUsableBasePath(): string
     }
 
 /**
- * Prueft, ob use path zutrifft.
+ * Erstellt bei Bedarf den Pfad, setzt Modus 0700 und prüft Les- und Schreibbarkeit.
  *
- * @param mixed $path Eingabewert fuer path.
+ * @param string $path Zu prüfender Verzeichnispfad.
  * @return bool True bei Erfolg, sonst false.
  */
 private function canUsePath(string $path): bool

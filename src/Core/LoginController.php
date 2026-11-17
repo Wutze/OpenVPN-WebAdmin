@@ -152,9 +152,9 @@ public function handleLogin(): void
     }
 
 /**
- * Fuehrt redirect entsprechend der internen Logik aus.
+ * Sendet einen Location-Header mit normalisierter interner URL und beendet die Anfrage.
  *
- * @param mixed $url Eingabewert fuer url.
+ * @param string $url Internes Redirectziel.
  * @return void Kein Rueckgabewert.
  */
 private function redirect(string $url): void
@@ -164,10 +164,10 @@ private function redirect(string $url): void
     }
 
     /**
-     * Baut eine absolute Redirect-URL aus Legacy-?op Links.
+     * Normalisiert ein internes Ziel mittels `Url::normalizeInternal()`.
      *
-     * @param string $url
-     * @return string
+     * @param string $url Legacy-Query, Pfad oder absolute URL.
+     * @return string Normalisiertes Redirectziel.
      */
     private function buildRedirectUrl(string $url): string
     {
@@ -186,10 +186,10 @@ private function clientIp(): string
     }
 
 /**
- * Fuehrt audit user ref entsprechend der internen Logik aus.
+ * Erzeugt für Logs eine nicht umkehrbare Referenz aus dem normalisierten Benutzernamen.
  *
- * @param mixed $username Eingabewert fuer username.
- * @return string Rueckgabe als Text.
+ * @param string $username Zu anonymisierender Benutzername.
+ * @return string `empty` oder SHA-256-Präfix samt Hash.
  */
 private function auditUserRef(string $username): string
     {
@@ -201,10 +201,10 @@ private function auditUserRef(string $username): string
     }
 
 /**
- * Fuehrt login key entsprechend der internen Logik aus.
+ * Bildet den Rate-Limit-Schlüssel aus normalisiertem Benutzernamen und Client-IP.
  *
- * @param mixed $username Eingabewert fuer username.
- * @return string Rueckgabe als Text.
+ * @param string $username Loginname.
+ * @return string SHA-256-Schlüssel für den Session-Rate-Limit-Eintrag.
  */
 private function loginKey(string $username): string
     {
@@ -212,9 +212,9 @@ private function loginKey(string $username): string
     }
 
 /**
- * Prueft, ob login rate limited zutrifft.
+ * Prüft, ob für Benutzername und Client-IP eine noch aktive Sperre in der Session besteht.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Loginname.
  * @return bool True bei Erfolg, sonst false.
  */
 private function isLoginRateLimited(string $username): bool
@@ -235,9 +235,9 @@ private function isLoginRateLimited(string $username): bool
     }
 
 /**
- * Fuehrt register login failure entsprechend der internen Logik aus.
+ * Zählt einen Fehlversuch in der aktiven Session; ab fünf Versuchen innerhalb zehn Minuten sperrt es fünf Minuten und verzögert 300 ms.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Loginname für den Rate-Limit-Schlüssel.
  * @return void Kein Rueckgabewert.
  */
 private function registerLoginFailure(string $username): void
@@ -277,9 +277,9 @@ private function registerLoginFailure(string $username): void
     }
 
 /**
- * Fuehrt clear login failures entsprechend der internen Logik aus.
+ * Entfernt den Rate-Limit-Eintrag dieses Benutzers und der Client-IP aus der aktiven Session.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Erfolgreich angemeldeter Benutzername.
  * @return void Kein Rueckgabewert.
  */
 private function clearLoginFailures(string $username): void
@@ -295,9 +295,9 @@ private function clearLoginFailures(string $username): void
     }
 
 /**
- * Prueft, ob strict admin role name zutrifft.
+ * Erkennt ausschließlich die erlaubten Admin-Rollennamen nach Trim und Kleinschreibung.
  *
- * @param mixed $roleName Eingabewert fuer roleName.
+ * @param string $roleName Rollenname aus der Datenbank.
  * @return bool True bei Erfolg, sonst false.
  */
 private function isStrictAdminRoleName(string $roleName): bool

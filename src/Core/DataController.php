@@ -48,9 +48,9 @@ public function handle(): void
     }
 
 /**
- * Verarbeitet get entsprechend der Logik.
+ * Verteilt GET-Datenquellen, prüft je Quelle die Adminrolle und serialisiert Ergebnisse als JSON.
  *
- * @param mixed $select Eingabewert fuer select.
+ * @param string $select Angeforderte Datenquelle aus `select`.
  * @return void Kein Rueckgabewert.
  */
 private function handleGet(string $select): void
@@ -103,9 +103,9 @@ private function handleGet(string $select): void
     }
 
 /**
- * Verarbeitet post entsprechend der Logik.
+ * Verteilt schreibende API-Aktionen; Verwaltungsquellen verlangen Adminrechte.
  *
- * @param mixed $select Eingabewert fuer select.
+ * @param string $select Angeforderte Aktionsquelle aus `select`.
  * @return void Kein Rueckgabewert.
  */
 private function handlePost(string $select): void
@@ -645,10 +645,10 @@ private function requireAdminJson(): void
     }
 
 /**
- * Fuehrt msg entsprechend der internen Logik aus.
+ * Übersetzt einen Sprachschlüssel über den aktuellen Sprachkatalog.
  *
- * @param mixed $key Eingabewert fuer key.
- * @return string Rueckgabe als Text.
+ * @param string $key Schlüssel des Sprachkatalogs.
+ * @return string Übersetzter Text oder das Verhalten von `Lang::get()` bei unbekanntem Schlüssel.
  */
 private function msg(string $key): string
     {
@@ -656,11 +656,11 @@ private function msg(string $key): string
     }
 
 /**
- * Fuehrt msgf entsprechend der internen Logik aus.
+ * Übersetzt einen Sprachschlüssel und setzt genau ein `sprintf`-Argument ein.
  *
- * @param mixed $key Eingabewert fuer key.
- * @param mixed $arg Eingabewert fuer arg.
- * @return string Rueckgabe als Text.
+ * @param string $key Formatstring-Schlüssel.
+ * @param string $arg Einzusetzender Formatwert.
+ * @return string Formatierter Übersetzungstext.
  */
 private function msgf(string $key, string $arg): string
     {
@@ -668,10 +668,11 @@ private function msgf(string $key, string $arg): string
     }
 
     /**
-     * Fuehrt assert valid username entsprechend der internen Logik aus.
+     * Akzeptiert nichtleere Benutzernamen aus ASCII-Buchstaben, Ziffern, `_ . @ -` bis Länge 64.
      *
-     * @param mixed $username Eingabewert fuer username.
+     * @param string $username Zu validierender Benutzername.
      * @return void Kein Rueckgabewert.
+     * Ungültige Eingabe beendet die Anfrage mit API-Status 422.
      */
     private function assertValidUsername(string $username): void
     {
@@ -681,9 +682,9 @@ private function msgf(string $key, string $arg): string
     }
 
 /**
- * Prueft, ob valid ipv4 zutrifft.
+ * Prüft, ob der vollständige Wert eine gültige IPv4-Adresse ist.
  *
- * @param mixed $value Eingabewert fuer value.
+ * @param string $value Zu prüfender Text.
  * @return bool True bei Erfolg, sonst false.
  */
 private function isValidIpv4(string $value): bool
@@ -692,9 +693,9 @@ private function isValidIpv4(string $value): bool
     }
 
 /**
- * Liest login diagnostics und gibt den Wert zurueck.
+ * Erstellt DB-/Tabellen- und Benutzerdiagnosen einschließlich Passwortformatprüfung; Passwörter selbst werden nicht zurückgegeben.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array Struktur mit Status, Zeitstempel, Sessionbenutzer, Tabellenstatus, Benutzer-Hashformaten und optionalem `login_check`.
  */
 private function getLoginDiagnostics(): array
     {
@@ -804,10 +805,10 @@ private function getLoginDiagnostics(): array
     }
 
     /**
-     * Fuehrt json entsprechend der internen Logik aus.
+     * Setzt Status und JSON-Header, kodiert Daten, schreibt sie und beendet den Prozess.
      *
-     * @param mixed $data Eingabewert fuer data.
-     * @param mixed $status Eingabewert fuer status.
+     * @param array<string, mixed> $data Zu serialisierende Antwortdaten.
+     * @param int $status HTTP-Statuscode.
      * @return void Kein Rueckgabewert.
      */
     private function json(array $data, int $status = 200): void
@@ -819,10 +820,10 @@ private function getLoginDiagnostics(): array
     }
 
 /**
- * Fuehrt internal error entsprechend der internen Logik aus.
+ * Protokolliert Exception und Kontext und antwortet mit generischem HTTP-500-JSON.
  *
- * @param mixed $context Eingabewert fuer context.
- * @param mixed $e Eingabewert fuer e.
+ * @param string $context Fehlerkontext für das Protokoll.
+ * @param \Throwable $e Auslösender Fehler.
  * @return void Kein Rueckgabewert.
  */
 private function internalError(string $context, \Throwable $e): void

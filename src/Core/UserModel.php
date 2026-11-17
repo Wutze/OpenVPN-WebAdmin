@@ -25,9 +25,7 @@ class UserModel
 private PDO $db;
 
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
- *
- * @return mixed|null Rueckgabewert der Funktion.
+ * Bezieht die PDO-Verbindung aus dem Datenbank-Singleton.
  */
 public function __construct()
     {
@@ -35,12 +33,12 @@ public function __construct()
     }
 
 /**
- * Liest all users und gibt den Wert zurueck.
+ * Liest Benutzer inklusive Gruppenname und erster fester IP, optional nach Benutzer- oder Gruppenname gefiltert.
  *
- * @param mixed $limit Eingabewert fuer limit.
- * @param mixed $offset Eingabewert fuer offset.
- * @param mixed $search Eingabewert fuer search.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param int $limit Maximale Zeilenzahl.
+ * @param int $offset Anzahl übersprungener Zeilen.
+ * @param string $search Teilstring für Benutzer- und Gruppenname; leer deaktiviert die Suche.
+ * @return array<int, array<string, mixed>> Assoziative PDO-Zeilen mit `uid`, `uname`, `gname`, Status/Fristen und `fixed_ip`.
  */
 public function getAllUsers(int $limit = 50, int $offset = 0, string $search = ''): array
     {
@@ -89,10 +87,10 @@ public function getAllUsers(int $limit = 50, int $offset = 0, string $search = '
     }
 
 /**
- * Fuehrt count users entsprechend der internen Logik aus.
+ * Zählt Benutzer passend zum optionalen Suchtext in Benutzer- oder Gruppenname.
  *
- * @param mixed $search Eingabewert fuer search.
- * @return int Rueckgabewert der Funktion.
+ * @param string $search Teilstring; leer zählt alle Benutzer.
+ * @return int Anzahl passender Datensätze.
  */
 public function countUsers(string $search = ''): int
     {
@@ -178,9 +176,9 @@ public function countUsers(string $search = ''): int
     }
 
 /**
- * Fuehrt count online users entsprechend der internen Logik aus.
+ * Zählt Datensätze mit `user_online = 1`.
  *
- * @return int Rueckgabewert der Funktion.
+ * @return int Zahl der als online markierten Benutzer.
  */
 public function countOnlineUsers(): int
     {
@@ -189,9 +187,9 @@ public function countOnlineUsers(): int
     }
 
 /**
- * Fuehrt user exists entsprechend der internen Logik aus.
+ * Prüft per vorbereiteter Abfrage, ob ein Benutzername vorhanden ist.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Exakter Benutzername.
  * @return bool True bei Erfolg, sonst false.
  */
 public function userExists(string $username): bool
@@ -202,12 +200,13 @@ public function userExists(string $username): bool
     }
 
 /**
- * Erzeugt user auf Basis der Eingabedaten.
+ * Fügt einen aktivierten Benutzer mit gehashtem Passwort und anhand der Gruppen konfigurierter Rolle ein.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $password Eingabewert fuer password.
- * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @param string $username Benutzername.
+ * @param string $password Klartextpasswort, das vor Speicherung mit `password_hash()` verarbeitet wird.
+ * @param bool $isAdmin Wählt die ermittelte Admin- statt Benutzergruppe.
  * @return void Kein Rueckgabewert.
+ * @throws \PDOException Bei Datenbankfehlern; Exceptions der Gruppenabfrage werden ebenfalls weitergegeben.
  */
 public function createUser(string $username, string $password, bool $isAdmin = false): void
     {
@@ -227,10 +226,10 @@ public function createUser(string $username, string $password, bool $isAdmin = f
     }
 
 /**
- * Setzt user enabled auf den uebergebenen Wert.
+ * Aktualisiert das Aktiv-Flag des Benutzers.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $enabled Eingabewert fuer enabled.
+ * @param string $username Exakter Benutzername.
+ * @param bool $enabled Aktiviert bei true, deaktiviert bei false.
  * @return void Kein Rueckgabewert.
  */
 public function setUserEnabled(string $username, bool $enabled): void
@@ -243,10 +242,10 @@ public function setUserEnabled(string $username, bool $enabled): void
     }
 
 /**
- * Setzt user role auf den uebergebenen Wert.
+ * Ermittelt die passende Gruppen-ID und weist sie dem Benutzer zu.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @param string $username Exakter Benutzername.
+ * @param bool $isAdmin Wählt Admin- oder Nicht-Admin-Gruppe.
  * @return void Kein Rueckgabewert.
  */
 public function setUserRole(string $username, bool $isAdmin): void
@@ -260,10 +259,10 @@ public function setUserRole(string $username, bool $isAdmin): void
     }
 
 /**
- * Setzt user password by name auf den uebergebenen Wert.
+ * Hasht das neue Passwort und aktualisiert es anhand des Benutzernamens.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $newPassword Eingabewert fuer newPassword.
+ * @param string $username Exakter Benutzername.
+ * @param string $newPassword Neues Klartextpasswort.
  * @return void Kein Rueckgabewert.
  */
 public function setUserPasswordByName(string $username, string $newPassword): void
@@ -277,10 +276,10 @@ public function setUserPasswordByName(string $username, string $newPassword): vo
     }
 
 /**
- * Setzt user password by id auf den uebergebenen Wert.
+ * Hasht das neue Passwort und aktualisiert es anhand der Benutzer-ID.
  *
- * @param mixed $uid Eingabewert fuer uid.
- * @param mixed $newPassword Eingabewert fuer newPassword.
+ * @param int $uid Benutzer-ID.
+ * @param string $newPassword Neues Klartextpasswort.
  * @return void Kein Rueckgabewert.
  */
 public function setUserPasswordById(int $uid, string $newPassword): void
@@ -294,11 +293,11 @@ public function setUserPasswordById(int $uid, string $newPassword): void
     }
 
     /**
-     * Setzt user limits auf den uebergebenen Wert.
+     * Aktualisiert Start- und Enddatum; leere Strings werden als SQL-NULL gespeichert.
      *
-     * @param mixed $username Eingabewert fuer username.
-     * @param mixed $startDate Eingabewert fuer startDate.
-     * @param mixed $endDate Eingabewert fuer endDate.
+     * @param string $username Exakter Benutzername.
+     * @param string|null $startDate Einschließlich geltendes Startdatum oder null/leer für unbegrenzt.
+     * @param string|null $endDate Einschließlich geltendes Enddatum oder null/leer für unbegrenzt.
      * @return void Kein Rueckgabewert.
      */
     public function setUserLimits(string $username, ?string $startDate, ?string $endDate): void
@@ -319,10 +318,10 @@ public function setUserPasswordById(int $uid, string $newPassword): void
     }
 
 /**
- * Setzt user fixed ip auf den uebergebenen Wert.
+ * Ersetzt die IP-Zuordnungen des Benutzers durch eine feste IP oder löscht sie bei leerem Wert.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $fixedIp Eingabewert fuer fixedIp.
+ * @param string $username Exakter Benutzername; bei nicht gefundener UID erfolgt keine Änderung.
+ * @param string|null $fixedIp Neue IP oder null/leer zum Entfernen der Zuordnung.
  * @return void Kein Rueckgabewert.
  */
 public function setUserFixedIp(string $username, ?string $fixedIp): void
@@ -369,10 +368,10 @@ public function setUserFixedIp(string $username, ?string $fixedIp): void
     }
 
 /**
- * Prueft, ob fixed ip in use by other user zutrifft.
+ * Prüft, ob eine feste IP bereits einem anderen Benutzer zugeordnet ist.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $fixedIp Eingabewert fuer fixedIp.
+ * @param string $username Auszuschließender Benutzername.
+ * @param string $fixedIp Zu prüfende IP-Adresse.
  * @return bool True bei Erfolg, sonst false.
  */
 public function isFixedIpInUseByOtherUser(string $username, string $fixedIp): bool
@@ -394,9 +393,9 @@ public function isFixedIpInUseByOtherUser(string $username, string $fixedIp): bo
     }
 
 /**
- * Entfernt user.
+ * Löscht den Benutzer anhand des Namens; abhängige Datensätze werden nicht explizit behandelt.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Exakter Benutzername.
  * @return void Kein Rueckgabewert.
  */
 public function deleteUser(string $username): void
@@ -406,10 +405,10 @@ public function deleteUser(string $username): void
     }
 
 /**
- * Fuehrt verify password entsprechend der internen Logik aus.
+ * Lädt den Passwort-Hash zur UID und verifiziert ihn mit `password_verify()`.
  *
- * @param mixed $uid Eingabewert fuer uid.
- * @param mixed $password Eingabewert fuer password.
+ * @param int $uid Benutzer-ID.
+ * @param string $password Zu prüfendes Klartextpasswort.
  * @return bool True bei Erfolg, sonst false.
  */
 public function verifyPassword(int $uid, string $password): bool
@@ -425,10 +424,10 @@ public function verifyPassword(int $uid, string $password): bool
     }
 
 /**
- * Fuehrt resolve group id entsprechend der internen Logik aus.
+ * Sucht Admin- und Nicht-Admin-Gruppe anhand ihrer Namen und verwendet Fallback-IDs, wenn Gruppen fehlen.
  *
- * @param mixed $isAdmin Eingabewert fuer isAdmin.
- * @return int Rueckgabewert der Funktion.
+ * @param bool $isAdmin Ob die Admin-Gruppe ausgewählt werden soll.
+ * @return int Gruppen-ID; bei leerer Gruppentabelle 1 für Admin oder 2 für Benutzer.
  */
 private function resolveGroupId(bool $isAdmin): int
     {
