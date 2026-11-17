@@ -80,13 +80,13 @@ find_easyrsa() {
 
 prepare_vars() {
   local country province city org email ou days
-  country=$(ask COUNTRY "$MSG_SETUP_RSA_COUNTRY" DE)
-  province=$(ask PROVINCE "$MSG_SETUP_RSA_PROVINCE" 'NRW')
-  city=$(ask CITY "$MSG_SETUP_RSA_CITY" 'Dortmund')
-  org=$(ask ORG "$MSG_SETUP_RSA_ORG" 'OpenVPN-WebAdmin')
-  email=$(ask EMAIL "$MSG_SETUP_RSA_EMAIL" 'admin@example.home')
-  ou=$(ask OU "$MSG_SETUP_RSA_OU" 'xOpenVPN')
-  days=$(ask "$MSG_SETUP_RSA_VALIDITY_DAYS" '3650')
+  country=$(ask_prefill COUNTRY "$MSG_SETUP_RSA_COUNTRY" $SET_COUNTRY)
+  city=$(ask_prefill CITY "$MSG_SETUP_RSA_CITY" $SET_CITY)
+  province=$(ask_prefill PROVINCE "$MSG_SETUP_RSA_PROVINCE" $SET_PROVINZ)
+  org=$(ask_prefill ORG "$MSG_SETUP_RSA_ORG" $SET_ORG)
+  email=$(ask_prefill EMAIL "$MSG_SETUP_RSA_EMAIL" $SET_MAIL)
+  ou=$(ask_prefill OU "$MSG_SETUP_RSA_OU" $SET_OU)
+  days=$(ask_prefill "$MSG_SETUP_RSA_VALIDITY_DAYS" '3650')
   [[ "$country" =~ ^[A-Za-z]{2}$ ]] || die "$MSG_SETUP_RSA_COUNTRY_INVALID"
   [[ "$days" =~ ^[0-9]+$ ]] && [ "$days" -gt 0 ] || die "$MSG_SETUP_RSA_VALIDITY_INVALID"
   install -d -m 0700 "$EASYRSA_DIR"
@@ -181,7 +181,7 @@ EOF
 renew_server() {
   [ -d "$PKI_DIR" ] || die "$(printf "$MSG_SETUP_RSA_PKI_MISSING" "$PKI_DIR")"
   local days serial name
-  days=$(ask "$MSG_SETUP_RSA_VALIDITY_DAYS" '3650')
+  days=$(ask_prefill "$MSG_SETUP_RSA_VALIDITY_DAYS" '3650')
   [[ "$days" =~ ^[0-9]+$ ]] && [ "$days" -gt 0 ] || die "$MSG_SETUP_RSA_VALIDITY_INVALID"
   export EASYRSA_CERT_EXPIRE="$days"
   # Use a distinct CN so issuing the replacement does not revoke or replace any

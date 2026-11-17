@@ -477,3 +477,16 @@ render_progress_bar() {
   printf "%${empty}s" '' | tr ' ' '-'
   printf "] %3d%% (%d/%d)" "${percent}" "${current}" "${total}"
 }
+
+ask_prefill() {
+  local prompt default answer
+  if [ "$#" -ge 3 ]; then
+    prompt="$2"
+    default="$3"
+  else
+    prompt="$1"
+    default="$2"
+  fi
+  read -r -e -i "$default" -p "${prompt}: " answer
+  printf '%s' "${answer:-$default}"
+}
