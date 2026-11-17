@@ -24,7 +24,7 @@ private string $basePath;
 private string $historyBasePath;
 
 /**
- * Legt das Konfigurationsverzeichnis und dessen Historienverzeichnis fest.
+ * Legt den Speicherort für die client.ovpn Dateien und dessen Historienverzeichnis fest.
  * Ohne expliziten Pfad wird `storage/conf` relativ zum Projektstamm verwendet.
  *
  * @param string|null $basePath Optionaler Speicherort der Systemkonfigurationen.

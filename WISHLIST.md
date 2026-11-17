@@ -15,3 +15,15 @@ A wish list, so I don’t forget. ;o)
 
 ## System
 * Accurate and clear descriptions of all functions, without the placeholders sometimes used
+
+## Debuging
+* The debug function is a good idea, but poorly implemented. It has been ‘somehow’ adapted from the old system to fit the one we have here, but it doesn’t cover everything the way I’d like it to. It needs to be completely rethought.
+
+## Languages
+* Many language strings are still hard-coded into the system. This will need to be fully and correctly implemented at some point
+
+## Documentation
+* I let the AI write the documentation first and then, when I have time, I go through it and check for any errors it has made. The AI makes numerous mistakes, but it still produces around 80 per cent correct information.
+
+### That certainly isn’t all yet
+I’m sure of that! ;o)

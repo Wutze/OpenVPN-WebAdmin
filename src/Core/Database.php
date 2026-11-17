@@ -27,10 +27,11 @@ private static ?Database $instance = null;
 private PDO $connection;
 
 /**
- * Baut eine PDO-Verbindung mit MySQL-DSN und Exceptions als Fehlerbetrieb auf.
+ * Baut eine PDO-Verbindung mit MySQL-DSN und Exceptions auf.
+ * Bei Fehlern der Verbindung wird ein Fehler ausgegeben.
  *
  * @param array{host: string, port: int|string, dbname: string, charset: string, user: string, pass: string} $config Verbindungsparameter.
- * @throws \RuntimeException Es wird bei Verbindungsfehlern stattdessen protokolliert, HTTP 500 gesetzt und das Skript mit `die` beendet.
+ * @throws \RuntimeException Es wird bei Verbindungsfehlern protokolliert, HTTP 500 gesetzt und das Skript mit `die` beendet.
  */
 private function __construct(array $config)
     {
@@ -49,7 +50,7 @@ private function __construct(array $config)
     }
 
 /**
- * Liefert die Singleton-Verbindung und initialisiert sie beim ersten Aufruf.
+ * Liefert die Verbindung und initialisiert sie beim ersten Aufruf.
  *
  * @param array|null $config Zugangsdaten; beim ersten Aufruf erforderlich, später ignoriert.
  * @return self Gemeinsame Database-Instanz.

@@ -19,6 +19,8 @@
 /**
  * Zentrales Bootstrap für das OpenVPN Webadmin
  * Wird von allen entrypoints (index.php, login.php, api.php …) eingebunden
+ * Die gesamte Datei ist im Prinzip noch Altbestand und sollte vielleicht mal komplett ersetzt werden
+ * 
  */
 
 /**
@@ -63,6 +65,7 @@ use Micro\OpenvpnWebadmin\Core\Url;
 
 /**
  * damit das Debugging überall verfügbar ist
+ * Mir gefällt das nicht mehr, das muss vollständig ersetzt werden
  */
 class_alias(\Micro\OpenvpnWebadmin\Core\Debug::class, 'Debug');
 Debug::init($envDebug ? 'development' : 'production', null, $envDebug);
