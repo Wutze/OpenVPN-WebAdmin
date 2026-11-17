@@ -30,11 +30,17 @@ private static array $buffer = [];
     /**
      * Initialisiert Debug-Umgebung
      */
-    public static function init(string $env = null, string $logfile = null, ?bool $debug = null): void
+    public static function init(?string $env = null, ?string $logfile = null, ?bool $debug = null): void
     {
         self::$env = $env ?? ($_ENV['APP_ENV'] ?? 'development');
-        self::$logfile = $logfile ?? ($_ENV['DEBUG_LOGFILE'] ?? __DIR__ . '/../../storage/logs/debug.log');
-        self::$exceptionsLogfile = $_ENV['DEBUG_EXCEPTIONS_LOGFILE'] ?? __DIR__ . '/../../storage/logs/exceptions.log';
+        $configuredLogfile = $_ENV['DEBUG_LOGFILE'] ?? getenv('DEBUG_LOGFILE');
+        self::$logfile = $logfile ?? (is_string($configuredLogfile) && $configuredLogfile !== ''
+            ? $configuredLogfile
+            : __DIR__ . '/../../storage/logs/debug.log');
+        $configuredExceptionsLogfile = $_ENV['DEBUG_EXCEPTIONS_LOGFILE'] ?? getenv('DEBUG_EXCEPTIONS_LOGFILE');
+        self::$exceptionsLogfile = is_string($configuredExceptionsLogfile) && $configuredExceptionsLogfile !== ''
+            ? $configuredExceptionsLogfile
+            : __DIR__ . '/../../storage/logs/exceptions.log';
         self::$debug = $debug ?? (isset($_ENV['DEBUG']) ? filter_var($_ENV['DEBUG'], FILTER_VALIDATE_BOOL) : true);
 
         if (self::$debug) {
@@ -43,6 +49,11 @@ private static array $buffer = [];
 
         set_exception_handler([self::class, 'handleException']);
         set_error_handler([self::class, 'handleError']);
+    }
+
+    public static function getExceptionsLogPath(): string
+    {
+        return self::$exceptionsLogfile;
     }
 
     /**
@@ -139,7 +150,6 @@ self::$buffer[] = $HTML;
                 if ($property->isStatic()) {
                     continue;
                 }
-                $property->setAccessible(true);
                 $key = $property->getName();
                 if (array_key_exists($key, $result)) {
                     continue;

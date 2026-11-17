@@ -769,7 +769,7 @@ private function getRequestCsrfToken(): string
     {
         $baseDir = defined('_PROJECT_BASE_DIR') ? _PROJECT_BASE_DIR : dirname(__DIR__, 2);
         $debugPath = $baseDir . '/storage/logs/debug.log';
-        $exceptionPathPrimary = $baseDir . '/storage/logs/exceptions.log';
+        $exceptionPathPrimary = Debug::getExceptionsLogPath();
         $exceptionPathLegacy = $baseDir . '/storage/logs/exeptions.log';
         $exceptionPath = is_file($exceptionPathPrimary) ? $exceptionPathPrimary : $exceptionPathLegacy;
 
