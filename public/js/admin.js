@@ -579,13 +579,17 @@ function initConfigEditor() {
     saveBtn.addEventListener('click', async () => {
       if (!currentSystem) return;
       try {
-        await postForm('?op=data&select=config', {
+        const saveResult = await postForm('?op=data&select=config', {
           action: 'save',
           system: currentSystem,
           content: editor.value,
         });
         await loadConfig(currentSystem);
-        showAlert('configMessage', 'success', t('_MSG_CONFIG_SAVED', 'client.ovpn gespeichert und Historie aktualisiert.'));
+        if (saveResult.history_saved === false) {
+          showAlert('configMessage', 'warning', 'client.ovpn gespeichert, aber die vorherige Version konnte nicht in der Historie gesichert werden.');
+        } else {
+          showAlert('configMessage', 'success', t('_MSG_CONFIG_SAVED', 'client.ovpn gespeichert und Historie aktualisiert.'));
+        }
       } catch (error) {
         showAlert('configMessage', 'danger', error.message);
       }

@@ -91,6 +91,7 @@ public function saveConfig(string $system, string $content): array
     {
         $path = $this->clientPath($system);
         $dir = dirname($path);
+        $hadExistingConfig = is_file($path);
 
         if (!is_dir($dir)) {
             throw new \RuntimeException('Systemordner existiert nicht: ' . $system);
@@ -104,14 +105,17 @@ public function saveConfig(string $system, string $content): array
                     throw new \RuntimeException('Historienordner konnte nicht erstellt werden.');
                 }
 
-                $historyFile = date('Ymd_His') . '_client.ovpn';
+                // Include microseconds and a random suffix so rapid consecutive saves
+                // cannot overwrite an earlier snapshot in the same second.
+                $historyFile = date('Ymd_His_u') . '_' . bin2hex(random_bytes(3)) . '_client.ovpn';
                 $snapshotPath = $historyDir . '/' . $historyFile;
                 if (!copy($path, $snapshotPath)) {
                     throw new \RuntimeException('Vorherige Konfiguration konnte nicht archiviert werden.');
                 }
             } catch (\Throwable $e) {
-                // Historie ist hilfreich, darf aber das Speichern der aktuellen Konfiguration nicht blockieren.
                 Debug::log('saveConfig history archive failed', $e->getMessage(), ['system' => $system, 'path' => $path]);
+                // Don't report a successful history update when the snapshot failed.
+                // The config save remains available, and the caller can surface this state.
                 $historyFile = null;
             }
         }
@@ -120,6 +124,7 @@ public function saveConfig(string $system, string $content): array
 
         return [
             'history_file' => $historyFile,
+            'history_saved' => !$hadExistingConfig || $historyFile !== null,
             'path' => $path,
         ];
     }
@@ -132,20 +137,23 @@ public function saveConfig(string $system, string $content): array
  */
 public function getHistoryList(string $system): array
     {
-        $historyDir = $this->historyDir($system);
-        if (!is_dir($historyDir)) {
-            return [];
+        $files = [];
+        foreach ($this->historyDirectories($system) as $historyDir) {
+            if (!is_dir($historyDir)) {
+                continue;
+            }
+
+            foreach (scandir($historyDir) ?: [] as $file) {
+                if ($file !== '.' && $file !== '..' && str_ends_with($file, '.ovpn')) {
+                    $files[$file] ??= $historyDir . '/' . $file;
+                }
+            }
         }
 
-        $files = array_values(array_filter(scandir($historyDir) ?: [], static function (string $file): bool {
-            return $file !== '.' && $file !== '..' && str_ends_with($file, '.ovpn');
-        }));
-
-        rsort($files);
+        krsort($files);
 
         $rows = [];
-        foreach ($files as $file) {
-            $full = $historyDir . '/' . $file;
+        foreach ($files as $file => $full) {
             $rows[] = [
                 'file' => $file,
                 'mtime' => date('Y-m-d H:i:s', (int)filemtime($full)),
@@ -201,12 +209,14 @@ public function diffHistoryFile(string $system, string $historyFile): array
 private function getHistoryContent(string $system, string $historyFile): string
     {
         $safe = basename($historyFile);
-        $path = $this->historyDir($system) . '/' . $safe;
-        if (!is_file($path)) {
-            throw new \RuntimeException('Historien-Datei nicht gefunden: ' . $safe);
+        foreach ($this->historyDirectories($system) as $historyDir) {
+            $path = $historyDir . '/' . $safe;
+            if (is_file($path)) {
+                return (string)file_get_contents($path);
+            }
         }
 
-        return (string)file_get_contents($path);
+        throw new \RuntimeException('Historien-Datei nicht gefunden: ' . $safe);
     }
 
 /**
@@ -319,8 +329,38 @@ private function clientPath(string $system): string
  */
 private function historyDir(string $system): string
     {
+        foreach ($this->historyDirectories($system) as $historyDir) {
+            if (is_dir($historyDir)) {
+                if (is_writable($historyDir)) {
+                    return $historyDir;
+                }
+                continue;
+            }
+
+            $parent = dirname($historyDir);
+            while (!is_dir($parent) && dirname($parent) !== $parent) {
+                $parent = dirname($parent);
+            }
+            if (is_dir($parent) && is_writable($parent)) {
+                return $historyDir;
+            }
+        }
+
+        throw new \RuntimeException('Kein beschreibbarer Historienordner fuer System: ' . $system);
+    }
+
+    /**
+     * Liefert alle bekannten Speicherorte der System-Historie in Prioritaetsreihenfolge.
+     *
+     * @return string[]
+     */
+    private function historyDirectories(string $system): array
+    {
         $system = $this->sanitizeSystem($system);
-        return $this->historyBasePath . '/' . $system;
+        return [
+            $this->historyBasePath . '/' . $system,
+            $this->basePath . '/' . $system . '/history',
+        ];
     }
 
 /**

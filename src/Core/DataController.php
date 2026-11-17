@@ -501,6 +501,7 @@ private function handleConfigPost(): void
                 'message' => $this->msg('_API_CONFIG_SAVED'),
                 'system' => $system,
                 'history_file' => $result['history_file'],
+                'history_saved' => $result['history_saved'],
             ]);
         } catch (\Throwable $e) {
             Debug::logException($e, 'handleConfigPost');
