@@ -181,7 +181,7 @@ EOF
 renew_server() {
   [ -d "$PKI_DIR" ] || die "$(printf "$MSG_SETUP_RSA_PKI_MISSING" "$PKI_DIR")"
   local days serial name
-  days=$(ask "$MSG_SETUP_RSA_VALIDITY_YEARS" '10')
+  days=$(ask "$MSG_SETUP_RSA_VALIDITY_DAYS" '3650')
   [[ "$days" =~ ^[0-9]+$ ]] && [ "$days" -gt 0 ] || die "$MSG_SETUP_RSA_VALIDITY_INVALID"
   export EASYRSA_CERT_EXPIRE="$days"
   # Use a distinct CN so issuing the replacement does not revoke or replace any
