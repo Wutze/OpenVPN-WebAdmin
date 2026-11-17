@@ -1,21 +1,20 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-11-15 09:31:22
+Automatisch generiert am: 2026-11-17 22:02:58
 
 ## `./src/Core/CaTlsService.php`
 
 ### `public __construct($basePath)`
 
 - Datei: `./src/Core/CaTlsService.php`
-- Zeile: 33
+- Zeile: 32
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Setzt Speicherpfade für CA- und TLS-Datei; ohne Basis nimmt es den ersten nutzbaren Standardpfad.
  *
- * @param mixed $basePath Eingabewert fuer basePath.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param string|null $basePath Optionales Speicherverzeichnis.
  */
 ```
 
@@ -27,37 +26,39 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Liest current und gibt den Wert zurueck.
+ * Stellt Speicher und Dateien sicher und liest beide Schlüsselmaterialien.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array{ca: string, tls: string, ca_path: string, tls_path: string} Inhalte und Pfade der Dateien.
+ * @throws \RuntimeException Wenn das Speicherverzeichnis oder eine Datei nicht angelegt werden kann.
  */
 ```
 
 ### `public save($caContent, $tlsContent)`
 
 - Datei: `./src/Core/CaTlsService.php`
-- Zeile: 66
+- Zeile: 67
 - Rueckgabe: `array`
 
 ```
 /**
- * Speichert Daten persistent.
+ * Schreibt CA- und TLS-Inhalt jeweils über eine temporäre Datei mit restriktiven Rechten.
  *
- * @param mixed $caContent Eingabewert fuer caContent.
- * @param mixed $tlsContent Eingabewert fuer tlsContent.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $caContent Inhalt der CA-Datei.
+ * @param string $tlsContent Inhalt der TLS-Authentifizierungsdatei.
+ * @return array{ca_path: string, tls_path: string} Speicherorte der geschriebenen Dateien.
+ * @throws \RuntimeException Wenn Verzeichnis oder temporäre Dateien nicht geschrieben/umbenannt werden können.
  */
 ```
 
 ### `private ensureStorage()`
 
 - Datei: `./src/Core/CaTlsService.php`
-- Zeile: 83
+- Zeile: 84
 - Rueckgabe: `void`
 
 ```
 /**
- * Fuehrt ensure storage entsprechend der internen Logik aus.
+ * Erstellt das Speicherverzeichnis bei Bedarf, prüft Zugriffsrechte und setzt Modus 0700.
  *
  * @return void Kein Rueckgabewert.
  */
@@ -66,59 +67,61 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private ensureFile($path)`
 
 - Datei: `./src/Core/CaTlsService.php`
-- Zeile: 102
+- Zeile: 104
 - Rueckgabe: `void`
 
 ```
 /**
- * Fuehrt ensure file entsprechend der internen Logik aus.
+ * Legt eine fehlende Schlüsseldatei leer an und setzt Modus 0600.
  *
- * @param mixed $path Eingabewert fuer path.
+ * @param string $path Zu prüfender Datei-Pfad.
  * @return void Kein Rueckgabewert.
+ * @throws \RuntimeException Wenn eine fehlende Datei nicht erstellt werden kann.
  */
 ```
 
 ### `private writeSecureFile($path, $content)`
 
 - Datei: `./src/Core/CaTlsService.php`
-- Zeile: 120
+- Zeile: 123
 - Rueckgabe: `void`
 
 ```
 /**
- * Schreibt secure file in das Zielsystem.
+ * Schreibt Inhalt in eine temporäre Datei im Speicherverzeichnis und ersetzt damit das Ziel.
  *
- * @param mixed $path Eingabewert fuer path.
- * @param mixed $content Eingabewert fuer content.
+ * @param string $path Zieldatei.
+ * @param string $content Zu speichernder Schlüsselinhalt.
  * @return void Kein Rueckgabewert.
+ * @throws \RuntimeException Wenn temporäres Schreiben oder Umbenennen fehlschlägt.
  */
 ```
 
 ### `private resolveUsableBasePath()`
 
 - Datei: `./src/Core/CaTlsService.php`
-- Zeile: 146
+- Zeile: 149
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt resolve usable base path entsprechend der internen Logik aus.
+ * Prüft `storage/secure` und danach `storage/conf/.secure`, indem es fehlende Verzeichnisse anzulegen versucht.
  *
- * @return string Rueckgabe als Text.
+ * @return string Erster nutzbarer Kandidat oder `storage/secure`, damit ein späterer Fehler den Pfad benennt.
  */
 ```
 
 ### `private canUsePath($path)`
 
 - Datei: `./src/Core/CaTlsService.php`
-- Zeile: 171
+- Zeile: 174
 - Rueckgabe: `bool`
 
 ```
 /**
- * Prueft, ob use path zutrifft.
+ * Erstellt bei Bedarf den Pfad, setzt Modus 0700 und prüft Les- und Schreibbarkeit.
  *
- * @param mixed $path Eingabewert fuer path.
+ * @param string $path Zu prüfender Verzeichnispfad.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -135,201 +138,225 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Legt das Konfigurationsverzeichnis und dessen Historienverzeichnis fest.
+ * Ohne expliziten Pfad wird `storage/conf` relativ zum Projektstamm verwendet.
  *
- * @param mixed $basePath Eingabewert fuer basePath.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param string|null $basePath Optionaler Speicherort der Systemkonfigurationen.
  */
 ```
 
 ### `public listSystems()`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 43
+- Zeile: 44
 - Rueckgabe: `array`
 
 ```
 /**
- * Liefert eine Liste von systems.
+ * Ermittelt alphabetisch sortierte Systeme mit einer vorhandenen `client.ovpn`.
+ * Ein fehlendes oder nicht lesbares Verzeichnis ergibt eine leere Liste.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return string[] Verzeichnisnamen der gefundenen Systeme.
  */
 ```
 
 ### `public getConfig($system)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 73
+- Zeile: 75
 - Rueckgabe: `string`
 
 ```
 /**
- * Liest config und gibt den Wert zurueck.
+ * Liest die `client.ovpn` des validierten Systems vollständig als Text.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @param string $system Systemverzeichnisname.
+ * @return string Dateiinhalt der Client-Konfiguration.
+ * @throws \RuntimeException Wenn der Systemname ungültig ist oder die Datei fehlt.
  */
 ```
 
 ### `public saveConfig($system, $content)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 90
+- Zeile: 93
 - Rueckgabe: `array`
 
 ```
 /**
- * Speichert config persistent.
+ * Archiviert die bisherige Konfiguration (falls vorhanden) und ersetzt sie atomar.
  *
- * @param mixed $system Eingabewert fuer system.
- * @param mixed $content Eingabewert fuer content.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $system Systemverzeichnisname.
+ * @param string $content Vollständiger neuer Inhalt für `client.ovpn`.
+ * @return array{history_file: string|null, history_saved: bool, path: string} Speicherpfad und Status des Snapshots.
+ * @throws \RuntimeException Wenn das Systemverzeichnis fehlt oder das Schreiben fehlschlägt.
  */
 ```
 
 ### `public getHistoryList($system)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 133
+- Zeile: 142
 - Rueckgabe: `array`
 
 ```
 /**
- * Liest history list und gibt den Wert zurueck.
+ * Sammelt `.ovpn`-Snapshots aus den unterstützten Historienorten und sortiert sie absteigend.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $system Systemverzeichnisname.
+ * @return array<int, array{file: string, mtime: string}> Snapshotname und Änderungszeit.
+ * @throws \RuntimeException Bei ungültigem Systemnamen.
  */
 ```
 
 ### `public getDiffStatsAgainstCurrent($system)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 164
+- Zeile: 177
 - Rueckgabe: `array`
 
 ```
 /**
- * Liest diff stats against current und gibt den Wert zurueck.
+ * Ergänzt jeden Snapshot um die Zeilenzahlen seiner Abweichung zur aktuellen Konfiguration.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $system Systemverzeichnisname.
+ * @return array<int, array{file: string, mtime: string, added: int, removed: int}> Snapshots mit Änderungszahlen.
+ * @throws \RuntimeException Wenn aktuelle Konfiguration oder Systemname ungültig ist.
  */
 ```
 
 ### `public diffHistoryFile($system, $historyFile)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 186
+- Zeile: 200
 - Rueckgabe: `array`
 
 ```
 /**
- * Vergleicht history file und liefert die Unterschiede.
+ * Vergleicht einen Snapshot mit der aktuellen `client.ovpn`.
  *
- * @param mixed $system Eingabewert fuer system.
- * @param mixed $historyFile Eingabewert fuer historyFile.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $system Systemverzeichnisname.
+ * @param string $historyFile Snapshotdateiname; Verzeichnisteile werden verworfen.
+ * @return array{added: int, removed: int, diff: string} Zeilenzahlen und zeilenweiser Unified-ähnlicher Vergleich.
+ * @throws \RuntimeException Wenn Snapshot oder aktuelle Konfiguration fehlt.
  */
 ```
 
 ### `private getHistoryContent($system, $historyFile)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 201
+- Zeile: 216
 - Rueckgabe: `string`
 
 ```
 /**
- * Liest history content und gibt den Wert zurueck.
+ * Liest einen Snapshot aus einem der Historienorte des Systems.
  *
- * @param mixed $system Eingabewert fuer system.
- * @param mixed $historyFile Eingabewert fuer historyFile.
- * @return string Rueckgabe als Text.
+ * @param string $system Systemverzeichnisname.
+ * @param string $historyFile Snapshotname; mit `basename()` auf einen Dateinamen begrenzt.
+ * @return string Vollständiger Snapshotinhalt.
+ * @throws \RuntimeException Wenn keine passende Datei gefunden wird.
  */
 ```
 
 ### `private buildDiffData($oldText, $newText)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 219
+- Zeile: 236
 - Rueckgabe: `array`
 
 ```
 /**
- * Erzeugt diff data auf Basis der Eingabedaten.
+ * Berechnet Zähler und Textdarstellung eines zeilenweisen Vergleichs.
  *
- * @param mixed $oldText Eingabewert fuer oldText.
- * @param mixed $newText Eingabewert fuer newText.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $oldText Vorheriger Inhalt.
+ * @param string $newText Neuer Inhalt.
+ * @return array{added: int, removed: int, diff: string} Vergleichstext mit `  `, `+ ` und `- ` je Zeile.
  */
 ```
 
 ### `private diffOps($a, $b)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 255
+- Zeile: 272
 - Rueckgabe: `array`
 
 ```
 /**
- * Vergleicht ops und liefert die Unterschiede.
+ * Erzeugt per Längentabelle der längsten gemeinsamen Teilfolge geordnete Diff-Operationen.
  *
- * @param mixed $a Eingabewert fuer a.
- * @param mixed $b Eingabewert fuer b.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string[] $a Alte Zeilen.
+ * @param string[] $b Neue Zeilen.
+ * @return array<int, array{type: '='|'+'|'-', line: string}> Gleiche, hinzugefügte oder entfernte Zeilen.
  */
 ```
 
 ### `private clientPath($system)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 308
+- Zeile: 326
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt client path entsprechend der internen Logik aus.
+ * Erstellt nach Validierung des Systemnamens den Pfad zu seiner Client-Konfiguration.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @param string $system Systemverzeichnisname.
+ * @return string Absoluter Pfad zu `client.ovpn`.
+ * @throws \RuntimeException Bei ungültigem Namen.
  */
 ```
 
 ### `private historyDir($system)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 320
+- Zeile: 339
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt history dir entsprechend der internen Logik aus.
+ * Wählt den ersten vorhandenen beschreibbaren oder anlegbaren Historienpfad.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @param string $system Systemverzeichnisname.
+ * @return string Bevorzugter Historienpfad.
+ * @throws \RuntimeException Wenn kein Historienort beschreibbar ist.
+ */
+```
+
+### `private historyDirectories($system)`
+
+- Datei: `./src/Core/ConfigService.php`
+- Zeile: 366
+- Rueckgabe: `array`
+
+```
+/**
+ * Liefert alle bekannten Speicherorte der System-Historie in Prioritaetsreihenfolge.
+ *
+ * @return string[]
  */
 ```
 
 ### `private sanitizeSystem($system)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 332
+- Zeile: 382
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt sanitize system entsprechend der internen Logik aus.
+ * Entfernt Rand-Leerzeichen und weist Systemnamen außerhalb des erlaubten Zeichensatzes zurück.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @param string $system Ungeprüfter Systemname.
+ * @return string Bereinigter Systemname.
+ * @throws \RuntimeException Bei leerem oder ungültigem Namen.
  */
 ```
 
 ### `private writeAtomic($path, $content)`
 
 - Datei: `./src/Core/ConfigService.php`
-- Zeile: 351
+- Zeile: 402
 - Rueckgabe: `void`
 
 ```
@@ -338,9 +365,10 @@ Automatisch generiert am: 2026-11-15 09:31:22
  * Dadurch funktionieren Saves auch dann, wenn die bestehende Datei restriktive Rechte hat,
  * aber das Verzeichnis beschreibbar ist.
  *
- * @param mixed $path
- * @param mixed $content
+ * @param string $path Zieldatei.
+ * @param string $content Zu schreibender Inhalt.
  * @return void
+ * @throws \RuntimeException Wenn Verzeichnis, temporäre Datei oder Ersetzen fehlschlägt.
  */
 ```
 
@@ -356,39 +384,40 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Baut eine PDO-Verbindung mit MySQL-DSN und Exceptions als Fehlerbetrieb auf.
  *
- * @param mixed $config Eingabewert fuer config.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param array{host: string, port: int|string, dbname: string, charset: string, user: string, pass: string} $config Verbindungsparameter.
+ * @throws \RuntimeException Es wird bei Verbindungsfehlern stattdessen protokolliert, HTTP 500 gesetzt und das Skript mit `die` beendet.
  */
 ```
 
 ### `public static getInstance($config)`
 
 - Datei: `./src/Core/Database.php`
-- Zeile: 57
+- Zeile: 58
 - Rueckgabe: `Database`
 
 ```
 /**
- * Liest instance und gibt den Wert zurueck.
+ * Liefert die Singleton-Verbindung und initialisiert sie beim ersten Aufruf.
  *
- * @param mixed $config Eingabewert fuer config.
- * @return Database Rueckgabewert der Funktion.
+ * @param array|null $config Zugangsdaten; beim ersten Aufruf erforderlich, später ignoriert.
+ * @return self Gemeinsame Database-Instanz.
+ * @throws \RuntimeException Wenn die Erstinitialisierung ohne Konfiguration erfolgt.
  */
 ```
 
 ### `public getConnection()`
 
 - Datei: `./src/Core/Database.php`
-- Zeile: 73
+- Zeile: 74
 - Rueckgabe: `PDO`
 
 ```
 /**
- * Liest connection und gibt den Wert zurueck.
+ * Gibt die von PDO verwaltete Datenbankverbindung zurück.
  *
- * @return PDO Rueckgabewert der Funktion.
+ * @return PDO PDO-Verbindung.
  */
 ```
 
@@ -399,7 +428,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public handle()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 28
+- Zeile: 30
 - Rueckgabe: `void`
 
 ```
@@ -413,14 +442,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handleGet($select)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 54
+- Zeile: 56
 - Rueckgabe: `void`
 
 ```
 /**
- * Verarbeitet get entsprechend der Logik.
+ * Verteilt GET-Datenquellen, prüft je Quelle die Adminrolle und serialisiert Ergebnisse als JSON.
  *
- * @param mixed $select Eingabewert fuer select.
+ * @param string $select Angeforderte Datenquelle aus `select`.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -428,14 +457,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handlePost($select)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 102
+- Zeile: 111
 - Rueckgabe: `void`
 
 ```
 /**
- * Verarbeitet post entsprechend der Logik.
+ * Verteilt schreibende API-Aktionen; Verwaltungsquellen verlangen Adminrechte.
  *
- * @param mixed $select Eingabewert fuer select.
+ * @param string $select Angeforderte Aktionsquelle aus `select`.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -443,7 +472,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private getUsers()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 138
+- Zeile: 143
 - Rueckgabe: `array`
 
 ```
@@ -457,7 +486,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private getLogs()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 157
+- Zeile: 162
 - Rueckgabe: `array`
 
 ```
@@ -471,7 +500,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private getDashboardStats()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 175
+- Zeile: 180
 - Rueckgabe: `array`
 
 ```
@@ -485,7 +514,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handleUserAction()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 211
+- Zeile: 216
 - Rueckgabe: `void`
 
 ```
@@ -499,7 +528,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handleAccountAction()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 343
+- Zeile: 350
 - Rueckgabe: `void`
 
 ```
@@ -510,24 +539,10 @@ Automatisch generiert am: 2026-11-15 09:31:22
  */
 ```
 
-### `private handleProfileAction()`
-
-- Datei: `./src/Core/DataController.php`
-- Zeile: 385
-- Rueckgabe: `void`
-
-```
-/**
- * Verarbeitet profile action entsprechend der Logik.
- *
- * @return void Kein Rueckgabewert.
- */
-```
-
 ### `private handleConfigGet()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 412
+- Zeile: 392
 - Rueckgabe: `void`
 
 ```
@@ -541,7 +556,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handleConfigPost()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 460
+- Zeile: 440
 - Rueckgabe: `void`
 
 ```
@@ -555,7 +570,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handleSettingsGet()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 518
+- Zeile: 492
 - Rueckgabe: `void`
 
 ```
@@ -569,7 +584,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handleSettingsPost()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 560
+- Zeile: 534
 - Rueckgabe: `void`
 
 ```
@@ -583,7 +598,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handleCaTlsGet()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 599
+- Zeile: 573
 - Rueckgabe: `void`
 
 ```
@@ -597,7 +612,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private handleCaTlsPost()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 632
+- Zeile: 606
 - Rueckgabe: `void`
 
 ```
@@ -611,7 +626,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private requireAdminJson()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 666
+- Zeile: 640
 - Rueckgabe: `void`
 
 ```
@@ -625,60 +640,61 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private msg($key)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 679
+- Zeile: 653
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt msg entsprechend der internen Logik aus.
+ * Übersetzt einen Sprachschlüssel über den aktuellen Sprachkatalog.
  *
- * @param mixed $key Eingabewert fuer key.
- * @return string Rueckgabe als Text.
+ * @param string $key Schlüssel des Sprachkatalogs.
+ * @return string Übersetzter Text oder das Verhalten von `Lang::get()` bei unbekanntem Schlüssel.
  */
 ```
 
 ### `private msgf($key, $arg)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 691
+- Zeile: 665
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt msgf entsprechend der internen Logik aus.
+ * Übersetzt einen Sprachschlüssel und setzt genau ein `sprintf`-Argument ein.
  *
- * @param mixed $key Eingabewert fuer key.
- * @param mixed $arg Eingabewert fuer arg.
- * @return string Rueckgabe als Text.
+ * @param string $key Formatstring-Schlüssel.
+ * @param string $arg Einzusetzender Formatwert.
+ * @return string Formatierter Übersetzungstext.
  */
 ```
 
 ### `private assertValidUsername($username)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 702
+- Zeile: 677
 - Rueckgabe: `void`
 
 ```
 /**
- * Fuehrt assert valid username entsprechend der internen Logik aus.
+ * Akzeptiert nichtleere Benutzernamen aus ASCII-Buchstaben, Ziffern, `_ . @ -` bis Länge 64.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Zu validierender Benutzername.
  * @return void Kein Rueckgabewert.
+ * Ungültige Eingabe beendet die Anfrage mit API-Status 422.
  */
 ```
 
 ### `private isValidIpv4($value)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 715
+- Zeile: 690
 - Rueckgabe: `bool`
 
 ```
 /**
- * Prueft, ob valid ipv4 zutrifft.
+ * Prüft, ob der vollständige Wert eine gültige IPv4-Adresse ist.
  *
- * @param mixed $value Eingabewert fuer value.
+ * @param string $value Zu prüfender Text.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -686,29 +702,29 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private getLoginDiagnostics()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 725
+- Zeile: 700
 - Rueckgabe: `array`
 
 ```
 /**
- * Liest login diagnostics und gibt den Wert zurueck.
+ * Erstellt DB-/Tabellen- und Benutzerdiagnosen einschließlich Passwortformatprüfung; Passwörter selbst werden nicht zurückgegeben.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array Struktur mit Status, Zeitstempel, Sessionbenutzer, Tabellenstatus, Benutzer-Hashformaten und optionalem `login_check`.
  */
 ```
 
 ### `private json($data, $status)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 839
+- Zeile: 814
 - Rueckgabe: `void`
 
 ```
 /**
- * Fuehrt json entsprechend der internen Logik aus.
+ * Setzt Status und JSON-Header, kodiert Daten, schreibt sie und beendet den Prozess.
  *
- * @param mixed $data Eingabewert fuer data.
- * @param mixed $status Eingabewert fuer status.
+ * @param array<string, mixed> $data Zu serialisierende Antwortdaten.
+ * @param int $status HTTP-Statuscode.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -716,15 +732,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private internalError($context, $e)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 854
+- Zeile: 829
 - Rueckgabe: `void`
 
 ```
 /**
- * Fuehrt internal error entsprechend der internen Logik aus.
+ * Protokolliert Exception und Kontext und antwortet mit generischem HTTP-500-JSON.
  *
- * @param mixed $context Eingabewert fuer context.
- * @param mixed $e Eingabewert fuer e.
+ * @param string $context Fehlerkontext für das Protokoll.
+ * @param \Throwable $e Auslösender Fehler.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -745,10 +761,24 @@ Automatisch generiert am: 2026-11-15 09:31:22
  */
 ```
 
+### `public static getExceptionsLogPath()`
+
+- Datei: `./src/Core/Debug.php`
+- Zeile: 59
+- Rueckgabe: `string`
+
+```
+/**
+ * Kurzbeschreibung Funktion getExceptionsLogPath
+ *
+ * @return string
+ */
+```
+
 ### `public static debug($vars)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 51
+- Zeile: 67
 - Rueckgabe: `void`
 
 ```
@@ -760,7 +790,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private static buildAutoContextForObject($object)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 114
+- Zeile: 130
 - Rueckgabe: `array`
 
 ```
@@ -775,7 +805,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private static extractObjectProperties($object)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 132
+- Zeile: 148
 - Rueckgabe: `array`
 
 ```
@@ -790,7 +820,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static log($vars)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 158
+- Zeile: 173
 - Rueckgabe: `void`
 
 ```
@@ -802,7 +832,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static logException($e, $context)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 183
+- Zeile: 198
 - Rueckgabe: `void`
 
 ```
@@ -818,7 +848,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static dd($vars)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 209
+- Zeile: 224
 - Rueckgabe: `void`
 
 ```
@@ -830,7 +860,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static handleException($e)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 218
+- Zeile: 233
 - Rueckgabe: `void`
 
 ```
@@ -842,7 +872,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static handleError($errno, $errstr, $errfile, $errline)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 243
+- Zeile: 270
 - Rueckgabe: `bool`
 
 ```
@@ -854,7 +884,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static render()`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 271
+- Zeile: 298
 - Rueckgabe: `void`
 
 ```
@@ -868,7 +898,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static getBufferedOutput()`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 290
+- Zeile: 317
 - Rueckgabe: `string`
 
 ```
@@ -882,7 +912,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private static renderExceptionScreen($error)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 311
+- Zeile: 338
 - Rueckgabe: `void`
 
 ```
@@ -897,7 +927,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private static ensureLogTargets()`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 329
+- Zeile: 356
 - Rueckgabe: `void`
 
 ```
@@ -1170,7 +1200,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
  */
 ```
 
-### `private downloadProfileZip()`
+### `private downloadProfile()`
 
 - Datei: `./src/Core/GoRequest.php`
 - Zeile: 362
@@ -1178,16 +1208,45 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Liefert die angeforderte Profil-ZIP zum Download aus.
+ * Erstellt und liefert die autorisierte Client-Konfiguration im Speicher aus.
  *
  * @return void
+ */
+```
+
+### `private logProfileDownloadFailure($event, $context)`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 437
+- Rueckgabe: `void`
+
+```
+/**
+ * Protokolliert nur nicht geheime Download-Metadaten fuer die Serverdiagnose.
+ *
+ * @param array<string, int|string|null> $context
+ */
+```
+
+### `private denyDownload($status)`
+
+- Datei: `./src/Core/GoRequest.php`
+- Zeile: 449
+- Rueckgabe: `never`
+
+```
+/**
+ * Kurzbeschreibung Funktion denyDownload
+ *
+ * @param mixed $status
+ * @return never
  */
 ```
 
 ### `private showError()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 388
+- Zeile: 468
 - Rueckgabe: `void`
 
 ```
@@ -1201,7 +1260,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private setLanguage()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 404
+- Zeile: 484
 - Rueckgabe: `void`
 
 ```
@@ -1215,7 +1274,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private showHelpDoc()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 426
+- Zeile: 506
 - Rueckgabe: `void`
 
 ```
@@ -1225,7 +1284,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private isSafeRedirectTarget($target)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 461
+- Zeile: 541
 - Rueckgabe: `bool`
 
 ```
@@ -1240,7 +1299,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private enforceAccessPolicy()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 506
+- Zeile: 586
 - Rueckgabe: `void`
 
 ```
@@ -1275,7 +1334,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private serveLoginAsset()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 542
+- Zeile: 622
 - Rueckgabe: `void`
 
 ```
@@ -1289,7 +1348,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private enforceDataAccessPolicy($method)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 602
+- Zeile: 682
 - Rueckgabe: `void`
 
 ```
@@ -1304,7 +1363,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private verifyStateChangingRequest()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 620
+- Zeile: 700
 - Rueckgabe: `void`
 
 ```
@@ -1318,7 +1377,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private isSameOriginRequest()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 637
+- Zeile: 717
 - Rueckgabe: `bool`
 
 ```
@@ -1332,7 +1391,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private denyRequest($status, $message)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 666
+- Zeile: 746
 - Rueckgabe: `void`
 
 ```
@@ -1348,7 +1407,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private getRequestCsrfToken()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 686
+- Zeile: 766
 - Rueckgabe: `string`
 
 ```
@@ -1362,7 +1421,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private canUseDebugModal()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 709
+- Zeile: 789
 - Rueckgabe: `bool`
 
 ```
@@ -1374,7 +1433,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private readDotEnvValue($key)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 729
+- Zeile: 809
 - Rueckgabe: `string`
 
 ```
@@ -1386,7 +1445,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private buildDebugModalData()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 768
+- Zeile: 848
 - Rueckgabe: `array`
 
 ```
@@ -1400,7 +1459,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private readDebugFile($path)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 790
+- Zeile: 870
 - Rueckgabe: `string`
 
 ```
@@ -1412,7 +1471,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private buildInternalUrl($url)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 816
+- Zeile: 896
 - Rueckgabe: `string`
 
 ```
@@ -1427,7 +1486,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private getGoRequestDebugVars()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 826
+- Zeile: 906
 - Rueckgabe: `array`
 
 ```
@@ -1478,9 +1537,9 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Fuehrt redirect entsprechend der internen Logik aus.
+ * Sendet einen Location-Header mit normalisierter interner URL und beendet die Anfrage.
  *
- * @param mixed $url Eingabewert fuer url.
+ * @param string $url Internes Redirectziel.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -1493,10 +1552,10 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Baut eine absolute Redirect-URL aus Legacy-?op Links.
+ * Normalisiert ein internes Ziel mittels `Url::normalizeInternal()`.
  *
- * @param string $url
- * @return string
+ * @param string $url Legacy-Query, Pfad oder absolute URL.
+ * @return string Normalisiertes Redirectziel.
  */
 ```
 
@@ -1522,10 +1581,10 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Fuehrt audit user ref entsprechend der internen Logik aus.
+ * Erzeugt für Logs eine nicht umkehrbare Referenz aus dem normalisierten Benutzernamen.
  *
- * @param mixed $username Eingabewert fuer username.
- * @return string Rueckgabe als Text.
+ * @param string $username Zu anonymisierender Benutzername.
+ * @return string `empty` oder SHA-256-Präfix samt Hash.
  */
 ```
 
@@ -1537,10 +1596,10 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Fuehrt login key entsprechend der internen Logik aus.
+ * Bildet den Rate-Limit-Schlüssel aus normalisiertem Benutzernamen und Client-IP.
  *
- * @param mixed $username Eingabewert fuer username.
- * @return string Rueckgabe als Text.
+ * @param string $username Loginname.
+ * @return string SHA-256-Schlüssel für den Session-Rate-Limit-Eintrag.
  */
 ```
 
@@ -1552,9 +1611,9 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Prueft, ob login rate limited zutrifft.
+ * Prüft, ob für Benutzername und Client-IP eine noch aktive Sperre in der Session besteht.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Loginname.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -1567,9 +1626,9 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Fuehrt register login failure entsprechend der internen Logik aus.
+ * Zählt einen Fehlversuch in der aktiven Session; ab fünf Versuchen innerhalb zehn Minuten sperrt es fünf Minuten und verzögert 300 ms.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Loginname für den Rate-Limit-Schlüssel.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -1582,9 +1641,9 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Fuehrt clear login failures entsprechend der internen Logik aus.
+ * Entfernt den Rate-Limit-Eintrag dieses Benutzers und der Client-IP aus der aktiven Session.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Erfolgreich angemeldeter Benutzername.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -1597,9 +1656,9 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Prueft, ob strict admin role name zutrifft.
+ * Erkennt ausschließlich die erlaubten Admin-Rollennamen nach Trim und Kleinschreibung.
  *
- * @param mixed $roleName Eingabewert fuer roleName.
+ * @param string $roleName Rollenname aus der Datenbank.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -1611,46 +1670,44 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public __construct()`
 
 - Datei: `./src/Core/LogModel.php`
-- Zeile: 33
+- Zeile: 31
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
- *
- * @return mixed|null Rueckgabewert der Funktion.
+ * Bezieht die gemeinsame PDO-Verbindung aus dem Database-Singleton.
  */
 ```
 
 ### `public getAllLogs($limit, $offset, $search)`
 
 - Datei: `./src/Core/LogModel.php`
-- Zeile: 46
+- Zeile: 44
 - Rueckgabe: `array`
 
 ```
 /**
- * Liest all logs und gibt den Wert zurueck.
+ * Liest Logdatensätze absteigend nach Startzeit, optional nach Benutzer- oder IP-Feldern gefiltert.
  *
- * @param mixed $limit Eingabewert fuer limit.
- * @param mixed $offset Eingabewert fuer offset.
- * @param mixed $search Eingabewert fuer search.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param int $limit Maximale Zahl der Datensätze.
+ * @param int $offset Zahl der zu überspringenden Datensätze.
+ * @param string|null $search Teiltext für Benutzername, vertrauenswürdige IP oder Remote-IP; null/leer ohne Filter.
+ * @return array<int, array<string, mixed>> Assoziative PDO-Zeilen aus der Tabelle `log`.
  */
 ```
 
 ### `public countLogs($search)`
 
 - Datei: `./src/Core/LogModel.php`
-- Zeile: 76
+- Zeile: 74
 - Rueckgabe: `int`
 
 ```
 /**
- * Fuehrt count logs entsprechend der internen Logik aus.
+ * Zählt Logeinträge mit demselben optionalen Benutzer- und IP-Suchfilter wie `getAllLogs()`.
  *
- * @param mixed $search Eingabewert fuer search.
- * @return int Rueckgabewert der Funktion.
+ * @param string|null $search Teiltext für Benutzername, vertrauenswürdige IP oder Remote-IP.
+ * @return int Zahl der passenden Logeinträge.
  */
 ```
 
@@ -1658,140 +1715,143 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ## `./src/Core/ProfileService.php`
 
-### `public __construct($basePath)`
+### `public __construct($basePath, $clientCertPath, $userModel)`
 
 - Datei: `./src/Core/ProfileService.php`
-- Zeile: 31
+- Zeile: 34
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Setzt Vorlagen- und Zertifikatsspeicherpfade sowie optional das injizierte Benutzermodell.
  *
- * @param mixed $basePath Eingabewert fuer basePath.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param string|null $basePath Verzeichnis mit systembezogenen Client-Vorlagen.
+ * @param string|null $clientCertPath Verzeichnis mit Zertifikatsdateien, standardmäßig aus `OPENVPN_CLIENT_CERT_DIR`.
+ * @param UserModel|null $userModel Modell für Benutzer- und Rollenabfragen; null erzeugt es bei Bedarf.
  */
 ```
 
 ### `public listSystems()`
 
 - Datei: `./src/Core/ProfileService.php`
-- Zeile: 41
+- Zeile: 47
 - Rueckgabe: `array`
 
 ```
 /**
- * Liefert eine Liste von systems.
+ * Liefert nur die Betriebssysteme mit vorhandener Vorlage.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array<int, array{system: string, label: string}>
  */
 ```
 
-### `public buildZip($system)`
+### `public createDownload($sessionUid, $requestedUid, $system)`
 
 - Datei: `./src/Core/ProfileService.php`
-- Zeile: 92
-- Rueckgabe: `string`
+- Zeile: 77
+- Rueckgabe: `array`
 
 ```
 /**
- * Erzeugt zip auf Basis der Eingabedaten.
+ * Prueft Session-Benutzer und Rolle, erstellt ein ZIP vollstaendig im Speicher.
  *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
+ * @return array{filename: string, content: string}
  */
 ```
 
-### `public getZipPath($system)`
+### `private isVpnActive($user)`
 
 - Datei: `./src/Core/ProfileService.php`
-- Zeile: 139
-- Rueckgabe: `string`
-
-```
-/**
- * Liest zip path und gibt den Wert zurueck.
- *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
- */
-```
-
-### `private sanitizeSystem($system)`
-
-- Datei: `./src/Core/ProfileService.php`
-- Zeile: 157
-- Rueckgabe: `string`
-
-```
-/**
- * Fuehrt sanitize system entsprechend der internen Logik aus.
- *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
- */
-```
-
-### `private zipPathFor($system)`
-
-- Datei: `./src/Core/ProfileService.php`
-- Zeile: 173
-- Rueckgabe: `string`
-
-```
-/**
- * Fuehrt zip path for entsprechend der internen Logik aus.
- *
- * @param mixed $system Eingabewert fuer system.
- * @return string Rueckgabe als Text.
- */
-```
-
-### `private isAllowedSystemDir($system, $dir)`
-
-- Datei: `./src/Core/ProfileService.php`
-- Zeile: 185
+- Zeile: 154
 - Rueckgabe: `bool`
 
 ```
 /**
- * Prueft, ob allowed system dir zutrifft.
- *
- * @param mixed $system Eingabewert fuer system.
- * @param mixed $dir Eingabewert fuer dir.
- * @return bool True bei Erfolg, sonst false.
- */
 ```
 
-### `private injectCaTlsBlocks($content)`
+### `private isAdminRole($roleName)`
 
 - Datei: `./src/Core/ProfileService.php`
-- Zeile: 204
+- Zeile: 169
+- Rueckgabe: `bool`
+
+```
+/**
+```
+
+### `private readTemplate($system)`
+
+- Datei: `./src/Core/ProfileService.php`
+- Zeile: 181
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt inject ca tls blocks entsprechend der internen Logik aus.
- *
- * @param mixed $content Eingabewert fuer content.
- * @return string Rueckgabe als Text.
+```
+
+### `private readOptionalTemplateFile($system, $name)`
+
+- Datei: `./src/Core/ProfileService.php`
+- Zeile: 199
+- Rueckgabe: `?string`
+
+```
+/**
+```
+
+### `private readClientFiles($uid)`
+
+- Datei: `./src/Core/ProfileService.php`
+- Zeile: 221
+- Rueckgabe: `array`
+
+```
+/**
+ * @return array{ca: string, cert: string, key: string, tls: string}
  */
 ```
 
-### `private replaceOvpnBlock($content, $tag, $blockContent)`
+### `private validateClientFiles($files, $uid)`
 
 - Datei: `./src/Core/ProfileService.php`
-- Zeile: 233
+- Zeile: 258
+- Rueckgabe: `void`
+
+```
+/**
+```
+
+### `private normalizeTlsAuthKey($key)`
+
+- Datei: `./src/Core/ProfileService.php`
+- Zeile: 291
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt replace ovpn block entsprechend der internen Logik aus.
+```
+
+### `private buildClientConfig($template, $files)`
+
+- Datei: `./src/Core/ProfileService.php`
+- Zeile: 335
+- Rueckgabe: `string`
+
+```
+/**
+```
+
+### `private createZipInMemory($files)`
+
+- Datei: `./src/Core/ProfileService.php`
+- Zeile: 369
+- Rueckgabe: `string`
+
+```
+/**
+ * Erstellt ein ZIP-Archiv ohne Datei- oder Temp-Verzeichniszugriffe.
  *
- * @param mixed $content Eingabewert fuer content.
- * @param mixed $tag Eingabewert fuer tag.
- * @param mixed $blockContent Eingabewert fuer blockContent.
- * @return string Rueckgabe als Text.
+ * @param array<string, string> $files
  */
 ```
 
@@ -1802,15 +1862,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public __construct($cfg)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 31
+- Zeile: 30
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Liest VPN-Server-Quell-, Cache- und Historienpfade sowie HTTP-Optionen aus der Konfiguration.
  *
- * @param mixed $cfg Eingabewert fuer cfg.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param array|null $cfg Gesamtkonfiguration; null lädt `config/config.php`.
  */
 ```
 
@@ -1822,98 +1881,102 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Liest current und gibt den Wert zurueck.
+ * Bezieht die Serverkonfiguration aus URL, Quelldatei oder lokalem Cache und ergänzt Historien-Diffstatistiken.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array{content: string, source: string, save_path: string, history: array} Inhalt, Herkunftshinweis, Zielpfad und Snapshots samt Änderungszählern.
+ * @throws \RuntimeException Wenn die Quelle und gegebenenfalls der lokale Fallback nicht lesbar sind.
  */
 ```
 
 ### `public save($content)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 90
+- Zeile: 91
 - Rueckgabe: `array`
 
 ```
 /**
- * Speichert Daten persistent.
+ * Archiviert vorhandene Zieldatei und schreibt anschließend den neuen Serverkonfigurationstext.
  *
- * @param mixed $content Eingabewert fuer content.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $content Vollständiger neuer Konfigurationsinhalt.
+ * @return array{path: string} Pfad der gespeicherten Datei.
+ * @throws \RuntimeException Bei leerem Zielpfad, Verzeichnis-, Archiv- oder Schreibfehler.
  */
 ```
 
 ### `public getHistoryList()`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 120
+- Zeile: 121
 - Rueckgabe: `array`
 
 ```
 /**
- * Liest history list und gibt den Wert zurueck.
+ * Listet `.conf`-Snapshots im konfigurierten Historienverzeichnis absteigend nach Dateiname.
  *
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @return array<int, array{file: string, mtime: string}> Dateiname und formatierte Änderungszeit; bei fehlendem Ordner leer.
  */
 ```
 
 ### `public diffHistoryFileAgainstCurrent($historyFile, $current)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 151
+- Zeile: 153
 - Rueckgabe: `array`
 
 ```
 /**
- * Vergleicht history file against current und liefert die Unterschiede.
+ * Vergleicht den per Basisdateiname ausgewählten Snapshot mit dem übergebenen aktuellen Inhalt.
  *
- * @param mixed $historyFile Eingabewert fuer historyFile.
- * @param mixed $current Eingabewert fuer current.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $historyFile Snapshotname; Pfadanteile werden durch `basename()` entfernt.
+ * @param string $current Aktueller Konfigurationstext.
+ * @return array{added: int, removed: int, diff: string} Zeilenänderungen und formatierter Diff.
+ * @throws \RuntimeException Wenn der Snapshot fehlt.
  */
 ```
 
 ### `private getDiffStatsAgainstCurrent($current)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 169
+- Zeile: 171
 - Rueckgabe: `array`
 
 ```
 /**
- * Liest diff stats against current und gibt den Wert zurueck.
+ * Ergänzt die Historienliste um Anzahl hinzugefügter und entfernter Zeilen gegenüber dem Inhalt.
  *
- * @param mixed $current Eingabewert fuer current.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $current Aktueller Serverkonfigurationstext.
+ * @return array<int, array{file: string, mtime: string, added: int, removed: int}> Historienzeilen mit Diff-Zählern.
  */
 ```
 
 ### `private fetchFromUrl($url)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 190
+- Zeile: 193
 - Rueckgabe: `string`
 
 ```
 /**
- * Fuehrt fetch from url entsprechend der internen Logik aus.
+ * Ruft eine HTTP(S)-Quelle mit GET, konfiguriertem Timeout und optionalem Authorization-Header ab.
  *
- * @param mixed $url Eingabewert fuer url.
- * @return string Rueckgabe als Text.
+ * @param string $url Abrufadresse; andere Schemes als HTTP und HTTPS werden abgewiesen.
+ * @return string Antwortinhalt.
+ * @throws \RuntimeException Bei ungültigem Scheme oder fehlgeschlagenem Abruf.
  */
 ```
 
 ### `private writeCache($content)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 223
+- Zeile: 226
 - Rueckgabe: `void`
 
 ```
 /**
- * Schreibt cache in das Zielsystem.
+ * Schreibt den erfolgreichen URL-Inhalt bestmöglich in den konfigurierten Cache; Fehler werden ignoriert.
  *
- * @param mixed $content Eingabewert fuer content.
+ * @param string $content Abzurufender Konfigurationsinhalt.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -1921,22 +1984,23 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private archiveFile($file)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 244
+- Zeile: 248
 - Rueckgabe: `void`
 
 ```
 /**
- * Fuehrt archive file entsprechend der internen Logik aus.
+ * Kopiert eine bestehende Datei unter Zeitstempel in den Historienordner.
  *
- * @param mixed $file Eingabewert fuer file.
+ * @param string $file Zu archivierende Quelldatei.
  * @return void Kein Rueckgabewert.
+ * @throws \RuntimeException Wenn Historienordner oder Kopie nicht erstellt werden kann.
  */
 ```
 
 ### `private readSavePath()`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 262
+- Zeile: 266
 - Rueckgabe: `string`
 
 ```
@@ -1950,27 +2014,28 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private readFile($path)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 285
+- Zeile: 290
 - Rueckgabe: `string`
 
 ```
 /**
- * Laedt file aus der Quelle.
+ * Liest eine vorhandene Datei vollständig als Text.
  *
- * @param mixed $path Eingabewert fuer path.
- * @return string Rueckgabe als Text.
+ * @param string $path Quelldateipfad.
+ * @return string Dateiinhalt.
+ * @throws \RuntimeException Wenn die Datei fehlt.
  */
 ```
 
 ### `private ensureSaveFileExists()`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 299
+- Zeile: 304
 - Rueckgabe: `void`
 
 ```
 /**
- * Fuehrt ensure save file exists entsprechend der internen Logik aus.
+ * Legt den Save-Ordner und bei Bedarf eine minimale Serverkonfiguration an; Anlagefehler werden ignoriert.
  *
  * @return void Kein Rueckgabewert.
  */
@@ -1979,32 +2044,32 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private buildDiffData($oldText, $newText)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 324
+- Zeile: 329
 - Rueckgabe: `array`
 
 ```
 /**
- * Erzeugt diff data auf Basis der Eingabedaten.
+ * Berechnet Anzahl und Textdarstellung gleicher, hinzugefügter und entfernter Zeilen.
  *
- * @param mixed $oldText Eingabewert fuer oldText.
- * @param mixed $newText Eingabewert fuer newText.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string $oldText Vorheriger Konfigurationstext.
+ * @param string $newText Neuer Konfigurationstext.
+ * @return array{added: int, removed: int, diff: string} Zähler und mit `  `, `+ `, `- ` markierte Zeilen.
  */
 ```
 
 ### `private diffOps($a, $b)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 360
+- Zeile: 365
 - Rueckgabe: `array`
 
 ```
 /**
- * Vergleicht ops und liefert die Unterschiede.
+ * Erzeugt anhand der längsten gemeinsamen Teilfolge eine geordnete Liste der Zeilenoperationen.
  *
- * @param mixed $a Eingabewert fuer a.
- * @param mixed $b Eingabewert fuer b.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param string[] $a Alte Zeilen.
+ * @param string[] $b Neue Zeilen.
+ * @return array<int, array{type: '='|'+'|'-', line: string}> Operationen mit Zeilentyp und Text.
  */
 ```
 
@@ -2015,31 +2080,30 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public __construct($db, $lifetime)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 48
+- Zeile: 47
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Registriert diese Instanz als PHP-Sessionhandler und setzt sichere Cookie-Optionen.
  *
- * @param mixed $db Eingabewert fuer db.
- * @param mixed $lifetime Eingabewert fuer lifetime.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param PDO $db Datenbankverbindung für `sessions2`.
+ * @param int $lifetime Cookie- und Session-Laufzeit in Sekunden.
  */
 ```
 
 ### `public open($savePath, $sessionName)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 77
+- Zeile: 76
 - Rueckgabe: `bool`
 
 ```
 /**
- * Fuehrt open entsprechend der internen Logik aus.
+ * Akzeptiert das Öffnen des Session-Speichers; PDO benötigt kein separates Öffnen.
  *
- * @param mixed $savePath Eingabewert fuer savePath.
- * @param mixed $sessionName Eingabewert fuer sessionName.
+ * @param string $savePath Von PHP übergebener Speicherpfad (wird nicht verwendet).
+ * @param string $sessionName Von PHP übergebener Sitzungsname (wird nicht verwendet).
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2047,12 +2111,12 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public close()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 87
+- Zeile: 86
 - Rueckgabe: `bool`
 
 ```
 /**
- * Fuehrt close entsprechend der internen Logik aus.
+ * Akzeptiert das Schließen des Session-Speichers; es sind keine Ressourcen freizugeben.
  *
  * @return bool True bei Erfolg, sonst false.
  */
@@ -2061,14 +2125,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public read($id)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 98
+- Zeile: 97
 - Rueckgabe: `string|false`
 
 ```
 /**
- * Laedt Daten aus der Quelle.
+ * Liest nicht abgelaufene Sitzungsdaten aus `sessions2`; Datenbankfehler werden protokolliert und als leere Session behandelt.
  *
- * @param mixed $id Eingabewert fuer id.
+ * @param string $id PHP-Session-ID als Datenbankschlüssel.
  * @return string|false Rueckgabewert der Funktion.
  */
 ```
@@ -2076,15 +2140,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public write($id, $data)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 126
+- Zeile: 125
 - Rueckgabe: `bool`
 
 ```
 /**
- * Schreibt Daten in das Zielsystem.
+ * Ersetzt den Datensatz der Session mit Ablaufzeit, Zeitstempeln und serialisierten Daten.
  *
- * @param mixed $id Eingabewert fuer id.
- * @param mixed $data Eingabewert fuer data.
+ * @param string $id PHP-Session-ID.
+ * @param string $data Von PHP serialisierte Sessiondaten.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2092,14 +2156,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public destroy($id)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 158
+- Zeile: 157
 - Rueckgabe: `bool`
 
 ```
 /**
- * Fuehrt destroy entsprechend der internen Logik aus.
+ * Löscht den Datensatz der angegebenen Session; bei Datenbankfehler wird protokolliert und Erfolg signalisiert.
  *
- * @param mixed $id Eingabewert fuer id.
+ * @param string $id Zu löschende PHP-Session-ID.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2107,14 +2171,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public gc($max_lifetime)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 178
+- Zeile: 177
 - Rueckgabe: `int|false`
 
 ```
 /**
- * Fuehrt gc entsprechend der internen Logik aus.
+ * Entfernt alle abgelaufenen Sitzungsdatensätze; bei Fehler wird protokolliert und 0 zurückgegeben.
  *
- * @param mixed $max_lifetime Eingabewert fuer max_lifetime.
+ * @param int $max_lifetime PHP-Parameter der GC-Schnittstelle; die Bereinigung nutzt stattdessen `expiry < NOW()`.
  * @return int|false Rueckgabewert der Funktion.
  */
 ```
@@ -2122,19 +2186,23 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static start($db, $lifetime)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 198
+- Zeile: 201
 - Rueckgabe: `void`
 
 ```
 /**
- * Initialisiert und startet die Session.
+ * Startet bei Bedarf die native PHP-Session mit striktem Modus und sicheren Cookie-Optionen.
+ * Der übergebene PDO-Handler wird derzeit nicht aktiviert; Fehler beim Start werden von PHP behandelt.
+ *
+ * @param PDO $db Datenbankverbindung (aktuell ungenutzt, für den optionalen PDO-Handler vorgesehen).
+ * @param int $lifetime Cookie-Laufzeit in Sekunden.
  */
 ```
 
 ### `public static regenerateId()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 230
+- Zeile: 233
 - Rueckgabe: `void`
 
 ```
@@ -2148,7 +2216,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static setVar($key, $value)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 240
+- Zeile: 243
 - Rueckgabe: `void`
 
 ```
@@ -2160,7 +2228,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static getVar($key, $default)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 248
+- Zeile: 251
 - Rueckgabe: `mixed`
 
 ```
@@ -2172,7 +2240,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static removeVar($key)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 256
+- Zeile: 259
 - Rueckgabe: `void`
 
 ```
@@ -2184,7 +2252,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static isUser()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 264
+- Zeile: 267
 - Rueckgabe: `bool`
 
 ```
@@ -2196,7 +2264,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static isAdmin()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 272
+- Zeile: 275
 - Rueckgabe: `bool`
 
 ```
@@ -2208,7 +2276,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static getUser()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 321
+- Zeile: 324
 - Rueckgabe: `?array`
 
 ```
@@ -2220,7 +2288,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static setUser($user)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 329
+- Zeile: 332
 - Rueckgabe: `void`
 
 ```
@@ -2232,7 +2300,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static destroyAll()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 337
+- Zeile: 340
 - Rueckgabe: `void`
 
 ```
@@ -2244,7 +2312,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static getCsrfToken()`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 357
+- Zeile: 360
 - Rueckgabe: `string`
 
 ```
@@ -2256,14 +2324,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public static verifyCsrfToken($token)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 372
+- Zeile: 375
 - Rueckgabe: `bool`
 
 ```
 /**
- * Fuehrt verify csrf token entsprechend der internen Logik aus.
+ * Vergleicht ein übermitteltes CSRF-Token konstantzeitlich mit dem Session-Token.
  *
- * @param mixed $token Eingabewert fuer token.
+ * @param string|null $token Zu prüfendes Token.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2271,14 +2339,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private static toBool($value)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 392
+- Zeile: 395
 - Rueckgabe: `bool`
 
 ```
 /**
- * Fuehrt to bool entsprechend der internen Logik aus.
+ * Erkennt boolesche Werte sowie `1`, `true`, `yes` und `on` (ohne Beachtung der Großschreibung).
  *
- * @param mixed $value Eingabewert fuer value.
+ * @param mixed $value Zu interpretierender Sessionwert.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2286,14 +2354,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private static isStrictAdminRoleName($roleName)`
 
 - Datei: `./src/Core/Session.php`
-- Zeile: 414
+- Zeile: 417
 - Rueckgabe: `bool`
 
 ```
 /**
- * Prueft, ob strict admin role name zutrifft.
+ * Erkennt ausschließlich die explizit aufgelisteten Admin-Rollennamen nach Trim und Kleinschreibung.
  *
- * @param mixed $roleName Eingabewert fuer roleName.
+ * @param string $roleName Rollenbezeichnung aus der Datenbank.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2310,9 +2378,9 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Kurzbeschreibung Funktion basePath
+ * Ermittelt den normalisierten URL-Präfix der Anwendung aus `_APP_BASE_PATH`.
  *
- * @return string
+ * @return string Leerstring für nicht gesetzten/root-Präfix, sonst führender Slash ohne Abschlussslash.
  */
 ```
 
@@ -2324,10 +2392,10 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Kurzbeschreibung Funktion appPath
+ * Ergänzt einen relativen oder absoluten Pfad um den konfigurierten Anwendungspräfix.
  *
- * @param mixed $path
- * @return string
+ * @param string $path Pfad, dessen führende Slashes entfernt und durch genau einen ersetzt werden.
+ * @return string Zusammengesetzter interner Anwendungspfad.
  */
 ```
 
@@ -2339,11 +2407,11 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Baut interne App-URLs fuer op-Routen.
+ * Baut eine interne URL für eine `op`-Route, je nach Konfiguration als Rewrite- oder Query-URL.
  *
- * @param string $op
- * @param array<string,mixed> $params
- * @return string
+ * @param string $op Routenkennung; leer wird zu `main`.
+ * @param array<string,mixed> $params Query-Parameter; im Rewrite-Modus wird `lang` bei `setlang` Teil des Pfads.
+ * @return string URL inklusive App-Präfix und gegebenenfalls kodierter Query.
  */
 ```
 
@@ -2355,10 +2423,10 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Kurzbeschreibung Funktion normalizeInternal
+ * Normalisiert einen internen URL-Wert und erhält absolute URLs unverändert.
  *
- * @param mixed $url
- * @return string
+ * @param string $url Absolute URL, `?op=`-Query, Querystring oder Pfad.
+ * @return string Absolute URLs unverändert; interne Werte erhalten den App-Präfix und `?op=` wird über `op()` gebaut.
  */
 ```
 
@@ -2387,74 +2455,100 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public __construct()`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 32
+- Zeile: 30
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
- *
- * @return mixed|null Rueckgabewert der Funktion.
+ * Bezieht die PDO-Verbindung aus dem Datenbank-Singleton.
  */
 ```
 
 ### `public getAllUsers($limit, $offset, $search)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 45
+- Zeile: 43
 - Rueckgabe: `array`
 
 ```
 /**
- * Liest all users und gibt den Wert zurueck.
+ * Liest Benutzer inklusive Gruppenname und erster fester IP, optional nach Benutzer- oder Gruppenname gefiltert.
  *
- * @param mixed $limit Eingabewert fuer limit.
- * @param mixed $offset Eingabewert fuer offset.
- * @param mixed $search Eingabewert fuer search.
- * @return array Rueckgabe als Array mit den ermittelten Daten.
+ * @param int $limit Maximale Zeilenzahl.
+ * @param int $offset Anzahl übersprungener Zeilen.
+ * @param string $search Teilstring für Benutzer- und Gruppenname; leer deaktiviert die Suche.
+ * @return array<int, array<string, mixed>> Assoziative PDO-Zeilen mit `uid`, `uname`, `gname`, Status/Fristen und `fixed_ip`.
  */
 ```
 
 ### `public countUsers($search)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 93
+- Zeile: 95
 - Rueckgabe: `int`
 
 ```
 /**
- * Fuehrt count users entsprechend der internen Logik aus.
+ * Zählt Benutzer passend zum optionalen Suchtext in Benutzer- oder Gruppenname.
  *
- * @param mixed $search Eingabewert fuer search.
- * @return int Rueckgabewert der Funktion.
+ * @param string $search Teilstring; leer zählt alle Benutzer.
+ * @return int Anzahl passender Datensätze.
+ */
+```
+
+### `public getVpnProfileUsers($limit, $offset, $search)`
+
+- Datei: `./src/Core/UserModel.php`
+- Zeile: 121
+- Rueckgabe: `array`
+
+```
+/**
+ * Liefert aktive, fuer VPN-Zugaenge vorgesehene Benutzer mit serverseitiger Suche.
+ *
+ * @return array{total: int, rows: array<int, array<string, mixed>>}
+ */
+```
+
+### `public getVpnProfileUser($uid)`
+
+- Datei: `./src/Core/UserModel.php`
+- Zeile: 162
+- Rueckgabe: `?array`
+
+```
+/**
+ * Liest den Benutzerstatus und die autoritative Rolle fuer den Download.
+ *
+ * @return array<string, mixed>|null
  */
 ```
 
 ### `public countOnlineUsers()`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 117
+- Zeile: 183
 - Rueckgabe: `int`
 
 ```
 /**
- * Fuehrt count online users entsprechend der internen Logik aus.
+ * Zählt Datensätze mit `user_online = 1`.
  *
- * @return int Rueckgabewert der Funktion.
+ * @return int Zahl der als online markierten Benutzer.
  */
 ```
 
 ### `public userExists($username)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 129
+- Zeile: 195
 - Rueckgabe: `bool`
 
 ```
 /**
- * Fuehrt user exists entsprechend der internen Logik aus.
+ * Prüft per vorbereiteter Abfrage, ob ein Benutzername vorhanden ist.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Exakter Benutzername.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2462,32 +2556,33 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public createUser($username, $password, $isAdmin)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 144
+- Zeile: 211
 - Rueckgabe: `void`
 
 ```
 /**
- * Erzeugt user auf Basis der Eingabedaten.
+ * Fügt einen aktivierten Benutzer mit gehashtem Passwort und anhand der Gruppen konfigurierter Rolle ein.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $password Eingabewert fuer password.
- * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @param string $username Benutzername.
+ * @param string $password Klartextpasswort, das vor Speicherung mit `password_hash()` verarbeitet wird.
+ * @param bool $isAdmin Wählt die ermittelte Admin- statt Benutzergruppe.
  * @return void Kein Rueckgabewert.
+ * @throws \PDOException Bei Datenbankfehlern; Exceptions der Gruppenabfrage werden ebenfalls weitergegeben.
  */
 ```
 
 ### `public setUserEnabled($username, $enabled)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 168
+- Zeile: 235
 - Rueckgabe: `void`
 
 ```
 /**
- * Setzt user enabled auf den uebergebenen Wert.
+ * Aktualisiert das Aktiv-Flag des Benutzers.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $enabled Eingabewert fuer enabled.
+ * @param string $username Exakter Benutzername.
+ * @param bool $enabled Aktiviert bei true, deaktiviert bei false.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -2495,15 +2590,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public setUserRole($username, $isAdmin)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 184
+- Zeile: 251
 - Rueckgabe: `void`
 
 ```
 /**
- * Setzt user role auf den uebergebenen Wert.
+ * Ermittelt die passende Gruppen-ID und weist sie dem Benutzer zu.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $isAdmin Eingabewert fuer isAdmin.
+ * @param string $username Exakter Benutzername.
+ * @param bool $isAdmin Wählt Admin- oder Nicht-Admin-Gruppe.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -2511,15 +2606,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public setUserPasswordByName($username, $newPassword)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 201
+- Zeile: 268
 - Rueckgabe: `void`
 
 ```
 /**
- * Setzt user password by name auf den uebergebenen Wert.
+ * Hasht das neue Passwort und aktualisiert es anhand des Benutzernamens.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $newPassword Eingabewert fuer newPassword.
+ * @param string $username Exakter Benutzername.
+ * @param string $newPassword Neues Klartextpasswort.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -2527,15 +2622,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public setUserPasswordById($uid, $newPassword)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 218
+- Zeile: 285
 - Rueckgabe: `void`
 
 ```
 /**
- * Setzt user password by id auf den uebergebenen Wert.
+ * Hasht das neue Passwort und aktualisiert es anhand der Benutzer-ID.
  *
- * @param mixed $uid Eingabewert fuer uid.
- * @param mixed $newPassword Eingabewert fuer newPassword.
+ * @param int $uid Benutzer-ID.
+ * @param string $newPassword Neues Klartextpasswort.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -2543,16 +2638,16 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public setUserLimits($username, $startDate, $endDate)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 236
+- Zeile: 303
 - Rueckgabe: `void`
 
 ```
 /**
- * Setzt user limits auf den uebergebenen Wert.
+ * Aktualisiert Start- und Enddatum; leere Strings werden als SQL-NULL gespeichert.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $startDate Eingabewert fuer startDate.
- * @param mixed $endDate Eingabewert fuer endDate.
+ * @param string $username Exakter Benutzername.
+ * @param string|null $startDate Einschließlich geltendes Startdatum oder null/leer für unbegrenzt.
+ * @param string|null $endDate Einschließlich geltendes Enddatum oder null/leer für unbegrenzt.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -2560,15 +2655,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public setUserFixedIp($username, $fixedIp)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 260
+- Zeile: 327
 - Rueckgabe: `void`
 
 ```
 /**
- * Setzt user fixed ip auf den uebergebenen Wert.
+ * Ersetzt die IP-Zuordnungen des Benutzers durch eine feste IP oder löscht sie bei leerem Wert.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $fixedIp Eingabewert fuer fixedIp.
+ * @param string $username Exakter Benutzername; bei nicht gefundener UID erfolgt keine Änderung.
+ * @param string|null $fixedIp Neue IP oder null/leer zum Entfernen der Zuordnung.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -2576,15 +2671,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public isFixedIpInUseByOtherUser($username, $fixedIp)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 310
+- Zeile: 377
 - Rueckgabe: `bool`
 
 ```
 /**
- * Prueft, ob fixed ip in use by other user zutrifft.
+ * Prüft, ob eine feste IP bereits einem anderen Benutzer zugeordnet ist.
  *
- * @param mixed $username Eingabewert fuer username.
- * @param mixed $fixedIp Eingabewert fuer fixedIp.
+ * @param string $username Auszuschließender Benutzername.
+ * @param string $fixedIp Zu prüfende IP-Adresse.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2592,14 +2687,14 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public deleteUser($username)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 334
+- Zeile: 401
 - Rueckgabe: `void`
 
 ```
 /**
- * Entfernt user.
+ * Löscht den Benutzer anhand des Namens; abhängige Datensätze werden nicht explizit behandelt.
  *
- * @param mixed $username Eingabewert fuer username.
+ * @param string $username Exakter Benutzername.
  * @return void Kein Rueckgabewert.
  */
 ```
@@ -2607,15 +2702,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public verifyPassword($uid, $password)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 347
+- Zeile: 414
 - Rueckgabe: `bool`
 
 ```
 /**
- * Fuehrt verify password entsprechend der internen Logik aus.
+ * Lädt den Passwort-Hash zur UID und verifiziert ihn mit `password_verify()`.
  *
- * @param mixed $uid Eingabewert fuer uid.
- * @param mixed $password Eingabewert fuer password.
+ * @param int $uid Benutzer-ID.
+ * @param string $password Zu prüfendes Klartextpasswort.
  * @return bool True bei Erfolg, sonst false.
  */
 ```
@@ -2623,15 +2718,15 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `private resolveGroupId($isAdmin)`
 
 - Datei: `./src/Core/UserModel.php`
-- Zeile: 365
+- Zeile: 432
 - Rueckgabe: `int`
 
 ```
 /**
- * Fuehrt resolve group id entsprechend der internen Logik aus.
+ * Sucht Admin- und Nicht-Admin-Gruppe anhand ihrer Namen und verwendet Fallback-IDs, wenn Gruppen fehlen.
  *
- * @param mixed $isAdmin Eingabewert fuer isAdmin.
- * @return int Rueckgabewert der Funktion.
+ * @param bool $isAdmin Ob die Admin-Gruppe ausgewählt werden soll.
+ * @return int Gruppen-ID; bei leerer Gruppentabelle 1 für Admin oder 2 für Benutzer.
  */
 ```
 
@@ -2776,7 +2871,7 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ## `./src/Templates/Profiles.php`
 
-### `public index()`
+### `public index($systems, $isAdmin)`
 
 - Datei: `./src/Templates/Profiles.php`
 - Zeile: 28
@@ -2784,9 +2879,9 @@ Automatisch generiert am: 2026-11-15 09:31:22
 
 ```
 /**
- * Fuehrt index entsprechend der internen Logik aus.
+ * Zeigt Betriebssystem-Downloads und fuer Admins die Benutzerauswahl.
  *
- * @return string Rueckgabe als Text.
+ * @param array<int, array{system: string, label: string}> $systems
  */
 ```
 
@@ -2816,48 +2911,55 @@ Automatisch generiert am: 2026-11-15 09:31:22
 ### `public __construct($title, $content, $data)`
 
 - Datei: `./src/Templates/Template.php`
-- Zeile: 37
+- Zeile: 36
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Initialisiert die Klasse und setzt die benoetigten Startwerte.
+ * Speichert Seitentitel, Hauptinhalt und Variablen für Layout-Teile.
  *
- * @param mixed $title Eingabewert fuer title.
- * @param mixed $content Eingabewert fuer content.
- * @param mixed $data Eingabewert fuer data.
- * @return mixed|null Rueckgabewert der Funktion.
+ * @param string $title Dokumenttitel.
+ * @param string $content Bereits erzeugter HTML-Hauptinhalt.
+ * @param array $data Werte, die an Layout-Teile übergeben werden.
  */
 ```
 
 ### `private loadPart($name, $vars)`
 
 - Datei: `./src/Templates/Template.php`
-- Zeile: 47
+- Zeile: 51
 - Rueckgabe: `string`
 
 ```
 /**
- * Lädt eine Layout-Datei aus /src/Layout/
+ * Bindet ein Layout-Snippet mit extrahierten Variablen ein und fängt dessen Ausgabe ab.
+ * Geheimhaltungsfelder aus Debug-Daten werden nur aus der lokalen Debugkopie entfernt.
+ *
+ * @param string $name Dateiname des Layout-Teils ohne `.php`.
+ * @param array $vars Variablen für das inkludierte Template.
+ * @return string HTML-Ausgabe oder Kommentar, wenn die Layoutdatei fehlt.
  */
 ```
 
 ### `public render()`
 
 - Datei: `./src/Templates/Template.php`
-- Zeile: 72
+- Zeile: 79
 - Rueckgabe: `string`
 
 ```
 /**
- * Baut die komplette Seite zusammen
+ * Rendert Layout-Kopf, Navigation, Inhalt, Fußbereich und Skripte und wendet optional URL-Rewriting an.
+ * Fehlende Teiltemplates werden von `loadPart()` als HTML-Kommentar ausgegeben.
+ *
+ * @return string Zusammengesetztes HTML-Dokument.
  */
 ```
 
 ### `private rewriteOpUrls($html)`
 
 - Datei: `./src/Templates/Template.php`
-- Zeile: 116
+- Zeile: 123
 - Rueckgabe: `string`
 
 ```
