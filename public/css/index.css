@@ -169,12 +169,13 @@ del{
   color: #dce7f6 !important;
   border-radius: 0.45rem;
   margin: 0.1rem 0.45rem;
+  background: linear-gradient(20deg, rgba(131, 133, 11, 0.75), rgba(13, 184, 218, 0.85)) !important;
 }
 
 .sidebar-dark-primary .nav-link:hover,
 .sidebar-dark-primary .nav-link.active {
-  background: linear-gradient(90deg, rgba(11, 114, 133, 0.75), rgba(10, 79, 93, 0.85)) !important;
   color: #ffffff !important;
+  background: linear-gradient(90deg, rgba(43, 11, 133, 0.75), rgba(13, 184, 218, 0.85)) !important;
 }
 
 .control-sidebar {
@@ -315,7 +316,7 @@ body.debug-browser-max-open {
 
 .small.text-muted,
 small.text-muted {
-  color: #ffffff !important;
+  color: #0c812a !important;
 }
 
 .dashboard-card {
