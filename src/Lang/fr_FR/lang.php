@@ -20,8 +20,8 @@ return [
     '_LANG_CODE' => 'fr_FR',
     '_SITE_TITLE' => 'OVPN-Webadmin',
     '_BRAND_NAME' => 'OpenVPN WebAdmin',
-    '_HOME' => 'Accueil',
-    '_WELCOME' => 'Bienvenue',
+    '_HOME' => 'Accueil [HELP_DOC/other/:TEXT]',
+    '_WELCOME' => 'Bienvenue [HELP_DOC/other/:TEXT]',
     '_WELCOME_MESSAGE' => 'Bienvenue dans OpenVPN Webadmin',
     '_UNKNOWN_USER' => 'Inconnu',
     '_ROLE_USER' => 'Utilisateur',
@@ -66,7 +66,7 @@ return [
 
     '_USERS_TITLE' => 'Gestion des utilisateurs',
     '_USERS_SUBTITLE' => 'Creer des utilisateurs, reinitialiser les mots de passe et gerer les roles.',
-    '_USERS_CREATE_TITLE' => 'Creer un nouvel utilisateur',
+    '_USERS_CREATE_TITLE' => 'Creer un nouvel utilisateur [HELP_DOC/system/:NOUVEL_UTILISATEUR]',
     '_USERS_USERNAME' => 'Nom d\'utilisateur',
     '_USERS_START_PASSWORD' => 'Mot de passe initial',
     '_USERS_IS_ADMIN' => 'Admin',
@@ -116,7 +116,7 @@ return [
     '_ACCOUNT_SAVE_PASSWORD' => 'Enregistrer le mot de passe',
 
     '_PROFILES_TITLE' => 'Telechargements de configuration',
-    '_PROFILES_SUBTITLE' => 'Choisissez votre systeme pour telecharger votre configuration OpenVPN.',
+    '_PROFILES_SUBTITLE' => 'Choisissez votre systeme pour telecharger votre configuration OpenVPN. [HELP_DOC/system/:TELECHARGEMENT]',
     '_PROFILE_USERS_TITLE' => 'Utilisateur pour telechargement de support',
     '_PROFILE_USERS_UID' => 'UID',
     '_PROFILE_USERS_NAME' => 'Nom utilisateur',
@@ -213,4 +213,10 @@ return [
     '_API_USERNAME_INVALID' => 'Nom d\'utilisateur invalide.',
     '_API_FIXED_IP_INVALID' => 'Adresse IPv4 invalide.',
     '_API_FIXED_IP_IN_USE' => 'Cette adresse IP fixe est deja attribuee a un autre utilisateur.',
+
+    'HELP_DOC_OPEN' => 'Ouvrir la documentation détaillée',
+    'HELP_DOC_MODAL_TITLE' => 'Documentation',
+    'HELP_DOC_LOADING' => 'Chargement de la documentation…',
+    'HELP_DOC_NOT_AVAILABLE' => 'Documentation non disponible pour le moment.',
+    'HELP_DOC_CLOSE' => 'Fermer',
 ];

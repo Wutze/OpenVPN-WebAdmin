@@ -20,7 +20,7 @@ return [
     '_LANG_CODE' => 'en_GB',
     '_SITE_TITLE' => 'OVPN-Webadmin',
     '_BRAND_NAME' => 'OpenVPN WebAdmin',
-    '_HOME' => 'Home',
+    '_HOME' => 'Home [HELP_DOC/other/:TEXT]',
     '_WELCOME' => 'Welcome',
     '_WELCOME_MESSAGE' => 'Welcome to OpenVPN Webadmin',
     '_UNKNOWN_USER' => 'Unknown',
@@ -66,7 +66,7 @@ return [
 
     '_USERS_TITLE' => 'User Management',
     '_USERS_SUBTITLE' => 'Create users, reset passwords, and manage roles as admin.',
-    '_USERS_CREATE_TITLE' => 'Create New User',
+    '_USERS_CREATE_TITLE' => 'Create New User [HELP_DOC/system/:NEWUSER]',
     '_USERS_USERNAME' => 'Username',
     '_USERS_START_PASSWORD' => 'Initial Password',
     '_USERS_IS_ADMIN' => 'Admin',
@@ -116,7 +116,7 @@ return [
     '_ACCOUNT_SAVE_PASSWORD' => 'Save Password',
 
     '_PROFILES_TITLE' => 'Configuration Downloads',
-    '_PROFILES_SUBTITLE' => 'Choose your operating system to download your OpenVPN configuration.',
+    '_PROFILES_SUBTITLE' => 'Choose your operating system to download your OpenVPN configuration. [HELP_DOC/system/:DOWNLOAD]',
     '_PROFILE_USERS_TITLE' => 'User for support download',
     '_PROFILE_USERS_UID' => 'UID',
     '_PROFILE_USERS_NAME' => 'Username',
@@ -214,4 +214,9 @@ return [
     '_API_FIXED_IP_INVALID' => 'Invalid IPv4 address.',
     '_API_FIXED_IP_IN_USE' => 'This fixed IP address is already assigned to another user.',
 
+    'HELP_DOC_OPEN' => 'Open detailed documentation',
+    'HELP_DOC_MODAL_TITLE' => 'Documentation',
+    'HELP_DOC_LOADING' => 'Loading documentation …',
+    'HELP_DOC_NOT_AVAILABLE' => 'Documentation not yet available.',
+    'HELP_DOC_CLOSE' => 'Close',
 ];

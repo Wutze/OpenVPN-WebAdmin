@@ -116,7 +116,7 @@ $message = [
     '_ACCOUNT_SAVE_PASSWORD' => 'Passwort speichern',
 
     '_PROFILES_TITLE' => 'Konfigurations-Downloads',
-    '_PROFILES_SUBTITLE' => 'Waehle dein Betriebssystem, um deine OpenVPN-Konfiguration herunterzuladen.',
+    '_PROFILES_SUBTITLE' => 'Waehle dein Betriebssystem, um deine OpenVPN-Konfiguration herunterzuladen. [HELP_DOC/system/:DOWNLOAD]',
     '_PROFILE_USERS_TITLE' => 'Benutzer fuer Support-Download',
     '_PROFILE_USERS_UID' => 'UID',
     '_PROFILE_USERS_NAME' => 'Benutzername',
