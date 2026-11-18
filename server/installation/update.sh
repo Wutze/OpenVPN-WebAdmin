@@ -91,7 +91,7 @@ deploy_site_update() {
   rsync -rt \
     --include='*/' \
     --include='*.php' \
-    --include='*.css' \
+    --include='public/css/index.css' \
     --include='*.js' \
     --include='*.md' \
     --exclude='config/config.php' \
