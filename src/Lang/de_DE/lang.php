@@ -213,6 +213,7 @@ $message = [
     '_API_USERNAME_INVALID' => 'Benutzername ungueltig.',
     '_API_FIXED_IP_INVALID' => 'Ungueltige IPv4-Adresse.',
     '_API_FIXED_IP_IN_USE' => 'Diese feste IP-Adresse ist bereits einem anderen Benutzer zugewiesen.',
+
     'HELP_DOC_OPEN' => 'Ausführliche Dokumentation öffnen',
     'HELP_DOC_MODAL_TITLE' => 'Dokumentation',
     'HELP_DOC_LOADING' => 'Dokumentation wird geladen …',
