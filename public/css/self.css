@@ -2,5 +2,33 @@
  * this File is part of OpenVPN-WebAdmin - (c) 2020/2026 OpenVPN-WebAdmin
  *
  * this is your custom CSS for OpenVPN-WebAdmin
+ * This file is not subject to automatic updates
  */
  
+.sidebar-dark-primary .nav-link:hover,
+.sidebar-dark-primary .nav-link.active {
+  color: #ffffff !important;
+  background: linear-gradient(200deg, rgba(223, 12, 212, 0.75), rgba(13, 184, 218, 0.85)) !important;
+}
+
+.sidebar-dark-primary .nav-link:hover {
+  color: #ffffff !important;
+  background: linear-gradient(260deg, rgba(12, 223, 40, 0.75), rgba(13, 184, 218, 0.85)) !important;
+}
+
+.nav-sidebar .nav-link.nav-link-debug {
+  color: #07daff;
+  border: 1px solid #ff0000;
+  margin: 0.2rem 0.5rem;
+}
+
+.nav-sidebar .nav-link.nav-link-debug:hover {
+  background-color: #ffc107;
+  color: #1f2d3d;
+}
+
+.nav-sidebar .nav-link.nav-link-debug.active {
+  background-color: #ffc107;
+  color: #1f2d3d;
+  border-color: #8f19dd;
+}
