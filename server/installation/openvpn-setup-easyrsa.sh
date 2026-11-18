@@ -154,12 +154,20 @@ first_setup() {
 }
 
 create_server_conf() {
-  if [ -e "${OPENVPN_DIR}/server.conf" ]; then
-    say INFO "$(printf "$MSG_SETUP_RSA_CONF_EXISTS" "${OPENVPN_DIR}/server.conf")"
-    return
+  local conf_file="${OPENVPN_DIR}/server.conf"
+  local backup_file=""
+  local temp_file=""
+
+  if [ -e "${conf_file}" ] || [ -L "${conf_file}" ]; then
+    backup_file="${conf_file}.bak.$(date '+%Y%m%d%H%M%S')"
+    [ ! -e "${backup_file}" ] || die "Backup file already exists: ${backup_file}"
+    cp -a -- "${conf_file}" "${backup_file}"
+    say INFO "Backup created: ${backup_file}"
   fi
-  cat > "${OPENVPN_DIR}/server.conf" <<'EOF'
-# OpenVPN-WebAdmin - Server Configuration
+
+  temp_file="$(mktemp "${OPENVPN_DIR}/.server.conf.XXXXXX")"
+  if ! cat > "${temp_file}" <<'EOF'
+# OpenVPN-WebAdmin 2.x - Server Configuration
 
 port 1194
 proto udp
@@ -237,7 +245,14 @@ script-security 3
 client-connect /etc/openvpn/scripts/connect.sh
 client-disconnect /etc/openvpn/scripts/disconnect.sh
 EOF
-  chmod 0644 "${OPENVPN_DIR}/server.conf"
+  then
+    rm -f -- "${temp_file}"
+    die "Could not write new server configuration."
+  fi
+
+  chmod 0644 "${temp_file}"
+  mv -f -- "${temp_file}" "${conf_file}"
+  say OK "New server configuration installed: ${conf_file}"
 }
 
 renew_server() {
