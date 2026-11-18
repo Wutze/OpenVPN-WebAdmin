@@ -4,16 +4,9 @@
 /config/config.php
 
 # Generated OpenVPN artifacts and secrets
-/storage/conf/**/*.zip
 /storage/conf/**/*.ovpn
-/storage/conf/**/*.crt
-/storage/conf/**/*.key
-/storage/conf/.secure/*
+!/storage/conf/**/history/
 
-# Generated server config snapshots/history
-/storage/conf/history/
-/storage/conf/server/history/
-/storage/conf/server/server.conf
 
 # Runtime logs
 /storage/logs/*.log
@@ -23,4 +16,6 @@
 /assets-build/staging/
 /assets-build/release/
 /public/tools/*
+
+# intern help files
 /DASH.md
