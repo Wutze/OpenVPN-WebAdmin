@@ -1,8 +1,8 @@
-## Neuer Benutzer
+## New user
 
-Jeder Benutzer bekommt sein eigenes Zertifikat ausgestellt, mit dem er sich am OpenVPN anmelden muss. Deswegen ist nach dem anlegen eines neuen Benutzers zwingend das Script:
+Each user is issued with their own certificate, which they must use to log in to OpenVPN. Therefore, after creating a new user, it is essential to run the script
 
 ```bash
 /opt/openvpn-webadmin-src/server/installation/openvpn-setup-easyrsa.sh
 ```
-ausführen.
+and follow the instructions.
