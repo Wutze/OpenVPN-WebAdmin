@@ -86,10 +86,6 @@ private function handleGet(string $select): void
                 $this->requireAdminJson();
                 $this->handleSettingsGet();
                 break;
-            case 'catls':
-                $this->requireAdminJson();
-                $this->handleCaTlsGet();
-                break;
             case 'dashboard_stats':
                 $this->requireAdminJson();
                 $this->json($this->getDashboardStats());
@@ -125,10 +121,6 @@ private function handlePost(string $select): void
             case 'settings':
                 $this->requireAdminJson();
                 $this->handleSettingsPost();
-                break;
-            case 'catls':
-                $this->requireAdminJson();
-                $this->handleCaTlsPost();
                 break;
             default:
                 $this->json(['status' => 'error', 'message' => $this->msg('_API_UNKNOWN_DATA_SOURCE')], 404);
@@ -562,73 +554,6 @@ private function handleSettingsPost(): void
             ]);
         } catch (\Throwable $e) {
             $this->internalError('handleSettingsPost', $e);
-        }
-    }
-
-/**
- * Verarbeitet ca tls get entsprechend der Logik.
- *
- * @return void Kein Rueckgabewert.
- */
-private function handleCaTlsGet(): void
-    {
-        $service = new CaTlsService();
-        $action = (string)($_GET['action'] ?? 'get');
-
-        try {
-            if ($action !== 'get') {
-                $this->json(['status' => 'error', 'message' => $this->msg('_API_CATLS_GET_ACTION_UNKNOWN')], 400);
-            }
-
-            $data = $service->getCurrent();
-            $this->json([
-                'status' => 'ok',
-                'ca' => $data['ca'],
-                'tls' => $data['tls'],
-                'ca_path' => $data['ca_path'],
-                'tls_path' => $data['tls_path'],
-            ]);
-        } catch (\Throwable $e) {
-            Debug::logException($e, 'handleCaTlsGet');
-            Debug::log('handleCaTlsGet', $e->getMessage());
-            $this->json([
-                'status' => 'error',
-                'message' => $e->getMessage() !== '' ? $e->getMessage() : $this->msg('_MSG_GENERIC_ERROR'),
-            ], 500);
-        }
-    }
-
-/**
- * Verarbeitet ca tls post entsprechend der Logik.
- *
- * @return void Kein Rueckgabewert.
- */
-private function handleCaTlsPost(): void
-    {
-        $service = new CaTlsService();
-        $action = (string)($_POST['action'] ?? '');
-        if ($action !== 'save') {
-            $this->json(['status' => 'error', 'message' => $this->msg('_API_CATLS_POST_ACTION_UNKNOWN')], 400);
-        }
-
-        $ca = (string)($_POST['ca_content'] ?? '');
-        $tls = (string)($_POST['tls_content'] ?? '');
-
-        try {
-            $saved = $service->save($ca, $tls);
-            $this->json([
-                'status' => 'ok',
-                'message' => $this->msg('_API_CATLS_SAVED'),
-                'ca_path' => $saved['ca_path'],
-                'tls_path' => $saved['tls_path'],
-            ]);
-        } catch (\Throwable $e) {
-            Debug::logException($e, 'handleCaTlsPost');
-            Debug::log('handleCaTlsPost', $e->getMessage());
-            $this->json([
-                'status' => 'error',
-                'message' => $e->getMessage() !== '' ? $e->getMessage() : $this->msg('_MSG_GENERIC_ERROR'),
-            ], 500);
         }
     }
 

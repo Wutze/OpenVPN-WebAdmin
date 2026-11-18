@@ -70,12 +70,6 @@ $debugEnabled = !empty($debugEnabled);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= htmlspecialchars(Url::op('catls'), ENT_QUOTES, 'UTF-8') ?>" class="nav-link <?= $activeOp === 'catls' ? 'active' : '' ?>">
-                            <i class="nav-icon bi bi-shield-lock"></i>
-                            <p><?= Lang::get('_MENU_CATLS') ?></p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="<?= htmlspecialchars(Url::op('settings'), ENT_QUOTES, 'UTF-8') ?>" class="nav-link <?= $activeOp === 'settings' ? 'active' : '' ?>">
                             <i class="nav-icon bi bi-gear-wide-connected"></i>
                             <p><?= Lang::get('_MENU_SETTINGS') ?></p>

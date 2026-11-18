@@ -23,7 +23,6 @@ use Micro\OpenvpnWebadmin\Util\HelpDocService;
 use Micro\OpenvpnWebadmin\Util\Markdown;
 
 use Micro\OpenvpnWebadmin\Templates\Account;
-use Micro\OpenvpnWebadmin\Templates\CaTls;
 use Micro\OpenvpnWebadmin\Templates\Config;
 use Micro\OpenvpnWebadmin\Templates\Dashboard;
 use Micro\OpenvpnWebadmin\Templates\Documentation;
@@ -61,7 +60,7 @@ public function main(): void
     {
         $allowedOps = [
             'login', 'checklogin', 'logout', 'main', 'data', 'live',
-            'users', 'dashboard', 'logs', 'account', 'config', 'catls', 'settings', 'documentation',
+            'users', 'dashboard', 'logs', 'account', 'config', 'settings', 'documentation',
             'profiles', 'download', 'setlang', 'loginasset', 'helpdocshow'
         ];
 
@@ -112,10 +111,6 @@ public function main(): void
             case 'settings':
                 $this->ensureAdminOrForbidden();
                 $this->showSettings();
-                break;
-            case 'catls':
-                $this->ensureAdminOrForbidden();
-                $this->showCaTls();
                 break;
             case 'documentation':
                 $this->ensureAdminOrForbidden();
@@ -251,17 +246,6 @@ private function showSettings(): void
     {
         $content = (new Settings())->index();
         $this->renderPage('OpenVPN WebAdmin - Settings', $content, 'settings');
-    }
-
-/**
- * Zeigt die Seite fuer CA/TLS Inhalte an.
- *
- * @return void
- */
-private function showCaTls(): void
-    {
-        $content = (new CaTls())->index();
-        $this->renderPage('OpenVPN WebAdmin - CA/TLS', $content, 'catls');
     }
 
 /**

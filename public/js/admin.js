@@ -645,50 +645,6 @@ function initSettingsEditor() {
   loadSettings().catch((error) => showAlert('settingsMessage', 'danger', error.message));
 }
 
-function initCaTlsEditor() {
-  const caEditor = document.getElementById('catlsCaEditor');
-  const tlsEditor = document.getElementById('catlsTlsEditor');
-  if (!caEditor || !tlsEditor) return;
-
-  const caPathEl = document.getElementById('catlsCaPath');
-  const tlsPathEl = document.getElementById('catlsTlsPath');
-  const reloadBtn = document.getElementById('catlsReloadBtn');
-  const saveBtn = document.getElementById('catlsSaveBtn');
-
-  async function loadCaTls() {
-    const data = await getJson('?op=data&select=catls&action=get');
-    caEditor.value = data.ca || '';
-    tlsEditor.value = data.tls || '';
-    if (caPathEl) caPathEl.textContent = data.ca_path || '-';
-    if (tlsPathEl) tlsPathEl.textContent = data.tls_path || '-';
-    showAlert('catlsMessage', 'success', t('_MSG_CATLS_LOADED', 'CA/TLS data loaded.'));
-  }
-
-  if (reloadBtn) {
-    reloadBtn.addEventListener('click', () => {
-      loadCaTls().catch((error) => showAlert('catlsMessage', 'danger', error.message));
-    });
-  }
-
-  if (saveBtn) {
-    saveBtn.addEventListener('click', async () => {
-      try {
-        await postForm('?op=data&select=catls', {
-          action: 'save',
-          ca_content: caEditor.value,
-          tls_content: tlsEditor.value,
-        });
-        await loadCaTls();
-        showAlert('catlsMessage', 'success', t('_MSG_CATLS_SAVED', 'CA/TLS data saved.'));
-      } catch (error) {
-        showAlert('catlsMessage', 'danger', error.message);
-      }
-    });
-  }
-
-  loadCaTls().catch((error) => showAlert('catlsMessage', 'danger', error.message));
-}
-
 function initDocumentationPage() {
   const searchInput = document.getElementById('docsSearchInput');
   const accordion = document.getElementById('docsAccordion');
@@ -833,7 +789,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogTable();
   initConfigEditor();
   initSettingsEditor();
-  initCaTlsEditor();
   initDocumentationPage();
   initDashboardStats();
   initDebugModal();

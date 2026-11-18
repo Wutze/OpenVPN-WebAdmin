@@ -1,132 +1,6 @@
 # Funktionsreferenz
 
-Automatisch generiert am: 2026-11-17 22:02:58
-
-## `./src/Core/CaTlsService.php`
-
-### `public __construct($basePath)`
-
-- Datei: `./src/Core/CaTlsService.php`
-- Zeile: 32
-- Rueckgabe: `mixed|null`
-
-```
-/**
- * Setzt Speicherpfade für CA- und TLS-Datei; ohne Basis nimmt es den ersten nutzbaren Standardpfad.
- *
- * @param string|null $basePath Optionales Speicherverzeichnis.
- */
-```
-
-### `public getCurrent()`
-
-- Datei: `./src/Core/CaTlsService.php`
-- Zeile: 45
-- Rueckgabe: `array`
-
-```
-/**
- * Stellt Speicher und Dateien sicher und liest beide Schlüsselmaterialien.
- *
- * @return array{ca: string, tls: string, ca_path: string, tls_path: string} Inhalte und Pfade der Dateien.
- * @throws \RuntimeException Wenn das Speicherverzeichnis oder eine Datei nicht angelegt werden kann.
- */
-```
-
-### `public save($caContent, $tlsContent)`
-
-- Datei: `./src/Core/CaTlsService.php`
-- Zeile: 67
-- Rueckgabe: `array`
-
-```
-/**
- * Schreibt CA- und TLS-Inhalt jeweils über eine temporäre Datei mit restriktiven Rechten.
- *
- * @param string $caContent Inhalt der CA-Datei.
- * @param string $tlsContent Inhalt der TLS-Authentifizierungsdatei.
- * @return array{ca_path: string, tls_path: string} Speicherorte der geschriebenen Dateien.
- * @throws \RuntimeException Wenn Verzeichnis oder temporäre Dateien nicht geschrieben/umbenannt werden können.
- */
-```
-
-### `private ensureStorage()`
-
-- Datei: `./src/Core/CaTlsService.php`
-- Zeile: 84
-- Rueckgabe: `void`
-
-```
-/**
- * Erstellt das Speicherverzeichnis bei Bedarf, prüft Zugriffsrechte und setzt Modus 0700.
- *
- * @return void Kein Rueckgabewert.
- */
-```
-
-### `private ensureFile($path)`
-
-- Datei: `./src/Core/CaTlsService.php`
-- Zeile: 104
-- Rueckgabe: `void`
-
-```
-/**
- * Legt eine fehlende Schlüsseldatei leer an und setzt Modus 0600.
- *
- * @param string $path Zu prüfender Datei-Pfad.
- * @return void Kein Rueckgabewert.
- * @throws \RuntimeException Wenn eine fehlende Datei nicht erstellt werden kann.
- */
-```
-
-### `private writeSecureFile($path, $content)`
-
-- Datei: `./src/Core/CaTlsService.php`
-- Zeile: 123
-- Rueckgabe: `void`
-
-```
-/**
- * Schreibt Inhalt in eine temporäre Datei im Speicherverzeichnis und ersetzt damit das Ziel.
- *
- * @param string $path Zieldatei.
- * @param string $content Zu speichernder Schlüsselinhalt.
- * @return void Kein Rueckgabewert.
- * @throws \RuntimeException Wenn temporäres Schreiben oder Umbenennen fehlschlägt.
- */
-```
-
-### `private resolveUsableBasePath()`
-
-- Datei: `./src/Core/CaTlsService.php`
-- Zeile: 149
-- Rueckgabe: `string`
-
-```
-/**
- * Prüft `storage/secure` und danach `storage/conf/.secure`, indem es fehlende Verzeichnisse anzulegen versucht.
- *
- * @return string Erster nutzbarer Kandidat oder `storage/secure`, damit ein späterer Fehler den Pfad benennt.
- */
-```
-
-### `private canUsePath($path)`
-
-- Datei: `./src/Core/CaTlsService.php`
-- Zeile: 174
-- Rueckgabe: `bool`
-
-```
-/**
- * Erstellt bei Bedarf den Pfad, setzt Modus 0700 und prüft Les- und Schreibbarkeit.
- *
- * @param string $path Zu prüfender Verzeichnispfad.
- * @return bool True bei Erfolg, sonst false.
- */
-```
-
-<hr style="border:0; height:5px; background:#1e90ff;">
+Automatisch generiert am: 2026-11-18 07:11:20
 
 ## `./src/Core/ConfigService.php`
 
@@ -138,7 +12,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 
 ```
 /**
- * Legt das Konfigurationsverzeichnis und dessen Historienverzeichnis fest.
+ * Legt den Speicherort für die client.ovpn Dateien und dessen Historienverzeichnis fest.
  * Ohne expliziten Pfad wird `storage/conf` relativ zum Projektstamm verwendet.
  *
  * @param string|null $basePath Optionaler Speicherort der Systemkonfigurationen.
@@ -379,27 +253,28 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private __construct($config)`
 
 - Datei: `./src/Core/Database.php`
-- Zeile: 35
+- Zeile: 36
 - Rueckgabe: `mixed|null`
 
 ```
 /**
- * Baut eine PDO-Verbindung mit MySQL-DSN und Exceptions als Fehlerbetrieb auf.
+ * Baut eine PDO-Verbindung mit MySQL-DSN und Exceptions auf.
+ * Bei Fehlern der Verbindung wird ein Fehler ausgegeben.
  *
  * @param array{host: string, port: int|string, dbname: string, charset: string, user: string, pass: string} $config Verbindungsparameter.
- * @throws \RuntimeException Es wird bei Verbindungsfehlern stattdessen protokolliert, HTTP 500 gesetzt und das Skript mit `die` beendet.
+ * @throws \RuntimeException Es wird bei Verbindungsfehlern protokolliert, HTTP 500 gesetzt und das Skript mit `die` beendet.
  */
 ```
 
 ### `public static getInstance($config)`
 
 - Datei: `./src/Core/Database.php`
-- Zeile: 58
+- Zeile: 59
 - Rueckgabe: `Database`
 
 ```
 /**
- * Liefert die Singleton-Verbindung und initialisiert sie beim ersten Aufruf.
+ * Liefert die Verbindung und initialisiert sie beim ersten Aufruf.
  *
  * @param array|null $config Zugangsdaten; beim ersten Aufruf erforderlich, später ignoriert.
  * @return self Gemeinsame Database-Instanz.
@@ -410,7 +285,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public getConnection()`
 
 - Datei: `./src/Core/Database.php`
-- Zeile: 74
+- Zeile: 75
 - Rueckgabe: `PDO`
 
 ```
@@ -457,7 +332,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private handlePost($select)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 111
+- Zeile: 107
 - Rueckgabe: `void`
 
 ```
@@ -472,7 +347,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private getUsers()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 143
+- Zeile: 135
 - Rueckgabe: `array`
 
 ```
@@ -486,7 +361,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private getLogs()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 162
+- Zeile: 154
 - Rueckgabe: `array`
 
 ```
@@ -500,7 +375,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private getDashboardStats()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 180
+- Zeile: 172
 - Rueckgabe: `array`
 
 ```
@@ -514,7 +389,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private handleUserAction()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 216
+- Zeile: 208
 - Rueckgabe: `void`
 
 ```
@@ -528,7 +403,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private handleAccountAction()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 350
+- Zeile: 342
 - Rueckgabe: `void`
 
 ```
@@ -542,7 +417,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private handleConfigGet()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 392
+- Zeile: 384
 - Rueckgabe: `void`
 
 ```
@@ -556,7 +431,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private handleConfigPost()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 440
+- Zeile: 432
 - Rueckgabe: `void`
 
 ```
@@ -570,7 +445,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private handleSettingsGet()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 492
+- Zeile: 484
 - Rueckgabe: `void`
 
 ```
@@ -584,7 +459,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private handleSettingsPost()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 534
+- Zeile: 526
 - Rueckgabe: `void`
 
 ```
@@ -595,38 +470,10 @@ Automatisch generiert am: 2026-11-17 22:02:58
  */
 ```
 
-### `private handleCaTlsGet()`
-
-- Datei: `./src/Core/DataController.php`
-- Zeile: 573
-- Rueckgabe: `void`
-
-```
-/**
- * Verarbeitet ca tls get entsprechend der Logik.
- *
- * @return void Kein Rueckgabewert.
- */
-```
-
-### `private handleCaTlsPost()`
-
-- Datei: `./src/Core/DataController.php`
-- Zeile: 606
-- Rueckgabe: `void`
-
-```
-/**
- * Verarbeitet ca tls post entsprechend der Logik.
- *
- * @return void Kein Rueckgabewert.
- */
-```
-
 ### `private requireAdminJson()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 640
+- Zeile: 565
 - Rueckgabe: `void`
 
 ```
@@ -640,7 +487,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private msg($key)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 653
+- Zeile: 578
 - Rueckgabe: `string`
 
 ```
@@ -655,7 +502,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private msgf($key, $arg)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 665
+- Zeile: 590
 - Rueckgabe: `string`
 
 ```
@@ -671,7 +518,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private assertValidUsername($username)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 677
+- Zeile: 602
 - Rueckgabe: `void`
 
 ```
@@ -687,7 +534,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private isValidIpv4($value)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 690
+- Zeile: 615
 - Rueckgabe: `bool`
 
 ```
@@ -702,7 +549,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private getLoginDiagnostics()`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 700
+- Zeile: 625
 - Rueckgabe: `array`
 
 ```
@@ -716,7 +563,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private json($data, $status)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 814
+- Zeile: 739
 - Rueckgabe: `void`
 
 ```
@@ -732,7 +579,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private internalError($context, $e)`
 
 - Datei: `./src/Core/DataController.php`
-- Zeile: 829
+- Zeile: 754
 - Rueckgabe: `void`
 
 ```
@@ -764,21 +611,17 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public static getExceptionsLogPath()`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 59
+- Zeile: 54
 - Rueckgabe: `string`
 
 ```
-/**
- * Kurzbeschreibung Funktion getExceptionsLogPath
- *
- * @return string
- */
+Kein Docblock gefunden.
 ```
 
 ### `public static debug($vars)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 67
+- Zeile: 62
 - Rueckgabe: `void`
 
 ```
@@ -790,7 +633,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private static buildAutoContextForObject($object)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 130
+- Zeile: 125
 - Rueckgabe: `array`
 
 ```
@@ -805,7 +648,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private static extractObjectProperties($object)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 148
+- Zeile: 143
 - Rueckgabe: `array`
 
 ```
@@ -820,7 +663,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public static log($vars)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 173
+- Zeile: 168
 - Rueckgabe: `void`
 
 ```
@@ -832,7 +675,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public static logException($e, $context)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 198
+- Zeile: 193
 - Rueckgabe: `void`
 
 ```
@@ -848,7 +691,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public static dd($vars)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 224
+- Zeile: 219
 - Rueckgabe: `void`
 
 ```
@@ -860,7 +703,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public static handleException($e)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 233
+- Zeile: 228
 - Rueckgabe: `void`
 
 ```
@@ -872,7 +715,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public static handleError($errno, $errstr, $errfile, $errline)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 270
+- Zeile: 265
 - Rueckgabe: `bool`
 
 ```
@@ -884,7 +727,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public static render()`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 298
+- Zeile: 293
 - Rueckgabe: `void`
 
 ```
@@ -898,7 +741,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public static getBufferedOutput()`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 317
+- Zeile: 312
 - Rueckgabe: `string`
 
 ```
@@ -912,7 +755,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private static renderExceptionScreen($error)`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 338
+- Zeile: 333
 - Rueckgabe: `void`
 
 ```
@@ -927,7 +770,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private static ensureLogTargets()`
 
 - Datei: `./src/Core/Debug.php`
-- Zeile: 356
+- Zeile: 351
 - Rueckgabe: `void`
 
 ```
@@ -943,7 +786,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public __construct($action)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 47
+- Zeile: 46
 - Rueckgabe: `mixed|null`
 
 ```
@@ -958,7 +801,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public main()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 60
+- Zeile: 59
 - Rueckgabe: `void`
 
 ```
@@ -975,7 +818,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showLogin()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 149
+- Zeile: 144
 - Rueckgabe: `void`
 
 ```
@@ -989,7 +832,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private checkLogin()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 159
+- Zeile: 154
 - Rueckgabe: `void`
 
 ```
@@ -1003,7 +846,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private baseTemplateData($activeOp)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 170
+- Zeile: 165
 - Rueckgabe: `array`
 
 ```
@@ -1018,7 +861,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private renderPage($title, $content, $activeOp)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 195
+- Zeile: 190
 - Rueckgabe: `void`
 
 ```
@@ -1035,7 +878,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showMain()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 206
+- Zeile: 201
 - Rueckgabe: `void`
 
 ```
@@ -1049,7 +892,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showUsers()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 217
+- Zeile: 212
 - Rueckgabe: `void`
 
 ```
@@ -1063,7 +906,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showLogs()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 228
+- Zeile: 223
 - Rueckgabe: `void`
 
 ```
@@ -1077,7 +920,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showConfig()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 239
+- Zeile: 234
 - Rueckgabe: `void`
 
 ```
@@ -1091,7 +934,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showSettings()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 250
+- Zeile: 245
 - Rueckgabe: `void`
 
 ```
@@ -1102,24 +945,10 @@ Automatisch generiert am: 2026-11-17 22:02:58
  */
 ```
 
-### `private showCaTls()`
-
-- Datei: `./src/Core/GoRequest.php`
-- Zeile: 261
-- Rueckgabe: `void`
-
-```
-/**
- * Zeigt die Seite fuer CA/TLS Inhalte an.
- *
- * @return void
- */
-```
-
 ### `private showDocumentation()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 272
+- Zeile: 256
 - Rueckgabe: `void`
 
 ```
@@ -1133,7 +962,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showProfiles()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 288
+- Zeile: 272
 - Rueckgabe: `void`
 
 ```
@@ -1147,7 +976,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showAccount()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 299
+- Zeile: 283
 - Rueckgabe: `void`
 
 ```
@@ -1161,7 +990,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showLive()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 310
+- Zeile: 294
 - Rueckgabe: `void`
 
 ```
@@ -1175,7 +1004,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private logout()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 321
+- Zeile: 305
 - Rueckgabe: `void`
 
 ```
@@ -1189,7 +1018,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private ensureAdminOrForbidden()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 348
+- Zeile: 332
 - Rueckgabe: `void`
 
 ```
@@ -1203,7 +1032,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private downloadProfile()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 362
+- Zeile: 346
 - Rueckgabe: `void`
 
 ```
@@ -1217,7 +1046,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private logProfileDownloadFailure($event, $context)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 437
+- Zeile: 421
 - Rueckgabe: `void`
 
 ```
@@ -1231,22 +1060,17 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private denyDownload($status)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 449
+- Zeile: 427
 - Rueckgabe: `never`
 
 ```
-/**
- * Kurzbeschreibung Funktion denyDownload
- *
- * @param mixed $status
- * @return never
- */
+Kein Docblock gefunden.
 ```
 
 ### `private showError()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 468
+- Zeile: 446
 - Rueckgabe: `void`
 
 ```
@@ -1260,7 +1084,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private setLanguage()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 484
+- Zeile: 462
 - Rueckgabe: `void`
 
 ```
@@ -1274,7 +1098,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private showHelpDoc()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 506
+- Zeile: 484
 - Rueckgabe: `void`
 
 ```
@@ -1284,7 +1108,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private isSafeRedirectTarget($target)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 541
+- Zeile: 519
 - Rueckgabe: `bool`
 
 ```
@@ -1299,7 +1123,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private enforceAccessPolicy()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 586
+- Zeile: 564
 - Rueckgabe: `void`
 
 ```
@@ -1334,7 +1158,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private serveLoginAsset()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 622
+- Zeile: 600
 - Rueckgabe: `void`
 
 ```
@@ -1348,7 +1172,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private enforceDataAccessPolicy($method)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 682
+- Zeile: 660
 - Rueckgabe: `void`
 
 ```
@@ -1363,7 +1187,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private verifyStateChangingRequest()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 700
+- Zeile: 678
 - Rueckgabe: `void`
 
 ```
@@ -1377,7 +1201,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private isSameOriginRequest()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 717
+- Zeile: 695
 - Rueckgabe: `bool`
 
 ```
@@ -1391,7 +1215,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private denyRequest($status, $message)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 746
+- Zeile: 724
 - Rueckgabe: `void`
 
 ```
@@ -1407,7 +1231,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private getRequestCsrfToken()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 766
+- Zeile: 744
 - Rueckgabe: `string`
 
 ```
@@ -1421,7 +1245,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private canUseDebugModal()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 789
+- Zeile: 767
 - Rueckgabe: `bool`
 
 ```
@@ -1433,7 +1257,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private readDotEnvValue($key)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 809
+- Zeile: 787
 - Rueckgabe: `string`
 
 ```
@@ -1445,7 +1269,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private buildDebugModalData()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 848
+- Zeile: 826
 - Rueckgabe: `array`
 
 ```
@@ -1459,7 +1283,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private readDebugFile($path)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 870
+- Zeile: 848
 - Rueckgabe: `string`
 
 ```
@@ -1471,7 +1295,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private buildInternalUrl($url)`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 896
+- Zeile: 874
 - Rueckgabe: `string`
 
 ```
@@ -1486,7 +1310,7 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `private getGoRequestDebugVars()`
 
 - Datei: `./src/Core/GoRequest.php`
-- Zeile: 906
+- Zeile: 884
 - Rueckgabe: `array`
 
 ```
@@ -2737,24 +2561,6 @@ Automatisch generiert am: 2026-11-17 22:02:58
 ### `public index()`
 
 - Datei: `./src/Templates/Account.php`
-- Zeile: 28
-- Rueckgabe: `string`
-
-```
-/**
- * Fuehrt index entsprechend der internen Logik aus.
- *
- * @return string Rueckgabe als Text.
- */
-```
-
-<hr style="border:0; height:5px; background:#1e90ff;">
-
-## `./src/Templates/CaTls.php`
-
-### `public index()`
-
-- Datei: `./src/Templates/CaTls.php`
 - Zeile: 28
 - Rueckgabe: `string`
 
