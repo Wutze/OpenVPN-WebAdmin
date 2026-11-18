@@ -406,6 +406,7 @@ build_package_list() {
     php-intl
     php-gd
     php-fpm
+    composer
   )
 
   if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
@@ -428,38 +429,9 @@ ensure_npm_runtime() {
   fi
 
   info "${MSG_ASSETS_INSTALL_NPM:-Installing npm/nodejs for fallback asset build}"
-  apt-get update >>"${LOG_FILE}" 2>&1
-  DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm >>"${LOG_FILE}" 2>&1
-}
-
-run_with_spinner() {
-    local message="$1"
-    shift
-
-    local spinner='|/-\'
-    local i=0
-    local pid
-    local result=0
-
-    "$@" >>"${LOG_FILE}" 2>&1 &
-    pid=$!
-
-    while kill -0 "${pid}" 2>/dev/null; do
-        printf '\r\033[K%s %s' \
-            "${message}" "${spinner:i++%4:1}"
-        sleep 0.2
-    done
-
-    wait "${pid}" || result=$?
-
-    if [ "${result}" -eq 0 ]; then
-        printf '\r\033[K%s [OK]\n' "${message}"
-    else
-        printf '\r\033[K%s [FEHLER]\n' "${message}"
-        info "Details siehe ${LOG_FILE}"
-    fi
-
-    return "${result}"
+  run_with_spinner "Updating package lists" apt-get update
+  run_with_spinner "Installing Node.js and npm" \
+    env DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs npm
 }
 
 build_and_deploy_tools_assets() {
@@ -477,9 +449,11 @@ build_and_deploy_tools_assets() {
   if [ -f "${archive_path}" ]; then
     info "${MSG_ASSETS_USE_ARCHIVE:-Using prebuilt frontend asset archive}"
     if [ -f "${archive_sha}" ]; then
-      bash "${deploy_script}" "${DEPLOY_DIR}/public" "${archive_path}" "${archive_sha}" >>"${LOG_FILE}" 2>&1
+      run_with_spinner "Deploying frontend assets" \
+        bash "${deploy_script}" "${DEPLOY_DIR}/public" "${archive_path}" "${archive_sha}"
     else
-      bash "${deploy_script}" "${DEPLOY_DIR}/public" "${archive_path}" >>"${LOG_FILE}" 2>&1
+      run_with_spinner "Deploying frontend assets" \
+        bash "${deploy_script}" "${DEPLOY_DIR}/public" "${archive_path}"
     fi
     ok "${MSG_ASSETS_DONE:-Frontend assets are ready in /tools.}"
     return 0
@@ -496,7 +470,8 @@ build_and_deploy_tools_assets() {
     bash -c 'cd "$1" && bash "$2"' \
     _ "${assets_dir}" "${build_script}"
   info "${MSG_ASSETS_DEPLOY:-Deploying frontend assets to public/tools}"
-  bash "${deploy_script}" "${DEPLOY_DIR}/public" >>"${LOG_FILE}" 2>&1
+  run_with_spinner "Deploying frontend assets" \
+    bash "${deploy_script}" "${DEPLOY_DIR}/public"
 
   ok "${MSG_ASSETS_DONE:-Frontend assets are ready in /tools.}"
 }
@@ -545,20 +520,21 @@ install_required_packages() {
   show_section "${MSG_SECTION_PACKAGES:-Install packages}"
   info "${MSG_INSTALL_PACKAGES:-Installing required packages}"
 
-  apt-get update >>"${LOG_FILE}" 2>&1
+  run_with_spinner "Updating package lists" apt-get update
+
   local total count pkg
   total="${#PACKAGES[@]}"
   count=0
 
   for pkg in "${PACKAGES[@]}"; do
     count=$((count + 1))
-    render_progress_bar "${count}" "${total}" "${MSG_INSTALL_PACKAGES:-Installing required packages}"
-    DEBIAN_FRONTEND=noninteractive apt-get install -y "${pkg}" >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Installing package ${count}/${total}: ${pkg}" \
+      env DEBIAN_FRONTEND=noninteractive apt-get install -y "${pkg}"
   done
-  echo
 
   if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
-    systemctl enable --now mariadb >>"${LOG_FILE}" 2>&1 || systemctl enable --now mysql >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Enabling MariaDB service" \
+      bash -c 'systemctl enable --now mariadb || systemctl enable --now mysql'
   fi
 
   ok "${MSG_PACKAGES_DONE:-Packages installed.}"
@@ -570,15 +546,19 @@ sync_source_repo() {
 
   if [ -d "${SOURCE_DIR}/.git" ]; then
     info "${MSG_REPO_UPDATE:-Updating existing source repository}"
-    git -C "${SOURCE_DIR}" fetch --all --prune >>"${LOG_FILE}" 2>&1
-    git -C "${SOURCE_DIR}" checkout "${REPO_BRANCH}" >>"${LOG_FILE}" 2>&1
-    git -C "${SOURCE_DIR}" pull --ff-only origin "${REPO_BRANCH}" >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Fetching repository updates" \
+      git -C "${SOURCE_DIR}" fetch --all --prune
+    run_with_spinner "Checking out branch ${REPO_BRANCH}" \
+      git -C "${SOURCE_DIR}" checkout "${REPO_BRANCH}"
+    run_with_spinner "Pulling branch ${REPO_BRANCH}" \
+      git -C "${SOURCE_DIR}" pull --ff-only origin "${REPO_BRANCH}"
   elif [ -d "${SOURCE_DIR}" ] && [ -n "$(ls -A "${SOURCE_DIR}" 2>/dev/null)" ]; then
     fatal "${MSG_SOURCE_NOT_EMPTY:-Source directory exists and is not empty}: ${SOURCE_DIR}"
   else
     info "${MSG_REPO_CLONE:-Cloning repository}"
     mkdir -p "$(dirname "${SOURCE_DIR}")"
-    git clone --branch "${REPO_BRANCH}" "${REPO_URL}" "${SOURCE_DIR}" >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Cloning repository" \
+      git clone --branch "${REPO_BRANCH}" "${REPO_URL}" "${SOURCE_DIR}"
   fi
 
   ok "${MSG_REPO_READY:-Source repository is ready.}"
@@ -596,10 +576,36 @@ deploy_application_files() {
   [ -d "${scripts_source_dir}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${scripts_source_dir}"
 
   mkdir -p "${DEPLOY_DIR}"
-  rsync -a --exclude '.git' "${SOURCE_DIR}/" "${DEPLOY_DIR}/" >>"${LOG_FILE}" 2>&1
+  run_with_spinner "Deploying application files" \
+    rsync -a \
+      --exclude '.git' \
+      --exclude 'vendor/' \
+      "${SOURCE_DIR}/" "${DEPLOY_DIR}/"
   mkdir -p "${DEPLOY_DIR}/storage/logs"
 
   ok "${MSG_DEPLOY_FILES_DONE:-Application files deployed.}"
+}
+
+install_composer_dependencies() {
+  show_section "Composer dependencies"
+
+  [ -f "${DEPLOY_DIR}/composer.json" ] ||
+    fatal "Missing composer.json in ${DEPLOY_DIR}"
+
+  [ -f "${DEPLOY_DIR}/composer.lock" ] ||
+    fatal "Missing composer.lock in ${DEPLOY_DIR}"
+
+  info "Installing Composer dependencies"
+
+  run_with_spinner "Installing Composer dependencies" \
+    bash -c 'cd "$1" && COMPOSER_ALLOW_SUPERUSER=1 composer install \
+      --no-dev --prefer-dist --no-interaction --optimize-autoloader' \
+      _ "${DEPLOY_DIR}" || fatal "Composer installation failed."
+
+  [ -f "${DEPLOY_DIR}/vendor/autoload.php" ] ||
+    fatal "Composer autoloader was not generated."
+
+  ok "Composer dependencies installed."
 }
 
 write_app_config() {
@@ -719,7 +725,9 @@ setup_database() {
     mysql_root_exec "FLUSH PRIVILEGES;"
   fi
 
-  mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" < "${db_sql_file}"
+  run_with_spinner "Importing database schema" \
+    bash -c 'mysql -h "$1" -P "$2" -u "$3" -p"$4" "$5" < "$6"' \
+      _ "${DB_HOST}" "${DB_PORT}" "${DB_USER}" "${DB_PASS}" "${DB_NAME}" "${db_sql_file}"
 
   local admin_hash admin_user_sql admin_hash_sql
   admin_hash="$(php -r 'echo password_hash($argv[1], PASSWORD_DEFAULT);' "${ADMIN_PASS}")"
@@ -836,13 +844,16 @@ deploy_openvpn_scripts() {
   mkdir -p /etc/openvpn/ccd
 
   if systemctl list-unit-files | grep -q '^openvpn-server@.service'; then
-    systemctl enable --now openvpn-server@server.service >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Enabling OpenVPN server service" \
+      systemctl enable --now openvpn-server@server.service
     ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn-server@server.service"
   elif systemctl list-unit-files | grep -q '^openvpn@.service'; then
-    systemctl enable --now openvpn@server.service >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Enabling OpenVPN service" \
+      systemctl enable --now openvpn@server.service
     ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn@server.service"
   elif systemctl list-unit-files | grep -q '^openvpn.service'; then
-    systemctl enable --now openvpn.service >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Enabling OpenVPN service" \
+      systemctl enable --now openvpn.service
     ok "${MSG_OPENVPN_SERVICE_ENABLED:-OpenVPN server service enabled}: openvpn.service"
   else
     warn "${MSG_OPENVPN_SERVICE_UNKNOWN:-OpenVPN service unit not found. Please enable the service manually.}"
@@ -884,7 +895,7 @@ configure_apache_webadmin() {
     CustomLog \${APACHE_LOG_DIR}/openvpn-webadmin-access.log combined
 </VirtualHost>
 EOF
-    a2ensite openvpn-webadmin.conf >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Enabling Apache site" a2ensite openvpn-webadmin.conf
   else
     local conf_file="/etc/apache2/conf-available/openvpn-webadmin.conf"
     cat > "${conf_file}" <<EOF
@@ -913,16 +924,16 @@ EOF
     Require all granted
 </Directory>
 EOF
-    a2enconf openvpn-webadmin.conf >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Enabling Apache configuration" a2enconf openvpn-webadmin.conf
   fi
 
   if [ "${ENABLE_REWRITE}" = "yes" ]; then
-    a2enmod rewrite >>"${LOG_FILE}" 2>&1
+    run_with_spinner "Enabling Apache rewrite module" a2enmod rewrite
   fi
 
-  apache2ctl configtest >>"${LOG_FILE}" 2>&1
-  systemctl enable --now apache2 >>"${LOG_FILE}" 2>&1
-  systemctl reload apache2 >>"${LOG_FILE}" 2>&1
+  run_with_spinner "Checking Apache configuration" apache2ctl configtest
+  run_with_spinner "Enabling Apache service" systemctl enable --now apache2
+  run_with_spinner "Reloading Apache" systemctl reload apache2
 }
 
 detect_nginx_site_file() {
@@ -1048,9 +1059,9 @@ EOF
     fi
   fi
 
-  nginx -t >>"${LOG_FILE}" 2>&1
-  systemctl enable --now nginx >>"${LOG_FILE}" 2>&1
-  systemctl reload nginx >>"${LOG_FILE}" 2>&1
+  run_with_spinner "Checking nginx configuration" nginx -t
+  run_with_spinner "Enabling nginx service" systemctl enable --now nginx
+  run_with_spinner "Reloading nginx" systemctl reload nginx
 }
 
 configure_webserver() {
@@ -1205,6 +1216,7 @@ main() {
   configure_mariadb_client
   sync_source_repo
   deploy_application_files
+  install_composer_dependencies
   build_and_deploy_tools_assets
   write_app_config
   write_runtime_env

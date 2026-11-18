@@ -490,3 +490,33 @@ ask_prefill() {
   read -r -e -i "$default" -p "${prompt}: " answer
   printf '%s' "${answer:-$default}"
 }
+
+run_with_spinner() {
+    local message="$1"
+    shift
+
+    local spinner='|/-\'
+    local i=0
+    local pid
+    local result=0
+
+    "$@" >>"${LOG_FILE}" 2>&1 &
+    pid=$!
+
+    while kill -0 "${pid}" 2>/dev/null; do
+        printf '\r\033[K%s %s' \
+            "${message}" "${spinner:i++%4:1}"
+        sleep 0.2
+    done
+
+    wait "${pid}" || result=$?
+
+    if [ "${result}" -eq 0 ]; then
+        printf '\r\033[K%s [OK]\n' "${message}"
+    else
+        printf '\r\033[K%s [FEHLER]\n' "${message}"
+        info "Details siehe ${LOG_FILE}"
+    fi
+
+    return "${result}"
+}
