@@ -159,21 +159,83 @@ create_server_conf() {
     return
   fi
   cat > "${OPENVPN_DIR}/server.conf" <<'EOF'
+# OpenVPN-WebAdmin - Server Configuration
+
 port 1194
 proto udp
 dev tun
+
+# --------------------------------------------------
+# Zertifikate und Schlüssel
+# --------------------------------------------------
+
 ca /etc/openvpn/ca.crt
 cert /etc/openvpn/server.crt
 key /etc/openvpn/server.key
 dh /etc/openvpn/dh.pem
+
+# --------------------------------------------------
+# TLS-Absicherung
+# --------------------------------------------------
+
 tls-auth /etc/openvpn/ta.key 0
+tls-version-min 1.2
+verify-client-cert require
+
+# --------------------------------------------------
+# Benutzer- und Passwortauthentifizierung
+# --------------------------------------------------
+
+auth-user-pass-verify /etc/openvpn/scripts/login.v2.sh via-env
+username-as-common-name
+
+# --------------------------------------------------
+# Verschlüsselung
+# --------------------------------------------------
+
+data-ciphers AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305
+auth SHA256
+allow-compression no
+
+# --------------------------------------------------
+# VPN-Netzwerk
+# --------------------------------------------------
+
 server 10.8.0.0 255.255.255.0
 topology subnet
+
+# --------------------------------------------------
+# Client-Verwaltung
+# --------------------------------------------------
+
+ifconfig-pool-persist /var/log/openvpn/ipp.txt
+client-config-dir /etc/openvpn/ccd
+
+# --------------------------------------------------
+# Status und Protokollierung
+# --------------------------------------------------
+
+status /var/log/openvpn/openvpn-status.log
+log-append /var/log/openvpn/openvpn.log
+verb 3
+
+# --------------------------------------------------
+# Verbindung
+# --------------------------------------------------
+
 keepalive 10 120
 persist-key
 persist-tun
-status /var/log/openvpn/openvpn-status.log
-verb 3
+explicit-exit-notify 1
+
+# --------------------------------------------------
+# WebAdmin-Scripts
+# --------------------------------------------------
+
+script-security 3
+
+client-connect /etc/openvpn/scripts/connect.sh
+client-disconnect /etc/openvpn/scripts/disconnect.sh
 EOF
   chmod 0644 "${OPENVPN_DIR}/server.conf"
 }
