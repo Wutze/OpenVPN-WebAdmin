@@ -668,7 +668,7 @@ Kein Docblock gefunden.
 
 ```
 /**
- * Debug-Ausgabe in Logfile
+ * Schreibt fehlgeschlagene Loginversuche bei aktiviertem Debugging in die Debug-Logdatei.
  */
 ```
 
@@ -3221,4 +3221,3 @@ Kein Docblock gefunden.
 ```
 
 <hr style="border:0; height:5px; background:#1e90ff;">
-
