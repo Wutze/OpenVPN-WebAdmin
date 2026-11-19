@@ -45,7 +45,7 @@ public function __construct(?array $cfg = null)
 /**
  * Bezieht die Serverkonfiguration aus URL, Quelldatei oder lokalem Cache und ergänzt Historien-Diffstatistiken.
  *
- * @return array{content: string, source: string, save_path: string, history: array} Inhalt, Herkunftshinweis, Zielpfad und Snapshots samt Änderungszählern.
+ * @return array{content: string, source: string, save_path: string, history: array, read_only: bool} Inhalt, Herkunft, Zielpfad, Historie und Schreibschutz.
  * @throws \RuntimeException Wenn die Quelle und gegebenenfalls der lokale Fallback nicht lesbar sind.
  */
 public function getCurrent(): array
@@ -57,13 +57,15 @@ public function getCurrent(): array
             try {
                 $content = $this->fetchFromUrl($this->cfg['source_url']);
                 $sourceInfo = 'url:' . $this->cfg['source_url'];
-                $this->writeCache($content);
+                if (!$this->isReadOnly()) {
+                    $this->writeCache($content);
+                }
             } catch (\Throwable $e) {
                 $content = $this->readSavePath();
                 $sourceInfo = 'cache:' . $this->cfg['save_path'] . ' (URL-Fallback: ' . $e->getMessage() . ')';
             }
         } elseif ($this->cfg['source_path'] !== '') {
-            if (!is_file($this->cfg['source_path']) && $this->cfg['source_path'] === $this->cfg['save_path']) {
+            if (!is_file($this->cfg['source_path']) && $this->cfg['source_path'] === $this->cfg['save_path'] && !$this->isReadOnly()) {
                 $this->ensureSaveFileExists();
             }
             $content = $this->readFile($this->cfg['source_path']);
@@ -78,7 +80,16 @@ public function getCurrent(): array
             'source' => $sourceInfo,
             'save_path' => $this->cfg['save_path'],
             'history' => $this->getDiffStatsAgainstCurrent($content),
+            'read_only' => $this->isReadOnly(),
         ];
+    }
+
+/**
+ * Verhindert Schreibzugriffe auf verlinkte Serverkonfigurationen.
+ */
+public function isReadOnly(): bool
+    {
+        return is_link($this->cfg['source_path']) || is_link($this->cfg['save_path']);
     }
 
 /**
@@ -90,6 +101,9 @@ public function getCurrent(): array
  */
 public function save(string $content): array
     {
+        if ($this->isReadOnly()) {
+            throw new \RuntimeException('Server configuration is read-only.');
+        }
         if ($this->cfg['save_path'] === '') {
             throw new \RuntimeException('Kein save_path konfiguriert.');
         }
@@ -269,7 +283,7 @@ private function readSavePath(): string
             throw new \RuntimeException('Keine lokale Cache-/Save-Datei vorhanden.');
         }
 
-        if (!is_file($this->cfg['save_path'])) {
+        if (!is_file($this->cfg['save_path']) && !$this->isReadOnly()) {
             $this->ensureSaveFileExists();
         }
 

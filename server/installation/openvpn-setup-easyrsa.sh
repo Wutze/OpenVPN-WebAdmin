@@ -34,6 +34,7 @@ PKI_DIR="${EASYRSA_DIR}/pki"
 EASYRSA_BIN=""
 EASYRSA_SUPPORTS_EXACT_DATES=0
 EASYRSA_SUPPORTS_EXPIRE=0
+WEBADMIN_DEPLOY_DIR=""
 
 say() {
   local level="$1" message="$2"
@@ -153,6 +154,67 @@ first_setup() {
   say OK "$(printf "$MSG_SETUP_RSA_FIRST_DONE" "$PKI_DIR")"
 }
 
+prepare_webadmin_link() {
+  local web_user
+  if [ -n "${WHIPTAIL_BIN}" ]; then
+    ask_input WEBADMIN_DEPLOY_DIR "${MSG_DEPLOY_DIR:-WebAdmin target directory}" "${DEFAULT_DEPLOY_DIR}"
+  else
+    WEBADMIN_DEPLOY_DIR="$(ask "${MSG_DEPLOY_DIR:-WebAdmin target directory}" "${DEFAULT_DEPLOY_DIR}")"
+  fi
+  [[ "${WEBADMIN_DEPLOY_DIR}" = /* ]] || die "WebAdmin target directory must be absolute."
+  [ -d "${WEBADMIN_DEPLOY_DIR}/storage/conf" ] || die "WebAdmin storage directory not found: ${WEBADMIN_DEPLOY_DIR}/storage/conf"
+  [ ! -L "${WEBADMIN_DEPLOY_DIR}/storage/conf/server" ] || die "Server configuration directory must not be a symlink."
+  [ ! -d "${WEBADMIN_DEPLOY_DIR}/storage/conf/server/server.conf" ] || die "Server configuration link path is a directory."
+  command -v setfacl >/dev/null 2>&1 || die "setfacl is required; install the acl package before continuing."
+  web_user="$(stat -c '%U' "${WEBADMIN_DEPLOY_DIR}")"
+  id -u "${web_user}" >/dev/null 2>&1 || die "Unknown WebAdmin deployment owner: ${web_user}"
+  [ "${web_user}" != root ] || die "WebAdmin deployment must not run as root."
+}
+
+link_server_conf() {
+  local conf_file="${OPENVPN_DIR}/server.conf"
+  local link_dir="${WEBADMIN_DEPLOY_DIR}/storage/conf/server"
+  local link_path="${link_dir}/server.conf"
+  local backup_file index web_user user
+
+  web_user="$(stat -c '%U' "${WEBADMIN_DEPLOY_DIR}")"
+  id -u "${web_user}" >/dev/null 2>&1 || die "Unknown WebAdmin deployment owner: ${web_user}"
+  [ "${web_user}" != root ] || die "WebAdmin deployment must not run as root."
+
+  [ ! -L "${link_dir}" ] || die "Server configuration directory must not be a symlink: ${link_dir}"
+  install -d -o root -g www-data -m 0750 "${link_dir}"
+  setfacl -b -k "${link_dir}"
+  chmod 0750 "${link_dir}"
+  setfacl -m "u:${web_user}:rx" "${link_dir}"
+  chown root:www-data "${conf_file}"
+  setfacl -b "${conf_file}"
+  chmod 0640 "${conf_file}"
+  setfacl -m "u:${web_user}:r" "${conf_file}"
+
+  if [ -L "${link_path}" ] && [ "$(readlink -- "${link_path}")" = "${conf_file}" ]; then
+    :
+  elif [ -e "${link_path}" ] || [ -L "${link_path}" ]; then
+    [ ! -d "${link_path}" ] || die "Server configuration link path is a directory: ${link_path}"
+    backup_file="${link_path}.bak.$(date '+%Y%m%d%H%M%S')"
+    index=0
+    while [ -e "${backup_file}" ] || [ -L "${backup_file}" ]; do
+      index=$((index + 1))
+      backup_file="${link_path}.bak.$(date '+%Y%m%d%H%M%S').${index}"
+    done
+    mv -- "${link_path}" "${backup_file}"
+    say INFO "Existing server configuration saved: ${backup_file}"
+    ln -s -- "${conf_file}" "${link_path}"
+  else
+    ln -s -- "${conf_file}" "${link_path}"
+  fi
+  for user in www-data "${web_user}"; do
+    if ! su -s /bin/sh -c 'test -r "$1" && ! test -w "$1"' "${user}" -- sh "${link_path}"; then
+      die "${user} must be able to read, but not write, ${link_path}"
+    fi
+  done
+  say OK "Read-only server configuration link installed: ${link_path}"
+}
+
 create_server_conf() {
   local conf_file="${OPENVPN_DIR}/server.conf"
   local backup_file=""
@@ -250,8 +312,10 @@ EOF
     die "Could not write new server configuration."
   fi
 
-  chmod 0644 "${temp_file}"
+  chown root:www-data "${temp_file}"
+  chmod 0640 "${temp_file}"
   mv -f -- "${temp_file}" "${conf_file}"
+  link_server_conf
   say OK "New server configuration installed: ${conf_file}"
 }
 
@@ -403,6 +467,7 @@ sync_clients() {
 
 main() {
   need_root
+  load_install_config
   init_log
   show_header
   if [ -n "${WHIPTAIL_BIN}" ]; then
@@ -420,6 +485,7 @@ main() {
   find_easyrsa
   install -d -m 0755 "$OPENVPN_DIR"
   if [ ! -d "$EASYRSA_DIR" ]; then
+    prepare_webadmin_link
     first_setup
     return
   fi
@@ -432,11 +498,13 @@ main() {
     read -r -p "$MSG_SETUP_RSA_CHOICE " choice
   fi
   case "$choice" in
-    1) renew_server ;;
+    1) prepare_webadmin_link; renew_server ;;
     2) sync_clients ;;
     3) exit 0 ;;
     *) die "$MSG_SETUP_RSA_CHOICE_INVALID" ;;
   esac
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi

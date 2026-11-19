@@ -202,6 +202,26 @@ Important directories include:
 | `assets-build/` | Frontend asset build and deployment environment |
 | `doc/` | Project documentation |
 
+### Storage and server configuration
+
+The installer creates `storage/conf/{linux,osx,windows}/history`,
+`storage/conf/history/server`, and `storage/logs` under the selected deployment directory.
+Missing `client.ovpn` and `update-resolv.sh` templates are copied without overwriting existing
+storage files. Writable directories are owned by `www-data:www-data` with mode `2770` (setgid);
+default ACLs also grant access to a different configured web-server user. Existing files are
+made readable and writable for these users and inaccessible to others. Inherited ACLs cannot
+override explicitly restrictive creation modes, such as `0600`. The installer verifies access
+and fails if the checks do not pass.
+
+When setting up or renewing the VPN server, `server/installation/openvpn-setup-easyrsa.sh`
+asks for the deployment directory and links `storage/conf/server/server.conf` to
+`/etc/openvpn/server.conf`. An existing file or different link is preserved under a unique
+`.bak.*` name. The link directory is `root:www-data` mode `0750`, and the target file is
+`root:www-data` mode `0640`: ACLs grant `www-data` and the deployment owner at most read
+access. The deployment owner must not be `root`. Linked server
+configurations are read-only in the WebAdmin; local non-linked configurations retain
+their existing save behavior.
+
 The installation script and supporting shell functions are provided separately.
 
 ## Development

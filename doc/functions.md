@@ -1707,15 +1707,27 @@ Kein Docblock gefunden.
 /**
  * Bezieht die Serverkonfiguration aus URL, Quelldatei oder lokalem Cache und ergänzt Historien-Diffstatistiken.
  *
- * @return array{content: string, source: string, save_path: string, history: array} Inhalt, Herkunftshinweis, Zielpfad und Snapshots samt Änderungszählern.
+ * @return array{content: string, source: string, save_path: string, history: array, read_only: bool} Inhalt, Herkunft, Zielpfad, Historie und Schreibschutz.
  * @throws \RuntimeException Wenn die Quelle und gegebenenfalls der lokale Fallback nicht lesbar sind.
+ */
+```
+
+### `public isReadOnly()`
+
+- Datei: `./src/Core/ServerSettingsService.php`
+- Zeile: 90
+- Rueckgabe: `bool`
+
+```
+/**
+ * Verhindert Schreibzugriffe auf verlinkte Serverkonfigurationen.
  */
 ```
 
 ### `public save($content)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 91
+- Zeile: 102
 - Rueckgabe: `array`
 
 ```
@@ -1731,7 +1743,7 @@ Kein Docblock gefunden.
 ### `public getHistoryList()`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 121
+- Zeile: 135
 - Rueckgabe: `array`
 
 ```
@@ -1745,7 +1757,7 @@ Kein Docblock gefunden.
 ### `public diffHistoryFileAgainstCurrent($historyFile, $current)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 153
+- Zeile: 167
 - Rueckgabe: `array`
 
 ```
@@ -1762,7 +1774,7 @@ Kein Docblock gefunden.
 ### `private getDiffStatsAgainstCurrent($current)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 171
+- Zeile: 185
 - Rueckgabe: `array`
 
 ```
@@ -1777,7 +1789,7 @@ Kein Docblock gefunden.
 ### `private fetchFromUrl($url)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 193
+- Zeile: 207
 - Rueckgabe: `string`
 
 ```
@@ -1793,7 +1805,7 @@ Kein Docblock gefunden.
 ### `private writeCache($content)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 226
+- Zeile: 240
 - Rueckgabe: `void`
 
 ```
@@ -1808,7 +1820,7 @@ Kein Docblock gefunden.
 ### `private archiveFile($file)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 248
+- Zeile: 262
 - Rueckgabe: `void`
 
 ```
@@ -1824,7 +1836,7 @@ Kein Docblock gefunden.
 ### `private readSavePath()`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 266
+- Zeile: 280
 - Rueckgabe: `string`
 
 ```
@@ -1838,7 +1850,7 @@ Kein Docblock gefunden.
 ### `private readFile($path)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 290
+- Zeile: 304
 - Rueckgabe: `string`
 
 ```
@@ -1854,7 +1866,7 @@ Kein Docblock gefunden.
 ### `private ensureSaveFileExists()`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 304
+- Zeile: 318
 - Rueckgabe: `void`
 
 ```
@@ -1868,7 +1880,7 @@ Kein Docblock gefunden.
 ### `private buildDiffData($oldText, $newText)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 329
+- Zeile: 343
 - Rueckgabe: `array`
 
 ```
@@ -1884,7 +1896,7 @@ Kein Docblock gefunden.
 ### `private diffOps($a, $b)`
 
 - Datei: `./src/Core/ServerSettingsService.php`
-- Zeile: 365
+- Zeile: 379
 - Rueckgabe: `array`
 
 ```

@@ -139,7 +139,8 @@ $message = [
     '_CONFIG_NO_DIFF' => 'Noch kein Vergleich gewaehlt.',
 
     '_SETTINGS_TITLE' => 'VPN Settings',
-    '_SETTINGS_SUBTITLE' => 'Server-Konfiguration laden (geschuetzter Link oder lokaler Pfad), bearbeiten und mit Historie vergleichen.',
+    '_SETTINGS_SUBTITLE' => 'Server-Konfiguration laden und mit der Historie vergleichen.',
+    '_SETTINGS_READ_ONLY' => 'Die verlinkte Server-Konfiguration ist schreibgeschuetzt und kann hier nur angezeigt werden.',
     '_SETTINGS_SOURCE' => 'Quelle',
     '_SETTINGS_SAVE_PATH' => 'Speicherpfad',
     '_SETTINGS_RELOAD' => 'Neu laden',

@@ -199,6 +199,28 @@ Wichtige Verzeichnisse:
 
 Das Installationsskript und die zugehörigen Shell-Funktionen werden separat bereitgestellt.
 
+### Storage und Serverkonfiguration
+
+Das Setup legt unter dem gewählten Deployment-Verzeichnis `storage/conf/{linux,osx,windows}/history`,
+`storage/conf/history/server` und `storage/logs` an. Fehlende `client.ovpn`- und
+`update-resolv.sh`-Vorlagen werden kopiert; vorhandene Storage-Dateien bleiben erhalten.
+Die beschreibbaren Verzeichnisse gehören `www-data:www-data` und haben Modus `2770`
+(Setgid); Default-ACLs gewähren auch einem abweichenden Webserver-Benutzer Zugriff.
+Vorhandene Dateien werden für diese Benutzer les- und schreibbar gesetzt; andere Benutzer
+haben keinen Zugriff. Vererbte ACLs gelten nur innerhalb der vom Ersteller angeforderten
+Rechte: ausdrücklich mit `0600` angelegte Dateien bleiben für andere Benutzer gesperrt.
+Das Setup prüft die tatsächlichen Zugriffe und bricht bei Fehlern ab.
+
+Beim Einrichten oder Erneuern des VPN-Servers fragt `server/installation/openvpn-setup-easyrsa.sh`
+das Deployment-Verzeichnis ab. Es erzeugt dort `storage/conf/server/server.conf` als
+symbolischen Link auf `/etc/openvpn/server.conf`. Eine vorhandene Datei oder ein anderer
+Link wird zuvor unter einem eindeutigen `.bak.*`-Namen gesichert. Das Linkverzeichnis
+gehört `root:www-data` (Modus `0750`), die Serverdatei `root:www-data` (Modus `0640`):
+`www-data` und der Deployment-Eigentümer erhalten per ACL höchstens Lesezugriff;
+das Deployment darf nicht `root` gehören. Die Webadmin-Ansicht verlinkter
+Serverkonfigurationen ist deshalb schreibgeschützt; lokale, nicht verlinkte
+Konfigurationen behalten ihr bisheriges Speicherverhalten.
+
 ## Entwicklung
 
 OpenVPN-WebAdmin wird mit dem Ziel entwickelt, einen nachvollziehbaren und wartbaren Quellcode bereitzustellen. Das Projekt setzt auf etablierte Technologien und vermeidet die Notwendigkeit einer umfangreichen zusätzlichen Laufzeitumgebung. Die Frontend-Bibliotheken werden auf dem Entwicklungsrechner über npm verwaltet. Ihre Versionen werden in `package.json` und `package-lock.json` festgelegt.

@@ -592,11 +592,15 @@ function initSettingsEditor() {
   const savePathEl = document.getElementById('settingsSavePath');
   const reloadBtn = document.getElementById('settingsReloadBtn');
   const saveBtn = document.getElementById('settingsSaveBtn');
+  const readOnlyNotice = document.getElementById('settingsReadOnlyNotice');
   const diffOutput = document.getElementById('settingsDiffOutput');
 
   async function loadSettings() {
     const data = await getJson('?op=data&select=settings&action=get');
     editor.value = data.content || '';
+    editor.readOnly = data.read_only !== false;
+    if (saveBtn) saveBtn.disabled = editor.readOnly;
+    if (readOnlyNotice) readOnlyNotice.hidden = !editor.readOnly;
     if (sourceEl) sourceEl.textContent = data.source || '-';
     if (savePathEl) savePathEl.textContent = data.save_path || '-';
     renderSettingsHistory(data.history || []);

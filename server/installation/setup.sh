@@ -380,6 +380,8 @@ validate_inputs() {
 
   id -u "${WEB_OWNER}" >/dev/null 2>&1 || fatal "${MSG_USER_NOT_FOUND:-User not found}: ${WEB_OWNER}"
   getent group "${WEB_GROUP}" >/dev/null 2>&1 || fatal "${MSG_GROUP_NOT_FOUND:-Group not found}: ${WEB_GROUP}"
+  id -u www-data >/dev/null 2>&1 || fatal "${MSG_USER_NOT_FOUND:-User not found}: www-data"
+  getent group www-data >/dev/null 2>&1 || fatal "${MSG_GROUP_NOT_FOUND:-Group not found}: www-data"
 
   ok "${MSG_INPUT_VALID:-All input values are valid.}"
 }
@@ -388,6 +390,7 @@ build_package_list() {
   PACKAGES=(
     git
     rsync
+    acl
     ca-certificates
     curl
     unzip
@@ -580,8 +583,29 @@ deploy_application_files() {
     rsync -a \
       --exclude '.git' \
       --exclude 'vendor/' \
+      --exclude '/storage/' \
       "${SOURCE_DIR}/" "${DEPLOY_DIR}/"
-  mkdir -p "${DEPLOY_DIR}/storage/logs"
+
+  local system file target
+  for target in "${DEPLOY_DIR}/storage" "${DEPLOY_DIR}/storage/conf" \
+    "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/conf/history" \
+    "${DEPLOY_DIR}/storage/conf/history/server" \
+    "${DEPLOY_DIR}/storage/conf/linux" "${DEPLOY_DIR}/storage/conf/linux/history" \
+    "${DEPLOY_DIR}/storage/conf/osx" "${DEPLOY_DIR}/storage/conf/osx/history" \
+    "${DEPLOY_DIR}/storage/conf/windows" "${DEPLOY_DIR}/storage/conf/windows/history"; do
+    [ ! -L "${target}" ] || fatal "Storage directory must not be a symlink: ${target}"
+  done
+  for system in linux osx windows; do
+    mkdir -p "${DEPLOY_DIR}/storage/conf/${system}/history"
+    for file in client.ovpn update-resolv.sh; do
+      [ -f "${SOURCE_DIR}/storage/conf/${system}/${file}" ] ||
+        fatal "${MSG_MISSING_FILE:-Missing required file}: ${SOURCE_DIR}/storage/conf/${system}/${file}"
+      if [ ! -e "${DEPLOY_DIR}/storage/conf/${system}/${file}" ] && [ ! -L "${DEPLOY_DIR}/storage/conf/${system}/${file}" ]; then
+        cp -n -- "${SOURCE_DIR}/storage/conf/${system}/${file}" "${DEPLOY_DIR}/storage/conf/${system}/${file}"
+      fi
+    done
+  done
+  mkdir -p "${DEPLOY_DIR}/storage/conf/history/server" "${DEPLOY_DIR}/storage/logs"
 
   ok "${MSG_DEPLOY_FILES_DONE:-Application files deployed.}"
 }
@@ -756,8 +780,6 @@ deploy_openvpn_scripts() {
   show_section "${MSG_SECTION_OPENVPN:-OpenVPN integration}"
 
   local scripts_source_dir="${SOURCE_DIR}/server/scripte"
-  local server_conf_template="${SOURCE_DIR}/storage/conf/server/server.conf"
-  # vorbereiten für die server.conf
   mkdir -p "$(dirname "${OPENVPN_SERVER_CONF}")"
 
   install -d -m 0750 "${OPENVPN_SCRIPTS_DIR}"
@@ -1066,7 +1088,39 @@ resolve_runtime_web_identity() {
 finalize_permissions() {
   show_section "${MSG_SECTION_PERMS:-Permissions}"
   resolve_runtime_web_identity
-  chown -R "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" "${DEPLOY_DIR}"
+  find "${DEPLOY_DIR}" -mindepth 1 -maxdepth 1 ! -name storage \
+    -exec chown -R "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" {} +
+  chown "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" "${DEPLOY_DIR}"
+
+  local target
+  local -a storage_dirs=(
+    "${DEPLOY_DIR}/storage" "${DEPLOY_DIR}/storage/conf"
+    "${DEPLOY_DIR}/storage/conf/history" "${DEPLOY_DIR}/storage/conf/history/server"
+    "${DEPLOY_DIR}/storage/logs"
+    "${DEPLOY_DIR}/storage/conf/linux" "${DEPLOY_DIR}/storage/conf/linux/history"
+    "${DEPLOY_DIR}/storage/conf/osx" "${DEPLOY_DIR}/storage/conf/osx/history"
+    "${DEPLOY_DIR}/storage/conf/windows" "${DEPLOY_DIR}/storage/conf/windows/history"
+  )
+  for target in "${storage_dirs[@]}"; do
+    [ -d "${target}" ] && [ ! -L "${target}" ] || fatal "Invalid storage directory: ${target}"
+    chown www-data:www-data "${target}"
+    setfacl -b -k "${target}"
+    chmod 2770 "${target}"
+    setfacl -m "u:${EFFECTIVE_WEB_OWNER}:rwx" \
+      -m "d:u::rwx,d:u:${EFFECTIVE_WEB_OWNER}:rwx,d:g::rwx,d:m::rwx,d:o::---" "${target}"
+  done
+  for target in "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/conf/history" \
+    "${DEPLOY_DIR}/storage/conf/linux" "${DEPLOY_DIR}/storage/conf/osx" "${DEPLOY_DIR}/storage/conf/windows"; do
+    find "${target}" -mindepth 1 -type d -exec chown www-data:www-data {} + \
+      -exec setfacl -b -k {} + \
+      -exec chmod 2770 {} + \
+      -exec setfacl -m "u:${EFFECTIVE_WEB_OWNER}:rwx" \
+        -m "d:u::rwx,d:u:${EFFECTIVE_WEB_OWNER}:rwx,d:g::rwx,d:m::rwx,d:o::---" {} +
+    find "${target}" -type f -exec chown www-data:www-data {} + \
+      -exec setfacl -b {} + \
+      -exec chmod u+rw,g+rw,o-rwx {} + \
+      -exec setfacl -m "u:${EFFECTIVE_WEB_OWNER}:rw" {} +
+  done
   ok "${MSG_PERMS_DONE:-Permissions updated.} (${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP})"
 }
 
@@ -1074,60 +1128,86 @@ check_runtime_permissions() {
   show_section "${MSG_SECTION_PERMS_CHECK:-Permission check}"
   resolve_runtime_web_identity
 
-  local target
+  local target user system file probe
   local failed=0
   local -a must_write=(
     "${DEPLOY_DIR}/storage"
     "${DEPLOY_DIR}/storage/conf"
     "${DEPLOY_DIR}/storage/conf/history"
+    "${DEPLOY_DIR}/storage/conf/history/server"
     "${DEPLOY_DIR}/storage/logs"
+    "${DEPLOY_DIR}/storage/conf/linux"
+    "${DEPLOY_DIR}/storage/conf/linux/history"
+    "${DEPLOY_DIR}/storage/conf/osx"
+    "${DEPLOY_DIR}/storage/conf/osx/history"
+    "${DEPLOY_DIR}/storage/conf/windows"
+    "${DEPLOY_DIR}/storage/conf/windows/history"
   )
 
-  while IFS= read -r target; do
-    [ -n "${target}" ] || continue
-    must_write+=("$(dirname "${target}")")
-    must_write+=("${target}")
-  done < <(find "${DEPLOY_DIR}/storage/conf" -mindepth 2 -maxdepth 2 -type f -name 'client.ovpn' 2>/dev/null)
-
   for target in "${must_write[@]}"; do
-    if [ ! -e "${target}" ]; then
-      warn "${MSG_PERMS_MISSING:-Path missing for permission check}: ${target}"
+    for user in www-data "${EFFECTIVE_WEB_OWNER}"; do
+      if su -s /bin/sh -c '
+        set -eu
+        dir=$(mktemp -d "$1/.permissions-check.XXXXXXXX")
+        trap '\''rm -f -- "$dir/sub/file" "$dir/file"; rmdir -- "$dir/sub" "$dir" 2>/dev/null || true'\'' EXIT
+        printf test > "$dir/file"
+        test "$(cat "$dir/file")" = test
+        printf changed >> "$dir/file"
+        mkdir "$dir/sub"
+        mv "$dir/file" "$dir/sub/file"
+        test "$(cat "$dir/sub/file")" = testchanged
+        rm "$dir/sub/file"
+        rmdir "$dir/sub"
+        rmdir "$dir"
+        trap - EXIT
+      ' "${user}" -- sh "${target}" >>"${LOG_FILE}" 2>&1; then
+        ok "${MSG_PERMS_OK:-Writable for web user}: ${target} (${user})"
+      else
+        warn "${MSG_PERMS_FAIL:-Not writable for web user}: ${target} (${user})"
+        failed=1
+      fi
+    done
+    probe="$(mktemp -d "${target}/.acl-check.XXXXXXXX")"
+    chmod 2770 "${probe}"
+    if ! su -s /bin/sh -c '
+      set -eu
+      printf inherited > "$1/file"
+      mkdir "$1/dir"
+      printf inherited > "$1/dir/child"
+    ' "${EFFECTIVE_WEB_OWNER}" -- sh "${probe}" >>"${LOG_FILE}" 2>&1 ||
+      ! su -s /bin/sh -c '
+        set -eu
+        test "$(cat "$1/file")" = inherited
+        printf changed >> "$1/file"
+        test "$(cat "$1/dir/child")" = inherited
+        printf changed >> "$1/dir/child"
+        rm "$1/file" "$1/dir/child"
+        rmdir "$1/dir"
+      ' www-data -- sh "${probe}" >>"${LOG_FILE}" 2>&1; then
+      warn "Inherited permissions failed: ${target}"
       failed=1
-      continue
     fi
-
-    if su -s /bin/sh -c "test -w \"$target\"" "${EFFECTIVE_WEB_OWNER}" >/dev/null 2>&1; then
-      ok "${MSG_PERMS_OK:-Writable for web user}: ${target}"
-    else
-      warn "${MSG_PERMS_FAIL:-Not writable for web user}: ${target}"
-      failed=1
-    fi
+    rm -f -- "${probe}/file" "${probe}/dir/child"
+    if [ -d "${probe}/dir" ]; then rmdir "${probe}/dir"; fi
+    rmdir "${probe}"
   done
 
-  if [ "${failed}" -eq 0 ]; then
-    ok "${MSG_PERMS_CHECK_OK:-Permission check passed.}"
-    return
-  fi
-
-  warn "${MSG_PERMS_FIX:-Attempting permission fix...}"
-  chown -R "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" "${DEPLOY_DIR}/storage"
-  find "${DEPLOY_DIR}/storage" -type d -exec chmod 0775 {} +
-  find "${DEPLOY_DIR}/storage" -type f -exec chmod 0664 {} +
-
-  failed=0
-  for target in "${must_write[@]}"; do
-    [ -e "${target}" ] || continue
-    if ! su -s /bin/sh -c "test -w \"$target\"" "${EFFECTIVE_WEB_OWNER}" >/dev/null 2>&1; then
-      failed=1
-      warn "${MSG_PERMS_STILL_FAIL:-Still not writable after fix}: ${target}"
-    fi
+  for system in linux osx windows; do
+    for file in client.ovpn update-resolv.sh; do
+      target="${DEPLOY_DIR}/storage/conf/${system}/${file}"
+      for user in www-data "${EFFECTIVE_WEB_OWNER}"; do
+        if ! su -s /bin/sh -c 'test -f "$1" && test -r "$1" && test -w "$1"' \
+          "${user}" -- sh "${target}"; then
+          warn "${MSG_PERMS_FAIL:-Not writable for web user}: ${target} (${user})"
+          failed=1
+        fi
+      done
+    done
   done
-
   if [ "${failed}" -ne 0 ]; then
-    fatal "${MSG_PERMS_CHECK_FATAL:-Permission check failed after fix. Please adjust ownership/ACL manually.}"
+    fatal "${MSG_PERMS_CHECK_FATAL:-Permission check failed. Please adjust ownership/ACL manually.}"
   fi
-
-  ok "${MSG_PERMS_CHECK_FIXED:-Permission check passed after automatic fix.}"
+  ok "${MSG_PERMS_CHECK_OK:-Permission check passed.}"
 }
 
 finish_message() {
@@ -1159,4 +1239,6 @@ main() {
   finish_message
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi

@@ -139,7 +139,8 @@ return [
     '_CONFIG_NO_DIFF' => 'Aucune comparaison selectionnee.',
 
     '_SETTINGS_TITLE' => 'Parametres VPN',
-    '_SETTINGS_SUBTITLE' => 'Charger la configuration serveur (lien protege ou chemin local), la modifier et comparer avec l\'historique.',
+    '_SETTINGS_SUBTITLE' => 'Charger la configuration serveur et la comparer avec l\'historique.',
+    '_SETTINGS_READ_ONLY' => 'La configuration serveur liee est en lecture seule et peut uniquement etre consultee ici.',
     '_SETTINGS_SOURCE' => 'Source',
     '_SETTINGS_SAVE_PATH' => 'Chemin de sauvegarde',
     '_SETTINGS_RELOAD' => 'Recharger',

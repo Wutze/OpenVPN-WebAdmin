@@ -36,12 +36,14 @@ public function index(): string
         $save = \Lang::get('_SETTINGS_SAVE');
         $editor = \Lang::get('_SETTINGS_EDITOR');
         $history = \Lang::get('_SETTINGS_HISTORY');
+        $readOnly = \Lang::get('_SETTINGS_READ_ONLY');
         $diff = \Lang::get('_CONFIG_DIFF');
         $noDiff = \Lang::get('_CONFIG_NO_DIFF');
         $file = \Lang::get('_FILE');
         return <<<HTML
 <h1>{$title}</h1>
 <p class="text-muted">{$subtitle}</p>
+<p id="settingsReadOnlyNotice" class="text-muted" hidden>{$readOnly}</p>
 <div id="settingsMessage" class="mb-3"></div>
 
 <div class="card mb-3">
@@ -52,7 +54,7 @@ public function index(): string
     </div>
     <div>
       <button id="settingsReloadBtn" class="btn btn-outline-secondary">{$reload}</button>
-      <button id="settingsSaveBtn" class="btn btn-primary">{$save}</button>
+      <button id="settingsSaveBtn" class="btn btn-primary" disabled>{$save}</button>
     </div>
   </div>
 </div>
@@ -62,7 +64,7 @@ public function index(): string
     <div class="card h-100 config-editor-card">
       <div class="card-header">{$editor}</div>
       <div class="card-body ovpn-editor-body">
-        <textarea id="settingsEditor" class="form-control ovpn-editor" spellcheck="false"></textarea>
+        <textarea id="settingsEditor" class="form-control ovpn-editor" spellcheck="false" readonly></textarea>
       </div>
     </div>
   </div>

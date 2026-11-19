@@ -493,6 +493,7 @@ private function handleSettingsGet(): void
                         'source' => $data['source'],
                         'save_path' => $data['save_path'],
                         'history' => $data['history'],
+                        'read_only' => $data['read_only'],
                     ]);
                     break;
                 case 'diff':
@@ -526,6 +527,9 @@ private function handleSettingsPost(): void
         $action = (string)($_POST['action'] ?? '');
         if ($action !== 'save') {
             $this->json(['status' => 'error', 'message' => $this->msg('_API_SETTINGS_POST_ACTION_UNKNOWN')], 400);
+        }
+        if ($service->isReadOnly()) {
+            $this->json(['status' => 'error', 'message' => $this->msg('_SETTINGS_READ_ONLY')], 403);
         }
 
         $content = (string)($_POST['content'] ?? '');

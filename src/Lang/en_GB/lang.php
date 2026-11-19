@@ -139,7 +139,8 @@ return [
     '_CONFIG_NO_DIFF' => 'No comparison selected yet.',
 
     '_SETTINGS_TITLE' => 'VPN Settings',
-    '_SETTINGS_SUBTITLE' => 'Load server configuration (protected link or local path), edit it, and compare with history.',
+    '_SETTINGS_SUBTITLE' => 'Load the server configuration and compare it with history.',
+    '_SETTINGS_READ_ONLY' => 'The linked server configuration is read-only and can only be viewed here.',
     '_SETTINGS_SOURCE' => 'Source',
     '_SETTINGS_SAVE_PATH' => 'Save path',
     '_SETTINGS_RELOAD' => 'Reload',
