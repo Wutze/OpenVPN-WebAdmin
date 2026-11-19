@@ -89,3 +89,9 @@ Es werden keine zusätzlichen Dateien gelöscht. Lediglich geänderte Systemdate
 Einige von euch werden sicherlich Gefallen an den Hilfetexten finden. Bisher habe ich allerdings noch keine Lösung gefunden, wie sich eigene Ergänzungen und Hilfetexte integrieren lassen, ohne dass diese bei einem Update überschrieben werden.
 
 Das steht jedoch auf meiner Wishlist.
+
+## AndroidClient - Wichtig!
+
+Mit dem Einrichten des OpenVPN-Clients unter Android kann es Verbindungsprobleme geben. Stellt den Client so ein, wie im Bild gezeigt.
+
+[Bild](../img/de.blinkt.openvpn.png)

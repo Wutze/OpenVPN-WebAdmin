@@ -89,3 +89,9 @@ Aucun fichier supplémentaire ne sera supprimé. Seuls les fichiers système mod
 Certains d'entre vous apprécieront certainement les textes d'aide. Cependant, je n'ai pas encore trouvé de solution permettant d'ajouter ses propres textes d'aide ou de compléter ceux qui existent déjà sans que ces modifications soient écrasées lors d'une mise à jour.
 
 Cela figure néanmoins sur ma wishlist.
+
+## Client Android – Important !
+
+Lors de la configuration du client OpenVPN sur Android, des problèmes de connexion peuvent survenir. Veuillez configurer le client comme indiqué sur l'image.
+
+![Configuration OpenVPN Android](../img/de.blinkt.openvpn.png)

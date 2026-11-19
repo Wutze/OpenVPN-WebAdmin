@@ -89,3 +89,13 @@ No additional files will be deleted. Only modified system files will be replaced
 Some of you may find the help texts particularly useful. However, I have not yet found a way to add custom help texts or extend the existing ones without having those changes overwritten during an update.
 
 This is, however, on my wishlist.
+
+## Android Client – Important!
+
+When configuring the OpenVPN client on Android, connection problems may occur. Please configure the client as shown in the image.
+
+![Android OpenVPN configuration](../img/de.blinkt.openvpn.png)## Android Client – Important!
+
+When configuring the OpenVPN client on Android, connection problems may occur. Please configure the client as shown in the image.
+
+![Android OpenVPN configuration](../img/de.blinkt.openvpn.png)
