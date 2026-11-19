@@ -275,12 +275,15 @@ class Lang
         if (class_exists('\\Locale')) {
             $locale = $langCode . '_' . $countryCode;
             $language = \Locale::getDisplayLanguage($locale, $locale);
-            $region = \Locale::getDisplayRegion($locale, $locale);
+            /**
+             * $region ist eigentlich nicht notwendig, da wir nur die Sprache anzeigen wollen.
+             */
+            //$region = \Locale::getDisplayRegion($locale, $locale);
 
             if (is_string($language) && $language !== '' && strcasecmp($language, $langCode) !== 0) {
-                if (is_string($region) && $region !== '' && strcasecmp($region, $countryCode) !== 0) {
-                    return $language . ' (' . $region . ')';
-                }
+                //if (is_string($region) && $region !== '' && strcasecmp($region, $countryCode) !== 0) {
+                    //return $language . ' (' . $region . ')';
+                //}
 
                 return $language;
             }
