@@ -28,6 +28,16 @@ CREATE TABLE sessions2 (
   sessdata longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE login_attempts (
+  attempt_key char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  attempts int(10) UNSIGNED NOT NULL DEFAULT 0,
+  window_started_at bigint(20) UNSIGNED NOT NULL,
+  locked_until bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  updated_at bigint(20) UNSIGNED NOT NULL,
+  PRIMARY KEY (attempt_key),
+  KEY idx_login_attempts_updated_at (updated_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE `user` (
   uid int(10) UNSIGNED NOT NULL,
   user_name varchar(32) NOT NULL,

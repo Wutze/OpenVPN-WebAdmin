@@ -195,7 +195,7 @@ private function auditUserRef(string $username): string
  * Bildet den Rate-Limit-Schlüssel aus normalisiertem Benutzernamen und Client-IP.
  *
  * @param string $username Loginname.
- * @return string SHA-256-Schlüssel für den Session-Rate-Limit-Eintrag.
+ * @return string SHA-256-Schlüssel für den datenbankweiten Rate-Limit-Eintrag.
  */
 private function loginKey(string $username): string
     {
@@ -203,86 +203,72 @@ private function loginKey(string $username): string
     }
 
 /**
- * Prüft, ob für Benutzername und Client-IP eine noch aktive Sperre in der Session besteht.
+ * Prüft, ob für Benutzername und Client-IP eine noch aktive datenbankweite Sperre besteht.
  *
  * @param string $username Loginname.
  * @return bool True bei Erfolg, sonst false.
  */
 private function isLoginRateLimited(string $username): bool
     {
-        $store = $_SESSION['_login_guard'] ?? [];
-        if (!is_array($store)) {
-            return false;
-        }
+        $stmt = Database::getInstance()->getConnection()->prepare(
+            'SELECT locked_until FROM login_attempts WHERE attempt_key = :attempt_key'
+        );
+        $stmt->execute(['attempt_key' => $this->loginKey($username)]);
+        $row = $stmt->fetch();
 
-        $key = $this->loginKey($username);
-        $row = $store[$key] ?? null;
-        if (!is_array($row)) {
-            return false;
-        }
-
-        $lockUntil = (int)($row['lock_until'] ?? 0);
-        return $lockUntil > time();
+        return is_array($row) && (int)$row['locked_until'] > time();
     }
 
 /**
- * Zählt einen Fehlversuch in der aktiven Session; ab fünf Versuchen innerhalb zehn Minuten sperrt es fünf Minuten und verzögert 300 ms.
+ * Zählt einen Fehlversuch datenbankweit; ab fünf Versuchen innerhalb zehn Minuten sperrt es fünf Minuten und verzögert 300 ms.
  *
  * @param string $username Loginname für den Rate-Limit-Schlüssel.
  * @return void Kein Rueckgabewert.
  */
 private function registerLoginFailure(string $username): void
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            return;
-        }
-
-        $key = $this->loginKey($username);
-        $store = $_SESSION['_login_guard'] ?? [];
-        if (!is_array($store)) {
-            $store = [];
-        }
-
         $now = time();
-        $row = $store[$key] ?? ['count' => 0, 'first' => $now, 'lock_until' => 0];
-        $count = (int)($row['count'] ?? 0);
-        $first = (int)($row['first'] ?? $now);
-        if (($now - $first) > 600) {
-            $count = 0;
-            $first = $now;
-        }
-        $count++;
+        $cutoff = $now - 600;
+        $stmt = Database::getInstance()->getConnection()->prepare(
+            'INSERT INTO login_attempts (attempt_key, attempts, window_started_at, locked_until, updated_at)
+             VALUES (?, 1, ?, 0, ?)
+             ON DUPLICATE KEY UPDATE
+                locked_until = IF(window_started_at <= ?, 0, IF(attempts + 1 >= 5, ?, locked_until)),
+                attempts = IF(window_started_at <= ?, 1, attempts + 1),
+                window_started_at = IF(window_started_at <= ?, ?, window_started_at),
+                updated_at = ?'
+        );
+        $stmt->execute([
+            $this->loginKey($username),
+            $now,
+            $now,
+            $cutoff,
+            $now + 300,
+            $cutoff,
+            $cutoff,
+            $now,
+            $now,
+        ]);
 
-        $lockUntil = 0;
-        if ($count >= 5) {
-            $lockUntil = $now + 300;
-        }
-
-        $store[$key] = [
-            'count' => $count,
-            'first' => $first,
-            'lock_until' => $lockUntil,
-        ];
-        $_SESSION['_login_guard'] = $store;
+        $cleanup = Database::getInstance()->getConnection()->prepare(
+            'DELETE FROM login_attempts WHERE updated_at < ?'
+        );
+        $cleanup->execute([$now - 86400]);
         usleep(300000);
     }
 
 /**
- * Entfernt den Rate-Limit-Eintrag dieses Benutzers und der Client-IP aus der aktiven Session.
+ * Entfernt den Rate-Limit-Eintrag dieses Benutzers und der Client-IP.
  *
  * @param string $username Erfolgreich angemeldeter Benutzername.
  * @return void Kein Rueckgabewert.
  */
 private function clearLoginFailures(string $username): void
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            return;
-        }
-
-        $key = $this->loginKey($username);
-        if (isset($_SESSION['_login_guard']) && is_array($_SESSION['_login_guard'])) {
-            unset($_SESSION['_login_guard'][$key]);
-        }
+        $stmt = Database::getInstance()->getConnection()->prepare(
+            'DELETE FROM login_attempts WHERE attempt_key = :attempt_key'
+        );
+        $stmt->execute(['attempt_key' => $this->loginKey($username)]);
     }
 
 /**

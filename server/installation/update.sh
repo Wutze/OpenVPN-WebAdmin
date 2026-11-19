@@ -106,11 +106,14 @@ deploy_site_update() {
     --exclude='*.ovpn' \
     --include='*/' \
     --include='*.php' \
+    --include='*.sql' \
     --include='public/css/index.css' \
     --include='*.js' \
     --include='*.md' \
     --exclude='*' \
     "${SOURCE_DIR}/" "${DEPLOY_DIR}/" >>"${LOG_FILE}" 2>&1
+
+  php "${DEPLOY_DIR}/server/installation/migrate.php" >>"${LOG_FILE}" 2>&1
 
   find "${DEPLOY_DIR}" -type f -name '*.php' ! -path "${DEPLOY_DIR}/config/config.php" -exec chown "${deploy_uid}:${deploy_gid}" {} + >>"${LOG_FILE}" 2>&1
 
