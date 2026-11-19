@@ -41,15 +41,12 @@ public function __construct()
  * @param string|null $search Teiltext für Benutzername, vertrauenswürdige IP oder Remote-IP; null/leer ohne Filter.
  * @return array<int, array<string, mixed>> Assoziative PDO-Zeilen aus der Tabelle `log`.
  */
-public function getAllLogs(int $limit = 50, int $offset = 0, string $search = null): array
+public function getAllLogs(int $limit = 50, int $offset = 0, ?string $search = null): array
     {
         $sql = "SELECT * FROM log WHERE 1";
         $params = [];
 
-        if ($search) {
-            $sql .= " AND (user_name LIKE :search OR log_trusted_ip LIKE :search OR log_remote_ip LIKE :search)";
-            $params[':search'] = "%$search%";
-        }
+        $sql .= $this->searchFilter($search, $params);
 
         $sql .= " ORDER BY log_start_time DESC LIMIT :limit OFFSET :offset";
         $stmt = $this->db->prepare($sql);
@@ -71,15 +68,12 @@ public function getAllLogs(int $limit = 50, int $offset = 0, string $search = nu
  * @param string|null $search Teiltext für Benutzername, vertrauenswürdige IP oder Remote-IP.
  * @return int Zahl der passenden Logeinträge.
  */
-public function countLogs(string $search = null): int
+public function countLogs(?string $search = null): int
     {
         $sql = "SELECT COUNT(*) as cnt FROM log WHERE 1";
         $params = [];
 
-        if ($search) {
-            $sql .= " AND (user_name LIKE :search OR log_trusted_ip LIKE :search OR log_remote_ip LIKE :search)";
-            $params[':search'] = "%$search%";
-        }
+        $sql .= $this->searchFilter($search, $params);
 
         $stmt = $this->db->prepare($sql);
         foreach ($params as $k => $v) {
@@ -88,5 +82,24 @@ public function countLogs(string $search = null): int
         $stmt->execute();
 
         return (int)$stmt->fetchColumn();
+    }
+
+/**
+ * Baut für beide Logabfragen denselben Filter mit getrennten PDO-Platzhaltern.
+ *
+ * @param array<string, string> $params Bindewerte der Abfrage.
+ */
+private function searchFilter(?string $search, array &$params): string
+    {
+        if ($search === null || $search === '') {
+            return '';
+        }
+
+        $pattern = '%' . $search . '%';
+        $params[':user_search'] = $pattern;
+        $params[':trusted_ip_search'] = $pattern;
+        $params[':remote_ip_search'] = $pattern;
+
+        return ' AND (user_name LIKE :user_search OR log_trusted_ip LIKE :trusted_ip_search OR log_remote_ip LIKE :remote_ip_search)';
     }
 }
