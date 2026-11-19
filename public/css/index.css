@@ -247,6 +247,11 @@ del{
   color: #ffffff;
 }
 
+.form-control{
+  border-color: #6a83f1;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 .form-control:focus,
 .form-select:focus {
   border-color: #27a3ba;
