@@ -103,22 +103,6 @@ public function handleLogin(): void
         if ($user) {
             $storedHash = (string)($user['user_pass'] ?? '');
             $validPassword = password_verify($password, $storedHash);
-
-            // Legacy-Fallback: Klartext / md5 / sha1; bei Erfolg direkt auf password_hash migrieren.
-            if (!$validPassword) {
-                $legacyMatch = hash_equals($storedHash, $password)
-                    || hash_equals($storedHash, md5($password))
-                    || hash_equals($storedHash, sha1($password));
-                if ($legacyMatch) {
-                    $validPassword = true;
-                    $newHash = password_hash($password, PASSWORD_DEFAULT);
-                    $upd = $db->prepare("UPDATE user SET user_pass = :pass WHERE uid = :uid");
-                    $upd->execute([
-                        'pass' => $newHash,
-                        'uid' => $user['uid'],
-                    ]);
-                }
-            }
         }
 
         if ($user && $validPassword) {

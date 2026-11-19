@@ -652,12 +652,13 @@ private function getLoginDiagnostics(): array
                 $rows = $stmt->fetchAll();
                 $out['users_preview'] = array_map(static function (array $u): array {
                     $hash = (string)($u['user_pass'] ?? '');
-                    $format = 'legacy_or_plain';
-                    if (str_starts_with($hash, '$2y$') || str_starts_with($hash, '$argon2')) {
-                        $format = 'password_hash';
-                    } elseif (preg_match('/^[a-f0-9]{32}$/i', $hash)) {
+                    $passwordInfo = password_get_info($hash);
+                    $format = ($passwordInfo['algoName'] ?? 'unknown') !== 'unknown'
+                        ? 'password_hash'
+                        : 'legacy_or_plain';
+                    if ($format === 'legacy_or_plain' && preg_match('/^[a-f0-9]{32}$/i', $hash)) {
                         $format = 'md5';
-                    } elseif (preg_match('/^[a-f0-9]{40}$/i', $hash)) {
+                    } elseif ($format === 'legacy_or_plain' && preg_match('/^[a-f0-9]{40}$/i', $hash)) {
                         $format = 'sha1';
                     }
 
@@ -686,7 +687,8 @@ private function getLoginDiagnostics(): array
                     ];
                 } else {
                     $storedHash = (string)($user['user_pass'] ?? '');
-                    $isPasswordHash = str_starts_with($storedHash, '$2y$') || str_starts_with($storedHash, '$argon2');
+                    $passwordInfo = password_get_info($storedHash);
+                    $isPasswordHash = ($passwordInfo['algoName'] ?? 'unknown') !== 'unknown';
                     $matches = null;
                     $match_type = null;
 
@@ -694,15 +696,6 @@ private function getLoginDiagnostics(): array
                         if (password_verify($password, $storedHash)) {
                             $matches = true;
                             $match_type = 'password_hash';
-                        } elseif (hash_equals($storedHash, $password)) {
-                            $matches = true;
-                            $match_type = 'plaintext';
-                        } elseif (hash_equals($storedHash, md5($password))) {
-                            $matches = true;
-                            $match_type = 'md5';
-                        } elseif (hash_equals($storedHash, sha1($password))) {
-                            $matches = true;
-                            $match_type = 'sha1';
                         } else {
                             $matches = false;
                             $match_type = 'no_match';
