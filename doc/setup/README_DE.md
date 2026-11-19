@@ -30,7 +30,7 @@ Du kannst zwischen verschiedenen Optionen wählen, die hoffentlich selbsterklär
 
 Sobald das Setup erfolgreich abgeschlossen und der Apache-Webserver konfiguriert wurde, kannst du dich mit den zuvor eingegebenen Zugangsdaten anmelden.
 
-![OpenVPN-WebAdmin Setup](img/setup-demo.gif)
+![OpenVPN-WebAdmin Setup](../img/setup-demo.gif)
 
 ### Setup von OpenVPN und RSA-Schlüsseln
 

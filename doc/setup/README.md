@@ -30,7 +30,7 @@ You can choose between several options, which should hopefully be self-explanato
 
 Once the setup has completed successfully and the Apache web server has been configured, you can log in using the credentials you entered earlier.
 
-![OpenVPN-WebAdmin Setup](img/setup-demo.gif)
+![OpenVPN-WebAdmin Setup](../img/setup-demo.gif)
 
 ### Setting up OpenVPN and RSA keys
 
