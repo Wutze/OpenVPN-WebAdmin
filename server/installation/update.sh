@@ -97,6 +97,7 @@ deploy_site_update() {
     --exclude='config/config.php' \
     --exclude='.env' \
     --exclude='*' \
+    --exclude='*.ovpn' \
     "${SOURCE_DIR}/" "${DEPLOY_DIR}/" >>"${LOG_FILE}" 2>&1
 
   find "${DEPLOY_DIR}" -type f -name '*.php' ! -path "${DEPLOY_DIR}/config/config.php" -exec chown "${deploy_uid}:${deploy_gid}" {} + >>"${LOG_FILE}" 2>&1

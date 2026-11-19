@@ -4,9 +4,9 @@
 /config/config.php
 
 # Generated OpenVPN artifacts and secrets
-/storage/conf/**/*.ovpn
+!/storage/conf/**/*.ovpn
 !/storage/conf/**/history/
-
+/storage/conf/**/history/*
 
 # Runtime logs
 /storage/logs/*.log
