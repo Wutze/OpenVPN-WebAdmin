@@ -540,12 +540,12 @@ private function isSafeRedirectTarget(string $target): bool
  *
  * Security-Matrix (Single Source of Truth):
  *
- * OP               Login required   Admin required   CSRF+Origin on POST
+ * OP               Login required   Admin required   Method / CSRF+Origin
  * ----------------------------------------------------------------------
  * login            no               no               no
  * checklogin       no               no               no
  * setlang          yes              no               no (GET only)
- * logout           yes              no               yes
+ * logout           yes              no               POST only; CSRF+Origin
  * dashboard/main   yes              no               n/a
  * account          yes              no               n/a
  * profiles         yes              no               n/a
@@ -568,6 +568,14 @@ private function enforceAccessPolicy(): void
 
         if (!$isAuthFree && !Session::isUser()) {
             header('Location: ' . \Url::op('login'));
+            exit;
+        }
+
+        if ($this->action === 'logout' && $method !== 'POST') {
+            http_response_code(405);
+            header('Allow: POST');
+            header('Content-Type: text/plain; charset=utf-8');
+            echo Lang::get('_API_METHOD_NOT_ALLOWED');
             exit;
         }
 
