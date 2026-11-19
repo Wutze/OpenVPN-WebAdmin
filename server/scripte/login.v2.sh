@@ -36,11 +36,11 @@ set -o pipefail
 CCD_DIR="/etc/openvpn/ccd"
 
 # --------------------------------------------------
-# Logging
+# Logging, to original openvpn.log
 # --------------------------------------------------
 
 ovpn_log() {
-    echo "$(LC_TIME=C date '+%a %b %d %H:%M:%S %Y') [OVPN] $*" >> /var/log/openvpn.log
+    echo "$(LC_TIME=C date '+%a %b %d %H:%M:%S %Y') [OVPN] $*" >> /var/log/openvpn/openvpn.log
 }
 
 # --------------------------------------------------
