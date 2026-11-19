@@ -116,7 +116,7 @@ public function saveConfig(string $system, string $content): array
                     throw new \RuntimeException('Vorherige Konfiguration konnte nicht archiviert werden.');
                 }
             } catch (\Throwable $e) {
-                Debug::log('saveConfig history archive failed', $e->getMessage(), ['system' => $system, 'path' => $path]);
+                Debug::logException($e, 'saveConfig history archive failed: ' . $path);
                 // Don't report a successful history update when the snapshot failed.
                 // The config save remains available, and the caller can surface this state.
                 $historyFile = null;

@@ -109,7 +109,7 @@ public function read($id): string|false
             return $data ?: '';
         } catch (Throwable $e) {
             if (class_exists(Debug::class)) {
-                Debug::log('Session read fallback', $e->getMessage());
+                Debug::logException($e, 'Session read fallback');
             }
             return '';
         }
@@ -142,7 +142,7 @@ public function write($id, $data): bool
             ]);
         } catch (Throwable $e) {
             if (class_exists(Debug::class)) {
-                Debug::log('Session write fallback', $e->getMessage());
+                Debug::logException($e, 'Session write fallback');
             }
             return false;
         }
@@ -162,7 +162,7 @@ public function destroy($id): bool
             return $stmt->execute([':id' => $id]);
         } catch (Throwable $e) {
             if (class_exists(Debug::class)) {
-                Debug::log('Session destroy fallback', $e->getMessage());
+                Debug::logException($e, 'Session destroy fallback');
             }
             return true;
         }
@@ -181,7 +181,7 @@ public function gc($max_lifetime): int|false
             return $this->db->exec($sql);
         } catch (Throwable $e) {
             if (class_exists(Debug::class)) {
-                Debug::log('Session gc fallback', $e->getMessage());
+                Debug::logException($e, 'Session gc fallback');
             }
             return 0;
         }
@@ -214,14 +214,6 @@ public function gc($max_lifetime): int|false
                 'samesite' => 'Strict',
             ]);
             session_start();
-
-            if (class_exists(Debug::class)) {
-                Debug::log('Session start', [
-                    'driver' => 'native',
-                    'session_id' => session_id(),
-                    'cookie_name' => session_name(),
-                ]);
-            }
         }
     }
 
@@ -306,7 +298,7 @@ public static function regenerateId(): void
                 }
             } catch (\Throwable $e) {
                 if (class_exists(Debug::class)) {
-                    Debug::log('Session::isAdmin DB check failed', $e->getMessage());
+                    Debug::logException($e, 'Session::isAdmin DB check failed');
                 }
             }
         }

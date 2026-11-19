@@ -66,10 +66,8 @@ public function handleLogin(): void
             Debug::log('LOGIN blocked rate limit', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
             $this->redirect(\Url::op('login', ['error' => 'invalid']));
         }
-        Debug::log('LOGIN attempt', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
-
         if (empty($username) || empty($password)) {
-            Debug::log("Leere Logindaten");
+            Debug::log('LOGIN empty credentials', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
             $this->registerLoginFailure($username);
             $this->redirect(\Url::op('login', ['error' => 'empty']));
         }
@@ -84,9 +82,8 @@ public function handleLogin(): void
             ");
             $stmt->execute(['username' => $username]);
             $user = $stmt->fetch();
-            Debug::log('LOGIN user lookup (join)', ['user_ref' => $this->auditUserRef($username), 'found' => (bool)$user]);
         } catch (PDOException $e) {
-            Debug::log('Login JOIN fallback', $e->getMessage());
+            Debug::logException($e, 'Login JOIN fallback');
             try {
                 $stmt = $db->prepare("SELECT * FROM user WHERE user_name = :username LIMIT 1");
                 $stmt->execute(['username' => $username]);
@@ -94,9 +91,9 @@ public function handleLogin(): void
                 if ($user) {
                     $user['role_name'] = '';
                 }
-                Debug::log('LOGIN user lookup (fallback)', ['user_ref' => $this->auditUserRef($username), 'found' => (bool)$user]);
             } catch (\Throwable $inner) {
-                Debug::log('Login fallback query failed', $inner->getMessage());
+                Debug::logException($inner, 'Login fallback query failed');
+                Debug::log('LOGIN failed database query', ['user_ref' => $this->auditUserRef($username), 'ip' => $this->clientIp()]);
                 $this->registerLoginFailure($username);
                 $this->redirect(\Url::op('login', ['error' => 'invalid']));
             }
@@ -120,7 +117,6 @@ public function handleLogin(): void
                         'pass' => $newHash,
                         'uid' => $user['uid'],
                     ]);
-                    Debug::log('LOGIN legacy password migrated', ['user_ref' => $this->auditUserRef($username), 'uid' => (int)$user['uid']]);
                 }
             }
         }
@@ -130,10 +126,6 @@ public function handleLogin(): void
             Session::regenerateId();
             $roleName = (string)($user['role_name'] ?? '');
             $isAdmin = ((int)($user['gid'] ?? 0) === 1) || $this->isStrictAdminRoleName($roleName);
-            Debug::log('LOGIN session before set', [
-                'session_id' => session_id(),
-                'session_status' => session_status(),
-            ]);
             Session::setVar('user', [
                 'uid'  => $user['uid'],
                 'name' => $user['user_name'],
@@ -142,7 +134,6 @@ public function handleLogin(): void
                 'is_admin' => $isAdmin
             ]);
             session_write_close();
-            Debug::log('LOGIN success', ['user_ref' => $this->auditUserRef($username), 'uid' => (int)$user['uid'], 'is_admin' => $isAdmin]);
             $this->redirect(\Url::op('dashboard'));
         } else {
             $this->registerLoginFailure($username);

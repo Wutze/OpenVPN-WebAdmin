@@ -163,7 +163,7 @@ self::$buffer[] = $HTML;
     }
 
     /**
-     * Debug-Ausgabe in Logfile
+     * Schreibt fehlgeschlagene Loginversuche bei aktiviertem Debugging in die Debug-Logdatei.
      */
     public static function log(...$vars): void
     {

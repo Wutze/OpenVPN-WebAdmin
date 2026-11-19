@@ -567,12 +567,6 @@ private function enforceAccessPolicy(): void
         $isAuthFree = in_array($this->action, ['login', 'checklogin', 'loginasset'], true);
 
         if (!$isAuthFree && !Session::isUser()) {
-            Debug::log('AUTH redirect to login', [
-                'action' => $this->action,
-                'session_id' => session_id(),
-                'cookie_present' => isset($_COOKIE[session_name()]),
-                'cookie_name' => session_name(),
-            ]);
             header('Location: ' . \Url::op('login'));
             exit;
         }

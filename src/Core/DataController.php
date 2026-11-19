@@ -466,9 +466,6 @@ private function handleConfigPost(): void
             ]);
         } catch (\Throwable $e) {
             Debug::logException($e, 'handleConfigPost');
-            Debug::log('handleConfigPost', $e->getMessage(), [
-                'system' => $system,
-            ]);
             $this->json([
                 'status' => 'error',
                 'message' => $e->getMessage() !== '' ? $e->getMessage() : $this->msg('_MSG_GENERIC_ERROR'),
@@ -720,7 +717,7 @@ private function getLoginDiagnostics(): array
                 }
             }
         } catch (\Throwable $e) {
-            Debug::log('diag_login failed', $e->getMessage());
+            Debug::logException($e, 'diag_login failed');
             $out['status'] = 'error';
             $out['db_connection'] = 'failed';
             $out['message'] = 'internal_error';
@@ -754,7 +751,6 @@ private function getLoginDiagnostics(): array
 private function internalError(string $context, \Throwable $e): void
     {
         Debug::logException($e, $context);
-        Debug::log($context, $e->getMessage());
         $this->json([
             'status' => 'error',
             'message' => $this->msg('_MSG_GENERIC_ERROR'),
