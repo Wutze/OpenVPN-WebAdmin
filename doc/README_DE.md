@@ -22,7 +22,7 @@ Folge den Fragen und Anweisungen, damit wird das OpenVPN-WebAdmin Frontend zuers
 
 Sobald das Setup erfolgreich beendet ist, der Apache-Webserver erfolgreich konfiguriert wurde, kannst du dich mit den zuvor eigegebenen Daten einloggen.
 
-![OpenVPN-WebAdmin Setup](doc/img/setup-demo.gif)
+![OpenVPN-WebAdmin Setup](img/setup-demo.gif)
 
 ### Setup openvpn und rsa keys
 
