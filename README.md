@@ -298,16 +298,19 @@ bash <(wget -qO- 'https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/maste
 
 Alles andere wird dann automatisch abgefragt und installiert.
 
-## Update (PHP only, keep server config)
+## Update
 
-Use the update script to refresh application PHP files without touching runtime configuration files.
+Use the update script to refresh application files and the OpenVPN integration scripts without touching runtime configuration files.
 
 ```bash
 sudo ./update.sh
 ```
 
 The updater:
-- copies only `*.php` files from source to deploy target
+- updates application PHP, JavaScript, CSS, and Markdown files
 - keeps `config/config.php` unchanged
 - keeps `.env` unchanged
+- keeps existing `.ovpn` templates unchanged
+- updates the OpenVPN shell scripts in the selected scripts directory (default `/etc/openvpn/scripts`) as `root:root` with mode `0750`
+- keeps the OpenVPN scripts' `config.sh` and local files absent from the source unchanged
 - does not run database migrations

@@ -28,12 +28,14 @@ SOURCE_DIR=""
 DEPLOY_DIR=""
 UPDATE_SOURCE="yes"
 SOURCE_BRANCH=""
+OPENVPN_SCRIPTS_DIR=""
 
 collect_update_inputs() {
   show_section "${MSG_SECTION_INPUT:-Update parameters}"
 
   ask_input SOURCE_DIR "${MSG_SOURCE_DIR:-Local source directory}" "${INSTALL_SOURCE_DIR}"
   ask_input DEPLOY_DIR "${MSG_DEPLOY_DIR:-WebAdmin target directory}" "${DEFAULT_DEPLOY_DIR}"
+  ask_input OPENVPN_SCRIPTS_DIR "${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}" "${DEFAULT_OPENVPN_SCRIPTS_DIR}"
   ask_yes_no UPDATE_SOURCE "${MSG_UPDATE_SOURCE:-Update source repository before deploy}" "yes"
 
   if [ "${UPDATE_SOURCE}" = "yes" ]; then
@@ -46,6 +48,8 @@ validate_update_inputs() {
 
   [ -d "${SOURCE_DIR}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${SOURCE_DIR}"
   [ -d "${DEPLOY_DIR}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${DEPLOY_DIR}"
+  ensure_absolute_path "${OPENVPN_SCRIPTS_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${OPENVPN_SCRIPTS_DIR}"
+  [ -d "${OPENVPN_SCRIPTS_DIR}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${OPENVPN_SCRIPTS_DIR}"
 
   if [ "${UPDATE_SOURCE}" = "yes" ] && [ ! -d "${SOURCE_DIR}/.git" ]; then
     fatal "${MSG_SOURCE_NOT_GIT:-Source directory is not a git repository}: ${SOURCE_DIR}"
@@ -58,11 +62,13 @@ confirm_update() {
   show_section "${MSG_SECTION_SUMMARY:-Summary}"
   echo " ${MSG_SOURCE_DIR:-Local source directory}: ${SOURCE_DIR}"
   echo " ${MSG_DEPLOY_DIR:-WebAdmin target directory}: ${DEPLOY_DIR}"
+  echo " ${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}: ${OPENVPN_SCRIPTS_DIR}"
   echo " ${MSG_UPDATE_SOURCE:-Update source repository before deploy}: ${UPDATE_SOURCE}"
   if [ "${UPDATE_SOURCE}" = "yes" ]; then
     echo " ${MSG_REPO_BRANCH:-Repository branch}: ${SOURCE_BRANCH}"
   fi
   echo " ${MSG_UPDATE_FILES:-PHP and Markdown files will be updated. config/config.php and .env stay unchanged.}"
+  echo " ${MSG_UPDATE_OPENVPN_SCRIPTS:-OpenVPN scripts will be updated; config.sh stays unchanged.}"
 
   ask_yes_no CONFIRM_UPDATE "${MSG_CONFIRM_UPDATE:-Start update with these settings}" "yes"
   [ "${CONFIRM_UPDATE}" = "yes" ] || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
@@ -85,24 +91,37 @@ deploy_site_update() {
   show_section "${MSG_SECTION_DEPLOY:-Deploy files}"
 
   local deploy_uid deploy_gid
+  local script
+  local -a openvpn_scripts=(connect.sh disconnect.sh functions.sh login.sh login.v2.sh)
+  for script in "${openvpn_scripts[@]}"; do
+    [ -f "${SOURCE_DIR}/server/scripte/${script}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${SOURCE_DIR}/server/scripte/${script}"
+  done
+  [ -d "${OPENVPN_SCRIPTS_DIR}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${OPENVPN_SCRIPTS_DIR}"
   deploy_uid="$(stat -c '%u' "${DEPLOY_DIR}")"
   deploy_gid="$(stat -c '%g' "${DEPLOY_DIR}")"
 
   rsync -rt \
+    --exclude='/config/config.php' \
+    --exclude='/.env' \
+    --exclude='*.ovpn' \
     --include='*/' \
     --include='*.php' \
     --include='public/css/index.css' \
     --include='*.js' \
     --include='*.md' \
-    --exclude='config/config.php' \
-    --exclude='.env' \
     --exclude='*' \
-    --exclude='*.ovpn' \
     "${SOURCE_DIR}/" "${DEPLOY_DIR}/" >>"${LOG_FILE}" 2>&1
 
   find "${DEPLOY_DIR}" -type f -name '*.php' ! -path "${DEPLOY_DIR}/config/config.php" -exec chown "${deploy_uid}:${deploy_gid}" {} + >>"${LOG_FILE}" 2>&1
 
+  rsync -rtpogc --chown=root:root --chmod=F750 \
+    --exclude='/config.sh' \
+    --include='/*.sh' \
+    --exclude='*' \
+    "${SOURCE_DIR}/server/scripte/" "${OPENVPN_SCRIPTS_DIR}/" >>"${LOG_FILE}" 2>&1
+
   ok "${MSG_UPDATE_DONE:-Application and help documentation update completed.}"
+  ok "${MSG_UPDATE_OPENVPN_DONE:-OpenVPN scripts updated; config.sh preserved.}"
 }
 
 main() {
@@ -129,4 +148,6 @@ main() {
   info "${MSG_LOG_HINT:-Log file}: ${LOG_FILE}"
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi

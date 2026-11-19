@@ -75,6 +75,8 @@ MSG_ADMIN_PASS="Initiales Admin Passwort"
 
 MSG_OPENVPN_CONF="Pfad zur OpenVPN server.conf"
 MSG_OPENVPN_SCRIPTS_DIR="OpenVPN Skriptverzeichnis"
+MSG_UPDATE_OPENVPN_SCRIPTS="OpenVPN-Skripte werden aktualisiert; config.sh bleibt unveraendert."
+MSG_UPDATE_OPENVPN_DONE="OpenVPN-Skripte aktualisiert; config.sh bleibt unveraendert."
 MSG_WEBSERVER_PACKAGE="Optionales Webserver Paket (none/apache2/nginx)"
 MSG_WEBSERVER_CONFIGURE="Webserver jetzt automatisch konfigurieren"
 MSG_WEBSERVER_CONFIGURE_EXISTING="Vorhandenen Webserver jetzt konfigurieren"
@@ -202,4 +204,3 @@ SET_CITY="Dortmund"
 SET_ORG="xVPN"
 SET_MAIL="mail@vpn.home"
 SET_OU="home"
-

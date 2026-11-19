@@ -199,6 +199,12 @@ Wichtige Verzeichnisse:
 
 Das Installationsskript und die zugehörigen Shell-Funktionen werden separat bereitgestellt.
 
+Beim Aufruf von `sudo ./update.sh` werden neben den Webadmin-Dateien auch die
+OpenVPN-Shellskripte im gewählten Skriptverzeichnis (standardmäßig
+`/etc/openvpn/scripts`) mit Eigentümer `root:root` und Modus `0750` aktualisiert.
+Die bestehende `config.sh`, nur lokal vorhandene Dateien, `config/config.php` und `.env`
+und bestehende `.ovpn`-Vorlagen bleiben unverändert.
+
 ### Storage und Serverkonfiguration
 
 Das Setup legt unter dem gewählten Deployment-Verzeichnis `storage/conf/{linux,osx,windows}/history`,

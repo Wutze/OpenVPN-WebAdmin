@@ -75,6 +75,8 @@ MSG_ADMIN_PASS="Mot de passe de l'admin initial"
 
 MSG_OPENVPN_CONF="Chemin de OpenVPN server.conf"
 MSG_OPENVPN_SCRIPTS_DIR="Repertoire scripts OpenVPN"
+MSG_UPDATE_OPENVPN_SCRIPTS="Les scripts OpenVPN seront mis a jour ; config.sh reste inchange."
+MSG_UPDATE_OPENVPN_DONE="Scripts OpenVPN mis a jour ; config.sh reste inchange."
 MSG_WEBSERVER_PACKAGE="Paquet webserver optionnel (none/apache2/nginx)"
 MSG_WEBSERVER_CONFIGURE="Configurer automatiquement le webserver maintenant"
 MSG_WEBSERVER_CONFIGURE_EXISTING="Configurer maintenant un webserver existant"
