@@ -46,6 +46,10 @@ Du musst - sobald neue Benutzer angelegt worden sind - das `openvpn-setup-easyrs
 
 Du hast zur Auswahl das Serverzetifikat zu erneuern oder die zertifikate für die Benutzer erstellen zu lassen. Die Daten werden aus der Datenbank bezogen und entsprechend sicher abgelegt.
 
+## Wichtig
+
+**Nach dem Stup und der Installation des OpenVPN-Server, ist es am einfachsten einen Neustart des gesamten Systems zu machen. Erst danach ist ganrantiert, dass Verbindungen mit dem Server möglich sind.**
+
 ## Systemupdate
 
 Das Systemupdate kannst du jederzeit durchführen mit:
