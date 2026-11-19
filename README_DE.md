@@ -1,7 +1,12 @@
 # OpenVPN-WebAdmin
+
 ## Release BETA 2.0.0
 
-**Eine webbasierte Administrationsoberfläche für OpenVPN-Server.**
+**Was lange währt, wird gut!**
+
+Ich hoffe, es gefällt euch ebenso wie mir. Über zwei Jahre habe ich an dieser Neuveröffentlichung gearbeitet. Ein Jahr später als angekündigt kommt nun die neue, vollständig neu geschriebene Version von **OpenVPN-WebAdmin**.
+
+### Eine webbasierte Administrationsoberfläche für OpenVPN-Server
 
 OpenVPN-WebAdmin ist eine Open-Source-PHP-Anwendung zur Verwaltung und Administration eines OpenVPN-Servers über einen Webbrowser. Das Projekt bietet eine übersichtliche und benutzerfreundliche Administrationsoberfläche, mit der sich wiederkehrende Verwaltungsaufgaben erledigen lassen, ohne dafür jeden Arbeitsschritt direkt auf der Kommandozeile ausführen zu müssen.
 
@@ -9,43 +14,36 @@ Die Anwendung richtet sich insbesondere an selbst betriebene Infrastrukturen, pr
 
 ---
 
-## Extended documentation
+## Setup-Dokumentation
 
-[🇩🇪 Dokumentation Deutsch](doc/README_DE.md)  
-[🇬🇧 Documentation English](doc/README.md)
+[🇩🇪 Dokumentation Deutsch](doc/setup/README_DE.md)
+
+[🇬🇧 Documentation English](doc/setup/README.md)
+
+[🇫🇷 Documentation Français](doc/setup/README_FR.md)
 
 ## Screenshots
 
-![Previsualisation Login](doc/img/login.png)
-![Previsualisation Administration](doc/img/overview.png)
-![Previsualisation Useradministration](doc/img/useradmin.png)
+![Login-Vorschau](doc/img/login.png)
+
+![Administrationsübersicht](doc/img/overview.png)
+
+![Benutzerverwaltung](doc/img/useradmin.png)
 
 ## Projektziele
 
 OpenVPN-WebAdmin basiert auf einigen grundlegenden Prinzipien:
 
 - **Selbst gehostet:** Die Anwendung wird auf der eigenen Infrastruktur betrieben.
-- **Mehrsprachigkeit:** Das System ist von Anfang an auf Mehrsprachigen Betrieb ausgelegt. Neue Sprache einkopieren - fertig
-- **Hilfestellungen:** Zu jedem Kontexteintrag, zu jeder Seite kann eine eigene Hilfeseite aufgebaut werden. Auch diese können Mehrsprachig sein. Neu anlegen, fertig
-- **Datenschutz:** Für die Frontend-Bereitstellung werden keine externen Dienste oder CDNs benötigt.
+- **Mehrsprachigkeit:** Das System ist von Anfang an auf den mehrsprachigen Betrieb ausgelegt. Neue Sprache hinzufügen – fertig.
+- **Hilfestellungen:** Zu jedem Kontexteintrag und jeder Seite kann eine eigene Hilfeseite erstellt werden. Auch diese können mehrsprachig sein. Neu anlegen – fertig.
+- **Datenschutz:** Für die Bereitstellung des Frontends werden keine externen Dienste oder CDNs benötigt.
 - **Unabhängigkeit:** Es wird weder eine Docker-Umgebung noch eine cloudbasierte Infrastruktur vorausgesetzt.
-- **Für Entwickler:** Es gibt ein eigenes, durchsuchbares System um die enthaltenen PHP Scripte nach ihren Funktionen und Klassen zu dokumentieren und zu suchen.
-
-## Installation
+- **Für Entwickler:** Es gibt ein eigenes, durchsuchbares System, um die enthaltenen PHP-Skripte nach ihren Funktionen und Klassen zu dokumentieren und zu durchsuchen.
 
 ### Systemvoraussetzungen
 
-Getestet und entwickelt unter **Debian 13**. Es genügt ein "nacktes" Betriebssystem, das Installations-Script installiert automatisch alle notwendigen Bibliotheken, je nach Auswahl eurer Setup-Konfigurastion.
-
-Start with Code:
-
-```code
-bash <(wget -qO- 'https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/master/install.sh')
-```
-
-```bash
-bash <(wget -qO- 'http://gitlab1.home/micro/openvpn-webadmin-intern/-/raw/main/setup.sh?ref_type=heads&inline=false')
-```
+Getestet und entwickelt unter **Debian 13**. Ein „nacktes“ Betriebssystem genügt. Das Installationsskript installiert automatisch alle notwendigen Bibliotheken, abhängig von der gewählten Setup-Konfiguration.
 
 ## Funktionen
 
@@ -67,14 +65,19 @@ Die Benutzeroberfläche basiert auf AdminLTE 3.2.0 und Bootstrap.
 
 ### Benutzer- und Clientverwaltung
 
-Die Benutzer werden zentral über die Datenbank verwaltet. Jedem Benutzer wird eine eigene OpenVPN-Client-Identität zugeordnet. Der Benutzername wird dabei als Common Name (CN) des entsprechenden Client-Zertifikats verwendet. 
+Die Benutzer werden zentral über die Datenbank verwaltet. Jedem Benutzer wird eine eigene OpenVPN-Client-Identität zugeordnet. Der Benutzername wird dabei als Common Name (CN) des entsprechenden Client-Zertifikats verwendet.
+
 Jedem Benutzer kann eine feste VPN-IP-Adresse zugewiesen werden. Die Zuordnung erfolgt über die OpenVPN-Verbindungsskripte. Beim Verbindungsaufbau wird die zugewiesene Adresse aus der Datenbank abgerufen und OpenVPN zur Verfügung gestellt.
 
 Dadurch entsteht eine nachvollziehbare und zentral verwaltete IP-Adressvergabe, anstatt ausschließlich auf dynamisch zugewiesene Client-Adressen zurückzugreifen.
 
 ### Integration in OpenVPN
 
-OpenVPN-WebAdmin besitzt eigene Verbindungs- und Trennungsskripte zum logging der Benutzeraktivitäten. Diese Skripte kommunizieren mit der Anwendungsdatenbank und verarbeiten die zugehörigen Verbindungsereignisse. Die Webanwendung und der OpenVPN-Server bleiben eigenständige Komponenten. Für die reguläre Benutzerverwaltung benötigt die Webanwendung keine uneingeschränkten Root-Rechte. *Ausnahme:* Es werden neue Benutzer angelegt, hierfür muss ein Script auf dem Server ausgeführt werden. Diese dienen der Erstellung und Verwaltung von Zertifikaten und deren privaten Schlüsseln. Das bleibt bewusst außerhalb der Webanwendung. Dadurch wird vermieden, dass sensibles kryptografisches Schlüsselmaterial unmittelbar der Weboberfläche unterliegt.
+OpenVPN-WebAdmin besitzt eigene Verbindungs- und Trennungsskripte zur Protokollierung der Benutzeraktivitäten. Diese Skripte kommunizieren mit der Anwendungsdatenbank und verarbeiten die zugehörigen Verbindungsereignisse.
+
+Die Webanwendung und der OpenVPN-Server bleiben eigenständige Komponenten. Für die reguläre Benutzerverwaltung benötigt die Webanwendung keine uneingeschränkten Root-Rechte.
+
+**Ausnahme:** Neue Benutzer werden angelegt. Hierfür muss ein Skript auf dem Server ausgeführt werden. Dieses dient der Erstellung und Verwaltung von Zertifikaten und deren privaten Schlüsseln. Das bleibt bewusst außerhalb der Webanwendung. Dadurch wird vermieden, dass sensibles kryptografisches Schlüsselmaterial unmittelbar der Weboberfläche unterliegt.
 
 ## Technische Architektur
 
@@ -108,15 +111,13 @@ Das bietet mehrere Vorteile:
 - Vollständige Kontrolle über die verwendeten Bibliotheksversionen.
 - Vorhersehbares Verhalten der Benutzeroberfläche.
 
-Die Frontend-Dateien werden unabhängig von der eigentlichen Anwendung vorbereitet. Der Build-Prozess verwendet Node.js und npm ausschließlich auf dem Entwicklungsrechner. Die fertigen Dateien werden anschließend in einem TAR.GZ-Archiv zusammengefasst und mit einer SHA256-Prüfsumme versehen.
-
-Während der Installation wird das vorbereitete Archiv überprüft und automatisch bereitgestellt. Wenn ein vorbereitetes Asset-Archiv mitgeliefert wird, sind Node.js und npm auf dem Produktivserver nicht erforderlich. 
+Die Frontend-Dateien werden unabhängig von der eigentlichen Anwendung vorbereitet. Der Build-Prozess verwendet Node.js und npm. Die fertigen Dateien werden anschließend in einem TAR.GZ-Archiv zusammengefasst und mit einer SHA256-Prüfsumme versehen. Während der Installation wird das vorbereitete Archiv überprüft und automatisch bereitgestellt. Wenn ein vorbereitetes Asset-Archiv mitgeliefert wird, sind Node.js und npm auf dem Produktivserver nicht erforderlich.
 
 Weitere Informationen dazu befinden sich in der Projektdokumentation unter *Lokale Bereitstellung der Frontend-Bibliotheken*.
 
 ## Installation
 
-OpenVPN-WebAdmin verfügt über ein interaktives Installationsskript. Das Setup führt den Administrator durch die erforderlichen Konfigurationseinstellungen.
+OpenVPN-WebAdmin verfügt über ein interaktives Installationsskript. Das Setup führt den Administrator durch die erforderlichen Konfigurationseinstellungen. Es ist derzeit in Englisch, Deutsch und Französisch verfügbar.
 
 Die Installation umfasst:
 
@@ -150,7 +151,6 @@ Für die Installation werden benötigt:
 - PHP mit den benötigten PHP-Erweiterungen.
 - MariaDB oder MySQL.
 - Apache 2 oder Nginx.
-- Ein installierter oder separat vorbereiteter OpenVPN-Server.
 - Git und die benötigten Systemwerkzeuge.
 
 Welche Pakete tatsächlich benötigt werden, richtet sich nach den gewählten Installationsoptionen.
@@ -199,37 +199,31 @@ Wichtige Verzeichnisse:
 
 Das Installationsskript und die zugehörigen Shell-Funktionen werden separat bereitgestellt.
 
-Beim Aufruf von `sudo ./update.sh` werden neben den Webadmin-Dateien auch die
-OpenVPN-Shellskripte im gewählten Skriptverzeichnis (standardmäßig
-`/etc/openvpn/scripts`) mit Eigentümer `root:root` und Modus `0750` aktualisiert.
-Die bestehende `config.sh`, nur lokal vorhandene Dateien, `config/config.php` und `.env`
-und bestehende `.ovpn`-Vorlagen bleiben unverändert.
+Beim Aufruf von `sudo ./update.sh` werden neben den Webadmin-Dateien auch die OpenVPN-Shellskripte im gewählten Skriptverzeichnis (standardmäßig `/etc/openvpn/scripts`) mit Eigentümer `root:root` und Modus `0750` aktualisiert.
+
+Die bestehende `config.sh`, nur lokal vorhandene Dateien, `config/config.php` und `.env` sowie bestehende `.ovpn`-Vorlagen bleiben unverändert.
 
 ### Storage und Serverkonfiguration
 
-Das Setup legt unter dem gewählten Deployment-Verzeichnis `storage/conf/{linux,osx,windows}/history`,
-`storage/conf/history/server` und `storage/logs` an. Fehlende `client.ovpn`- und
-`update-resolv.sh`-Vorlagen werden kopiert; vorhandene Storage-Dateien bleiben erhalten.
-Die beschreibbaren Verzeichnisse gehören `www-data:www-data` und haben Modus `2770`
-(Setgid); Default-ACLs gewähren auch einem abweichenden Webserver-Benutzer Zugriff.
-Vorhandene Dateien werden für diese Benutzer les- und schreibbar gesetzt; andere Benutzer
-haben keinen Zugriff. Vererbte ACLs gelten nur innerhalb der vom Ersteller angeforderten
-Rechte: ausdrücklich mit `0600` angelegte Dateien bleiben für andere Benutzer gesperrt.
+Das Setup legt unter dem gewählten Deployment-Verzeichnis `storage/conf/{linux,osx,windows}/history`, `storage/conf/history/server` und `storage/logs` an. Fehlende `client.ovpn`- und `update-resolv.sh`-Vorlagen werden kopiert; vorhandene Storage-Dateien bleiben erhalten.
+
+Die beschreibbaren Verzeichnisse gehören `www-data:www-data` und haben Modus `2770` (Setgid). Default-ACLs gewähren auch einem abweichenden Webserver-Benutzer Zugriff.
+
+Vorhandene Dateien werden für diese Benutzer les- und schreibbar gesetzt; andere Benutzer haben keinen Zugriff. Vererbte ACLs gelten nur innerhalb der vom Ersteller angeforderten Rechte: ausdrücklich mit `0600` angelegte Dateien bleiben für andere Benutzer gesperrt.
+
 Das Setup prüft die tatsächlichen Zugriffe und bricht bei Fehlern ab.
 
-Beim Einrichten oder Erneuern des VPN-Servers fragt `server/installation/openvpn-setup-easyrsa.sh`
-das Deployment-Verzeichnis ab. Es erzeugt dort `storage/conf/server/server.conf` als
-symbolischen Link auf `/etc/openvpn/server.conf`. Eine vorhandene Datei oder ein anderer
-Link wird zuvor unter einem eindeutigen `.bak.*`-Namen gesichert. Das Linkverzeichnis
-gehört `root:www-data` (Modus `0750`), die Serverdatei `root:www-data` (Modus `0640`):
-`www-data` und der Deployment-Eigentümer erhalten per ACL höchstens Lesezugriff;
-das Deployment darf nicht `root` gehören. Die Webadmin-Ansicht verlinkter
-Serverkonfigurationen ist deshalb schreibgeschützt; lokale, nicht verlinkte
-Konfigurationen behalten ihr bisheriges Speicherverhalten.
+Beim Einrichten oder Erneuern des VPN-Servers fragt `server/installation/openvpn-setup-easyrsa.sh` das Deployment-Verzeichnis ab. Es erzeugt dort `storage/conf/server/server.conf` als symbolischen Link auf `/etc/openvpn/server.conf`. Eine vorhandene Datei oder ein anderer Link wird zuvor unter einem eindeutigen `.bak.*`-Namen gesichert.
+
+Das Linkverzeichnis gehört `root:www-data` (Modus `0750`), die Serverdatei `root:www-data` (Modus `0640`): `www-data` und der Deployment-Eigentümer erhalten per ACL höchstens Lesezugriff; das Deployment darf nicht `root` gehören.
+
+Die Webadmin-Ansicht verlinkter Serverkonfigurationen ist deshalb schreibgeschützt. Lokale, nicht verlinkte Konfigurationen behalten ihr bisheriges Speicherverhalten.
 
 ## Entwicklung
 
-OpenVPN-WebAdmin wird mit dem Ziel entwickelt, einen nachvollziehbaren und wartbaren Quellcode bereitzustellen. Das Projekt setzt auf etablierte Technologien und vermeidet die Notwendigkeit einer umfangreichen zusätzlichen Laufzeitumgebung. Die Frontend-Bibliotheken werden auf dem Entwicklungsrechner über npm verwaltet. Ihre Versionen werden in `package.json` und `package-lock.json` festgelegt.
+OpenVPN-WebAdmin wird mit dem Ziel entwickelt, einen nachvollziehbaren und wartbaren Quellcode bereitzustellen. Das Projekt setzt auf etablierte Technologien und vermeidet die Notwendigkeit einer umfangreichen zusätzlichen Laufzeitumgebung.
+
+Die Frontend-Bibliotheken werden auf dem Entwicklungsrechner über npm verwaltet. Ihre Versionen werden in `package.json` und `package-lock.json` festgelegt.
 
 Die vorbereiteten Frontend-Dateien werden anschließend in die Anwendungsbereitstellung übernommen. Die Entwicklungsumgebung mit Node.js und npm ist auf dem Produktivserver nicht erforderlich.
 
