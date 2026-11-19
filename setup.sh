@@ -27,7 +27,7 @@ if [ -x "${SELF_DIR}/server/installation/setup.sh" ]; then
 fi
 
 # Standalone bootstrap mode (script downloaded alone).
-REPO_URL="${OVPN_SETUP_REPO_URL:-http://gitlab1.home/micro/openvpn-webadmin-intern.git}"
+REPO_URL="${OVPN_SETUP_REPO_URL:-https://github.com/Wutze/OpenVPN-WebAdmin.git}"
 REPO_BRANCH="${OVPN_SETUP_REPO_BRANCH:-main}"
 WORK_DIR="${OVPN_SETUP_WORKDIR:-/tmp/openvpn-webadmin-setup-src}"
 

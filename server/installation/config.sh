@@ -21,7 +21,7 @@
 
 # Git source for the application code.
 # Replace these values to switch to a different internal repository.
-INSTALL_REPO_URL="${INSTALL_REPO_URL:-http://gitlab1.home/micro/openvpn-webadmin-intern.git}"
+INSTALL_REPO_URL="${INSTALL_REPO_URL:-https://github.com/Wutze/OpenVPN-WebAdmin.git}"
 INSTALL_REPO_BRANCH="${INSTALL_REPO_BRANCH:-main}"
 INSTALL_SOURCE_DIR="${INSTALL_SOURCE_DIR:-/opt/openvpn-webadmin-src}"
 
