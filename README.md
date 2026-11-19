@@ -2,6 +2,12 @@
 
 ## Release BETA 2.0.0
 
+[🇩🇪 German documentation](README_DE.md)
+
+[🇬🇧 English documentation](README.md)
+
+[🇫🇷 French documentation](README_FR.md)
+
 **All good things take time!**
 
 I hope you like it as much as I do. I have spent over two years working on this release. Arriving a year later than announced, here is the new, completely rewritten version of **OpenVPN-WebAdmin**.

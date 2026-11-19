@@ -2,6 +2,12 @@
 
 ## Installation
 
+[🇩🇪 German documentation](README_DE.md)
+
+[🇬🇧 English documentation](README.md)
+
+[🇫🇷 French documentation](README_FR.md)
+
 ### System requirements
 
 Developed and tested on **Debian 13**. A bare-bones operating system with `wget` is sufficient. The installation script automatically installs all required libraries, depending on the selected setup configuration.

@@ -1,5 +1,11 @@
 # Übersicht
 
+[🇩🇪 German documentation](README_DE.md)
+
+[🇬🇧 English documentation](README.md)
+
+[🇫🇷 French documentation](README_FR.md)
+
 ## Installation
 
 ### Systemvoraussetzungen
