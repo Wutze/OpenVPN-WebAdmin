@@ -18,8 +18,16 @@ Das Setup benötigt eine **konfigurierte MariaDB-Datenbank**, die lokal oder rem
 
 Starte das Setup als `root`:
 
+Du möchtest den gleich den Stand der aktuellsten Version, dann nutze dieses Script:
+
 ```bash
-bash <(wget -qO- 'https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/master/install.sh')
+bash <(wget -qO- 'https://github.com/Wutze/OpenVPN-WebAdmin/raw/refs/heads/main/setup.sh')
+```
+
+Du möchtest das **Release 2.0.0 laden**, dann nutze dieses Script
+
+```bash
+bash <(wget -qO- 'https://github.com/Wutze/OpenVPN-WebAdmin/raw/refs/tags/2.0.0/setup.sh')
 ```
 
 Das Setup ist mehrsprachig aufgebaut.

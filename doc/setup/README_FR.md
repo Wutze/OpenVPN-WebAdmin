@@ -14,12 +14,20 @@ Développé et testé sous **Debian 13**. Un système d'exploitation minimal dis
 
 L'installation nécessite une **base de données MariaDB configurée**, hébergée localement ou sur un serveur distant. Pour que l'installation fonctionne correctement, une base de données, un utilisateur correspondant et les droits nécessaires doivent être disponibles.
 
-## Setup
+## Installation
 
-Lance le setup en tant que `root` :
+Lancez le script d'installation en tant que `root`.
+
+Si vous souhaitez installer la dernière version, utilisez le script suivant :
 
 ```bash
-bash <(wget -qO- 'https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/master/install.sh')
+bash <(wget -qO- 'https://github.com/Wutze/OpenVPN-WebAdmin/raw/refs/heads/main/setup.sh')
+```
+
+Si vous souhaitez installer la **version 2.0.0**, utilisez le script suivant :
+
+```bash
+bash <(wget -qO- 'https://github.com/Wutze/OpenVPN-WebAdmin/raw/refs/tags/2.0.0/setup.sh')
 ```
 
 Le setup est multilingue.

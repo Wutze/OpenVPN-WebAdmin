@@ -16,10 +16,18 @@ The setup requires a **configured MariaDB database**, which can be hosted locall
 
 ## Setup
 
-Run the setup as `root`:
+Run the setup as `root`.
+
+If you want to install the latest version, use the following script:
 
 ```bash
-bash <(wget -qO- 'https://raw.githubusercontent.com/Wutze/OpenVPN-WebAdmin/master/install.sh')
+bash <(wget -qO- 'https://github.com/Wutze/OpenVPN-WebAdmin/raw/refs/heads/main/setup.sh')
+```
+
+If you want to install **release 2.0.0**, use the following script:
+
+```bash
+bash <(wget -qO- 'https://github.com/Wutze/OpenVPN-WebAdmin/raw/refs/tags/2.0.0/setup.sh')
 ```
 
 The setup is multilingual.
