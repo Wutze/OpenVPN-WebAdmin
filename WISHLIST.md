@@ -19,10 +19,12 @@ A wish list, so I don’t forget. ;o)
 ## Debuging
 * The debug function is a good idea, but poorly implemented. It has been ‘somehow’ adapted from the old system to fit the one we have here, but it doesn’t cover everything the way I’d like it to. It needs to be completely rethought.
 
-## Languages
+## Languages, Help texts
 * Many language strings are still hard-coded into the system. This will need to be fully and correctly implemented at some point
+* Language files and help texts are intended to allow users to define their own text blocks, so that these are not deleted or overwritten by the update.
 
-## Documentation
+## Documentation Code
+* see here `/doc/funktions.md`
 * I let the AI write the documentation first and then, when I have time, I go through it and check for any errors it has made. The AI makes numerous mistakes, but it still produces around 80 per cent correct information.
 
 ### That certainly isn’t all yet
