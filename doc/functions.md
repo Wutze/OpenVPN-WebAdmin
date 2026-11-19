@@ -1132,12 +1132,12 @@ Kein Docblock gefunden.
  *
  * Security-Matrix (Single Source of Truth):
  *
- * OP               Login required   Admin required   CSRF+Origin on POST
+ * OP               Login required   Admin required   Method / CSRF+Origin
  * ----------------------------------------------------------------------
  * login            no               no               no
  * checklogin       no               no               no
  * setlang          yes              no               no (GET only)
- * logout           yes              no               yes
+ * logout           yes              no               POST only; CSRF+Origin
  * dashboard/main   yes              no               n/a
  * account          yes              no               n/a
  * profiles         yes              no               n/a
@@ -1415,7 +1415,7 @@ Kein Docblock gefunden.
 ### `private loginKey($username)`
 
 - Datei: `./src/Core/LoginController.php`
-- Zeile: 209
+- Zeile: 200
 - Rueckgabe: `string`
 
 ```
@@ -1423,19 +1423,19 @@ Kein Docblock gefunden.
  * Bildet den Rate-Limit-Schlüssel aus normalisiertem Benutzernamen und Client-IP.
  *
  * @param string $username Loginname.
- * @return string SHA-256-Schlüssel für den Session-Rate-Limit-Eintrag.
+ * @return string SHA-256-Schlüssel für den datenbankweiten Rate-Limit-Eintrag.
  */
 ```
 
 ### `private isLoginRateLimited($username)`
 
 - Datei: `./src/Core/LoginController.php`
-- Zeile: 220
+- Zeile: 211
 - Rueckgabe: `bool`
 
 ```
 /**
- * Prüft, ob für Benutzername und Client-IP eine noch aktive Sperre in der Session besteht.
+ * Prüft, ob für Benutzername und Client-IP eine noch aktive datenbankweite Sperre besteht.
  *
  * @param string $username Loginname.
  * @return bool True bei Erfolg, sonst false.
@@ -1445,12 +1445,12 @@ Kein Docblock gefunden.
 ### `private registerLoginFailure($username)`
 
 - Datei: `./src/Core/LoginController.php`
-- Zeile: 243
+- Zeile: 228
 - Rueckgabe: `void`
 
 ```
 /**
- * Zählt einen Fehlversuch in der aktiven Session; ab fünf Versuchen innerhalb zehn Minuten sperrt es fünf Minuten und verzögert 300 ms.
+ * Zählt einen Fehlversuch datenbankweit; ab fünf Versuchen innerhalb zehn Minuten sperrt es fünf Minuten und verzögert 300 ms.
  *
  * @param string $username Loginname für den Rate-Limit-Schlüssel.
  * @return void Kein Rueckgabewert.
@@ -1460,12 +1460,12 @@ Kein Docblock gefunden.
 ### `private clearLoginFailures($username)`
 
 - Datei: `./src/Core/LoginController.php`
-- Zeile: 285
+- Zeile: 266
 - Rueckgabe: `void`
 
 ```
 /**
- * Entfernt den Rate-Limit-Eintrag dieses Benutzers und der Client-IP aus der aktiven Session.
+ * Entfernt den Rate-Limit-Eintrag dieses Benutzers und der Client-IP.
  *
  * @param string $username Erfolgreich angemeldeter Benutzername.
  * @return void Kein Rueckgabewert.
