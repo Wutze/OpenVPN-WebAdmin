@@ -29,4 +29,4 @@ Ensure that individual entries **ALWAYS** appear on the same line number across 
 
 ## Updates
 
-Currently, language files are overwritten with the developer's original versions, meaning custom additions to help texts are lost. The same applies to help documents, which are currently all replaced by the versions from the Git server. A change to address this is planned and has been added to my `WISHLIST.md`.
+Currently, language files are overwritten with the developer's original versions, meaning custom additions to help texts are lost. The same applies to help documents, which are currently all replaced by the versions from the Git server. A change to address this is planned and has been added to my [Wishlist](../WISHLIST.md).

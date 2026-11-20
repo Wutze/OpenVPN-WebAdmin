@@ -25,4 +25,4 @@ Die Sprachfiles werden alle nach `/src/Lang` kopiert und benutzen als Ordnername
 
 ## Updates
 
-Im Moment werden Sprachfiles durch das Original vom Entwickler überschrieben, so dass eigene Ergänzungen zu den Hilfetexten überschrieben werden. Das gleiche gilt auch für die Hilfetexte, die bis jetzt alle durch die git-Server-Version ersetzt werden. Eine Änderung hierfür ist geplant und steht auf meiner `WISHLIST.md`.
+Im Moment werden Sprachfiles durch das Original vom Entwickler überschrieben, so dass eigene Ergänzungen zu den Hilfetexten überschrieben werden. Das gleiche gilt auch für die Hilfetexte, die bis jetzt alle durch die git-Server-Version ersetzt werden. Eine Änderung hierfür ist geplant und steht auf meiner [Wishlist](../WISHLIST.md).
