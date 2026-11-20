@@ -94,4 +94,4 @@ Das steht jedoch auf meiner Wishlist.
 
 Mit dem Einrichten des OpenVPN-Clients unter Android kann es Verbindungsprobleme geben. Stellt den Client so ein, wie im Bild gezeigt.
 
-[Bild](../img/de.blinkt.openvpn.png)
+![Bild](../img/de.blinkt.openvpn.png)
