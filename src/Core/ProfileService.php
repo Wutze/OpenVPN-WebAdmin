@@ -40,6 +40,39 @@ class ProfileService
     }
 
     /**
+     * Prueft den vom Easy-RSA-Skript installierten privaten Benutzerschluessel.
+     *
+     * @return bool|null True bei vorhandenem Schluessel, false wenn er fehlt, null wenn die Pruefung nicht moeglich ist.
+     */
+    public function hasClientKey(int $uid): ?bool
+    {
+        if ($uid <= 0) {
+            return null;
+        }
+
+        clearstatcache();
+        if (!file_exists($this->clientCertPath) && !is_link($this->clientCertPath)) {
+            $parent = dirname($this->clientCertPath);
+            return is_dir($parent) && is_executable($parent) ? false : null;
+        }
+        $directory = realpath($this->clientCertPath);
+        if ($directory === false || !is_dir($directory) || !is_readable($directory) || !is_executable($directory)) {
+            return null;
+        }
+
+        $key = $directory . '/' . $uid . '.key';
+        if (!file_exists($key) && !is_link($key)) {
+            return false;
+        }
+        $path = realpath($key);
+        if ($path === false || dirname($path) !== $directory || !is_file($path) || !is_readable($path)) {
+            return null;
+        }
+        $size = filesize($path);
+        return $size === false ? null : $size > 0;
+    }
+
+    /**
      * Liefert nur die Betriebssysteme mit vorhandener Vorlage.
      *
      * @return array<int, array{system: string, label: string}>

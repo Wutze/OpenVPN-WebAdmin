@@ -160,6 +160,8 @@ return [
     '_STATUS_OFFLINE' => 'Hors ligne',
     '_LABEL_STATUS' => 'Statut',
     '_LABEL_ACTIVE' => 'Actif',
+    '_USER_KEY_MISSING' => 'Actif : cle RSA manquante ; executer le script shell.',
+    '_USER_KEY_UNKNOWN' => 'Actif : impossible de verifier la cle RSA. Verifier le repertoire et les permissions.',
     '_YES' => 'Oui',
     '_NO' => 'Non',
 

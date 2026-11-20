@@ -139,10 +139,16 @@ private function getUsers(): array
         $limit = max(1, (int)($_GET['limit'] ?? 50));
         $offset = max(0, (int)($_GET['offset'] ?? 0));
         $search = trim((string)($_GET['search'] ?? ''));
+        $rows = $model->getAllUsers($limit, $offset, $search);
+        $profiles = new ProfileService();
+        foreach ($rows as &$row) {
+            $row['has_client_key'] = $profiles->hasClientKey((int)$row['uid']);
+        }
+        unset($row);
 
         return [
             'total' => $model->countUsers($search),
-            'rows' => $model->getAllUsers($limit, $offset, $search),
+            'rows' => $rows,
         ];
     }
 

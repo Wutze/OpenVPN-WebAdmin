@@ -17,10 +17,18 @@ function tf(key, ...args) {
   return text;
 }
 
-function ledFormatter(value) {
-  return Number(value) === 1
-    ? `<div class="mini-led-green" title="${t('_YES', 'Ja')}"></div>`
-    : `<div class="mini-led-red" title="${t('_NO', 'Nein')}"></div>`;
+function activeStatusText(row) {
+  if (Number(row.user_enable) !== 1) return t('_NO', 'Nein');
+  if (row.has_client_key === false) return t('_USER_KEY_MISSING', 'Aktiv: RSA-Schluessel fehlt; Shellscript ausfuehren.');
+  if (row.has_client_key !== true) return t('_USER_KEY_UNKNOWN', 'Aktiv: RSA-Schluessel konnte nicht geprueft werden.');
+  return t('_YES', 'Ja');
+}
+
+function ledFormatter(value, row) {
+  const led = Number(value) !== 1 ? 'red'
+    : row.has_client_key === false ? 'blue-blink'
+      : row.has_client_key === true ? 'green' : 'gray';
+  return `<div class="mini-led-${led}" title="${escapeHtml(activeStatusText(row))}" aria-label="${escapeHtml(activeStatusText(row))}"></div>`;
 }
 
 function onlineFormatter(value) {
@@ -60,7 +68,7 @@ window.userDetailFormatter = function (_index, row) {
     <div class="d-flex justify-content-between align-items-center py-2">
       <div>
         <div><strong>${t('_LABEL_STATUS', 'Status')}:</strong> ${Number(row.user_online) === 1 ? t('_STATUS_ONLINE', 'Online') : t('_STATUS_OFFLINE', 'Offline')}</div>
-        <div><strong>${t('_LABEL_ACTIVE', 'Aktiv')}:</strong> ${Number(row.user_enable) === 1 ? t('_YES', 'Ja') : t('_NO', 'Nein')}</div>
+        <div><strong>${t('_LABEL_ACTIVE', 'Aktiv')}:</strong> ${escapeHtml(activeStatusText(row))}</div>
       </div>
       <button class="btn btn-sm btn-primary js-open-user-modal" data-user='${encodeURIComponent(JSON.stringify(row))}'>
         ${t('_USERS_DETAIL_TITLE', 'Details')}

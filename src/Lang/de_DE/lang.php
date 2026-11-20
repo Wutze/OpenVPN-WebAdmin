@@ -160,6 +160,8 @@ $message = [
     '_STATUS_OFFLINE' => 'Offline',
     '_LABEL_STATUS' => 'Status',
     '_LABEL_ACTIVE' => 'Aktiv',
+    '_USER_KEY_MISSING' => 'Aktiv: RSA-Schluessel fehlt; Shellscript ausfuehren.',
+    '_USER_KEY_UNKNOWN' => 'Aktiv: RSA-Schluessel konnte nicht geprueft werden. Verzeichnis und Berechtigungen pruefen.',
     '_YES' => 'Ja',
     '_NO' => 'Nein',
 

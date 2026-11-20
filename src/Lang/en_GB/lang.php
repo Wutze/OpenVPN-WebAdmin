@@ -160,6 +160,8 @@ return [
     '_STATUS_OFFLINE' => 'Offline',
     '_LABEL_STATUS' => 'Status',
     '_LABEL_ACTIVE' => 'Active',
+    '_USER_KEY_MISSING' => 'Active: RSA key missing; run the shell script.',
+    '_USER_KEY_UNKNOWN' => 'Active: RSA key could not be checked. Check the directory and permissions.',
     '_YES' => 'Yes',
     '_NO' => 'No',
 

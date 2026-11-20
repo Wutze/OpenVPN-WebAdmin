@@ -41,6 +41,10 @@ https://bootsnipp.com/snippets/jvP6z
     background-color: #80FF00;
     box-shadow: #7D7B80 0 -1px 6px 1px, inset #460 0 -1px 8px, #80FF00 0 3px 11px;
 }
+.mini-led-blue, .mini-led-blue-blink {
+    background-color: #0044ff;
+    box-shadow: #7D7B80 0 -1px 6px 1px, inset rgb(10, 0, 102) 0 -1px 8px, #0044ff 0 3px 11px;
+}
 .mini-led-red, .mini-led-red-blink {
     background-color: #F00;
     box-shadow: #7D7B80 0 -1px 6px 1px, inset #600 0 -1px 8px, #F00 0 3px 11px;
@@ -53,7 +57,9 @@ https://bootsnipp.com/snippets/jvP6z
 .mini-led-red,
 .mini-led-red-blink,
 .mini-led-green,
-.mini-led-green-blink {
+.mini-led-green-blink,
+.mini-led-blue,
+.mini-led-blue-blink {
     margin: 0 auto;
     margin-top: 5px;
     width: 12px;
@@ -75,6 +81,14 @@ https://bootsnipp.com/snippets/jvP6z
   -ms-animation: blinkRed 0.7s infinite;
   -o-animation: blinkRed 0.7s infinite;
   animation: blinkRed 0.7s infinite;
+}
+
+.mini-led-blue-blink {
+  -webkit-animation: blinkBlue 0.7s infinite;
+  -moz-animation: blinkBlue 0.7s infinite;
+  -ms-animation: blinkBlue 0.7s infinite;
+  -o-animation: blinkBlue 0.7s infinite;
+  animation: blinkBlue 0.7s infinite;
 }
 
 @-webkit-keyframes blinkGreen {
@@ -138,7 +152,20 @@ https://bootsnipp.com/snippets/jvP6z
     background-color: #db212b;
   }
 }
-
+@keyframes blinkBlue {
+  0% {
+    background-color: #f8f9fa;
+  }
+  50% {
+    background-color: #e710dd;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 6px 1px,
+                inset rgb(10, 0, 102) 0 -1px 8px,
+                #0044ff 0 1px 0;
+  }
+  100% {
+    background-color: #0044ff;
+  }
+}
 ins, del{
   vertical-align : top;
   white-space    : pre;
