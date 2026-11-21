@@ -211,6 +211,8 @@ del{
   border-radius: 0.45rem;
   padding: 1px;
   font-size: 0.9rem;
+  display: flex;
+  align-items: center;
   background: linear-gradient(110deg, #568dda 0%, #e5e8ec 30%, #c4c9d0 50%, #f0f2f4 65%, #568dda 100%) !important;
 }
 
