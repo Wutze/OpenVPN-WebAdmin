@@ -274,6 +274,13 @@ allow-compression no
 server 10.8.0.0 255.255.255.0
 topology subnet
 
+# all traffic through the VPN
+# all dns requests through the VPN
+# comment out this line
+
+push "redirect-gateway def1"
+#push "dhcp-option DNS 192.168.104.7"
+
 # --------------------------------------------------
 # Client-Verwaltung
 # --------------------------------------------------
