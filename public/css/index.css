@@ -181,6 +181,7 @@ del{
 
 .sidebar-dark-primary, .login-box {
   background-image: url("../img/bg.png");
+  background-attachment: fixed;
 }
 
 .main-sidebar {
@@ -203,6 +204,42 @@ del{
 .sidebar-dark-primary .nav-link.active {
   color: #ffffff !important;
   background: linear-gradient(90deg, rgba(43, 11, 133, 0.75), rgba(13, 184, 218, 0.85)) !important;
+}
+
+.sidebar-dark-primary .donate-link {
+  color: #343a40 !important;
+  border-radius: 0.45rem;
+  padding: 1px;
+  font-size: 0.9rem;
+  background: linear-gradient(110deg, #568dda 0%, #e5e8ec 30%, #c4c9d0 50%, #f0f2f4 65%, #568dda 100%) !important;
+}
+
+.sidebar-dark-primary .nav-link.donate-link:hover,
+.sidebar-dark-primary .nav-link.donate-link:focus {
+  color: #343a40 !important;
+  background: linear-gradient(110deg, #1d57a8 0%, #e5e8ec 30%, #c4c9d0 50%, #f0f2f4 65%, #b9bec5 100%) !important;
+}
+
+.main-sidebar .sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-sidebar .sidebar > nav {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.main-sidebar .sidebar > nav > .donate-nav {
+  margin-top: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-dark-primary .donate-link {
+    animation: none;
+    background-position: center;
+  }
 }
 
 .control-sidebar {
@@ -487,4 +524,3 @@ textarea.form-control {
 .dropdown-item .lang-flag {
   margin-right: 0.25rem;
 }
-

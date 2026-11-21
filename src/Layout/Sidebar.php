@@ -85,6 +85,15 @@ $debugEnabled = !empty($debugEnabled);
                     <?php endif; ?>
                 <?php endif; ?>
             </ul>
+            <ul class="nav nav-pills nav-sidebar flex-column donate-nav">
+                <li><hr></li>
+                <li class="nav-item">
+                    <a href="https://liberapay.com/Wutze/" class="nav-link donate-link" target="_blank" rel="noopener noreferrer">
+                        <i class="nav-icon bi bi-coin"></i>
+                        <p>Donate</p>
+                    </a>
+                </li>
+            </ul>
         </nav>
     </div>
 </aside>
