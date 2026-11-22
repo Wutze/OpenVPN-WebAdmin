@@ -64,6 +64,22 @@ EFFECTIVE_WEB_OWNER=""
 EFFECTIVE_WEB_GROUP=""
 
 PACKAGES=()
+# List every storage directory and its parents before its children.
+STORAGE_DIRS=(
+  storage
+  storage/conf
+  storage/conf/history
+  storage/conf/history/server
+  storage/logs
+  storage/cache
+  storage/updates
+  storage/conf/linux
+  storage/conf/linux/history
+  storage/conf/osx
+  storage/conf/osx/history
+  storage/conf/windows
+  storage/conf/windows/history
+)
 
 input_preview() {
   local key="$1"
@@ -604,17 +620,13 @@ deploy_application_files() {
       --exclude '/storage/' \
       "${SOURCE_DIR}/" "${DEPLOY_DIR}/"
 
-  local system file target
-  for target in "${DEPLOY_DIR}/storage" "${DEPLOY_DIR}/storage/conf" \
-    "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/cache" "${DEPLOY_DIR}/storage/updates" "${DEPLOY_DIR}/storage/conf/history" \
-    "${DEPLOY_DIR}/storage/conf/history/server" \
-    "${DEPLOY_DIR}/storage/conf/linux" "${DEPLOY_DIR}/storage/conf/linux/history" \
-    "${DEPLOY_DIR}/storage/conf/osx" "${DEPLOY_DIR}/storage/conf/osx/history" \
-    "${DEPLOY_DIR}/storage/conf/windows" "${DEPLOY_DIR}/storage/conf/windows/history"; do
+  local system file target dir
+  for dir in "${STORAGE_DIRS[@]}"; do
+    target="${DEPLOY_DIR}/${dir}"
     [ ! -L "${target}" ] || fatal "Storage directory must not be a symlink: ${target}"
+    mkdir -p -- "${target}"
   done
   for system in linux osx windows; do
-    mkdir -p "${DEPLOY_DIR}/storage/conf/${system}/history"
     for file in client.ovpn update-resolv.sh; do
       [ -f "${SOURCE_DIR}/storage/conf/${system}/${file}" ] ||
         fatal "${MSG_MISSING_FILE:-Missing required file}: ${SOURCE_DIR}/storage/conf/${system}/${file}"
@@ -623,8 +635,6 @@ deploy_application_files() {
       fi
     done
   done
-  mkdir -p "${DEPLOY_DIR}/storage/conf/history/server" "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/cache" "${DEPLOY_DIR}/storage/updates"
-
   ok "${MSG_DEPLOY_FILES_DONE:-Application files deployed.}"
 }
 
@@ -1113,16 +1123,9 @@ finalize_permissions() {
     -exec chown -R "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" {} +
   chown "${EFFECTIVE_WEB_OWNER}:${EFFECTIVE_WEB_GROUP}" "${DEPLOY_DIR}"
 
-  local target
-  local -a storage_dirs=(
-    "${DEPLOY_DIR}/storage" "${DEPLOY_DIR}/storage/conf"
-    "${DEPLOY_DIR}/storage/conf/history" "${DEPLOY_DIR}/storage/conf/history/server"
-    "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/cache" "${DEPLOY_DIR}/storage/updates"
-    "${DEPLOY_DIR}/storage/conf/linux" "${DEPLOY_DIR}/storage/conf/linux/history"
-    "${DEPLOY_DIR}/storage/conf/osx" "${DEPLOY_DIR}/storage/conf/osx/history"
-    "${DEPLOY_DIR}/storage/conf/windows" "${DEPLOY_DIR}/storage/conf/windows/history"
-  )
-  for target in "${storage_dirs[@]}"; do
+  local target dir
+  for dir in "${STORAGE_DIRS[@]}"; do
+    target="${DEPLOY_DIR}/${dir}"
     [ -d "${target}" ] && [ ! -L "${target}" ] || fatal "Invalid storage directory: ${target}"
     chown www-data:www-data "${target}"
     setfacl -b -k "${target}"
@@ -1149,25 +1152,11 @@ check_runtime_permissions() {
   show_section "${MSG_SECTION_PERMS_CHECK:-Permission check}"
   resolve_runtime_web_identity
 
-  local target user system file probe
+  local target user system file probe dir
   local failed=0
-  local -a must_write=(
-    "${DEPLOY_DIR}/storage"
-    "${DEPLOY_DIR}/storage/conf"
-    "${DEPLOY_DIR}/storage/cache"
-    "${DEPLOY_DIR}/storage/conf/history"
-    "${DEPLOY_DIR}/storage/conf/history/server"
-    "${DEPLOY_DIR}/storage/logs"
-    "${DEPLOY_DIR}/storage/conf/linux"
-    "${DEPLOY_DIR}/storage/conf/linux/history"
-    "${DEPLOY_DIR}/storage/conf/osx"
-    "${DEPLOY_DIR}/storage/conf/osx/history"
-    "${DEPLOY_DIR}/storage/conf/windows"
-    "${DEPLOY_DIR}/storage/conf/windows/history"
-    "${DEPLOY_DIR}/storage/updates"
-  )
 
-  for target in "${must_write[@]}"; do
+  for dir in "${STORAGE_DIRS[@]}"; do
+    target="${DEPLOY_DIR}/${dir}"
     for user in www-data "${EFFECTIVE_WEB_OWNER}"; do
       if su -s /bin/sh -c '
         set -eu
