@@ -36,6 +36,10 @@ Follow the questions and instructions. The OpenVPN-WebAdmin frontend will be ins
 
 You can choose between several options, which should hopefully be self-explanatory.
 
+The update script can select the cached release tag or the latest commits on a branch. It does not query DNS: if no valid cached version is available, it asks for a branch and uses its latest commits; malformed cache JSON is removed. An older valid cache entry is accepted. The installed Git releases and individual database migrations are recorded in `storage/updates/setup-status.json`, whose highest version is also used for update notices. The start version is recorded only during a new installation. An existing status at the former `storage/update/setup-status.json` path is moved to the new path; if both files exist, resolve the conflict before updating. A missing status must be restored before updating. Versioned migration files are run in order; an update with no migrations does not require a database connection. Release documentation in `doc/versions/` is independent of version detection and database migrations.
+
+If a migration fails, inspect the database and status before retrying. MySQL/MariaDB DDL may already have taken effect even if a SQL file fails partway through or its status cannot be saved. Downgrades are not supported.
+
 Once the setup has completed successfully and the Apache web server has been configured, you can log in using the credentials you entered earlier.
 
 ![OpenVPN-WebAdmin Setup](../img/setup-demo.gif)

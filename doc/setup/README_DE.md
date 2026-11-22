@@ -36,6 +36,10 @@ Folge den Fragen und Anweisungen. Zunächst wird das OpenVPN-WebAdmin-Frontend i
 
 Du kannst zwischen verschiedenen Optionen wählen, die hoffentlich selbsterklärend sind.
 
+Beim Setup kannst du die automatische Versionsprüfung aktivieren oder deaktivieren. Ist sie aktiviert, wird der TXT-Record des konfigurierten Hosts (Standard: `ovpn.361-grad.eu`) geprüft. Ein Hinweis erscheint nur, wenn der Record eine neuere gültige Version im Format `X.Y.Z` enthält. Das Ergebnis wird einschließlich DNS-Fehlern 12 Stunden in `storage/cache/` zwischengespeichert; es gibt keine Downloads oder automatischen Updates. Die Option und der DNS-Host können in `config/config.php` über `update_check` und `update_check_dns_host` angepasst werden.
+
+Die installierte Version wird anhand des höchsten Versionsschlüssels in `storage/updates/setup-status.json` bestimmt. Fehlt die Datei oder ist sie ungültig, wird kein Update-Hinweis angezeigt.
+
 Sobald das Setup erfolgreich abgeschlossen und der Apache-Webserver konfiguriert wurde, kannst du dich mit den zuvor eingegebenen Zugangsdaten anmelden.
 
 ![OpenVPN-WebAdmin Setup](../img/setup-demo.gif)
@@ -79,6 +83,12 @@ Das Systemupdate kannst du jederzeit mit folgendem Skript durchführen:
 Dein lokales Repository unter `/opt/openvpn-webadmin-src/` sollte damit auf dem aktuellen Stand sein. Anschließend wird deine Webseite aus diesem Repository aktualisiert.
 
 Deine Konfigurationen werden dabei nicht verändert. Auch deine eigene `style.css` und weitere Anpassungen bleiben erhalten.
+
+Beim Update kannst du zwischen dem zwischengespeicherten Release und dem neuesten Stand eines Branches wählen. Das Update fragt DNS nicht erneut ab und verwendet auch einen älteren gültigen Cache-Eintrag. Fehlt der Cache oder enthält er keine gültige Version, wird nach Hinweis der neueste Stand des gewählten Branches verwendet; eine beschädigte JSON-Datei wird entfernt. Das Release muss als Git-Tag `X.Y.Z` vorhanden sein; bei „latest“ bestimmt das letzte erreichbare Versions-Tag die Zielversion. Wenn das benötigte Git-Tag oder der Versionsstand nicht ermittelt werden kann, wird abgebrochen.
+
+Der Migrationsstatus liegt in `storage/updates/setup-status.json`. Nur bei einer Neuinstallation wird die Git-Startversion eingetragen. Beim Update wird eine vorhandene Statusdatei unter dem früheren Pfad `storage/update/setup-status.json` übernommen; existieren beide Dateien, muss der Konflikt vor dem Update geklärt werden. Fehlt der Status, muss er vor dem Update wiederhergestellt werden. Versionsordner unter `server/installation/migrations/` enthalten gegebenenfalls nummerierte `*.update.sql`-Dateien, die in Versions- und Nummernreihenfolge ausgeführt und nach Erfolg einzeln im Status vermerkt werden. Ohne SQL-Migrationen ist keine Datenbankverbindung nötig. Die Versionsdokumentation unter `doc/versions/` steuert die Migration nicht.
+
+Bei einem Migrationsfehler stoppt das Update. Vor einem erneuten Versuch müssen Datenbank und Statusdatei geprüft werden: insbesondere können MySQL/MariaDB-DDL-Anweisungen bereits ausgeführt sein, wenn eine SQL-Datei teilweise fehlschlägt oder der Status nicht gespeichert werden kann. Migrationsdateien sollten daher möglichst wiederholbar sein. Ein Downgrade wird nicht unterstützt.
 
 Es ist dein System – verändere es, wie du möchtest. ;)
 
