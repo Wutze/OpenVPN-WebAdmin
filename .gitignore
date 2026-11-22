@@ -21,6 +21,5 @@
 /vendor/
 /storage/cache/*.json
 /storage/update/
-/storage/updates/setup-status.json
-/storage/updates/setup-status.json.lock
 /tests/*
+/storage/updates/*
