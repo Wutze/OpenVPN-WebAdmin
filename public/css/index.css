@@ -526,3 +526,42 @@ textarea.form-control {
 .dropdown-item .lang-flag {
   margin-right: 0.25rem;
 }
+
+.spinner-box {
+  overflow: hidden !important; /* Schneidet den überstehenden Farbverlauf ab */
+  /* Zentriert das rotierende Quadrat hinter dem Text */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Der rotierende rote Verlauf */
+.spinner-box::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  width: 350%;
+  aspect-ratio: 1 / 1;
+  background: conic-gradient(
+    transparent 0deg, 
+    transparent 260deg, 
+    #ff0000 360deg
+  );
+  animation: rotate-border 2s linear infinite;
+}
+
+.spinner-box::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 2px; /* Rahmendicke: 2px (passend zur kompakten Schriftgröße) */
+  background: #ffffff; /* Deine exakte Hintergrundfarbe */
+  border-radius: 4px; /* Äußerer Radius (6px) minus Rahmendicke (2px) */
+  color: #000000;
+}
+
+@keyframes rotate-border {
+  100% {
+    transform: rotate(360deg);
+  }
+}

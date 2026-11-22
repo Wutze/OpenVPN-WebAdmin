@@ -44,6 +44,7 @@ DB_CREATE_LOCAL=""
 DB_ROOT_PASSWORD=""
 
 TIMEZONE=""
+INSTALL_VERSION=""
 
 ADMIN_USER=""
 ADMIN_PASS=""
@@ -58,6 +59,7 @@ WEBSERVER_SUBDIR="/openvpnwebadmin"
 WEBSERVER_SERVER_NAME="_"
 ENABLE_REWRITE="no"
 ASSETS_ALLOW_NPM_FALLBACK="yes"
+UPDATE_CHECK="yes"
 EFFECTIVE_WEB_OWNER=""
 EFFECTIVE_WEB_GROUP=""
 
@@ -156,6 +158,9 @@ edit_single_input() {
     ASSETS_ALLOW_NPM_FALLBACK)
       ask_yes_no ASSETS_ALLOW_NPM_FALLBACK "${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}" "${ASSETS_ALLOW_NPM_FALLBACK}"
       ;;
+    UPDATE_CHECK)
+      ask_yes_no UPDATE_CHECK "${MSG_UPDATE_CHECK:-Automatically check for new versions and show a notice}" "${UPDATE_CHECK}"
+      ;;
   esac
 }
 
@@ -195,6 +200,7 @@ review_inputs_menu() {
       "WEBSERVER_SERVER_NAME" "$(input_preview WEBSERVER_SERVER_NAME)" \
       "ENABLE_REWRITE" "$(input_preview ENABLE_REWRITE)" \
       "ASSETS_ALLOW_NPM_FALLBACK" "$(input_preview ASSETS_ALLOW_NPM_FALLBACK)" \
+      "UPDATE_CHECK" "$(input_preview UPDATE_CHECK)" \
       3>&1 1>&2 2>&3)" || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
 
     [ "${choice}" = "continue" ] && break
@@ -322,6 +328,7 @@ collect_inputs() {
 
   collect_webserver_options
   ask_yes_no ASSETS_ALLOW_NPM_FALLBACK "${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}" "yes"
+  ask_yes_no UPDATE_CHECK "${MSG_UPDATE_CHECK:-Automatically check for new versions and show a notice}" "yes"
 
   review_inputs_menu
 }
@@ -342,6 +349,10 @@ validate_inputs() {
   case "${ASSETS_ALLOW_NPM_FALLBACK}" in
     yes|no) ;;
     *) fatal "${MSG_INVALID_ASSETS_FALLBACK:-Invalid assets fallback option.}" ;;
+  esac
+  case "${UPDATE_CHECK}" in
+    yes|no) ;;
+    *) fatal "${MSG_INVALID_UPDATE_CHECK:-Invalid version check option.}" ;;
   esac
 
   if [ "${WEBSERVER_CONFIGURE}" = "yes" ]; then
@@ -377,6 +388,11 @@ validate_inputs() {
   ensure_absolute_path "${SOURCE_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${SOURCE_DIR}"
   ensure_absolute_path "${DEPLOY_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${DEPLOY_DIR}"
   ensure_absolute_path "${OPENVPN_SCRIPTS_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${OPENVPN_SCRIPTS_DIR}"
+
+  if [ -e "${DEPLOY_DIR}/storage/updates/setup-status.json" ] || [ -L "${DEPLOY_DIR}/storage/updates/setup-status.json" ] ||
+     [ -e "${DEPLOY_DIR}/storage/update/setup-status.json" ] || [ -L "${DEPLOY_DIR}/storage/update/setup-status.json" ]; then
+    fatal "Migration status already exists; refusing to overwrite the start version."
+  fi
 
   id -u "${WEB_OWNER}" >/dev/null 2>&1 || fatal "${MSG_USER_NOT_FOUND:-User not found}: ${WEB_OWNER}"
   getent group "${WEB_GROUP}" >/dev/null 2>&1 || fatal "${MSG_GROUP_NOT_FOUND:-Group not found}: ${WEB_GROUP}"
@@ -507,6 +523,7 @@ show_summary() {
     echo " ${MSG_USE_REWRITE:-Enable rewrite mode}: ${ENABLE_REWRITE}"
   fi
   echo " ${MSG_ASSETS_ALLOW_NPM_FALLBACK:-If prebuilt asset archive is missing, build with npm fallback}: ${ASSETS_ALLOW_NPM_FALLBACK}"
+  echo " ${MSG_UPDATE_CHECK:-Automatically check for new versions and show a notice}: ${UPDATE_CHECK}"
 
   echo
   echo " ${MSG_REQUIRED_PACKAGES:-Required packages}:"
@@ -564,6 +581,7 @@ sync_source_repo() {
       git clone --branch "${REPO_BRANCH}" "${REPO_URL}" "${SOURCE_DIR}"
   fi
 
+  INSTALL_VERSION="$(git_release_version "${SOURCE_DIR}")" || fatal "Cannot determine installation version from an accessible Git release tag."
   ok "${MSG_REPO_READY:-Source repository is ready.}"
 }
 
@@ -588,7 +606,7 @@ deploy_application_files() {
 
   local system file target
   for target in "${DEPLOY_DIR}/storage" "${DEPLOY_DIR}/storage/conf" \
-    "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/conf/history" \
+    "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/cache" "${DEPLOY_DIR}/storage/updates" "${DEPLOY_DIR}/storage/conf/history" \
     "${DEPLOY_DIR}/storage/conf/history/server" \
     "${DEPLOY_DIR}/storage/conf/linux" "${DEPLOY_DIR}/storage/conf/linux/history" \
     "${DEPLOY_DIR}/storage/conf/osx" "${DEPLOY_DIR}/storage/conf/osx/history" \
@@ -605,7 +623,7 @@ deploy_application_files() {
       fi
     done
   done
-  mkdir -p "${DEPLOY_DIR}/storage/conf/history/server" "${DEPLOY_DIR}/storage/logs"
+  mkdir -p "${DEPLOY_DIR}/storage/conf/history/server" "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/cache" "${DEPLOY_DIR}/storage/updates"
 
   ok "${MSG_DEPLOY_FILES_DONE:-Application files deployed.}"
 }
@@ -641,7 +659,7 @@ write_app_config() {
 
   [ -f "${target_template_file}" ] || fatal "${MSG_MISSING_FILE:-Missing required file}: ${target_template_file}"
 
-  local cfg_db_host cfg_db_port cfg_db_name cfg_db_user cfg_db_pass cfg_sitetools cfg_login_theme
+  local cfg_db_host cfg_db_port cfg_db_name cfg_db_user cfg_db_pass cfg_sitetools cfg_login_theme cfg_update_check
   cfg_db_host="$(printf '%s' "${DB_HOST}" | sed "s/'/\\\\'/g")"
   cfg_db_port="$(printf '%s' "${DB_PORT}" | sed "s/'/\\\\'/g")"
   cfg_db_name="$(printf '%s' "${DB_NAME}" | sed "s/'/\\\\'/g")"
@@ -649,6 +667,8 @@ write_app_config() {
   cfg_db_pass="$(printf '%s' "${DB_PASS}" | sed "s/'/\\\\'/g")"
   cfg_sitetools="$(printf '%s' "${SITETOOLS}" | sed "s/'/\\\\'/g")"
   cfg_login_theme="$(printf '%s' "${LOGIN_THEME}" | sed "s/'/\\\\'/g")"
+  cfg_update_check="false"
+  [ "${UPDATE_CHECK}" = "yes" ] && cfg_update_check="true"
 
   cp "${target_template_file}" "${target_config_file}"
 
@@ -667,6 +687,7 @@ write_app_config() {
 
   sed -i \
     -e "s|__CFG_LOGIN_THEME__|${repl_login_theme}|g" \
+    -e "s|__CFG_UPDATE_CHECK__|${cfg_update_check}|g" \
     -e "s|__CFG_SITETOOLS__|${repl_sitetools}|g" \
     -e "s|__CFG_DB_HOST__|${repl_db_host}|g" \
     -e "s|__CFG_DB_PORT__|${repl_db_port}|g" \
@@ -1096,7 +1117,7 @@ finalize_permissions() {
   local -a storage_dirs=(
     "${DEPLOY_DIR}/storage" "${DEPLOY_DIR}/storage/conf"
     "${DEPLOY_DIR}/storage/conf/history" "${DEPLOY_DIR}/storage/conf/history/server"
-    "${DEPLOY_DIR}/storage/logs"
+    "${DEPLOY_DIR}/storage/logs" "${DEPLOY_DIR}/storage/cache" "${DEPLOY_DIR}/storage/updates"
     "${DEPLOY_DIR}/storage/conf/linux" "${DEPLOY_DIR}/storage/conf/linux/history"
     "${DEPLOY_DIR}/storage/conf/osx" "${DEPLOY_DIR}/storage/conf/osx/history"
     "${DEPLOY_DIR}/storage/conf/windows" "${DEPLOY_DIR}/storage/conf/windows/history"
@@ -1133,6 +1154,7 @@ check_runtime_permissions() {
   local -a must_write=(
     "${DEPLOY_DIR}/storage"
     "${DEPLOY_DIR}/storage/conf"
+    "${DEPLOY_DIR}/storage/cache"
     "${DEPLOY_DIR}/storage/conf/history"
     "${DEPLOY_DIR}/storage/conf/history/server"
     "${DEPLOY_DIR}/storage/logs"
@@ -1142,6 +1164,7 @@ check_runtime_permissions() {
     "${DEPLOY_DIR}/storage/conf/osx/history"
     "${DEPLOY_DIR}/storage/conf/windows"
     "${DEPLOY_DIR}/storage/conf/windows/history"
+    "${DEPLOY_DIR}/storage/updates"
   )
 
   for target in "${must_write[@]}"; do
@@ -1217,6 +1240,13 @@ finish_message() {
   info "${MSG_LOG_HINT:-Setup log file}: ${LOG_FILE}"
 }
 
+record_installation_version() {
+  initialize_migration_status \
+    "${DEPLOY_DIR}/server/installation/migrate.php" \
+    "${INSTALL_VERSION}" \
+    "${DEPLOY_DIR}/storage/updates/setup-status.json"
+}
+
 main() {
   setup_prelude
   collect_inputs
@@ -1236,6 +1266,7 @@ main() {
   deploy_openvpn_scripts
   finalize_permissions
   check_runtime_permissions
+  record_installation_version
   finish_message
 }
 

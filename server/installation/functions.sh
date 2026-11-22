@@ -297,6 +297,23 @@ version_in_list() {
   return 1
 }
 
+git_release_version() {
+  local repository="$1"
+  local version
+  version="$(git -C "${repository}" describe --tags --match '[0-9]*' --abbrev=0 HEAD)" || return 1
+  [[ "${version}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || return 1
+  printf '%s\n' "${version}"
+}
+
+initialize_migration_status() {
+  local migration_script="$1"
+  local version="$2"
+  local status_file="$3"
+
+  php "${migration_script}" --init "${version}" "${status_file}" ||
+    fatal "Cannot initialize migration status."
+}
+
 assert_supported_os() {
   case "${OS_ID}" in
     debian)

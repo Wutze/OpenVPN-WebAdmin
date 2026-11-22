@@ -14,9 +14,13 @@
 # Local asset build outputs
 /assets-build/node_modules/
 /assets-build/staging/
-/assets-build/release/
 /public/tools/*
 
 # intern help files
 /DASH.md
 /vendor/
+/storage/cache/*.json
+/storage/update/
+/storage/updates/setup-status.json
+/storage/updates/setup-status.json.lock
+/tests/*

@@ -29,6 +29,9 @@ DEPLOY_DIR=""
 UPDATE_SOURCE="yes"
 SOURCE_BRANCH=""
 OPENVPN_SCRIPTS_DIR=""
+UPDATE_MODE="latest"
+RELEASE_VERSION=""
+TARGET_VERSION=""
 
 collect_update_inputs() {
   show_section "${MSG_SECTION_INPUT:-Update parameters}"
@@ -39,8 +42,26 @@ collect_update_inputs() {
   ask_yes_no UPDATE_SOURCE "${MSG_UPDATE_SOURCE:-Update source repository before deploy}" "yes"
 
   if [ "${UPDATE_SOURCE}" = "yes" ]; then
-    ask_input SOURCE_BRANCH "${MSG_REPO_BRANCH:-Repository branch}" "${INSTALL_REPO_BRANCH}"
+    ask_choice UPDATE_MODE "${MSG_UPDATE_MODE:-Choose the update source}" "latest" \
+      "release" "${MSG_UPDATE_RELEASE:-Cached release only}" \
+      "latest" "${MSG_UPDATE_LATEST:-Latest branch commits}"
+    if [ "${UPDATE_MODE}" = "release" ]; then
+      local cache_result=0
+      RELEASE_VERSION="$(php "${SCRIPT_DIR}/helpers/release-version.php" "${DEPLOY_DIR}/config/config.php")" || cache_result=$?
+      case "${cache_result}" in
+        0) ;;
+        2)
+          warn "${MSG_RELEASE_CACHE_FALLBACK:-No valid cached release; switching to the latest branch.}"
+          UPDATE_MODE="latest"
+          ;;
+        *) fatal "${MSG_RELEASE_CACHE_ERROR:-Could not read the release cache.}" ;;
+      esac
+    fi
+    if [ "${UPDATE_MODE}" = "latest" ]; then
+      ask_input SOURCE_BRANCH "${MSG_REPO_BRANCH:-Repository branch}" "${INSTALL_REPO_BRANCH}"
+    fi
   fi
+
 }
 
 validate_update_inputs() {
@@ -51,8 +72,20 @@ validate_update_inputs() {
   ensure_absolute_path "${OPENVPN_SCRIPTS_DIR}" || fatal "${MSG_PATH_ABSOLUTE_REQUIRED:-Path must be absolute}: ${OPENVPN_SCRIPTS_DIR}"
   [ -d "${OPENVPN_SCRIPTS_DIR}" ] || fatal "${MSG_MISSING_DIR:-Missing required directory}: ${OPENVPN_SCRIPTS_DIR}"
 
-  if [ "${UPDATE_SOURCE}" = "yes" ] && [ ! -d "${SOURCE_DIR}/.git" ]; then
+  if ! git -C "${SOURCE_DIR}" rev-parse --git-dir >/dev/null 2>&1; then
     fatal "${MSG_SOURCE_NOT_GIT:-Source directory is not a git repository}: ${SOURCE_DIR}"
+  fi
+  [ ! -L "${DEPLOY_DIR}/storage" ] && [ ! -L "${DEPLOY_DIR}/storage/update" ] && [ ! -L "${DEPLOY_DIR}/storage/updates" ] ||
+    fatal "Storage and update directories must not be symlinks."
+  local old_status="${DEPLOY_DIR}/storage/update/setup-status.json"
+  local status="${DEPLOY_DIR}/storage/updates/setup-status.json"
+  if [ -e "${old_status}" ] || [ -L "${old_status}" ]; then
+    [ ! -e "${status}" ] && [ ! -L "${status}" ] ||
+      fatal "Both migration status files exist; resolve the conflict before updating."
+    [ -f "${old_status}" ] && [ ! -L "${old_status}" ] ||
+      fatal "The old migration status is not a regular file."
+  elif [ ! -f "${status}" ] || [ -L "${status}" ]; then
+    fatal "Migration status is missing or invalid; restore it before updating."
   fi
 
   ok "${MSG_INPUT_VALID:-All input values are valid.}"
@@ -65,9 +98,14 @@ confirm_update() {
   echo " ${MSG_OPENVPN_SCRIPTS_DIR:-OpenVPN scripts directory}: ${OPENVPN_SCRIPTS_DIR}"
   echo " ${MSG_UPDATE_SOURCE:-Update source repository before deploy}: ${UPDATE_SOURCE}"
   if [ "${UPDATE_SOURCE}" = "yes" ]; then
-    echo " ${MSG_REPO_BRANCH:-Repository branch}: ${SOURCE_BRANCH}"
+    echo " ${MSG_UPDATE_MODE:-Update source}: ${UPDATE_MODE}"
+    if [ "${UPDATE_MODE}" = "release" ]; then
+      echo " ${MSG_UPDATE_RELEASE:-Release}: ${RELEASE_VERSION}"
+    else
+      echo " ${MSG_REPO_BRANCH:-Repository branch}: ${SOURCE_BRANCH}"
+    fi
   fi
-  echo " ${MSG_UPDATE_FILES:-PHP and Markdown files will be updated. config/config.php and .env stay unchanged.}"
+  echo " ${MSG_UPDATE_FILES:-Application files and migration status will be updated. Config and other runtime data stay unchanged.}"
   echo " ${MSG_UPDATE_OPENVPN_SCRIPTS:-OpenVPN scripts will be updated; config.sh stays unchanged.}"
 
   ask_yes_no CONFIRM_UPDATE "${MSG_CONFIRM_UPDATE:-Start update with these settings}" "yes"
@@ -80,11 +118,59 @@ update_source_repo() {
   show_section "${MSG_SECTION_REPO:-Source repository}"
   info "${MSG_REPO_UPDATE:-Updating existing source repository}"
 
+  local worktree_status
+  worktree_status="$(git -C "${SOURCE_DIR}" status --porcelain --untracked-files=normal)" ||
+    fatal "Cannot inspect the source worktree."
+  [ -z "${worktree_status}" ] || fatal "Source worktree has local changes; refusing to deploy an uncertain release."
+
   git -C "${SOURCE_DIR}" fetch --all --prune >>"${LOG_FILE}" 2>&1
-  git -C "${SOURCE_DIR}" checkout "${SOURCE_BRANCH}" >>"${LOG_FILE}" 2>&1
-  git -C "${SOURCE_DIR}" pull --ff-only origin "${SOURCE_BRANCH}" >>"${LOG_FILE}" 2>&1
+  if [ "${UPDATE_MODE}" = "release" ]; then
+    git -C "${SOURCE_DIR}" fetch origin --tags >>"${LOG_FILE}" 2>&1
+    git -C "${SOURCE_DIR}" rev-parse --verify "refs/tags/${RELEASE_VERSION}^{commit}" >>"${LOG_FILE}" 2>&1 ||
+      fatal "Cached release tag ${RELEASE_VERSION} does not exist in the source repository."
+    git -C "${SOURCE_DIR}" checkout --detach "refs/tags/${RELEASE_VERSION}" >>"${LOG_FILE}" 2>&1
+  else
+    git -C "${SOURCE_DIR}" checkout "${SOURCE_BRANCH}" >>"${LOG_FILE}" 2>&1
+    git -C "${SOURCE_DIR}" pull --ff-only origin "${SOURCE_BRANCH}" >>"${LOG_FILE}" 2>&1
+  fi
 
   ok "${MSG_REPO_READY:-Source repository is ready.}"
+}
+
+migrate_status_location() {
+  local old="${DEPLOY_DIR}/storage/update/setup-status.json"
+  local directory="${DEPLOY_DIR}/storage/updates"
+  local status="${directory}/setup-status.json"
+  local old_lock new_lock web_owner
+
+  [ -e "${old}" ] || return 0
+  [ -f "${old}" ] && [ ! -L "${old}" ] && [ ! -L "${directory}" ] ||
+    fatal "Invalid old migration status or new status directory."
+  if [ ! -d "${directory}" ]; then
+    mkdir -m 2770 -- "${directory}" || fatal "Cannot create update status directory."
+    chown www-data:www-data "${directory}" || fatal "Cannot set update status directory owner."
+    chmod 2770 "${directory}" || fatal "Cannot set update status directory permissions."
+    web_owner="$(stat -c '%U' "${DEPLOY_DIR}")"
+    setfacl -m "u:${web_owner}:rwx" \
+      -m "d:u::rwx,d:u:${web_owner}:rwx,d:g::rwx,d:m::rwx,d:o::---" "${directory}" ||
+      fatal "Cannot set update status directory ACL."
+  fi
+  [ ! -L "${old}.lock" ] && [ ! -L "${status}.lock" ] ||
+    fatal "Migration locks must not be symlinks."
+  exec {old_lock}>>"${old}.lock"
+  flock -n "${old_lock}" || fatal "Another migration is running."
+  exec {new_lock}>>"${status}.lock"
+  flock -n "${new_lock}" || fatal "Another migration is running."
+  [ ! -e "${status}" ] && [ ! -L "${status}" ] ||
+    fatal "Both migration status files exist; resolve the conflict before updating."
+  mv -n -- "${old}" "${status}" || fatal "Cannot move the migration status."
+  [ ! -e "${old}" ] && [ ! -L "${old}" ] && [ -f "${status}" ] && [ ! -L "${status}" ] ||
+    fatal "Migration status could not be moved without overwriting."
+  chmod 0644 "${status}" || fatal "Cannot set migration status permissions."
+  flock -u "${new_lock}"
+  exec {new_lock}>&-
+  flock -u "${old_lock}"
+  exec {old_lock}>&-
 }
 
 deploy_site_update() {
@@ -100,20 +186,40 @@ deploy_site_update() {
   deploy_uid="$(stat -c '%u' "${DEPLOY_DIR}")"
   deploy_gid="$(stat -c '%g' "${DEPLOY_DIR}")"
 
+  if [ "${UPDATE_SOURCE}" = "yes" ] && [ "${UPDATE_MODE}" = "release" ]; then
+    TARGET_VERSION="${RELEASE_VERSION}"
+  else
+    TARGET_VERSION="$(git_release_version "${SOURCE_DIR}")" || fatal "Cannot determine target version from an accessible Git release tag."
+  fi
+  [ -f "${SOURCE_DIR}/server/installation/helpers/MigrationRunner.php" ] ||
+    fatal "Selected source does not contain the migration runner."
+  [ -d "${SOURCE_DIR}/server/installation/migrations" ] ||
+    fatal "Selected source does not contain the migrations directory."
+  migrate_status_location
+  php "${SOURCE_DIR}/server/installation/migrate.php" --check "${TARGET_VERSION}" "${DEPLOY_DIR}/storage/updates/setup-status.json" ||
+    fatal "Migration status is incompatible with the selected target."
+
   rsync -rt \
     --exclude='/config/config.php' \
     --exclude='/.env' \
+    --exclude='/storage/' \
+    --exclude='/public/css/self.css' \
     --exclude='*.ovpn' \
     --include='*/' \
     --include='*.php' \
     --include='*.sql' \
-    --include='public/css/index.css' \
+    --include='*.css' \
+    --include='/update.sh' \
+    --include='/server/installation/update.sh' \
+    --include='/server/installation/functions.sh' \
     --include='*.js' \
     --include='*.md' \
     --exclude='*' \
     "${SOURCE_DIR}/" "${DEPLOY_DIR}/" >>"${LOG_FILE}" 2>&1
 
-  php "${DEPLOY_DIR}/server/installation/migrate.php" >>"${LOG_FILE}" 2>&1
+  php "${DEPLOY_DIR}/server/installation/migrate.php" --run "${TARGET_VERSION}" \
+    "${DEPLOY_DIR}/storage/updates/setup-status.json" "${SOURCE_DIR}/server/installation/migrations" >>"${LOG_FILE}" 2>&1 ||
+    fatal "Database migration failed; see ${LOG_FILE}. Do not repeat non-idempotent SQL without checking the database."
 
   find "${DEPLOY_DIR}" -type f -name '*.php' ! -path "${DEPLOY_DIR}/config/config.php" -exec chown "${deploy_uid}:${deploy_gid}" {} + >>"${LOG_FILE}" 2>&1
 
@@ -138,6 +244,7 @@ main() {
   ensure_cmd git
   ensure_cmd rsync
   ensure_cmd find
+  ensure_cmd php
   choose_language
 
   collect_update_inputs
@@ -147,7 +254,7 @@ main() {
   deploy_site_update
 
   show_section "${MSG_SECTION_DONE:-Finished}"
-  ok "${MSG_DONE:-Update finished successfully.}"
+  ok "${MSG_UPDATE_FINISHED:-Update finished successfully.}"
   info "${MSG_LOG_HINT:-Log file}: ${LOG_FILE}"
 }
 

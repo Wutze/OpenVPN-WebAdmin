@@ -13,12 +13,14 @@
  * @copyright   2025 OpenVPN-WebAdmin
  * @link        https://github.com/Wutze/OpenVPN-WebAdmin
  * @see         Internal Documentation ~/doc/
- * @version     2.0.0
+ * @version     2.0.1
  */
 
 namespace Micro\OpenvpnWebadmin\Templates;
 
 use Debug;
+use Micro\OpenvpnWebadmin\Core\Session;
+use Micro\OpenvpnWebadmin\Core\VersionCheckService;
 
 class Template
 {
@@ -86,6 +88,7 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
         $scripts  = $this->loadPart('Scripts', $this->data);
         $helpdoc  = $this->loadPart('Helpdoc');
         $htmlfoot  = $this->loadPart('HtmlFoot');
+        $updateNotice = $this->renderVersionNotice();
 
         $html = <<<HTML
 {$htmlHead}
@@ -104,6 +107,7 @@ public function __construct(string $title = 'WebAdmin', string $content = '', ar
     </div>
 {$scripts}
 {$helpdoc}
+{$updateNotice}
 {$htmlfoot}
 HTML;
 
@@ -112,6 +116,35 @@ HTML;
         }
 
         return $html;
+    }
+
+    private function renderVersionNotice(): string
+    {
+        $config = $GLOBALS['config'] ?? [];
+        if (
+            !is_array($config)
+            || !filter_var($config['update_check'] ?? false, FILTER_VALIDATE_BOOL)
+        ) {
+            return '';
+        }
+        if (!Session::isAdmin()) {
+            return '';
+        }
+
+        $applicationRoot = dirname(__DIR__, 2);
+        $service = new VersionCheckService(
+            (string)($config['update_check_dns_host'] ?? 'ovpn.361-grad.eu'),
+            $applicationRoot . '/storage/cache',
+            $applicationRoot . '/storage/updates/setup-status.json'
+        );
+        $newerVersion = $service->getNewerVersion();
+        if ($newerVersion === null) {
+            return '';
+        }
+
+        $safeVersion = htmlspecialchars($newerVersion, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        return '<div class="spinner-box"style="position:fixed;right:10px;bottom:40px;z-index:99999;padding:6px 10px;border-radius:6px;color:#000;font:12px/1.2 monospace;opacity:.9">'
+            . 'Update available: ' . $safeVersion . '</div>';
     }
 
     /**
