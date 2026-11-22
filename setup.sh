@@ -19,14 +19,6 @@
 
 set -euo pipefail
 
-SELF_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# If the full repository is already present, run installer directly.
-if [ -x "${SELF_DIR}/server/installation/setup.sh" ]; then
-  exec "${SELF_DIR}/server/installation/setup.sh" "$@"
-fi
-
-# Standalone bootstrap mode (script downloaded alone).
 REPO_URL="${OVPN_SETUP_REPO_URL:-https://github.com/Wutze/OpenVPN-WebAdmin.git}"
 REPO_BRANCH="${OVPN_SETUP_REPO_BRANCH:-main}"
 WORK_DIR="${OVPN_SETUP_WORKDIR:-/tmp/openvpn-webadmin-setup-src}"
