@@ -1,6 +1,6 @@
 # OpenVPN-WebAdmin
 
-## Release BETA 2.0.0
+## Release 2.0.1
 
 **Was lange währt, wird gut!**
 
