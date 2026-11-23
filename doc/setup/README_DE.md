@@ -24,12 +24,6 @@ Du möchtest den gleich den Stand der aktuellsten Version, dann nutze dieses Scr
 bash <(wget -qO- 'https://github.com/Wutze/OpenVPN-WebAdmin/raw/refs/heads/main/setup.sh')
 ```
 
-Du möchtest das **Release 2.0.0 laden**, dann nutze dieses Script
-
-```bash
-bash <(wget -qO- 'https://github.com/Wutze/OpenVPN-WebAdmin/raw/refs/tags/2.0.0/setup.sh')
-```
-
 Das Setup ist mehrsprachig aufgebaut.
 
 Folge den Fragen und Anweisungen. Zunächst wird das OpenVPN-WebAdmin-Frontend installiert. Aktuell wurde nur die Konfiguration für Apache getestet. Die Unterstützung für Nginx wird folgen.
@@ -41,6 +35,8 @@ Beim Setup kannst du die automatische Versionsprüfung aktivieren oder deaktivie
 Die installierte Version wird anhand des höchsten Versionsschlüssels in `storage/updates/setup-status.json` bestimmt. Fehlt die Datei oder ist sie ungültig, wird kein Update-Hinweis angezeigt.
 
 Sobald das Setup erfolgreich abgeschlossen und der Apache-Webserver konfiguriert wurde, kannst du dich mit den zuvor eingegebenen Zugangsdaten anmelden.
+
+Ganz am Ende wird auf das Setup `firewall-install.sh` verwiesen. Ich würde dir das empfehlen, da damit automatisch Routing und Schnittstellen definiert werden. Du kannst das natürlich auch von Hand machen, es ist dir ü+berlassen. Kleiner Hinweis, die `firewall.conf` muss vermutlich auf deine Netzwerkschnittstellen angepasst werden.
 
 ![OpenVPN-WebAdmin Setup](../img/setup-demo.gif)
 

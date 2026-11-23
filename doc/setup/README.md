@@ -58,6 +58,10 @@ The script will then take a few minutes to complete, as generating the `dh.pem` 
 
 Once completed successfully, you will have a working OpenVPN configuration. However, connections to the server will not yet be possible. You still need to create users and generate their keys.
 
+At the very end, the setup references `firewall-install.sh`. I would recommend using it, as it automatically configures routing and network interfaces. Of course, you can also do this manually; it's entirely up to you.
+
+One small note: `firewall.conf` will probably need to be adjusted to match your network interfaces.
+
 ### Creating users
 
 After creating new users, you must run the `openvpn-setup-easyrsa.sh` script again to issue their certificates.
