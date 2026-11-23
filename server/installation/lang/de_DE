@@ -216,3 +216,5 @@ SET_CITY="Dortmund"
 SET_ORG="xVPN"
 SET_MAIL="mail@vpn.home"
 SET_OU="home"
+
+MSG_FIREWALL="Um das korrekte Routing und die dazugehörige Firewall zu installieren, ./server/installation/firewall-install.sh ausführen."

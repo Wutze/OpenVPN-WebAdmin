@@ -216,3 +216,5 @@ SET_CITY="Lyon"
 SET_ORG="xVPN"
 SET_MAIL="mail@vpn.home"
 SET_OU="home"
+
+MSG_FIREWALL="Pour configurer le routage correct et le pare-feu associé, exécutez ./server/installation/firewall-install.sh."

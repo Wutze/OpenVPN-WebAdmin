@@ -1227,6 +1227,9 @@ finish_message() {
   ok "${MSG_DONE:-Setup finished successfully.}"
   info "${MSG_DONE_NEXT:-Restart OpenVPN and your webserver to apply all changes.}"
   info "${MSG_LOG_HINT:-Setup log file}: ${LOG_FILE}"
+  info ""
+  info "${MSG_FIREWALL}"
+  info ""
 }
 
 record_installation_version() {
