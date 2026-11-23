@@ -32,6 +32,7 @@ OPENVPN_SCRIPTS_DIR=""
 UPDATE_MODE="latest"
 RELEASE_VERSION=""
 TARGET_VERSION=""
+START_VERSION=""
 
 collect_update_inputs() {
   show_section "${MSG_SECTION_INPUT:-Update parameters}"
@@ -84,8 +85,16 @@ validate_update_inputs() {
       fatal "Both migration status files exist; resolve the conflict before updating."
     [ -f "${old_status}" ] && [ ! -L "${old_status}" ] ||
       fatal "The old migration status is not a regular file."
-  elif [ ! -f "${status}" ] || [ -L "${status}" ]; then
-    fatal "Migration status is missing or invalid; restore it before updating."
+  elif [ -e "${status}" ] || [ -L "${status}" ]; then
+    [ -f "${status}" ] && [ ! -L "${status}" ] ||
+      fatal "Migration status is not a regular file."
+  else
+    ask_input START_VERSION "${MSG_START_VERSION:-Installed version before the update (X.Y.Z)}" ""
+    [[ "${START_VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] ||
+      fatal "${MSG_INVALID_START_VERSION:-Invalid installed start version.}"
+    local confirm_start_version
+    ask_yes_no confirm_start_version "${MSG_CONFIRM_START_VERSION:-Confirm installed start version:} ${START_VERSION}" "no"
+    [ "${confirm_start_version}" = "yes" ] || fatal "${MSG_ABORTED_BY_USER:-Aborted by user.}"
   fi
 
   ok "${MSG_INPUT_VALID:-All input values are valid.}"
@@ -105,6 +114,7 @@ confirm_update() {
       echo " ${MSG_REPO_BRANCH:-Repository branch}: ${SOURCE_BRANCH}"
     fi
   fi
+  [ -z "${START_VERSION}" ] || echo " ${MSG_START_VERSION:-Installed version before the update}: ${START_VERSION}"
   echo " ${MSG_UPDATE_FILES:-Application files and migration status will be updated. Config and other runtime data stay unchanged.}"
   echo " ${MSG_UPDATE_OPENVPN_SCRIPTS:-OpenVPN scripts will be updated; config.sh stays unchanged.}"
 
@@ -137,24 +147,34 @@ update_source_repo() {
   ok "${MSG_REPO_READY:-Source repository is ready.}"
 }
 
+prepare_update_storage() {
+  local directory web_owner
+  for directory in "${DEPLOY_DIR}/storage" "${DEPLOY_DIR}/storage/updates"; do
+    [ ! -L "${directory}" ] || fatal "Storage directories must not be symlinks."
+    if [ -e "${directory}" ]; then
+      [ -d "${directory}" ] || fatal "Storage path is not a directory: ${directory}"
+      continue
+    fi
+    mkdir -m 2770 -- "${directory}" || fatal "Cannot create storage directory: ${directory}"
+    chown www-data:www-data "${directory}" || fatal "Cannot set storage directory owner: ${directory}"
+    chmod 2770 "${directory}" || fatal "Cannot set storage directory permissions: ${directory}"
+    web_owner="$(stat -c '%U' "${DEPLOY_DIR}")"
+    setfacl -m "u:${web_owner}:rwx" \
+      -m "d:u::rwx,d:u:${web_owner}:rwx,d:g::rwx,d:m::rwx,d:o::---" "${directory}" ||
+      fatal "Cannot set storage directory ACL: ${directory}"
+  done
+}
+
 migrate_status_location() {
   local old="${DEPLOY_DIR}/storage/update/setup-status.json"
   local directory="${DEPLOY_DIR}/storage/updates"
   local status="${directory}/setup-status.json"
-  local old_lock new_lock web_owner
+  local old_lock new_lock
 
   [ -e "${old}" ] || return 0
   [ -f "${old}" ] && [ ! -L "${old}" ] && [ ! -L "${directory}" ] ||
     fatal "Invalid old migration status or new status directory."
-  if [ ! -d "${directory}" ]; then
-    mkdir -m 2770 -- "${directory}" || fatal "Cannot create update status directory."
-    chown www-data:www-data "${directory}" || fatal "Cannot set update status directory owner."
-    chmod 2770 "${directory}" || fatal "Cannot set update status directory permissions."
-    web_owner="$(stat -c '%U' "${DEPLOY_DIR}")"
-    setfacl -m "u:${web_owner}:rwx" \
-      -m "d:u::rwx,d:u:${web_owner}:rwx,d:g::rwx,d:m::rwx,d:o::---" "${directory}" ||
-      fatal "Cannot set update status directory ACL."
-  fi
+  prepare_update_storage
   [ ! -L "${old}.lock" ] && [ ! -L "${status}.lock" ] ||
     fatal "Migration locks must not be symlinks."
   exec {old_lock}>>"${old}.lock"
@@ -195,7 +215,17 @@ deploy_site_update() {
     fatal "Selected source does not contain the migration runner."
   [ -d "${SOURCE_DIR}/server/installation/migrations" ] ||
     fatal "Selected source does not contain the migrations directory."
-  migrate_status_location
+  if [ -n "${START_VERSION}" ]; then
+    [ ! -e "${DEPLOY_DIR}/storage/update/setup-status.json" ] && [ ! -L "${DEPLOY_DIR}/storage/update/setup-status.json" ] ||
+      fatal "An old migration status appeared; restart the update."
+    prepare_update_storage
+    initialize_migration_status \
+      "${SOURCE_DIR}/server/installation/migrate.php" \
+      "${START_VERSION}" \
+      "${DEPLOY_DIR}/storage/updates/setup-status.json"
+  else
+    migrate_status_location
+  fi
   php "${SOURCE_DIR}/server/installation/migrate.php" --check "${TARGET_VERSION}" "${DEPLOY_DIR}/storage/updates/setup-status.json" ||
     fatal "Migration status is incompatible with the selected target."
 
