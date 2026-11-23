@@ -63,6 +63,8 @@ Cela comprend :
 
 L'interface utilisateur repose sur AdminLTE 3.2.0 et Bootstrap.
 
+Le tableau de bord administrateur affiche le nombre de connexions et le trafic reçu, envoyé et total du mois courant de la base de données en Go (1 Go = 1024³ octets). Les connexions sont attribuées selon leur heure de début ; le script de déconnexion actualise le trafic à la fin de la connexion, les valeurs des connexions en cours ne sont donc pas à jour.
+
 ### Gestion des utilisateurs et des clients
 
 Les utilisateurs sont gérés de manière centralisée dans la base de données. Chaque utilisateur dispose de sa propre identité OpenVPN client. Le nom d'utilisateur est utilisé comme Common Name (CN) du certificat client correspondant.

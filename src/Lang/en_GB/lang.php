@@ -62,7 +62,10 @@ return [
     '_DASH_STAT_LOAD' => 'System Load',
     '_DASH_STAT_DISK' => 'Disk Usage',
     '_DASH_STAT_USERS' => 'Users total / online',
-    '_DASH_STAT_ERRORS' => 'Error Log Entries (Dummy)',
+    '_DASH_STAT_CONNECTIONS' => 'Connections this month',
+    '_DASH_STAT_RECEIVED' => 'Received',
+    '_DASH_STAT_SENT' => 'Sent',
+    '_DASH_STAT_TOTAL' => 'Total',
 
     '_USERS_TITLE' => 'User Management',
     '_USERS_SUBTITLE' => 'Create users, reset passwords, and manage roles as admin.',

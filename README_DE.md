@@ -63,6 +63,8 @@ Dazu gehören:
 
 Die Benutzeroberfläche basiert auf AdminLTE 3.2.0 und Bootstrap.
 
+Das Admin-Dashboard zeigt die Anzahl der Verbindungen und den empfangenen, gesendeten und gesamten Traffic des aktuellen Datenbankmonats in GB (1 GB = 1024³ Bytes). Maßgeblich ist der Verbindungsbeginn; die Traffic-Werte werden vom Trennungsskript beim Verbindungsende aktualisiert und sind für laufende Verbindungen daher nicht aktuell.
+
 ### Benutzer- und Clientverwaltung
 
 Die Benutzer werden zentral über die Datenbank verwaltet. Jedem Benutzer wird eine eigene OpenVPN-Client-Identität zugeordnet. Der Benutzername wird dabei als Common Name (CN) des entsprechenden Client-Zertifikats verwendet.

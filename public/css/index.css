@@ -565,3 +565,8 @@ textarea.form-control {
     transform: rotate(360deg);
   }
 }
+
+.small-box {
+    height: 100%;
+    width: 100%;
+}

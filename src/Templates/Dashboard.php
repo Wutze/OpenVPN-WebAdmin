@@ -61,12 +61,15 @@ public function index(): string
       </div>
     </div>
     <div class="col-sm-6 col-lg-3">
-      <div class="small-box bg-danger">
+      <div class="small-box bg-light">
         <div class="inner">
-          <h3 id="statErrors">-</h3>
-          <p>{$t('_DASH_STAT_ERRORS')}</p>
+          <h3 id="statConnections">-</h3>
+          <p class="mb-1">{$t('_DASH_STAT_CONNECTIONS')}</p>
+          <div>{$t('_DASH_STAT_RECEIVED')}: <span id="statReceived">-</span> GB</div>
+          <div>{$t('_DASH_STAT_SENT')}: <span id="statSent">-</span> GB</div>
+          <div>{$t('_DASH_STAT_TOTAL')}: <span id="statTotal">-</span> GB</div>
         </div>
-        <div class="icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+        <div class="icon"><i class="bi bi-globe"></i></div>
       </div>
     </div>
   </div>

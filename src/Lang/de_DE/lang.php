@@ -62,7 +62,10 @@ $message = [
     '_DASH_STAT_LOAD' => 'System-Load',
     '_DASH_STAT_DISK' => 'Disk-Auslastung',
     '_DASH_STAT_USERS' => 'Benutzer gesamt / online',
-    '_DASH_STAT_ERRORS' => 'Error-Log Eintraege (Dummy)',
+    '_DASH_STAT_CONNECTIONS' => 'Verbindungen im aktuellen Monat',
+    '_DASH_STAT_RECEIVED' => 'Empfangen',
+    '_DASH_STAT_SENT' => 'Gesendet',
+    '_DASH_STAT_TOTAL' => 'Gesamt',
 
     '_USERS_TITLE' => 'Benutzerverwaltung',
     '_USERS_SUBTITLE' => 'Benutzer anlegen, Passwort zuruecksetzen und Rollen als Admin verwalten.',

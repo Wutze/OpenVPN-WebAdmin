@@ -192,8 +192,7 @@ private function getDashboardStats(): array
             $diskUsedPercent = round((1 - ($diskFree / $diskTotal)) * 100, 1);
         }
 
-        // Dummy for now; source will be wired later.
-        $errorLogCount = 0;
+        $monthStats = (new LogModel())->getCurrentMonthStats();
 
         return [
             'status' => 'ok',
@@ -201,8 +200,7 @@ private function getDashboardStats(): array
             'disk_used_percent' => $diskUsedPercent,
             'users_total' => $totalUsers,
             'users_online' => $onlineUsers,
-            'error_count' => $errorLogCount,
-            'error_count_dummy' => true,
+            'month_stats' => $monthStats,
         ];
     }
 

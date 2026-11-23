@@ -26,11 +26,13 @@ class LogModel
 private PDO $db;
 
 /**
- * Bezieht die gemeinsame PDO-Verbindung aus dem Database-Singleton.
+ * Bezieht standardmäßig die gemeinsame PDO-Verbindung aus dem Database-Singleton.
+ *
+ * @param PDO|null $db Optionale Datenbankverbindung.
  */
-public function __construct()
+public function __construct(?PDO $db = null)
     {
-        $this->db = Database::getInstance()->getConnection();
+        $this->db = $db ?? Database::getInstance()->getConnection();
     }
 
 /**
@@ -82,6 +84,38 @@ public function countLogs(?string $search = null): int
         $stmt->execute();
 
         return (int)$stmt->fetchColumn();
+    }
+
+/**
+ * Summiert Verbindungen und protokollierten Traffic nach Verbindungsbeginn im aktuellen Datenbankmonat.
+ *
+ * @return array{connections: int, received_gb: float, sent_gb: float, total_gb: float}
+ */
+public function getCurrentMonthStats(): array
+    {
+        $stmt = $this->db->query(
+            "SELECT COUNT(*) AS connections,
+                    ROUND(COALESCE(SUM(log_received), 0) / 1073741824, 2) AS received_gb,
+                    ROUND(COALESCE(SUM(log_send), 0) / 1073741824, 2) AS sent_gb,
+                    ROUND((COALESCE(SUM(log_received), 0) + COALESCE(SUM(log_send), 0)) / 1073741824, 2) AS total_gb
+             FROM log
+             WHERE log_start_time >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+               AND log_start_time < DATE_FORMAT(CURDATE() + INTERVAL 1 MONTH, '%Y-%m-01')"
+        );
+        if ($stmt === false) {
+            throw new \RuntimeException('Could not query current month log statistics.');
+        }
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row === false) {
+            throw new \RuntimeException('Could not read current month log statistics.');
+        }
+
+        return [
+            'connections' => (int)$row['connections'],
+            'received_gb' => (float)$row['received_gb'],
+            'sent_gb' => (float)$row['sent_gb'],
+            'total_gb' => (float)$row['total_gb'],
+        ];
     }
 
 /**

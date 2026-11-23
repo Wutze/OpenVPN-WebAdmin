@@ -727,20 +727,34 @@ function initDashboardStats() {
   const loadEl = document.getElementById('statLoad');
   const diskEl = document.getElementById('statDisk');
   const usersEl = document.getElementById('statUsers');
-  const errorsEl = document.getElementById('statErrors');
+  const connectionsEl = document.getElementById('statConnections');
+  const receivedEl = document.getElementById('statReceived');
+  const sentEl = document.getElementById('statSent');
+  const totalEl = document.getElementById('statTotal');
 
   const refresh = async () => {
     try {
       const data = await getJson('?op=data&select=dashboard_stats');
+      const month = data.month_stats;
+      if (!month || !Number.isInteger(month.connections) || month.connections < 0 ||
+          ![month.received_gb, month.sent_gb, month.total_gb].every((value) => typeof value === 'number' && Number.isFinite(value) && value >= 0)) {
+        throw new Error('Invalid monthly dashboard statistics');
+      }
       if (loadEl) loadEl.textContent = Number(data.load_1m || 0).toFixed(2);
       if (diskEl) diskEl.textContent = `${Number(data.disk_used_percent || 0).toFixed(1)}%`;
       if (usersEl) usersEl.textContent = `${Number(data.users_total || 0)} / ${Number(data.users_online || 0)}`;
-      if (errorsEl) errorsEl.textContent = String(typeof data.error_count !== 'undefined' ? data.error_count : 0);
+      if (connectionsEl) connectionsEl.textContent = String(month.connections);
+      if (receivedEl) receivedEl.textContent = month.received_gb.toFixed(2);
+      if (sentEl) sentEl.textContent = month.sent_gb.toFixed(2);
+      if (totalEl) totalEl.textContent = month.total_gb.toFixed(2);
     } catch (_error) {
       if (loadEl) loadEl.textContent = '!';
       if (diskEl) diskEl.textContent = '!';
       if (usersEl) usersEl.textContent = '!';
-      if (errorsEl) errorsEl.textContent = '!';
+      if (connectionsEl) connectionsEl.textContent = '!';
+      if (receivedEl) receivedEl.textContent = '!';
+      if (sentEl) sentEl.textContent = '!';
+      if (totalEl) totalEl.textContent = '!';
     }
   };
 

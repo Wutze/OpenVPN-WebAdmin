@@ -62,7 +62,10 @@ return [
     '_DASH_STAT_LOAD' => 'Charge systeme',
     '_DASH_STAT_DISK' => 'Utilisation disque',
     '_DASH_STAT_USERS' => 'Utilisateurs total / en ligne',
-    '_DASH_STAT_ERRORS' => 'Entrees journal erreurs (dummy)',
+    '_DASH_STAT_CONNECTIONS' => 'Connexions ce mois-ci',
+    '_DASH_STAT_RECEIVED' => 'Recu',
+    '_DASH_STAT_SENT' => 'Envoye',
+    '_DASH_STAT_TOTAL' => 'Total',
 
     '_USERS_TITLE' => 'Gestion des utilisateurs',
     '_USERS_SUBTITLE' => 'Creer des utilisateurs, reinitialiser les mots de passe et gerer les roles.',

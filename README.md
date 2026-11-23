@@ -69,6 +69,8 @@ These include:
 
 The user interface is based on AdminLTE 3.2.0 and Bootstrap.
 
+The admin dashboard shows the connection count and received, sent and total traffic for the current database month in GB (1 GB = 1024³ bytes). Connections are assigned by their start time; traffic is updated by the disconnect script when a connection ends, so ongoing connections do not have up-to-date traffic values.
+
 ### User and client management
 
 Users are managed centrally through the database. Each user is assigned their own OpenVPN client identity. The username is used as the Common Name (CN) of the corresponding client certificate.
