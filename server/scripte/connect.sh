@@ -30,8 +30,6 @@ bytes_sent=$(echap "$bytes_sent")
 
 session_id=$(dbus-uuidgen)
 
-# Prevent the error : ERROR 1366 (22007) at line 1: Incorrect double value: '' for column 'log_received' at row 1
-
 if [ -z "$bytes_received" ]
 then
       bytes_received=0
@@ -50,10 +48,7 @@ mysql -h$DBHOST -P$DBPORT -u$DBUSER -p$DBPASS $DBNAME -e "INSERT INTO log (log_i
 mysql -h$DBHOST -P$DBPORT -u$DBUSER -p$DBPASS $DBNAME -e "UPDATE user SET user_online=1 WHERE user_name='$common_name'"
 
 # Save the UUID so that the details of the operating system and client used can be read from the log file.
-mysql -h$DBHOST -P$DBPORT -u$DBUSER -p$DBPASS $DBNAME -e "UPDATE user SET session_id=$session_id WHERE user_name='$common_name'"
+mysql -h$DBHOST -P$DBPORT -u$DBUSER -p$DBPASS $DBNAME -e "UPDATE user SET session_id='$session_id' WHERE user_name='$common_name'"
 # write Session ID to logfile /var/log/openvpn/openvpn.log
-echo $(date '+%a %b %d %H:%M:%S %Y')" [ovpn] $username: OVPN_SSID=$session_id"
+echo $(date '+%a %b %d %H:%M:%S %Y')" [OVPN] $username: OVPN_SSID=$session_id"
 
-
-
-#echo "push \"ifconfig 10.8.0.40 255.255.255.0\"" > $1
