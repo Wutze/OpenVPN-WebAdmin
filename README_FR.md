@@ -1,6 +1,6 @@
 # OpenVPN-WebAdmin
 
-## Release 2.0.1
+## Release 2.0.x
 
 **Tout vient à point à qui sait attendre !**
 
