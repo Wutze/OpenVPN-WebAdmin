@@ -148,7 +148,7 @@ Auch ein bereits vorhandener Datenbankserver und Webserver können verwendet wer
 
 Für die Installation werden benötigt:
 
-- Ein unterstütztes Debian-basiertes Linux-System mit APT-Paketverwaltung.
+- Debian 13 mit APT-Paketverwaltung.
 - Root-Rechte während der Installation.
 - PHP mit den benötigten PHP-Erweiterungen.
 - MariaDB oder MySQL.

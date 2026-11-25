@@ -154,7 +154,7 @@ An existing database server and web server can also be used.
 
 The following are required for installation:
 
-- A supported Debian-based Linux system with APT package management.
+- Debian 13 with APT package management.
 - Root privileges during installation.
 - PHP with the required PHP extensions.
 - MariaDB or MySQL.

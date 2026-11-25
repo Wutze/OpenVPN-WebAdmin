@@ -148,7 +148,7 @@ Un serveur de base de données et un serveur web déjà existants peuvent égale
 
 Les éléments suivants sont nécessaires pour l'installation :
 
-- Un système Linux basé sur Debian pris en charge, avec la gestion des paquets APT.
+- Debian 13 avec la gestion des paquets APT.
 - Les droits root pendant l'installation.
 - PHP avec les extensions PHP nécessaires.
 - MariaDB ou MySQL.

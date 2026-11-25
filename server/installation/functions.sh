@@ -320,10 +320,6 @@ assert_supported_os() {
       version_in_list "${OS_VERSION_ID}" "${SUPPORTED_DEBIAN_VERSIONS[@]}" || \
         fatal "${MSG_OS_UNSUPPORTED:-Unsupported OS version.} (${OS_ID} ${OS_VERSION_ID})"
       ;;
-    ubuntu)
-      version_in_list "${OS_VERSION_ID}" "${SUPPORTED_UBUNTU_LTS_VERSIONS[@]}" || \
-        fatal "${MSG_OS_UNSUPPORTED:-Unsupported OS version.} (${OS_ID} ${OS_VERSION_ID})"
-      ;;
     *)
       fatal "${MSG_OS_UNSUPPORTED:-Unsupported OS version.} (${OS_ID} ${OS_VERSION_ID})"
       ;;
