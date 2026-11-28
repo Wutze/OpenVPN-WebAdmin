@@ -770,13 +770,13 @@ setup_database() {
 
   if [ "${DB_CREATE_LOCAL}" = "yes" ]; then
     local db_name_sql db_user_sql db_pass_sql
-    db_name_sql="$(sql_escape_single "${DB_NAME}")"
+    db_name_sql="$(printf '%s' "${DB_NAME}" | sed 's/`/``/g')"
     db_user_sql="$(sql_escape_single "${DB_USER}")"
     db_pass_sql="$(sql_escape_single "${DB_PASS}")"
 
-    mysql_root_exec "CREATE DATABASE IF NOT EXISTS \\`${db_name_sql}\\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+    mysql_root_exec "CREATE DATABASE IF NOT EXISTS \`${db_name_sql}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
     mysql_root_exec "CREATE USER IF NOT EXISTS '${db_user_sql}'@'localhost' IDENTIFIED BY '${db_pass_sql}';"
-    mysql_root_exec "GRANT ALL PRIVILEGES ON \\`${db_name_sql}\\`.* TO '${db_user_sql}'@'localhost';"
+    mysql_root_exec "GRANT ALL PRIVILEGES ON \`${db_name_sql}\`.* TO '${db_user_sql}'@'localhost';"
     mysql_root_exec "FLUSH PRIVILEGES;"
   fi
 
