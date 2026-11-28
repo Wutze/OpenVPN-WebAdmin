@@ -958,7 +958,8 @@ configure_nginx_webadmin() {
     cat > "${nginx_target}" <<EOF
 server {
     ${listen_ipv4}
-    ${listen_ipv6}
+# IPv6 disabled
+#    ${listen_ipv6}
 
     server_name ${WEBSERVER_SERVER_NAME};
     root ${DEPLOY_DIR}/public;
